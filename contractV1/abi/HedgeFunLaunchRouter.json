@@ -1,0 +1,497 @@
+[
+ {
+  "type": "constructor",
+  "inputs": [
+   {
+    "name": "factory_",
+    "type": "address",
+    "internalType": "contract HedgeFunFactory"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "factory",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract HedgeFunFactory"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "hook",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract IHooks"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "launch",
+  "inputs": [
+   {
+    "name": "q",
+    "type": "tuple",
+    "internalType": "struct HedgeFunFactory.Request",
+    "components": [
+     {
+      "name": "name",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "symbol",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "stock",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "creator",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "taxBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "creatorBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "tp1Bps",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "tp2Bps",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "dipBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "stopBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "lotBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "bandBpsPerHour",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "nonce",
+      "type": "uint96",
+      "internalType": "uint96"
+     },
+     {
+      "name": "maxFee",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "expectedOpenPriceE18",
+      "type": "uint256",
+      "internalType": "uint256"
+     }
+    ]
+   },
+   {
+    "name": "terms",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "c",
+    "type": "tuple",
+    "internalType": "struct HedgeFunLaunchRouter.Capital",
+    "components": [
+     {
+      "name": "buyStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "minTokensOut",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "seedStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "mustBook",
+      "type": "bool",
+      "internalType": "bool"
+     },
+     {
+      "name": "seedUsdg",
+      "type": "uint256",
+      "internalType": "uint256"
+     }
+    ]
+   }
+  ],
+  "outputs": [
+   {
+    "name": "id",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "tokensBought",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "booked",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "payable"
+ },
+ {
+  "type": "function",
+  "name": "launchWithMetadata",
+  "inputs": [
+   {
+    "name": "q",
+    "type": "tuple",
+    "internalType": "struct HedgeFunFactory.Request",
+    "components": [
+     {
+      "name": "name",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "symbol",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "stock",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "creator",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "taxBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "creatorBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "tp1Bps",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "tp2Bps",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "dipBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "stopBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "lotBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "bandBpsPerHour",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "nonce",
+      "type": "uint96",
+      "internalType": "uint96"
+     },
+     {
+      "name": "maxFee",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "expectedOpenPriceE18",
+      "type": "uint256",
+      "internalType": "uint256"
+     }
+    ]
+   },
+   {
+    "name": "terms",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "c",
+    "type": "tuple",
+    "internalType": "struct HedgeFunLaunchRouter.Capital",
+    "components": [
+     {
+      "name": "buyStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "minTokensOut",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "seedStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "mustBook",
+      "type": "bool",
+      "internalType": "bool"
+     },
+     {
+      "name": "seedUsdg",
+      "type": "uint256",
+      "internalType": "uint256"
+     }
+    ]
+   },
+   {
+    "name": "info",
+    "type": "tuple",
+    "internalType": "struct HedgeFunToken.Info",
+    "components": [
+     {
+      "name": "logo",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "socials",
+      "type": "tuple",
+      "internalType": "struct HedgeFunToken.Socials",
+      "components": [
+       {
+        "name": "twitter",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "telegram",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "discord",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "website",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "farcaster",
+        "type": "string",
+        "internalType": "string"
+       }
+      ]
+     },
+     {
+      "name": "extraURI",
+      "type": "string",
+      "internalType": "string"
+     }
+    ]
+   }
+  ],
+  "outputs": [
+   {
+    "name": "id",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "tokensBought",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "booked",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "payable"
+ },
+ {
+  "type": "function",
+  "name": "poolManager",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract IPoolManager"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "unlockCallback",
+  "inputs": [
+   {
+    "name": "data",
+    "type": "bytes",
+    "internalType": "bytes"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bytes",
+    "internalType": "bytes"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "event",
+  "name": "LaunchedWithCapital",
+  "inputs": [
+   {
+    "name": "id",
+    "type": "uint256",
+    "indexed": true,
+    "internalType": "uint256"
+   },
+   {
+    "name": "launcher",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "buyStock",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "tokensBought",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "seedStock",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "booked",
+    "type": "bool",
+    "indexed": false,
+    "internalType": "bool"
+   },
+   {
+    "name": "seedUsdg",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "error",
+  "name": "NotBooked",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "NotPoolManager",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "NotYourLaunch",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "SafeERC20FailedOperation",
+  "inputs": [
+   {
+    "name": "token",
+    "type": "address",
+    "internalType": "address"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "TooFewTokens",
+  "inputs": [
+   {
+    "name": "got",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ]
+ }
+]

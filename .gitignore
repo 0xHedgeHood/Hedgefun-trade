@@ -1,0 +1,9 @@
+contractV1/out/
+contractV1/cache/
+contractV1/broadcast/
+**/.env
+**/.env.*
+**/*.key
+**/*.keystore
+**/*wk.txt
+.DS_Store
