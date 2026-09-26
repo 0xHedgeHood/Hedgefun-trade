@@ -17,3 +17,7 @@ remappings = [
 
 [lint]
 lint_on_build = false
+
+[rpc_endpoints]
+robinhood = "https://rpc.mainnet.chain.robinhood.com"
+publicnode = "https://robinhood-rpc.publicnode.com"

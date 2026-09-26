@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f2ee">
+  <title>HedgeFun · V2 实验台</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+  <script src="/scenarios.js" defer></script>
+  <script src="/batch.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">H</span><span>HEDGEFUN<span class="brand-divider">/</span>实验台</span></div>
+      <div class="local-pill"><span class="pulse" aria-hidden="true"></span> 本机实验 · 不连接钱包</div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div class="eyebrow">V2 / GRADUATION ECONOMICS</div>
+        <div class="intro-grid">
+          <div>
+            <h1>毕业之后，<br><em>资金要去哪里？</em></h1>
+            <p>拖动分配比例，立即观察交易深度、国库本金和集中卖压。这里先做可重复的数学模拟，再用固定区块的链上 Fork 核对真实合约流程。</p>
+          </div>
+          <div class="intro-note"><span class="note-index">01 / 03</span><strong>先比较，再决策</strong><span>结果是实验估算。图表里的集中卖出是假设情景，不是价格预测。</span></div>
+        </div>
+      </section>
+
+      <div class="workspace">
+        <aside class="control-panel">
+          <div class="panel-heading"><span>实验输入</span><small>所有数值只在本地使用</small></div>
+          <div class="field primary-field">
+            <div class="field-title"><label for="lp_bps">毕业资金 → LP</label><output id="lp-display" for="lp_bps">50%</output></div>
+            <input id="lp_bps" type="range" min="10" max="90" step="1" value="50">
+            <div class="range-ends"><span>策略优先</span><span>交易深度优先</span></div>
+            <div class="preset-row" role="group" aria-label="快速选择 LP 比例">
+              <button type="button" class="preset" data-lp="30">30 / 70</button>
+              <button type="button" class="preset active" data-lp="50">50 / 50</button>
+              <button type="button" class="preset" data-lp="70">70 / 30</button>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label for="sale_bps">曲线售出比例 <span>已售 FUN</span></label><div class="input-wrap"><input id="sale_bps" type="number" min="10" max="90" step="1" value="80"><span>%</span></div></div>
+            <div class="field"><label for="virtual_stock">虚拟股票储备 <span>定价参数</span></label><div class="input-wrap"><input id="virtual_stock" type="number" min="0.000001" max="1000000000" step="any" value="100"><span>股</span></div></div>
+            <div class="field"><label for="buy_stock">测试买单 <span>股票投入</span></label><div class="input-wrap"><input id="buy_stock" type="number" min="0" max="1000000000" step="any" value="10"><span>股</span></div></div>
+            <div class="field"><label for="sell_fraction_bps">集中卖出 <span>已售 FUN 的比例</span></label><div class="input-wrap"><input id="sell_fraction_bps" type="number" min="0" max="100" step="1" value="10"><span>%</span></div></div>
+          </div>
+          <details class="advanced"><summary>查看模型参数 <span>↗</span></summary>
+            <div class="field-grid advanced-grid">
+              <div class="field"><label for="supply">初始 FUN 供应量</label><div class="input-wrap"><input id="supply" type="number" min="1" max="1000000000000" step="1" value="1000000"><span>FUN</span></div></div>
+              <div class="field"><label for="lp_fee_bps">V4 LP 费率</label><div class="input-wrap"><input id="lp_fee_bps" type="number" min="0" max="30" step="1" value="30"><span>bps</span></div></div>
+              <div class="field"><label for="trade_tax_bps">交易税</label><div class="input-wrap"><input id="trade_tax_bps" type="number" min="0" max="1500" step="100" value="1000"><span>bps</span></div></div>
+            </div>
+            <p class="advanced-note">1 bps = 0.01%。交易税 0 是无税对照情景。费率会影响实际到账；深度和价格曲线图仍按未计费的恒定乘积近似绘制。</p>
+          </details>
+          <p id="error" class="error" role="alert" hidden></p>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div class="section-line"><div><span class="section-number">01</span><h2>模拟结果</h2></div><span class="mode-tag">数学模型</span></div>
+          <div class="capital-card">
+            <div class="capital-heading"><div><span class="muted-label">毕业真实股票储备</span><strong id="real-stock">—</strong></div><div class="align-right"><span class="muted-label">毕业现价</span><strong id="terminal-price">—</strong></div></div>
+            <div class="allocation" aria-label="资金分配"><span id="lp-bar" class="lp-bar"></span><span id="treasury-bar" class="treasury-bar"></span></div>
+            <div class="allocation-legend"><div><i class="swatch lp"></i><span>V4 LP</span><strong id="lp-stock">—</strong></div><div><i class="swatch treasury"></i><span>策略国库</span><strong id="treasury-stock">—</strong></div></div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric"><span class="metric-kicker">测试买单 · 含税费成交差</span><strong id="buy-slippage">—</strong><small id="buy-detail">—</small></article>
+            <article class="metric caution"><span class="metric-kicker">集中卖出 · 剩余现价</span><strong id="sell-price">—</strong><small id="sell-detail">—</small></article>
+            <article class="metric"><span class="metric-kicker">未配对 FUN</span><strong id="burned-token">—</strong><small>毕业时销毁，非交易税</small></article>
+          </div>
+
+          <div class="chart-card"><div class="card-top"><div><span class="muted-label">SELL PRESSURE</span><h3>卖压如何改变现价</h3></div><span class="chart-note">不含手续费 · 无其他买单</span></div><div class="chart-body"><svg id="sell-chart" viewBox="0 0 700 220" preserveAspectRatio="none" role="img" aria-label="不同卖出比例下的相对现价曲线"></svg></div><div id="chart-axis" class="chart-axis"><span>0% 已售 FUN 卖出</span><span>5%</span><span>10%</span><span>15%</span><span>20%</span></div></div>
+
+          <div class="compare-card"><div class="card-top"><div><span class="muted-label">SIDE BY SIDE</span><h3>相同比例下的取舍</h3></div><span class="chart-note">保持其他输入不变</span></div><div class="table-scroll"><table><thead><tr><th>LP / 国库</th><th>LP 股票</th><th>买单成交差</th><th>卖压后现价</th></tr></thead><tbody id="comparison"><tr><td colspan="4">正在计算…</td></tr></tbody></table></div></div>
+          <div class="model-note"><span class="model-note-icon">i</span><p>数学模型用于筛选参数：它把 V4 满范围池近似为恒定乘积，未重放真实路由、Hook 状态和外部套利。<strong id="push-capital">“推高价格需要投入多少”是占用资金，不是攻击损失。</strong>实际安全结论要看完整进出场净收益。</p></div>
+        </section>
+      </div>
+
+      <section class="fork-section" id="fork">
+        <div class="section-line"><div><span class="section-number">02</span><h2>链上 Fork 核对</h2></div><span class="mode-tag dark">真实 V3 / V4 合约 · 本地状态</span></div>
+        <div class="fork-grid"><div><h3>按当前比例重放发射</h3><p>在 Robinhood Chain 固定区块的本地 Fork 上运行真实 USDG/GME V3 池与 V4 PoolManager：曲线交易、毕业、V4 买卖、税费与 LP 手续费结算。测试刷新喂价时间戳并使用始终开市日历。</p><div class="fork-caveat"><strong id="fork-ratio">当前比例：50 / 50</strong><span id="fork-mismatch">50/50 运行当前候选合约；其他比例只在临时隔离副本改动分配常量。</span></div></div><div class="fork-action"><button id="run-fork" type="button">运行 Fork 实验 <span aria-hidden="true">↗</span></button><small>不会签名、广播或更改真实链状态</small></div></div>
+        <div id="fork-result" class="fork-result" hidden></div>
+      </section>
+
+      <section class="scenario-section" id="scenarios">
+        <div class="section-line"><div><span class="section-number">03</span><h2>多人交易压力测试</h2></div><span class="mode-tag">真实 V2 合约 · 本地 EVM</span></div>
+        <p class="scenario-intro">选择一个经典场景，现场重放同一时间戳下的不同交易排序。每次都运行合约测试；显示的是实际成交与税费，不是上方数学模型的推算。</p>
+        <div class="scenario-grid">
+          <article class="scenario-card" data-scenario-card="buy_wave"><span class="scenario-index">01 / BUY WAVE</span><h3>多人抢买</h3><p>四个钱包同时递交买单。比较先后顺序、每人到账，以及临近毕业时的部分成交退款。</p><button type="button" data-scenario="buy_wave">运行抢买实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
+          <article class="scenario-card" data-scenario-card="sell_wave"><span class="scenario-index">02 / SELL WAVE</span><h3>多人抢卖</h3><p>四个钱包依次卖出。对照曲线、毕业后 V4 池，以及测试中由国库身份直接触发的卖税峰值；这里不执行真实回购。</p><button type="button" data-scenario="sell_wave">运行抢卖实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
+          <article class="scenario-card" data-scenario-card="mixed_order"><span class="scenario-index">03 / MIXED ORDER</span><h3>有人买，有人卖</h3><p>两买两卖交错执行。比较买单先到与卖单先到时，卖方实际拿到的股票。</p><button type="button" data-scenario="mixed_order">运行交错实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
+          <article class="scenario-card scenario-card-alert" data-scenario-card="opening_sniper"><span class="scenario-index">04 / OPENING SNIPER</span><h3>开盘狙击者</h3><p>机器人先买、用户跟买、机器人退出；逐秒比较 3 秒买入税下的净收益，并测试 1% 与 0.1% 限滑是否挡得住小额夹击。</p><button type="button" data-scenario="opening_sniper">运行狙击实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
+        </div>
+        <p class="scenario-caveat">这里用真实 V2 曲线、路由、Hook 和 V4 PoolManager，但股票与喂价是测试替身；与上面的 Robinhood 固定区块 Fork 不同。EVM 交易仍逐笔执行，“同时”只表示同一时间戳并比较排序。结果不包含真实区块打包、抢跑费用、MEV 竞争或链上广播。</p>
+      </section>
+      <section class="batch-section" id="batch-opening">
+        <div class="section-line"><div><span class="section-number">04</span><h2>统一价格开盘实验</h2></div><span class="mode-tag">研究模型 · 非合约执行</span></div>
+        <p class="batch-intro">假设开盘前 3 个区块收集买单，再按同一价格分配。输入机器人和用户买单，对照当前逐笔曲线、直接聚合买单，以及清算价与批后现价对齐的方案。每笔用户订单保留最低净到账：不满足就整笔退款。</p>
+        <div class="batch-preset-row" role="group" aria-label="统一价格开盘预设">
+          <button type="button" data-batch-preset="small">小额夹击 · 1% 限滑</button>
+          <button type="button" data-batch-preset="large">大额抢买 · 20% 限滑</button>
+          <button type="button" data-batch-preset="strict">极严限滑 · 0.1%</button>
+        </div>
+        <div class="batch-controls">
+          <label>机器人买入 <span>STOCK</span><input id="batch-bot" type="number" min="0.01" max="50" step="any" value="0.1"></label>
+          <label>用户买入 <span>STOCK</span><input id="batch-user" type="number" min="1" max="180" step="any" value="140"></label>
+          <label>用户最多滑点 <span>%</span><input id="batch-slippage" type="number" min="0" max="20" step="0.01" value="1"></label>
+          <button id="run-batch" type="button">运行开盘对照 <span aria-hidden="true">↗</span></button>
+        </div>
+        <p id="batch-error" class="error" role="alert" hidden></p>
+        <div id="batch-results" aria-live="polite" hidden></div>
+        <p class="scenario-caveat">这是连续数学模拟。主对照把统一价视为替代 3 秒高买税，因此批次按普通 10% 买税、10% 卖税计算；下方另显示保留 66% 高买税的结果。现行逐笔对照用第 1 秒 66% 买税。模型不包含真实收单合约、撤单、Gas、区块构建者费用或毕业。清算价对齐方案会改变现有曲线的固定不变量，尚不能部署。</p>
+      </section>
+    </main>
+    <footer>HEDGEFUN V2 RESEARCH INSTRUMENT <span>LOCALHOST · NO DEPLOYMENT</span></footer>
+  </div>
+</body>
+</html>

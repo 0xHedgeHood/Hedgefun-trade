@@ -55,7 +55,7 @@ import "../libraries/HedgeFunLimits.sol" as Limits;
 ///
 /// No code here can change and no rate, rule, treasury or pool can move. The address must carry BEFORE_INITIALIZE |
 /// BEFORE_ADD_LIQUIDITY | AFTER_SWAP | AFTER_SWAP_RETURNS_DELTA (0x2844) in its low 14 bits. The two `before` flags
-/// keep everyone but the factory out: the tax lives in `afterSwap` and nowhere else, so a third-party position would
+/// keep everyone but the factory (V1) or its registered immutable vault (V2) out: the tax lives in `afterSwap` and nowhere else, so a third-party position would
 /// be a way to sell without paying it -- a one-spacing range just past spot is filled by the next buyer and exits
 /// untaxed. And because a pool must be REGISTERED by the factory before `beforeInitialize` will answer for it, nobody
 /// can open a pool on this hook that the factory did not launch.
@@ -135,12 +135,15 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
     uint256 public constant MAX_SNIPE_BPS = Limits.MAX_SNIPE_BPS;
 
     IPoolManager public immutable poolManager;
-    /// whoever bound this hook -- the factory. The only address that may register a pool, initialise one or add
-    /// liquidity to one, and the factory has exactly one code path that does any of the three: a launch.
+    /// whoever bound this hook -- the factory. Only it may register a pool. V1 permits that factory to initialize
+    /// and seed; V2 freezes one per-pool vault for those two operations before initialization.
     address public factory;
     bool private _distributing;
 
     mapping(PoolId => Pool) internal pools;
+    /// @notice V2 pools seed through a fee-only vault which owns the locked position.
+    ///         V1 pools leave this unset and continue to seed through the factory.
+    mapping(PoolId => address) public liquidityVaultOf;
     /// The treasury-facing calls (`noteEvent`, `meanTick`, `observationCount`) take no pool: a treasury is found by
     /// its own address, so it can only ever reach its own pool.
     mapping(address => PoolId) public poolOfTreasury;
@@ -188,13 +191,32 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
     ///         caller, so a treasury mapped twice would be ambiguous.
     /// @dev registration itself starts the sell spike (`lastEventAt`) and the launch window (`launchedAt`)
     function register(PoolKey calldata key, address token_, address stock_, address treasury_, address protocol_, address creator_, address launcher_, Rates calldata r) external {
+        _register(key, token_, stock_, treasury_, protocol_, creator_, launcher_, r);
+    }
+
+    /// @notice Register a graduated curve without restarting launch taxes. Buyback spikes remain enabled.
+    function registerGraduated(PoolKey calldata key, address token_, address stock_, address treasury_, address protocol_, address creator_, Rates calldata r) external {
+        if (r.snipeBps != 0 || r.snipeSeconds != 0) revert BadConfig();
+        PoolId id = _register(key, token_, stock_, treasury_, protocol_, creator_, address(0), r);
+        pools[id].lastEventAt = 0;
+    }
+
+    /// @notice Register a graduated pool whose permanently locked position is owned by its fee vault.
+    function registerGraduatedWithVault(PoolKey calldata key, address token_, address stock_, address treasury_, address protocol_, address creator_, Rates calldata r, address vault) external {
+        if (vault.code.length == 0 || r.snipeBps != 0 || r.snipeSeconds != 0) revert BadConfig();
+        PoolId id = _register(key, token_, stock_, treasury_, protocol_, creator_, address(0), r);
+        liquidityVaultOf[id] = vault;
+        pools[id].lastEventAt = 0;
+    }
+
+    function _register(PoolKey calldata key, address token_, address stock_, address treasury_, address protocol_, address creator_, address launcher_, Rates calldata r) internal returns (PoolId id) {
         if (msg.sender != factory) revert NotFactory();
         if (token_ == address(0) || stock_ == address(0) || treasury_ == address(0) || protocol_ == address(0) || creator_ == address(0)) revert BadConfig();
         if (r.taxBps > MAX_TAX_BPS || r.spikeBps > MAX_SPIKE_BPS || uint256(r.protocolBps) + r.creatorBps > BPS || r.sweepTipBps > MAX_TIP_BPS || r.snipeBps > MAX_SNIPE_BPS) revert BadConfig();
         address a0 = Currency.unwrap(key.currency0);
         if (token_ == stock_ || !((a0 == token_ && Currency.unwrap(key.currency1) == stock_) || (a0 == stock_ && Currency.unwrap(key.currency1) == token_))) revert BadConfig();
         if (address(key.hooks) != address(this)) revert BadConfig();
-        PoolId id = key.toId();
+        id = key.toId();
         Pool storage p = pools[id];
         if (p.treasury != address(0) || PoolId.unwrap(poolOfTreasury[treasury_]) != bytes32(0)) revert AlreadyRegistered();
         poolOfTreasury[treasury_] = id;
@@ -221,7 +243,8 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
     function _onlySeed(address sender, PoolKey calldata key) internal view {
         if (msg.sender != address(poolManager)) revert NotPoolManager();
         if (pools[key.toId()].treasury == address(0)) revert WrongPool();        // a pool the factory never registered
-        if (sender != factory) revert NotSeeder();
+        address seeder = liquidityVaultOf[key.toId()];
+        if (sender != (seeder == address(0) ? factory : seeder)) revert NotSeeder();
     }
 
     function _pool(PoolId id) internal view returns (Pool storage p) {

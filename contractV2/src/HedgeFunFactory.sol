@@ -197,10 +197,13 @@ contract HedgeFunFactory is Ownable2Step, IUnlockCallback, ReentrancyGuard {
         if (d.maxTaxBps > MAX_TAX_BPS || d.spikeBps > MAX_SPIKE_BPS || d.sweepTipBps > MAX_TIP_BPS || d.bountyBps > MAX_BOUNTY_BPS || d.snipeBps > MAX_SNIPE_BPS) revert BadRequest();
         if (!_gatesOk(d.maxDeviationBps, d.maxSlippageBps)) revert BadRequest();
         if (d.maxBuybackImpactBps == 0 || d.maxBuybackImpactBps > MAX_BUYBACK_IMPACT_BPS || d.minLotUsdg == 0 || d.buybackChunkUsdg == 0 || d.sellChunkUsdg < d.minLotUsdg) revert BadRequest();   // a chunk under a lot: thousands of calls, bounties that floor to zero
-        // an LP fee accrues to the seeded position, which nobody can ever touch again: neither burned nor paid out
-        if (d.lpFee != 0 || d.tickSpacing < 1) revert BadRequest();
+        // V1 cannot collect fees from its permanently locked position. A later factory may opt in
+        // only if its position owner exposes a fee-only collection path.
+        if (d.lpFee < _minLpFee() || d.lpFee > _maxLpFee() || d.tickSpacing < 1) revert BadRequest();
         defaults = d; emit DefaultsSet(d);
     }
+    function _minLpFee() internal pure virtual returns (uint24) { return 0; }
+    function _maxLpFee() internal pure virtual returns (uint24) { return 0; }
     function setPublicLaunch(bool open) external onlyOwner { publicLaunch = open; emit PublicLaunchSet(open); }
     /// @notice the most `bandBpsPerHour` a creator may ask for on `stock`. Per stock, because what a band risks is a
     ///         pinned pool, and what a pin costs is that pool's depth.
@@ -292,7 +295,7 @@ contract HedgeFunFactory is Ownable2Step, IUnlockCallback, ReentrancyGuard {
     ///      fee and spacing, and the rates -- so an owner who moves ANY default or re-lists the stock underneath a
     ///      pending launch makes it revert `Restated` instead of going through on terms nobody agreed to. Without
     ///      this the owner could take `protocolBps` to 100% minus the creator's cut in the block before a launch.
-    function _terms(Request memory q, address token, address treasury, Defaults memory d) internal pure returns (bytes32) {
+    function _terms(Request memory q, address token, address treasury, Defaults memory d) internal view virtual returns (bytes32) {
         // ... and the fee's CURRENCY: `maxFee` alone is a number, and 1e16 of a stock is a very different thing from
         // 1e16 of USDG under a standing approval
         return keccak256(abi.encode(token, treasury, d.lpFee, d.tickSpacing, _rates(q, d), d.launchFeeCurrency, d.launchFeeAmount));
@@ -369,7 +372,7 @@ contract HedgeFunFactory is Ownable2Step, IUnlockCallback, ReentrancyGuard {
         hook.register(key, token, q.stock, treasury, protocol, q.creator, msg.sender, _rates(q, d));
     }
 
-    function _openAndSeed(Request memory q, address token, address treasury, uint256 openPriceE18, Defaults memory d) internal {
+    function _openAndSeed(Request memory q, address token, address treasury, uint256 openPriceE18, Defaults memory d) internal virtual {
         bool tokenIs0 = token < q.stock;
         PoolKey memory key = tokenIs0
             ? PoolKey(Currency.wrap(token), Currency.wrap(q.stock), d.lpFee, d.tickSpacing, hook)
@@ -391,7 +394,7 @@ contract HedgeFunFactory is Ownable2Step, IUnlockCallback, ReentrancyGuard {
 
     /// @dev the whole supply as ONE single-sided position on the side of the price the token is bought into. This
     ///      contract is the position's owner and has no way to take it back out.
-    function unlockCallback(bytes calldata data) external override returns (bytes memory) {
+    function unlockCallback(bytes calldata data) external virtual override returns (bytes memory) {
         if (msg.sender != address(poolManager) || !_seeding) revert NotPoolManager();
         (PoolKey memory key, address token, uint256 supply, uint160 sqrtP) = abi.decode(data, (PoolKey, address, uint256, uint160));
         bool tokenIs0 = Currency.unwrap(key.currency0) == token;

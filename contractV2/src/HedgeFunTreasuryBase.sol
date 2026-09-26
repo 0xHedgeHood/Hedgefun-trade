@@ -185,7 +185,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     }
 
     /// @notice the factory tells the treasury which V4 pool its token trades in. Once.
-    function wire(PoolKey calldata key) external {
+    function wire(PoolKey calldata key) public virtual {
         if (msg.sender != factory) revert NotFactory();
         if (hook != address(0)) revert AlreadyWired();
         address c0 = Currency.unwrap(key.currency0); address c1 = Currency.unwrap(key.currency1);
@@ -228,16 +228,15 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         return b > held ? b - held : 0;
     }
 
-    /// @notice everything the treasury holds, valued in the stock: the lots, the profit waiting to buy the token
-    ///         back, and the USDG reserve converted at the oracle. Reverts through `health()`'s price when the
-    ///         market is shut, so read it during trading hours.
+    /// @notice everything the treasury holds, valued in the stock: booked and pending stock, profit waiting
+    ///         to buy the token back, and USDG converted at the oracle. Returns unavailable while health is shut.
     /// @dev the ratio this feeds is deliberately left to the caller -- putting the division on chain would freeze
     ///      an assumption about how the USDG leg is priced into a contract that cannot be changed.
     function stockEquivalentHeld() external view returns (bool ok, uint256 stockAmount) {
         uint256 p;
         (ok, p) = health();
         if (!ok) return (false, 0);
-        return (true, bookedStock + buybackStock + _ruleStockFor(reserveUsdg(), p));
+        return (true, bookedStock + buybackStock + unbookedStock() + _ruleStockFor(reserveUsdg(), p));
     }
 
     function _notePrice(uint256 p) internal { lastGoodPrice = p; lastGoodPriceAt = block.timestamp; }
@@ -283,11 +282,13 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     /// @dev `nonReentrant` like every other entry point: the stock token is upgradeable and could come to call its
     ///      recipient on transfer. With the guard, a bounty receiver cannot re-enter here during a sale and have the
     ///      balance booked against a ledger that is mid-update.
-    function book() external nonReentrant returns (bool) { return _book(); }
+    function book() public virtual nonReentrant returns (bool) { return _book(); }
+
+    function _canAddLot() internal view virtual returns (bool) { return true; }
 
     function _book() internal returns (bool) {
         uint256 un = unbookedStock();
-        if (un == 0) return false;
+        if (un == 0 || !_canAddLot()) return false;
         (bool ok, uint256 p) = health();
         if (!ok || _ruleValue(un, p) < _params.minLotUsdg) return false;
         // A lot's cost is permanent -- and so is the dip reference the first one sets -- so neither is ever taken from
@@ -320,7 +321,9 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     ///      `q`. A short one gives up `sold * p / cost`, rounded down: never more than `q` (because
     ///      `sold < principal <= q * cost / p`) and never less than `sold` (because a take-profit is only due at
     ///      `p > cost`), so the profit share cannot go negative and what did not sell keeps its cost.
-    function takeProfit(uint256 id) external nonReentrant {
+    function takeProfit(uint256 id) public virtual nonReentrant { _takeProfit(id); }
+
+    function _takeProfit(uint256 id) internal {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         _book();
@@ -370,7 +373,9 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         if (bounty != 0) _stock.safeTransfer(msg.sender, bounty);             // last: every effect is already written
     }
 
-    function stopLoss(uint256 id) external nonReentrant {
+    function stopLoss(uint256 id) public virtual nonReentrant { _stopLoss(id); }
+
+    function _stopLoss(uint256 id) internal {
         if (_params.stopBps == 0) revert NotDue();
         if (pricedOffPoolOnly()) revert NotDue();                               // see `pricedOffPoolOnly`
         (bool ok, uint256 p) = health();
@@ -394,12 +399,14 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         if (bounty != 0) _usdg.safeTransfer(msg.sender, bounty);              // last: every effect is already written
     }
 
-    function buyDip() external nonReentrant {
+    function buyDip() public virtual nonReentrant { _buyDip(); }
+
+    function _buyDip() internal {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         if (lastSalePrice == 0 || !HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)) revert NotDue();
         uint256 spend = HedgeFunMath.bps(reserveUsdg(), _params.lotBps);
-        if (spend < _params.minLotUsdg) revert NotDue();
+        if (spend < _params.minLotUsdg || !_canAddLot()) revert NotDue();
         _notePrice(p); _noteTokenSpot();
         (uint256 spent, uint256 got) = _swapStock(true, spend - HedgeFunMath.bps(spend, _params.bountyBps), p);
         // A dip buy may fill short, so everything below is sized off what ACTUALLY filled, never off what was asked.

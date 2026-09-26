@@ -79,7 +79,7 @@ contract HedgeFunTreasury is PoolTrader, HedgeFunTreasuryBase {
     /// mean, so an atomic shove never becomes the price; a ring that serves the window; and a closure the calendar
     /// SCHEDULES and the owner left alone. While the market is open the band does not exist -- a feed that prints on
     /// 0.5% and has not printed is evidence, not silence -- and a day the owner forced shut trades nothing at all.
-    function health() public view override returns (bool ok, uint256 p) { (ok, p,) = _priced(); }
+    function health() public view virtual override returns (bool ok, uint256 p) { (ok, p,) = _priced(); }
 
     /// @inheritdoc HedgeFunTreasuryBase
     /// @dev true exactly when the pool has pulled the served price off the feed. `stopLoss` and `book` therefore
