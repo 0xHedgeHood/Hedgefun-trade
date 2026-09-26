@@ -16,6 +16,8 @@ Solidity source for the Hedgefun strategy-token launchpad on Robinhood Chain.
 
 The contracts live in [`contractV1/`](./contractV1/README.md). This is a self-contained Foundry project with source code, selected tests, ABIs, and pinned dependencies. V1 uses both Uniswap versions: a V4 pool for each strategy token and a V3 pool for stock/USDG execution.
 
+The V2 source lives in [`contractV2/`](./contractV2/README.md), laid out the same way. V2 launches each strategy token on a stock-denominated bonding curve that graduates atomically into a locked V4 pool and a funded treasury. It is a separate deployment and is not yet deployed.
+
 ## Stack
 
 | Component | Use in Hedgefun V1 |

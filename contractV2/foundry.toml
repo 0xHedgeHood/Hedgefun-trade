@@ -1,0 +1,23 @@
+[profile.default]
+src = "src"
+test = "test"
+out = "out"
+libs = ["lib"]
+solc_version = "0.8.26"
+optimizer = true
+optimizer_runs = 1
+bytecode_hash = "none"
+evm_version = "cancun"
+remappings = [
+  "forge-std/=lib/forge-std/src/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "v4-core/=lib/v4-core/",
+  "solmate/=lib/v4-core/lib/solmate/",
+]
+
+[lint]
+lint_on_build = false
+
+[rpc_endpoints]
+robinhood = "https://rpc.mainnet.chain.robinhood.com"
+publicnode = "https://robinhood-rpc.publicnode.com"
