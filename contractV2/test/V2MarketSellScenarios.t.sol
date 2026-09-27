@@ -181,39 +181,38 @@ contract V2MarketSellScenariosTest is V2FactoryFixture {
         console2.log("Scenario sell-wave curve total_tax_raw:", forward.totalTax);
     }
 
-    function test_fourWalletV4SellWaveSpikeAndFlat() public {
+    function test_fourWalletV4SellWaveRemainsFlatAfterBuybackNotice() public {
         uint256 amount = _seedFourWallets();
         _graduateV2(curve);
         assertGt(pm.getLiquidity(key.toId()), 0);
         assertEq(hook.sellRateBps(key.toId()), 1000);
         _assertConservation();
-        // Synthetic authorised treasury notification isolates the post-buyback tax clock; this does
-        // not model buyback execution or claim that a public caller can arm the spike.
+        // A treasury notification cannot turn volume-funded buy-backs into a V2 sell spike.
         vm.prank(curve.treasury());
         hook.noteEvent();
-        assertEq(hook.sellRateBps(key.toId()), 9000);
+        assertEq(hook.sellRateBps(key.toId()), 1000);
         uint256 checkpoint = vm.snapshotState();
-        Wave memory spike = _v4Wave(amount, false, 9000);
+        Wave memory notified = _v4Wave(amount, false, 1000);
         vm.revertToState(checkpoint);
-        Wave memory spikeReverse = _v4Wave(amount, true, 9000);
-        assertEq(spike.totalOut, spikeReverse.totalOut);
-        assertEq(spike.totalTax, spikeReverse.totalTax);
+        Wave memory notifiedReverse = _v4Wave(amount, true, 1000);
+        assertEq(notified.totalOut, notifiedReverse.totalOut);
+        assertEq(notified.totalTax, notifiedReverse.totalTax);
         vm.revertToState(checkpoint);
         vm.warp(block.timestamp + 120);
         assertEq(hook.sellRateBps(key.toId()), 1000);
         Wave memory flat = _v4Wave(amount, false, 1000);
-        assertGt(flat.totalOut, spike.totalOut, "waiting for spike expiry increases sellers' total proceeds");
-        assertGt(spike.totalTax, flat.totalTax);
-        assertEq(flat.priceAfter, spike.priceAfter, "tax changes take-home, not gross V4 price path");
+        assertEq(flat.totalOut, notified.totalOut, "waiting does not change the V2 sell tax");
+        assertEq(flat.totalTax, notified.totalTax);
+        assertEq(flat.priceAfter, notified.priceAfter);
         console2.log("Scenario sell-wave v4 sellers:", sellers.length);
         console2.log("Scenario sell-wave v4 per_wallet_token_raw:", amount);
         console2.log("Scenario sell-wave v4 liquidity_raw:", flat.liquidityBefore);
         console2.log("Scenario sell-wave v4 sqrt_before_raw:", uint256(flat.priceBefore));
         console2.log("Scenario sell-wave v4 sqrt_after_raw:", uint256(flat.priceAfter));
-        console2.log("Scenario sell-wave v4 spike_first_stock_raw:", spike.firstOut);
-        console2.log("Scenario sell-wave v4 spike_last_stock_raw:", spike.lastOut);
-        console2.log("Scenario sell-wave v4 spike_total_stock_raw:", spike.totalOut);
-        console2.log("Scenario sell-wave v4 spike_tax_raw:", spike.totalTax);
+        console2.log("Scenario sell-wave v4 notified_first_stock_raw:", notified.firstOut);
+        console2.log("Scenario sell-wave v4 notified_last_stock_raw:", notified.lastOut);
+        console2.log("Scenario sell-wave v4 notified_total_stock_raw:", notified.totalOut);
+        console2.log("Scenario sell-wave v4 notified_tax_raw:", notified.totalTax);
         console2.log("Scenario sell-wave v4 flat_first_stock_raw:", flat.firstOut);
         console2.log("Scenario sell-wave v4 flat_last_stock_raw:", flat.lastOut);
         console2.log("Scenario sell-wave v4 flat_total_stock_raw:", flat.totalOut);

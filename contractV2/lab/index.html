@@ -34,7 +34,7 @@
           <div class="panel-heading"><span>实验输入</span><small>所有数值只在本地使用</small></div>
           <div class="field primary-field">
             <div class="field-title"><label for="lp_bps">毕业资金 → LP</label><output id="lp-display" for="lp_bps">50%</output></div>
-            <input id="lp_bps" type="range" min="10" max="90" step="1" value="50">
+            <input id="lp_bps" type="range" min="10" max="100" step="1" value="50">
             <div class="range-ends"><span>策略优先</span><span>交易深度优先</span></div>
             <div class="preset-row" role="group" aria-label="快速选择 LP 比例">
               <button type="button" class="preset" data-lp="30">30 / 70</button>
@@ -82,7 +82,7 @@
 
       <section class="fork-section" id="fork">
         <div class="section-line"><div><span class="section-number">02</span><h2>链上 Fork 核对</h2></div><span class="mode-tag dark">真实 V3 / V4 合约 · 本地状态</span></div>
-        <div class="fork-grid"><div><h3>按当前比例重放发射</h3><p>在 Robinhood Chain 固定区块的本地 Fork 上运行真实 USDG/GME V3 池与 V4 PoolManager：曲线交易、毕业、V4 买卖、税费与 LP 手续费结算。测试刷新喂价时间戳并使用始终开市日历。</p><div class="fork-caveat"><strong id="fork-ratio">当前比例：50 / 50</strong><span id="fork-mismatch">50/50 运行当前候选合约；其他比例只在临时隔离副本改动分配常量。</span></div></div><div class="fork-action"><button id="run-fork" type="button">运行 Fork 实验 <span aria-hidden="true">↗</span></button><small>不会签名、广播或更改真实链状态</small></div></div>
+        <div class="fork-grid"><div><h3>按当前比例重放发射</h3><p>在 Robinhood Chain 固定区块的本地 Fork 上运行真实 USDG/GME V3 池与 V4 PoolManager：曲线交易、毕业、V4 买卖、税费与 LP 手续费结算。测试刷新喂价时间戳并使用始终开市日历。</p><div class="fork-caveat"><strong id="fork-ratio">当前比例：50 / 50</strong><span id="fork-mismatch">在未修改的候选合约上通过 owner setLpBps 配置该比例。</span></div></div><div class="fork-action"><button id="run-fork" type="button">运行 Fork 实验 <span aria-hidden="true">↗</span></button><small>不会签名、广播或更改真实链状态</small></div></div>
         <div id="fork-result" class="fork-result" hidden></div>
       </section>
 
@@ -91,7 +91,7 @@
         <p class="scenario-intro">选择一个经典场景，现场重放同一时间戳下的不同交易排序。每次都运行合约测试；显示的是实际成交与税费，不是上方数学模型的推算。</p>
         <div class="scenario-grid">
           <article class="scenario-card" data-scenario-card="buy_wave"><span class="scenario-index">01 / BUY WAVE</span><h3>多人抢买</h3><p>四个钱包同时递交买单。比较先后顺序、每人到账，以及临近毕业时的部分成交退款。</p><button type="button" data-scenario="buy_wave">运行抢买实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
-          <article class="scenario-card" data-scenario-card="sell_wave"><span class="scenario-index">02 / SELL WAVE</span><h3>多人抢卖</h3><p>四个钱包依次卖出。对照曲线、毕业后 V4 池，以及测试中由国库身份直接触发的卖税峰值；这里不执行真实回购。</p><button type="button" data-scenario="sell_wave">运行抢卖实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
+          <article class="scenario-card" data-scenario-card="sell_wave"><span class="scenario-index">02 / SELL WAVE</span><h3>多人抢卖</h3><p>四个钱包依次卖出。对照曲线、毕业后 V4 池，以及国库通知后仍保持平税率的 V2 池；这里不执行真实回购。</p><button type="button" data-scenario="sell_wave">运行抢卖实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
           <article class="scenario-card" data-scenario-card="mixed_order"><span class="scenario-index">03 / MIXED ORDER</span><h3>有人买，有人卖</h3><p>两买两卖交错执行。比较买单先到与卖单先到时，卖方实际拿到的股票。</p><button type="button" data-scenario="mixed_order">运行交错实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
           <article class="scenario-card scenario-card-alert" data-scenario-card="opening_sniper"><span class="scenario-index">04 / OPENING SNIPER</span><h3>开盘狙击者</h3><p>机器人先买、用户跟买、机器人退出；逐秒比较 3 秒买入税下的净收益，并测试 1% 与 0.1% 限滑是否挡得住小额夹击。</p><button type="button" data-scenario="opening_sniper">运行狙击实验 <span aria-hidden="true">↗</span></button><div class="scenario-result" aria-live="polite" hidden></div></article>
         </div>

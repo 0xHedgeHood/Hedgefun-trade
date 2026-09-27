@@ -119,7 +119,4 @@ contract CurveDeployer is BoundDeployer {
         assembly ("memory-safe") { a := create2(0, add(code, 0x20), mload(code), salt) }
         if (a == address(0)) revert VaultDeployFailed();
     }
-    function predictVault(bytes32 salt, bytes calldata args) external view returns (address) {
-        return _at(salt, keccak256(abi.encodePacked(type(V2LiquidityVault).creationCode, args)));
-    }
 }

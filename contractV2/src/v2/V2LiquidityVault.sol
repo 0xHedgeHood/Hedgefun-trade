@@ -31,6 +31,7 @@ contract V2LiquidityVault is IUnlockCallback {
     bool public seeded;
     uint8 private _mode; // 0 idle, 1 seeding, 2 collecting
     bytes32 private _unlockHash;
+    uint256 private pendingStockFee;
 
     event Seeded(uint128 liquidity, uint256 amount0, uint256 amount1);
     event FeesCollected(uint256 stockToTreasury, uint256 tokenBurned);
@@ -88,6 +89,8 @@ contract V2LiquidityVault is IUnlockCallback {
 
     /// @notice Realize only the fees earned by this vault's position. Anyone may call; recipients are immutable.
     /// @dev No liquidity removal path exists. The zero-delta operation uses this vault as the V4 position owner.
+    /// @return stockFee Amount actually credited to the treasury, including any previously parked fee retried here.
+    /// @return tokenBurned Newly collected token fee burned in this call.
     function collectFees() external returns (uint256 stockFee, uint256 tokenBurned) {
         if (!seeded) revert NotSeeded();
         if (_mode != 0) revert Busy();
@@ -97,20 +100,30 @@ contract V2LiquidityVault is IUnlockCallback {
         (uint256 fee0, uint256 fee1) = abi.decode(poolManager.unlock(callData), (uint256, uint256));
         _unlockHash = bytes32(0);
         PoolKey memory key = _key;
-        (stockFee, tokenBurned) = Currency.unwrap(key.currency0) == stock ? (fee0, fee1) : (fee1, fee0);
-        if (stockFee != 0) {
-            IERC20 asset = IERC20(stock);
-            uint256 beforeVault = asset.balanceOf(address(this));
-            uint256 beforeTreasury = asset.balanceOf(treasury);
-            asset.forceApprove(treasury, stockFee);
-            IV2LiquidityFeeSink(treasury).creditLiquidityFee(stockFee);
-            asset.forceApprove(treasury, 0);
-            if (asset.balanceOf(address(this)) != beforeVault - stockFee
-                || asset.balanceOf(treasury) != beforeTreasury + stockFee) revert InexactTransfer();
-        }
+        (uint256 newStockFee, uint256 newTokenFee) = Currency.unwrap(key.currency0) == stock ? (fee0, fee1) : (fee1, fee0);
+        tokenBurned = newTokenFee;
+        pendingStockFee += newStockFee;
+        // The issuer may reject delivery to the treasury. Keep that fee for a later retry
+        // without reverting the independent token burn.
+        try this.creditPendingStock() returns (uint256 delivered) { stockFee = delivered; pendingStockFee = 0; } catch {}
         if (tokenBurned != 0) HedgeFunToken(token).burn(tokenBurned);
         _mode = 0;
         emit FeesCollected(stockFee, tokenBurned);
+    }
+
+    /// @dev Only collectFees can make this self-call. A later collectFees retries any parked stock fee.
+    function creditPendingStock() external returns (uint256 amount) {
+        if (msg.sender != address(this)) revert Busy();
+        amount = pendingStockFee;
+        if (amount == 0) return 0;
+        IERC20 asset = IERC20(stock);
+        uint256 beforeVault = asset.balanceOf(address(this));
+        uint256 beforeTreasury = asset.balanceOf(treasury);
+        asset.forceApprove(treasury, amount);
+        IV2LiquidityFeeSink(treasury).creditLiquidityFee(amount);
+        asset.forceApprove(treasury, 0);
+        if (asset.balanceOf(address(this)) != beforeVault - amount
+            || asset.balanceOf(treasury) != beforeTreasury + amount) revert InexactTransfer();
     }
 
     function unlockCallback(bytes calldata data) external override returns (bytes memory) {

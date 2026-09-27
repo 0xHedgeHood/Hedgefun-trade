@@ -145,7 +145,7 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         factory.launch(q, terms);
     }
 
-    function test_graduationDoesNotRestartLaunchTaxButBuybackSpikeStillWorks() public {
+    function test_graduationAndBuybackKeepFlatSellTax() public {
         (, HedgeFunBondingCurve curve, PoolKey memory key) = _launchV2(true);
         _graduateV2(curve);
         assertEq(hook.buyRateBps(key.toId()), curve.taxBps());
@@ -154,10 +154,10 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         HedgeFunHook.Rates memory rates = hook.rates(key.toId());
         assertEq(rates.snipeBps, 0);
         assertEq(rates.snipeSeconds, 0);
-        assertEq(rates.spikeBps, 9000);
+        assertEq(rates.spikeBps, 0);
         vm.prank(curve.treasury());
         hook.noteEvent();
-        assertEq(hook.sellRateBps(key.toId()), 9000);
+        assertEq(hook.sellRateBps(key.toId()), curve.taxBps());
         assertEq(hook.lastEventAt(key.toId()), block.timestamp);
         vm.warp(block.timestamp + 120);
         assertEq(hook.sellRateBps(key.toId()), curve.taxBps());

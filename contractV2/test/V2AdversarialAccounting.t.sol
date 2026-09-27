@@ -327,7 +327,7 @@ contract V2AdversarialAccountingTest is V2FactoryFixture {
             assertEq(token.balanceOf(ALICE), b.heldTokens);
             assertEq(stock.balanceOf(ALICE), b.participantStart - 50 ether);
         }
-        // Compare the economic result only after the 120-second buyback sell spike has expired.
+        // Hold for another 120 seconds before exit; V2's buyback notification leaves the sell tax flat.
         vm.roll(block.number + 120); vm.warp(block.timestamp + 120);
         assertEq(hook.sellRateBps(key.toId()), curve.taxBps());
         uint256 exitStock = _tradeAtQuotedMinimum(router, false, b.heldTokens);

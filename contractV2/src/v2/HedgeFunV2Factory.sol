@@ -101,6 +101,9 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         // The curve already provided price discovery; graduation is not another opening auction.
         rates.snipeBps = 0;
         rates.snipeSeconds = 0;
+        // LP fees can fund permissionless buy-backs without any realised strategy profit.
+        // They must not re-arm the sell spike for every new burst of trading volume.
+        rates.spikeBps = 0;
         _frozen[id] = Frozen(key, rates);
         IERC20(token).safeTransfer(curve, d.supply);
         emit CurveLaunched(id, curve, p.saleBps, p.virtualStock);

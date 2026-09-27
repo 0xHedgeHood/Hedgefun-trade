@@ -138,11 +138,11 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     uint256 public buybackAnchorAt;
     uint256 public totalBurned;
 
-    /// the last price the rule itself traded at, and when. The equity feeds here are 24/5: across a weekend they
-    /// stop updating entirely and keep returning Friday's value, so `tryPrice()` answers false for ~65 hours.
-    /// Everything that TRADES the stock must refuse for that whole time -- a stale feed is not evidence about the
-    /// pool. The buy-back is the exception: it trades the TOKEN pool, which never closes, and it needs a price
-    /// only to size its chunk. See `buyback`.
+    /// the last live stock-oracle price used by a successful rule action, and when. Stock trades use it as their
+    /// gate; a buy-back uses it only to size its chunk, then executes against the token pool's own TWAP/anchor bound.
+    /// The equity feeds here are 24/5: across a weekend they stop updating entirely and `tryPrice()` answers false
+    /// for ~65 hours. Everything that TRADES the stock must refuse then -- a stale feed is not evidence about its
+    /// pool. The buy-back is the exception because the TOKEN pool never closes. See `buyback`.
     uint256 public lastGoodPrice;
     uint256 public lastGoodPriceAt;
 
@@ -456,7 +456,12 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         // straight through the weekend while the equity feed is frozen for 65 hours, and blocking burns for that
         // whole time would protect nothing: it is not a stock trade.
         (bool ok, uint256 p) = _oracle.tryPrice();
-        if (!ok) {
+        if (ok) {
+            // Kind-1 treasuries deliberately do not need an oracle to book newly arrived stock, so a buy-back may
+            // be their only live-price touchpoint. Preserve that observation for the documented five-day sizing
+            // fallback before the market closes or the feed ages out.
+            _notePrice(p);
+        } else {
             p = lastGoodPrice;
             ok = p != 0 && block.timestamp - lastGoodPriceAt <= MAX_SIZING_AGE;
         }

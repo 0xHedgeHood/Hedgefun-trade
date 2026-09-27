@@ -55,23 +55,66 @@ contract V2BuybackKindTest is V2FactoryFixture {
         treasury.buyDip();
     }
 
-    function test_buybackPacesSpendsBurnsAndStartsTheSpike() public {
+    function test_buybackPacesSpendsBurnsWithoutRearmingSellSpike() public {
         _graduateV2(curve);
         uint256 budget = treasury.buybackStock();
         IERC20 token = IERC20(curve.token());
         uint256 supplyBefore = token.totalSupply();
         (uint256 spent, uint256 burned) = treasury.buyback();
         assertGt(spent, 0); assertGt(burned, 0);
+        assertGt(treasury.lastGoodPrice(), 0, "a live buy-back must seed the stale-price fallback");
+        assertEq(treasury.lastGoodPriceAt(), block.timestamp);
         assertLt(spent, budget, "one chunk, not the whole budget");
         assertEq(treasury.buybackStock(), budget - spent);
         assertEq(token.totalSupply(), supplyBefore - burned);
-        assertEq(hook.sellRateBps(key.toId()), 9000, "the buy-back armed the sell spike");
+        assertEq(hook.sellRateBps(key.toId()), 1000, "LP-funded buy-backs cannot arm the sell spike");
+        uint256 cachedAt = treasury.lastGoodPriceAt();
         vm.expectRevert(HedgeFunTreasuryBase.Cooldown.selector);
         treasury.buyback();
+        assertEq(treasury.lastGoodPriceAt(), cachedAt, "a cooldown rejection cannot refresh the cache");
         vm.warp(block.timestamp + 61);
         (uint256 spent2,) = treasury.buyback();
         assertGt(spent2, 0);
         assertEq(treasury.lotCount(), 0, "still no stock position after two buy-backs");
+    }
+
+    function test_liveBuybackSeedsFallbackForAStaleOracle() public {
+        _graduateV2(curve);
+        (uint256 spent,) = treasury.buyback();
+        uint256 left = treasury.buybackStock();
+        assertGt(spent, 0);
+        assertGt(left, 0);
+
+        // The fixture oracle accepts prices for 26 hours. At 27 hours the second buy-back can only be sized from
+        // the live price cached by the first one; this is still well inside MAX_SIZING_AGE (five days).
+        vm.warp(block.timestamp + 27 hours);
+        (uint256 spentFromCache,) = treasury.buyback();
+        assertGt(spentFromCache, 0);
+        assertEq(treasury.buybackStock(), left - spentFromCache);
+    }
+
+    function test_staleOracleWithoutACacheStillFailsClosed() public {
+        _graduateV2(curve);
+        assertEq(treasury.lastGoodPrice(), 0);
+        assertEq(treasury.lastGoodPriceAt(), 0);
+        vm.warp(block.timestamp + 27 hours);
+        vm.expectRevert(HedgeFunTreasuryBase.Unhealthy.selector);
+        treasury.buyback();
+    }
+
+    function test_cachedSizingPriceExpiresAfterFiveDays() public {
+        _graduateV2(curve);
+        treasury.buyback();
+        uint256 left = treasury.buybackStock();
+        vm.warp(block.timestamp + 5 days);
+        (uint256 spentAtBoundary,) = treasury.buyback();
+        assertGt(spentAtBoundary, 0, "the five-day boundary is inclusive");
+        left -= spentAtBoundary;
+
+        vm.warp(block.timestamp + 61);
+        vm.expectRevert(HedgeFunTreasuryBase.Unhealthy.selector);
+        treasury.buyback();
+        assertEq(treasury.buybackStock(), left, "an expired sizing cache cannot spend the budget");
     }
 
     function test_everyLaterStockArrivalIsBudgetToo() public {

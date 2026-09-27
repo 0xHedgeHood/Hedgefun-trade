@@ -10,7 +10,7 @@ const scenarioFacts = {
     ["Scenario sell-wave curve first_stock_raw:", "曲线首位卖家到账", "STOCK"],
     ["Scenario sell-wave curve last_stock_raw:", "曲线末位卖家到账", "STOCK"],
     ["Scenario sell-wave v4 flat_total_stock_raw:", "V4 普通卖税总到账", "STOCK"],
-    ["Scenario sell-wave v4 spike_total_stock_raw:", "V4 回购峰值总到账", "STOCK"],
+    ["Scenario sell-wave v4 notified_total_stock_raw:", "V4 回购通知后总到账", "STOCK"],
   ],
   mixed_order: [
     ["Scenario mixed-curve sellerA-after-buy raw:", "曲线：买单先到，卖家 A", "STOCK"],

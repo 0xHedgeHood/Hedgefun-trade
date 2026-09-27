@@ -15,7 +15,7 @@ from urllib.parse import urlsplit
 
 from lab.model import simulate
 from lab.batch_opening import simulate_batch_opening
-from lab.fork_runner import run_fork, run_fork_variant
+from lab.fork_runner import run_fork
 from lab.scenarios import run_scenario
 
 
@@ -92,13 +92,13 @@ class Handler(BaseHTTPRequestHandler):
                 if set(payload) not in (set(), {"lp_bps"}):
                     raise ValueError("Fork accepts only lp_bps")
                 lp_bps = payload.get("lp_bps", 5000)
-                if type(lp_bps) is not int or lp_bps < 1000 or lp_bps > 9000 or lp_bps % 100:
-                    raise ValueError("lp_bps must be an integer percent from 10% to 90%")
+                if type(lp_bps) is not int or lp_bps < 1000 or lp_bps > 10000 or lp_bps % 100:
+                    raise ValueError("lp_bps must be an integer percent from 10% to 100%")
                 if not EVM_LOCK.acquire(blocking=False):
                     self._json(409, {"error": "An EVM experiment is already in progress"})
                     return
                 try:
-                    self._json(200, run_fork() if lp_bps == 5000 else run_fork_variant(lp_bps))
+                    self._json(200, run_fork(lp_bps=lp_bps))
                 finally:
                     EVM_LOCK.release()
             elif path == "/api/scenario":

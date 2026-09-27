@@ -1,7 +1,7 @@
 # Hedgefun contracts V2
 
 This directory is the V2 source snapshot from the integration branch `codex/v2-main-integration` (tip
-`03ad70e`), applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
+`9679614`), applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
 deployment**: nothing launched under V1 changes. Files keep their paths relative to the Foundry project, and the
 compiler version, optimizer settings, EVM version, metadata-hash setting and dependency revisions are the same as V1.
 
@@ -18,7 +18,7 @@ permanently locked V4 full-range position and the strategy treasury, and the tre
 | `src/v2/HedgeFunBondingCurve.sol` | Per-launch fixed-product curve: buys, sells, launch-window buy tax, fee liabilities, the graduation trigger |
 | `src/v2/V2LiquidityVault.sol` | Owns the locked full-range V4 position; fee-only collection, no liquidity removal or upgrade path |
 | `src/v2/HedgeFunV2Treasury.sol`, `src/v2/V2TreasuryDeployer.sol` | The V1 rule, inactive until `wire()`; one atomic `execute()` (stop first, then take-profit, then dip) and pluggable strategy kinds |
-| `src/v2/HedgeFunV2BuybackTreasury.sol` | Draft kind 1: a pure buy-back treasury (not registered by any deployment) |
+| `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks; none does today) |
 | `src/v2/HedgeFunV2TradeRouter.sol`, `src/v2/HedgeFunV2NativeRouter.sol` | Any-ERC20 and native-currency entry and exit through V3 hops, with minimum-out and explicit partial-fill refunds |
 
 The four V1 files that changed (`HedgeFunFactory`, `HedgeFunTreasury`, `HedgeFunTreasuryBase`, `hooks/HedgeFunHook`)

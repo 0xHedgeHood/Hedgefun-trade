@@ -20,8 +20,11 @@ import {MockToken} from "./mocks/Mocks.sol";
 contract V2LiquidityFeeSink {
     IERC20 public immutable stock;
     uint256 public credited;
+    bool public rejectStock;
     constructor(IERC20 stock_) { stock = stock_; }
+    function setRejectStock(bool reject) external { rejectStock = reject; }
     function creditLiquidityFee(uint256 amount) external {
+        require(!rejectStock, "stock refused");
         stock.transferFrom(msg.sender, address(this), amount);
         credited += amount;
     }
@@ -142,9 +145,43 @@ contract V2LiquidityVaultTest is Test {
         assertEq(pm.getLiquidity(id), lpBefore);
     }
 
+    function test_stockCreditFailureParksFeeButStillBurnsTokenFee() public {
+        vault.seed(uint160(1 << 96), 500e18, 1000e18, 1000e18);
+        uint128 lpBefore = pm.getLiquidity(key.toId());
+        bool stockIs0 = address(stock) < address(fun);
+        swapRouter.swap(key, SwapParams({zeroForOne: stockIs0, amountSpecified: -int256(10e18),
+            sqrtPriceLimitX96: stockIs0 ? uint160(1 << 95) : uint160(1 << 97)}),
+            PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}), "");
+        swapRouter.swap(key, SwapParams({zeroForOne: !stockIs0, amountSpecified: -int256(10e18),
+            sqrtPriceLimitX96: stockIs0 ? uint160(1 << 97) : uint160(1 << 95)}),
+            PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}), "");
+
+        sink.setRejectStock(true);
+        uint256 supplyBefore = fun.totalSupply();
+        (uint256 delivered, uint256 burned) = vault.collectFees();
+        assertEq(delivered, 0);
+        assertGt(burned, 0);
+        assertGt(stock.balanceOf(address(vault)), 0);
+        assertEq(sink.credited(), 0);
+        assertEq(stock.allowance(address(vault), address(sink)), 0);
+        assertEq(fun.totalSupply(), supplyBefore - burned);
+        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+
+        sink.setRejectStock(false);
+        (delivered, burned) = vault.collectFees();
+        assertGt(delivered, 0);
+        assertEq(burned, 0);
+        assertEq(sink.credited(), delivered);
+        assertEq(stock.balanceOf(address(vault)), 0);
+        assertEq(stock.allowance(address(vault), address(sink)), 0);
+        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+    }
+
     function test_callbackCannotBeCalledByOutsider() public {
         vm.expectRevert(V2LiquidityVault.NotPoolManager.selector);
         vault.unlockCallback("");
+        vm.expectRevert(V2LiquidityVault.Busy.selector);
+        vault.creditPendingStock();
         vm.expectRevert(V2LiquidityVault.NotSeeded.selector);
         vault.collectFees();
     }

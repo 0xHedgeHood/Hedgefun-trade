@@ -34,14 +34,14 @@ SCENARIOS = {
         "contract": "V2MarketSellScenariosTest",
         "tests": (
             "test_fourWalletCurveSellWaveOrderAndConservation",
-            "test_fourWalletV4SellWaveSpikeAndFlat",
+            "test_fourWalletV4SellWaveRemainsFlatAfterBuybackNotice",
         ),
         "wallets": 4,
         "required_metrics": (
             "Scenario sell-wave curve first_stock_raw:",
             "Scenario sell-wave curve last_stock_raw:",
             "Scenario sell-wave v4 flat_total_stock_raw:",
-            "Scenario sell-wave v4 spike_total_stock_raw:",
+            "Scenario sell-wave v4 notified_total_stock_raw:",
         ),
     },
     "mixed_order": {
@@ -68,7 +68,7 @@ SCENARIOS = {
             "test_postWindowCurveOrderAndTightMinOut",
             "test_graduatedOpeningHasFlatTaxAndNoLaunchSpike",
             "test_graduatedOpeningSizeSweep",
-            "test_buybackSpikeRaisesSniperExitTaxButDecays",
+            "test_buybackNoticeCannotRaiseV2SniperExitTax",
         ),
         "wallets": 2,
         "required_metrics": (

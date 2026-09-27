@@ -15,7 +15,7 @@ import {V2LiquidityVault} from "../src/v2/V2LiquidityVault.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {V2FactoryFixture} from "./utils/V2FactoryFixture.sol";
 
-/// What `lab/model.py` leaves out, measured on the production contracts: the hook's sell spike, the LP fee and hook
+/// What `lab/model.py` leaves out, measured on the production contracts: the LP fee and hook
 /// tax that flow back to the treasury, and the early buyer's exit. One wallet buys the FIRST 5% of the curve sale
 /// (the cheapest tokens), a second wallet buys the rest and graduates the curve, and the first wallet sells
 /// everything into the fresh V4 pool. Numbers are logged, not asserted: this is a measurement, not a guard.
@@ -53,16 +53,18 @@ contract V2LpDepthExperimentTest is V2FactoryFixture {
         }
     }
 
-    function test_dumpIntoLiveSellSpike() public {
+    function test_buybackNoticeLeavesV2SellTaxFlat() public {
         uint16[3] memory delay = [uint16(0), 60, 119];
         for (uint256 i; i < 3; ++i) {
             uint256 snap = vm.snapshotState();
             Run memory r = _graduateWithEarlyBuyer(8000, 5000);
             (, address treasury,,,) = factory.strategies(0);
             vm.prank(treasury);
-            hook.noteEvent(); // a treasury buyback just happened: spike 90% -> flat over 120 s
+            hook.noteEvent(); // a treasury buyback cannot raise V2's frozen flat sell tax
+            (, PoolKey memory key) = _key();
+            assertEq(hook.sellRateBps(key.toId()), 1000);
             (uint256 out, uint256 tax, uint256 lpFee, uint160 after_) = _dump(r, delay[i]);
-            _log(string.concat("spike+", vm.toString(uint256(delay[i])), "s dump"), r, out, tax, lpFee, after_);
+            _log(string.concat("notice+", vm.toString(uint256(delay[i])), "s dump"), r, out, tax, lpFee, after_);
             vm.revertToState(snap);
         }
     }

@@ -57,9 +57,7 @@ function updatePreset() {
     button.classList.toggle("active", Number(button.dataset.lp) === lp);
   });
   $("fork-ratio").textContent = `当前比例：${lp} / ${100 - lp}`;
-  $("fork-mismatch").textContent = lp === 50
-    ? "50/50 核对当前候选合约；其他输入仍只影响左侧模型。"
-    : `${lp}/${100 - lp} 会在隔离副本中修改分配常量后重编译；其他输入仍只影响左侧模型。`;
+  $("fork-mismatch").textContent = `${lp}/${100 - lp} 会在未修改的候选合约上通过 owner setLpBps 配置；其他输入仍只影响左侧模型。`;
 }
 
 function setText(id, text) { $(id).textContent = text; }
@@ -180,7 +178,9 @@ function renderFork(result) {
   const lp = result.allocation?.lp_bps / 100;
   const facts = [
     `Robinhood Chain 区块 ${result.reported_block || result.requested_block || "—"} · ${Number.isFinite(lp) ? `${lp} / ${100 - lp}` : "分配未知"}`,
-    lp === 50 ? "当前候选合约的固定 50/50" : "临时隔离合约变体；不是当前 PR 的合约配置",
+    result.allocation?.configured_via_set_lp_bps
+      ? `已验证：未修改源码，并通过 owner setLpBps 配置及冻结${lp === 50 ? "（默认值）" : ""}`
+      : "请求的 LP 比例未验证；本次 Fork 未通过",
     `耗时 ${number(result.duration_seconds)} 秒 · 无链上广播`,
   ];
   if (result.metrics?.graduation_refund_stock_raw != null) {

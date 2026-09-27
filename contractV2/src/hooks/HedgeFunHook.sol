@@ -194,7 +194,7 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
         _register(key, token_, stock_, treasury_, protocol_, creator_, launcher_, r);
     }
 
-    /// @notice Register a graduated curve without restarting launch taxes. Buyback spikes remain enabled.
+    /// @notice Register a graduated curve without restarting launch taxes. Its frozen rates determine any later spike.
     function registerGraduated(PoolKey calldata key, address token_, address stock_, address treasury_, address protocol_, address creator_, Rates calldata r) external {
         if (r.snipeBps != 0 || r.snipeSeconds != 0) revert BadConfig();
         PoolId id = _register(key, token_, stock_, treasury_, protocol_, creator_, address(0), r);

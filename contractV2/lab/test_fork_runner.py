@@ -1,4 +1,4 @@
-"""Local runner contract: pinned block, fixed allocation, and no shell use."""
+"""Local runner contract: pinned block, real LP setter, and no shell use."""
 
 import subprocess
 import unittest
@@ -8,8 +8,9 @@ from lab import fork_runner
 
 
 PASS_OUTPUT = """Logs:
-  [PASS] test_fork_twoUsersLiveV3CurveGraduationLiveV4AndFeeSettlement() (gas: 123)
+  [PASS] test_fork_twoUsersLiveV3CurveGraduationV4FeesAndBuybackBurn() (gas: 123)
   V2 live venue fork block: 70786980
+  V2 live venue frozen LP bps: 5000
   Live graduation LP GME raw: 7000000000000000000
   Live graduation treasury GME raw: 3000000000000000000
   Live V4 LP stock fee GME raw: 123
@@ -31,12 +32,19 @@ class ForkRunnerTest(unittest.TestCase):
         self.assertEqual(args[0], ["forge", "test", "--match-path", fork_runner.TEST_PATH,
                                    "--match-test", fork_runner.TEST_NAME, "-vv"])
         self.assertEqual(kwargs["env"]["RH_FORK_BLOCK"], "70786980")
+        self.assertEqual(kwargs["env"]["RH_RPC"], "blockmachine")
+        self.assertEqual(kwargs["env"]["V2_LP_BPS"], "5000")
         self.assertEqual(kwargs["env"]["FOUNDRY_FFI"], "false")
+        self.assertEqual(kwargs["cwd"], fork_runner.ROOT)
+        self.assertTrue(result["allocation"]["uses_default_lp_bps"])
+        self.assertTrue(result["allocation"]["configured_via_set_lp_bps"])
+        self.assertEqual(result["allocation"]["frozen_lp_bps"], 5000)
         self.assertFalse(result["scenario"]["broadcast"])
 
-    def test_rejects_arbitrary_rpc_and_slider_allocation(self):
+    def test_rejects_arbitrary_rpc_and_out_of_range_allocation(self):
         for kwargs in ({"rpc_alias": "https://evil.example"}, {"rpc_alias": "robinhood; echo bad"},
-                       {"lp_bps": 7000}, {"timeout_seconds": True}, {"timeout_seconds": 601}):
+                       {"lp_bps": True}, {"lp_bps": 999}, {"lp_bps": 10001},
+                       {"timeout_seconds": True}, {"timeout_seconds": 601}):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 fork_runner.run_fork(**kwargs)
 
@@ -44,6 +52,7 @@ class ForkRunnerTest(unittest.TestCase):
         for output in (
             "Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 0.01s",
             PASS_OUTPUT.replace("70786980", "70786981"),
+            PASS_OUTPUT.replace("frozen LP bps: 5000", "frozen LP bps: 7000"),
         ):
             with self.subTest(output=output), patch.object(
                 fork_runner.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, output, "")
@@ -51,6 +60,8 @@ class ForkRunnerTest(unittest.TestCase):
                 result = fork_runner.run_fork()
             self.assertFalse(result["passed"])
             self.assertEqual(result["status"], "failed")
+            self.assertFalse(result["allocation"]["configured_via_set_lp_bps"])
+            self.assertIsNone(result["allocation"]["frozen_lp_bps"])
 
     def test_timeout_is_structured(self):
         with patch.object(fork_runner.subprocess, "run", side_effect=subprocess.TimeoutExpired(["forge"], 20)):
@@ -58,43 +69,55 @@ class ForkRunnerTest(unittest.TestCase):
         self.assertEqual(result["status"], "timeout")
         self.assertFalse(result["passed"])
 
-    def test_variant_uses_disposable_source_and_cleans_it(self):
+    def test_archive_rate_limit_retries_within_the_total_timeout(self):
+        throttled = subprocess.CompletedProcess([], 1, "", 'HTTP error 429: {"retry_after_ms": 1}; rate limit exceeded')
+        passed = subprocess.CompletedProcess([], 0, PASS_OUTPUT, "")
+        with (
+            patch.object(fork_runner.subprocess, "run", side_effect=(throttled, passed)) as run,
+            patch.object(fork_runner.time, "sleep") as sleep,
+        ):
+            result = fork_runner.run_fork()
+        self.assertTrue(result["passed"])
+        self.assertEqual(run.call_count, 2)
+        sleep.assert_called_once_with(1.0)
+
+    def test_non_default_uses_unchanged_source_and_real_setter_environment(self):
         seen = {}
 
         def fake_run(command, **kwargs):
-            temporary = kwargs["cwd"]
-            seen["path"] = temporary
-            seen["factory"] = (temporary / "src/v2/V2TreasuryDeployer.sol").read_text()
-            seen["lib"] = (temporary / "lib").is_symlink()
-            seen["test"] = (temporary / fork_runner.TEST_PATH).exists()
+            seen["path"] = kwargs["cwd"]
             seen["command"] = command
             seen["env"] = kwargs["env"]
-            return subprocess.CompletedProcess(command, 0, PASS_OUTPUT, "")
+            return subprocess.CompletedProcess(command, 0, PASS_OUTPUT.replace("frozen LP bps: 5000", "frozen LP bps: 7000"), "")
 
         original = (fork_runner.ROOT / "src/v2/V2TreasuryDeployer.sol").read_text()
         with patch.object(fork_runner.subprocess, "run", side_effect=fake_run):
-            result = fork_runner.run_fork_variant(7000)
+            result = fork_runner.run_fork(lp_bps=7000)
         self.assertTrue(result["passed"])
-        self.assertEqual(result["kind"], "local_variant_fork")
+        self.assertEqual(result["kind"], "live_venue_fork")
         self.assertEqual(result["allocation"]["lp_bps"], 7000)
-        self.assertFalse(result["allocation"]["fixed_in_current_contract"])
+        self.assertFalse(result["allocation"]["uses_default_lp_bps"])
+        self.assertTrue(result["allocation"]["configured_via_set_lp_bps"])
+        self.assertEqual(result["allocation"]["frozen_lp_bps"], 7000)
+        self.assertFalse(result["allocation"]["temporary_source_variant"])
         self.assertEqual(result["metrics"]["treasury_stock_raw"], 3000000000000000000)
-        self.assertTrue(seen["lib"])
-        self.assertTrue(seen["test"])
-        self.assertIn("DEFAULT_LP_BPS = 7000;", seen["factory"])
+        self.assertEqual(seen["path"], fork_runner.ROOT)
         self.assertEqual(original, (fork_runner.ROOT / "src/v2/V2TreasuryDeployer.sol").read_text())
-        self.assertFalse(seen["path"].exists())
         self.assertEqual(seen["command"], ["forge", "test", "--match-path", fork_runner.TEST_PATH,
                                            "--match-test", fork_runner.TEST_NAME, "-vv"])
         self.assertEqual(seen["env"]["RH_FORK_BLOCK"], "70786980")
+        self.assertEqual(seen["env"]["V2_LP_BPS"], "7000")
         self.assertEqual(seen["env"]["FOUNDRY_FFI"], "false")
+        self.assertFalse((fork_runner.Path(seen["env"]["FOUNDRY_OUT"]).parent).exists())
+        self.assertNotEqual(fork_runner.Path(seen["env"]["FOUNDRY_CACHE_PATH"]).parent, fork_runner.ROOT)
 
-    def test_variant_rejects_non_percent_steps(self):
-        for bps in (True, "3000", 0, 999, 1050, 9001, 10000):
-            with self.subTest(bps=bps), self.assertRaises(ValueError):
-                fork_runner.run_fork_variant(bps)
+    def test_accepts_the_contracts_full_basis_point_range(self):
+        for bps in (1000, 1050, 9001, 10000):
+            with self.subTest(bps=bps), patch.object(fork_runner, "_run", return_value={"ok": True}) as run:
+                self.assertEqual(fork_runner.run_fork(lp_bps=bps), {"ok": True})
+                run.assert_called_once_with(rpc_alias="blockmachine", timeout_seconds=300, lp_bps=bps)
 
-    def test_variant_timeout_also_cleans_temporary_source(self):
+    def test_non_default_timeout_is_structured(self):
         seen = {}
 
         def timed_out(command, **kwargs):
@@ -102,10 +125,10 @@ class ForkRunnerTest(unittest.TestCase):
             raise subprocess.TimeoutExpired(command, 20)
 
         with patch.object(fork_runner.subprocess, "run", side_effect=timed_out):
-            result = fork_runner.run_fork_variant(3000, timeout_seconds=20)
+            result = fork_runner.run_fork(lp_bps=3000, timeout_seconds=20)
         self.assertEqual(result["status"], "timeout")
         self.assertFalse(result["passed"])
-        self.assertFalse(seen["path"].exists())
+        self.assertEqual(seen["path"], fork_runner.ROOT)
 
 
 if __name__ == "__main__":

@@ -294,7 +294,7 @@ contract V2MarketSniperScenariosTest is V2FactoryFixture {
         }
     }
 
-    function test_buybackSpikeRaisesSniperExitTaxButDecays() public {
+    function test_buybackNoticeCannotRaiseV2SniperExitTax() public {
         _graduateV2(curve);
         (uint256 botTokens,) = _v4Buy(BOT, 2e18, 1);
         _v4Buy(USER, 5e18, 1);
@@ -303,14 +303,14 @@ contract V2MarketSniperScenariosTest is V2FactoryFixture {
         assertTrue(vm.revertToState(state));
         vm.prank(curve.treasury());
         hook.noteEvent();
-        assertEq(hook.sellRateBps(key.toId()), 9000);
-        (uint256 spikeExit, uint256 spikeTax) = _v4Sell(BOT, botTokens);
-        assertLt(spikeExit, flatExit, "buyback spike makes immediate dump more expensive");
-        assertGt(spikeTax, flatTax);
+        assertEq(hook.sellRateBps(key.toId()), curve.taxBps());
+        (uint256 afterNoticeExit, uint256 afterNoticeTax) = _v4Sell(BOT, botTokens);
+        assertEq(afterNoticeExit, flatExit);
+        assertEq(afterNoticeTax, flatTax);
         console2.log("Scenario sniper_v4_flat_exit stock_out_raw:", flatExit);
         console2.log("Scenario sniper_v4_flat_exit tax_stock_raw:", flatTax);
-        console2.log("Scenario sniper_v4_buyback_spike stock_out_raw:", spikeExit);
-        console2.log("Scenario sniper_v4_buyback_spike tax_stock_raw:", spikeTax);
+        console2.log("Scenario sniper_v4_after_buyback stock_out_raw:", afterNoticeExit);
+        console2.log("Scenario sniper_v4_after_buyback tax_stock_raw:", afterNoticeTax);
         vm.warp(block.timestamp + 120);
         assertEq(hook.sellRateBps(key.toId()), curve.taxBps(), "spike expires after 120 seconds");
     }

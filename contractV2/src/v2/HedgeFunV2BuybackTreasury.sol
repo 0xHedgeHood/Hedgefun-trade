@@ -3,13 +3,13 @@ pragma solidity ^0.8.24;
 
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
 
-/// @notice Strategy kind 1: a pure buy-back treasury. DRAFT — not registered by any deployment.
+/// @notice Strategy kind 1: a pure buy-back treasury. Opt-in: production must register its exact code chunks.
 ///
 /// Every unit of stock this treasury ever receives -- its share of the graduation raise, the sell tax, stock-side
 /// LP fees -- becomes buy-back budget. It opens no stock lot, never sells stock, and has no stop, take-profit or
 /// dip. The stock leaves only through the inherited `buyback()`: one `buybackChunkUsdg` per `buybackCooldown`,
-/// bounded by the pool's own TWAP/anchor and `maxBuybackImpactBps`, burning what it buys and starting the sell
-/// spike. Nothing about pacing, price limits or bounties is new; only where the stock is booked.
+/// bounded by the pool's own TWAP/anchor and `maxBuybackImpactBps`, burning what it buys. Graduated V2 pools
+/// keep the flat sell tax after each buy-back. Nothing about pacing, price limits or bounties is new.
 ///
 /// Because it is `HedgeFunV2Treasury` with `book()` and `execute()` replaced, it takes the same constructor
 /// arguments and serves the same surface the factory, hook, vault and routers call. The creator's tp/stop/dip

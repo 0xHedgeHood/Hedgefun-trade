@@ -48,7 +48,8 @@ def simulate(payload: dict) -> dict:
     Required: ``supply`` and ``virtual_stock``. Optional defaults: sale 80%, LP
     50%, buy 10 stock, sell 10% of curve-distributed FUN, LP fee 0.30%, flat
     trade tax 10%. ``lp_fee_bps`` uses ordinary basis points: 30 means 0.30%.
-    ``lp_bps`` is an experiment only; the current V2 contract fixes it at 5000.
+    ``lp_bps`` models the same per-stock setting accepted by V2TreasuryDeployer;
+    the on-chain default is 5000.
     """
     if not isinstance(payload, dict):
         raise ValueError("payload must be an object")
@@ -171,7 +172,7 @@ def simulate(payload: dict) -> dict:
                 "Buy and sell are independent scenarios, each starting at the graduation spot and LP depth.",
                 "Flat output-side hook tax only; no sell spike, treasury buyback, fee collection, MEV or strategy P&L.",
                 "No external payment route, upstream slippage, transaction gas or V4 price limit.",
-                "LP share is experimental: the current V2 candidate fixes it at 50%; zero LP fee is a counterfactual benchmark.",
+                "LP share follows the current V2 per-stock setLpBps range (10%-100%, default 50%); zero LP fee is a counterfactual benchmark.",
                 "Estimated curve buy-tax burn assumes a one-way sale to graduation; sell-and-rebuy churn burns more FUN and changes the sellable base.",
                 "Price-push stock is capital deployed into a BUY, not attacker net cost or expected profit.",
             ],

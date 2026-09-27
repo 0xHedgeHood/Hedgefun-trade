@@ -19,6 +19,7 @@ import {CurveDeployer} from "../src/v2/CurveDeployer.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {V2LiquidityVault} from "../src/v2/V2LiquidityVault.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
+import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
 import {HedgeFunV2TradeRouter as Router} from "../src/v2/HedgeFunV2TradeRouter.sol";
 import {AlwaysOpen, IAgg} from "./mocks/Mocks.sol";
 import {HookMiner} from "./utils/HookMiner.sol";
@@ -94,8 +95,12 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
     }
 
     function _setUpFork() private {
+        _setUpForkKind(0);
+    }
+
+    function _setUpForkKind(uint8 strategyKind) private {
         vm.skip(vm.envOr("RH_FORK", uint256(0)) == 0, "live V2 fork: set RH_FORK=1; no broadcast");
-        string memory rpc = vm.envOr("RH_RPC", string("robinhood"));
+        string memory rpc = vm.envOr("RH_RPC", string("blockmachine"));
         uint256 pinnedBlock = vm.envOr("RH_FORK_BLOCK", uint256(70_786_980));
         if (pinnedBlock == 0) vm.createSelectFork(rpc); else vm.createSelectFork(rpc, pinnedBlock);
         console2.log("V2 live venue fork block:", block.number);
@@ -107,9 +112,35 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         uint256 initialPrice = Math.mulDiv(25e18, 1e18, oracle.price()) / 1_000_000;
         assertGt(initialPrice, 0);
         hook = _deployHook(PM);
+        HedgeFunFactory.Defaults memory defaults = _defaults();
+        if (strategyKind == 1) {
+            // This fork deliberately graduates at only ~100 USDG to keep archive reads small. With that shallow
+            // V4 pool, a 3% impact cap fills about 0.7 USDG -- below the 5 USDG production candidate minimum.
+            // Lower only this test deployment's minimum so the real-venue lifecycle is executable; production
+            // must calibrate minLotUsdg, impact and seeded depth together rather than copying this value.
+            defaults.minLotUsdg = 250_000;
+            console2.log("V2 live kind-1 test min lot USDG raw:", defaults.minLotUsdg);
+        }
         factory = new HedgeFunV2Factory(OWNER, address(PM), V3_FACTORY, USDG, PROTOCOL,
-            address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(hook), address(new CurveDeployer()), _defaults());
+            address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(hook), address(new CurveDeployer()), defaults);
+        V2TreasuryDeployer treasuryDeployer = V2TreasuryDeployer(address(factory.treasuryDeployer()));
+        if (strategyKind == 1) {
+            (address a, address b) = treasuryDeployer.makeChunks(type(HedgeFunV2BuybackTreasury).creationCode);
+            vm.prank(OWNER);
+            assertEq(treasuryDeployer.registerKind(a, b), 1, "owner registers exact buyback code as kind 1");
+            (address storedA, address storedB) = treasuryDeployer.kinds(1);
+            assertEq(keccak256(bytes.concat(storedA.code, storedB.code)),
+                keccak256(type(HedgeFunV2BuybackTreasury).creationCode), "registered kind-1 code must match this build");
+        }
+        uint256 lpBps = vm.envOr("V2_LP_BPS", uint256(5000));
+        require(lpBps >= 1000 && lpBps <= 10000, "V2_LP_BPS");
+        console2.log("V2 live venue LP bps:", lpBps);
         vm.startPrank(OWNER);
+        // Exercise the production owner setter and the per-treasury launch freeze. Non-default experiments must not
+        // rewrite DEFAULT_LP_BPS in a copied source tree, because that skips the configuration path being reviewed.
+        treasuryDeployer.setLpBps(GME, uint16(lpBps));
+        assertEq(treasuryDeployer.lpBps(GME), lpBps,
+            "owner LP setting must read back before launch");
         factory.list(GME, address(oracle), LISTING_POOL, initialPrice, true);
         factory.setPublicLaunch(true);
         vm.stopPrank();
@@ -118,9 +149,16 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         request.stock = GME; request.creator = CREATOR; request.taxBps = 1000; request.creatorBps = 1000;
         request.tp1Bps = 3000; request.tp2Bps = 6000; request.dipBps = 800; request.lotBps = 5000;
         request.expectedOpenPriceE18 = initialPrice;
+        if (strategyKind != 0) {
+            vm.prank(CREATOR);
+            treasuryDeployer.setStrategyKind(request.symbol, request.nonce, strategyKind);
+        }
         (,, bytes32 terms) = factory.predict(request);
         vm.prank(CREATOR); id = factory.launch(request, terms);
         curve = Curve(factory.curves(id)); token = HedgeFunToken(curve.token());
+        uint256 frozenLpBps = V2TreasuryDeployer(address(factory.treasuryDeployer())).lpBpsOfTreasury(curve.treasury());
+        assertEq(frozenLpBps, lpBps, "launch must freeze the requested LP share");
+        console2.log("V2 live venue frozen LP bps:", frozenLpBps);
         (key,) = factory.graduationConfig(id);
         router = new Router(factory);
         _fund(ALICE); _fund(BOB); _fund(BOT);
@@ -273,19 +311,19 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         uint256 bounty = token.balanceOf(BOT) - botFunBefore;
         assertEq(bounty, (burned + bounty) * 50 / 10_000, "caller gets only configured FUN bounty");
         assertEq(token.balanceOf(address(treasury)), 0, "no acquired FUN remains in treasury");
-        assertEq(hook.sellRateBps(key.toId()), 9000, "buyback starts the configured sell spike");
+        assertEq(hook.sellRateBps(key.toId()), 1000, "V2 buyback keeps the flat sell tax");
         _assertClean();
         console2.log("Live V4 treasury buyback GME spent raw:", spent);
         console2.log("Live V4 treasury buyback FUN burned raw:", burned);
     }
 
-    function _assertChasingPriceBlocked(HedgeFunV2Treasury treasury) private {
+    function _assertChasingPriceBlockedWhenApplicable(HedgeFunV2Treasury treasury) private {
         uint256 budgetBefore = treasury.buybackStock();
         assertGt(budgetBefore, 0, "price-gate test needs a funded buyback");
         (uint160 spot,,,) = PM.getSlot0(key.toId());
         uint160 anchor = treasury.buybackAnchorSqrtP();
         assertTrue(treasury.stockIsCurrency0InTokenPool() ? spot < anchor : spot > anchor,
-            "pool must be worse for the treasury than its trusted anchor");
+            "the default-depth scenario must cross the trusted anchor");
         uint256 supplyBefore = token.totalSupply();
         uint256 lastBuybackBefore = treasury.lastBuybackAt();
         vm.prank(BOT);
@@ -339,7 +377,12 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         // The earlier post-graduation buys left FUN above the trusted graduation
         // anchor, so a treasury buyback correctly refuses to chase that price.
         // Exercise a genuine market sell to return the pool to an executable level.
-        _assertChasingPriceBlocked(treasury);
+        // The original 50/50 scenario also proves the graduation-anchor chase gate. Custom LP depth experiments
+        // exercise configuration, launch freezing, graduation and settlement without assuming the same trade sizes
+        // cross that economic threshold.
+        if (V2TreasuryDeployer(address(factory.treasuryDeployer())).lpBpsOfTreasury(curve.treasury()) == 5000) {
+            _assertChasingPriceBlockedWhenApplicable(treasury);
+        }
         _quotedSell(ALICE, token.balanceOf(ALICE) / 2, 2);
         // Run the actual treasury against the live forked V4 manager.
         _buybackFromCollectedFees(treasury, stockFee);
@@ -347,6 +390,42 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         console2.log("Live V4 LP FUN fee burned raw:", funFeeBurned);
         console2.log("Final graduation GME refund (raw):", finalRefund);
         console2.log("Live V2 V3/V4 trades, fee settlement and treasury buyback burn passed");
+    }
+
+    /// Register and select the shipped kind-1 code, then take it through the real forked V3 route, curve
+    /// graduation and deployed V4 manager. This closes the gap between the fixture lifecycle tests and the
+    /// deployment rehearsal: kind 1 books its graduation share as buyback budget and spends it only by buying
+    /// and burning FUN from the live V4 pool.
+    function test_fork_kindOneRegistersLaunchesGraduatesAndBuysBackOnLiveVenue() public {
+        _setUpForkKind(1);
+        _quotedBuy(ALICE, 10e6, 0);
+        _quotedBuy(BOB, 10e6, 0);
+        (, uint256 finalRefund) = _quotedBuy(BOB, 250e6, 0);
+        assertEq(uint256(curve.status()), 2);
+        assertGt(finalRefund, 0);
+        assertGt(PM.getLiquidity(key.toId()), 0, "kind 1 must graduate into the deployed V4 manager");
+
+        HedgeFunV2BuybackTreasury treasury = HedgeFunV2BuybackTreasury(curve.treasury());
+        uint256 budget = treasury.buybackStock();
+        assertGt(budget, 0, "kind 1 books its real GME graduation share as buyback budget");
+        assertEq(treasury.bookedStock(), 0);
+        assertEq(treasury.lotCount(), 0);
+        assertEq(treasury.unbookedStock(), 0);
+        vm.expectRevert(HedgeFunV2BuybackTreasury.UseBuyback.selector);
+        treasury.execute();
+
+        uint256 supplyBefore = token.totalSupply();
+        vm.prank(BOT);
+        (uint256 spent, uint256 burned) = treasury.buyback();
+        assertGt(spent, 0);
+        assertGt(burned, 0);
+        assertEq(treasury.buybackStock(), budget - spent);
+        assertEq(token.totalSupply(), supplyBefore - burned);
+        assertEq(treasury.lotCount(), 0);
+        _assertClean();
+        console2.log("Live kind-1 graduation budget GME raw:", budget);
+        console2.log("Live kind-1 buyback spent GME raw:", spent);
+        console2.log("Live kind-1 buyback burned FUN raw:", burned);
     }
 
     /// Three ordered same-timestamp calls against the real USDG/GME V3 route and a fork-local V2 curve.

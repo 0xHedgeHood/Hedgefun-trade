@@ -2,11 +2,13 @@
 pragma solidity ^0.8.24;
 
 import {Script, console2} from "forge-std/Script.sol";
+import {VmSafe} from "forge-std/Vm.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {HedgeFunFactory, TokenDeployer} from "../src/HedgeFunFactory.sol";
 import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
+import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
 import {CurveDeployer} from "../src/v2/CurveDeployer.sol";
 import {HedgeFunV2TradeRouter} from "../src/v2/HedgeFunV2TradeRouter.sol";
 
@@ -20,6 +22,7 @@ contract RehearseV2Launchpad is Script {
     uint160 constant HOOK_FLAGS = 0x2844;
 
     error ForkOnly();
+    error BroadcastForbidden();
     error MissingCode(address target);
     error UnsafeRole(address who);
     error BadHook(address expected, address actual);
@@ -32,10 +35,14 @@ contract RehearseV2Launchpad is Script {
         HedgeFunHook hook;
         HedgeFunV2Factory factory;
         HedgeFunV2TradeRouter router;
+        address kindOneChunkA;
+        address kindOneChunkB;
     }
 
     function run() external {
         if (block.chainid != 31337) revert ForkOnly();
+        if (vm.isContext(VmSafe.ForgeContext.ScriptBroadcast)
+            || vm.isContext(VmSafe.ForgeContext.ScriptResume)) revert BroadcastForbidden();
         if (PM.code.length == 0) revert MissingCode(PM);
         if (V3_FACTORY.code.length == 0) revert MissingCode(V3_FACTORY);
         if (USDG.code.length == 0) revert MissingCode(USDG);
@@ -64,6 +71,9 @@ contract RehearseV2Launchpad is Script {
         console2.log("V2 treasury deployer", address(x.treasury));
         console2.log("V2 treasury code chunk A", x.treasury.chunkA());
         console2.log("V2 treasury code chunk B", x.treasury.chunkB());
+        console2.log("kind 1 buyback chunk A", x.kindOneChunkA);
+        console2.log("kind 1 buyback chunk B", x.kindOneChunkB);
+        console2.log("registered strategy kinds", x.treasury.kindCount());
         console2.log("token deployer", address(x.token));
         console2.log("curve deployer", address(x.curve));
         console2.log("hook", address(x.hook));
@@ -89,6 +99,13 @@ contract RehearseV2Launchpad is Script {
             address(x.treasury), address(x.token), address(x.hook), address(x.curve), d);
         x.router = new HedgeFunV2TradeRouter(x.factory);
         vm.stopBroadcast();
+
+        // Rehearse the separate Safe-owned registration transaction without signing or broadcasting it. The code
+        // chunks are permissionless to create; only the configured factory owner may append them as strategy kind 1.
+        (x.kindOneChunkA, x.kindOneChunkB) =
+            x.treasury.makeChunks(type(HedgeFunV2BuybackTreasury).creationCode);
+        vm.prank(owner);
+        if (x.treasury.registerKind(x.kindOneChunkA, x.kindOneChunkB) != 1) revert ReadbackFailed();
     }
 
     function _readBack(Deployed memory x, address owner, address protocol, uint24 lpFee) internal view {
@@ -98,6 +115,12 @@ contract RehearseV2Launchpad is Script {
             || x.curve.factory() != address(x.factory) || x.hook.factory() != address(x.factory)
             || address(x.router.factory()) != address(x.factory) || x.treasury.version() != 2
             || x.factory.getDefaults().lpFee != lpFee) revert ReadbackFailed();
+        if (x.treasury.kindCount() != 2) revert ReadbackFailed();
+        (address a, address b) = x.treasury.kinds(1);
+        if (a != x.kindOneChunkA || b != x.kindOneChunkB
+            || keccak256(bytes.concat(a.code, b.code)) != keccak256(type(HedgeFunV2BuybackTreasury).creationCode)) {
+            revert ReadbackFailed();
+        }
     }
 
     function _mineHook(uint256 start) internal view returns (bytes32 salt, address hook) {
@@ -128,8 +151,8 @@ contract RehearseV2Launchpad is Script {
         d.maxTaxBps = 1500;
         d.protocolBps = 2000;
         d.maxCreatorBps = 3000;
-        d.spikeBps = 9000;
-        d.spikeSeconds = 120;
+        d.spikeBps = 0; // V2 LP fees can fund buybacks without strategy profit; no buyback-triggered sell spike.
+        d.spikeSeconds = 0;
         d.sweepTipBps = 50;
         d.snipeBps = 9900;
         d.snipeSeconds = 3;

@@ -11,6 +11,7 @@ import {StateLibrary} from "v4-core/src/libraries/StateLibrary.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
 import {HedgeFunFactory} from "../src/HedgeFunFactory.sol";
+import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
 import {HedgeFunBondingCurve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {V2LiquidityVault} from "../src/v2/V2LiquidityVault.sol";
 import {CurveDeployer} from "../src/v2/CurveDeployer.sol";
@@ -35,6 +36,16 @@ contract V2DualEngineTest is V2FactoryFixture {
         assertEq(factory.getDefaults().lpFee, 3000);
     }
 
+    function test_graduatedV2PoolNeverArmsSellSpikeFromFeeFundedBuyback() public {
+        (uint256 id, HedgeFunBondingCurve curve, PoolKey memory key) = _launchV2(true);
+        (, HedgeFunHook.Rates memory rates) = factory.graduationConfig(id);
+        assertEq(rates.spikeBps, 0);
+        _graduateV2(curve);
+        vm.prank(curve.treasury());
+        hook.noteEvent();
+        assertEq(hook.sellRateBps(key.toId()), rates.taxBps);
+    }
+
     function test_graduationExecutorRejectsDirectCalls() public {
         CurveDeployer deployer = factory.curveDeployer();
         vm.expectRevert(bytes4(keccak256("NotFactory()")));
@@ -43,8 +54,10 @@ contract V2DualEngineTest is V2FactoryFixture {
 
     function test_predonatedVaultTokensNeverIncreaseLpBudgetOrCollectedFees() public {
         (uint256 id, HedgeFunBondingCurve curve, PoolKey memory key) = _launchV2(true);
-        address predicted = factory.curveDeployer().predictVault(bytes32(id),
-            abi.encode(address(factory), pm, key, curve.token(), address(stock), curve.treasury()));
+        bytes memory args = abi.encode(address(factory), pm, key, curve.token(), address(stock), curve.treasury());
+        bytes32 initHash = keccak256(abi.encodePacked(type(V2LiquidityVault).creationCode, args));
+        address predicted = address(uint160(uint256(keccak256(abi.encodePacked(
+            bytes1(0xff), address(factory.curveDeployer()), bytes32(id), initHash)))));
         assertEq(predicted.code.length, 0);
         curve.buy(10e18, 1, address(this), block.timestamp);
         stock.transfer(predicted, 3e18);
