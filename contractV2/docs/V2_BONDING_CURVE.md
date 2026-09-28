@@ -268,11 +268,15 @@ Solidity 0.8.26, optimizer runs 1, Cancun, no metadata hash:
 | CurveDeployer | 24,564 | 24,614 |
 | HedgeFunV2Factory | 24,551 | 28,692 |
 | HedgeFunV2Treasury | 21,602 | 26,216 |
-| V2TreasuryDeployer | 4,773 | 31,947 |
+| HedgeFunV2BuybackTreasury | 14,883 | 19,380 |
+| HedgeFunV2EngineTreasury | 22,353 | 29,029 |
+| V2RebalancePolicy | 1,799 | 1,827 |
+| V2TreasuryDeployer | 11,445 | 38,732 |
 | V2LiquidityVault | 7,327 | 8,448 |
 | HedgeFunV2TradeRouter | 11,150 | 11,677 |
 | HedgeFunV2NativeRouter | 5,749 | 6,147 |
 
 All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 25 runtime bytes free
-and the CurveDeployer 12; future features need another size check. The reference generator also checks the curve's bytecode directly
+and the CurveDeployer 12; future features need another size check. The strategy engine has 2,223
+runtime bytes free and the treasury deployer 13,131. The reference generator also checks the curve's bytecode directly
 because Foundry's size table omits it due to its `invariant()` getter.

@@ -6,6 +6,7 @@ import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {IUniswapV3Pool} from "../interfaces/IUniswapV3.sol";
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
 import {EngineConfig, IStrategyPolicy, PolicyManifest, StrategyCapabilities} from "./strategy/IStrategyPolicy.sol";
+import {SpotEngineConfig} from "./strategy/SpotEngineConfig.sol";
 
 interface IFactoryOwner {
     function owner() external view returns (address);
@@ -40,6 +41,7 @@ contract V2TreasuryDeployer is BoundDeployer {
     error NotOwner();
     error BadLpBps();
     error BadPolicy();
+    error BadEngineConfig();
     error InitCodeTooLarge();
 
     struct Kind {
@@ -300,6 +302,10 @@ contract V2TreasuryDeployer is BoundDeployer {
     }
 
     /// @notice Select an engine and bind its fixed-width config to the creator's exact factory salt.
+    /// @dev Refuses, as `BadEngineConfig`, every floor on the words that needs no listing data. The floors that do
+    ///      (`minLotUsdg`, `sellChunkUsdg`, the deadband's friction) are refused by `predict` and `deploy`, which see
+    ///      the factory's args. All three run the engine constructor's own `SpotEngineConfig.valid`, so a config this
+    ///      deployer has quoted cannot fail inside CREATE2 as an opaque `TreasuryDeployFailed`.
     function setEngineConfig(string calldata symbol, uint96 nonce, uint8 kind, EngineConfig calldata config) external {
         if (kind >= _kinds.length) revert BadKind();
         Kind storage k = _kinds[kind];
@@ -311,6 +317,10 @@ contract V2TreasuryDeployer is BoundDeployer {
                 || manifest.engineVersion != config.engineVersion || manifest.configSchema != config.schema
                 || manifest.capabilities & ~k.capabilities != 0
         ) revert BadPolicy();
+        if (
+            _isSpotV1(config.engineVersion, config.schema)
+                && !SpotEngineConfig.valid(config.words, 1, type(uint256).max, 1)
+        ) revert BadEngineConfig();
         bytes32 salt = keccak256(abi.encode(symbol, msg.sender, nonce));
         strategyKindOf[salt] = kind;
         _engineConfigOf[salt] = config;
@@ -357,17 +367,37 @@ contract V2TreasuryDeployer is BoundDeployer {
         if (code.length > MAX_INITCODE_SIZE) revert InitCodeTooLarge();
     }
 
-    function _validate(bytes calldata args) private view {
+    /// @dev Everything a treasury constructor would refuse, refused here by name: `predict` and `deploy` both run
+    ///      it, so a quote is never given for a launch that CREATE2 then fails opaquely.
+    function _validate(bytes32 salt, bytes calldata args) private view {
         (,, address v3Pool,,,,, HedgeFunTreasuryBase.Params memory p) = abi.decode(
             args, (address, address, address, address, address, address, address, HedgeFunTreasuryBase.Params)
         );
-        uint256 friction = p.maxSlippageBps + uint256(IUniswapV3Pool(v3Pool).fee()) / 100 + p.bountyBps;
+        uint256 poolFeeBps = uint256(IUniswapV3Pool(v3Pool).fee()) / 100;
+        uint256 friction = p.maxSlippageBps + poolFeeBps + p.bountyBps;
         if (p.stopBps != 0 && p.stopBps <= friction) revert StopInsideExecutionFriction(p.stopBps, friction);
+        // the spot engine's floors, with the listing's own lot, chunk and friction, exactly as its constructor sees them
+        Kind storage k = _kinds[strategyKindOf[salt]];
+        if (
+            _isSpotV1(k.engineVersion, k.engineConfigSchema)
+                && !SpotEngineConfig.valid(
+                    _engineConfigOf[salt].words,
+                    p.minLotUsdg,
+                    p.sellChunkUsdg,
+                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps)
+                )
+        ) revert BadEngineConfig();
+    }
+
+    /// @dev `SpotEngineConfig` is the word layout of exactly one engine: another engine version may reuse schema 1
+    ///      with its own meaning for the words, and must not be refused by the spot engine's bounds.
+    function _isSpotV1(uint32 engineVersion, uint32 schema) private pure returns (bool) {
+        return engineVersion == StrategyCapabilities.SPOT_ENGINE_V1 && schema == StrategyCapabilities.CONFIG_SCHEMA_V1;
     }
 
     function deploy(bytes32 salt, bytes calldata args) external returns (address a) {
         _onlyFactory();
-        _validate(args);
+        _validate(salt, args);
         bytes memory code = _code(salt, args);
         bytes32 initCodeHash = keccak256(code);
         assembly ("memory-safe") { a := create2(0, add(code, 0x20), mload(code), salt) }
@@ -392,7 +422,7 @@ contract V2TreasuryDeployer is BoundDeployer {
     }
 
     function predict(bytes32 salt, bytes calldata args) external view returns (address) {
-        _validate(args);
+        _validate(salt, args);
         return _at(salt, keccak256(_code(salt, args)));
     }
 

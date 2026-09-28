@@ -2,6 +2,8 @@
 pragma solidity ^0.8.24;
 
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+import {ITradingCalendar} from "../interfaces/ITradingCalendar.sol";
+import {PriceOracle} from "../PriceOracle.sol";
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
 import {
     EngineConfig,
@@ -13,6 +15,7 @@ import {
     StrategyContext,
     StrategyIntent
 } from "./strategy/IStrategyPolicy.sol";
+import {SpotEngineConfig} from "./strategy/SpotEngineConfig.sol";
 
 /// @notice Strategy kind 2: an immutable spot-policy engine.
 ///
@@ -24,6 +27,12 @@ import {
 /// Engine version 1 deliberately supports only a stock/USDG fixed-weight rebalance policy. Options capabilities
 /// are reserved in the shared interface but rejected here: collateral, expiry, exercise and settlement require a
 /// different engine version and different solvency invariants.
+///
+/// Gains reach the burn as they do in kind 0. Inventory carries one average cost: stock booked at the live oracle
+/// price, stock bought at its fill price, each weighted by quantity; a sale leaves it unchanged. A sale above that
+/// cost realises a gain, and `payoutBps` of the gain -- the creator's choice, frozen in the config -- stays in stock
+/// and moves to `buybackStock` instead of being sold, for the inherited paced `buyback()` to burn. The principal and
+/// the rest of the gain are sold. `payoutBps = 0` is a pure rebalance whose buy-back is funded by LP fees alone.
 contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
     uint256 private constant BPS = 10_000;
     uint256 private constant INTENT_RETURN_BYTES = 160;
@@ -37,11 +46,20 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
     uint32 public immutable policyGasLimit;
     uint16 public immutable policyReturnLimit;
     bytes32 public immutable configHash;
+    /// @notice the share of a sale's gain over `avgCost` that moves to the buy-back instead of being sold, in bps
+    uint16 public immutable payoutBps;
+    /// @notice the listing oracle's own calendar, whose `tradingDate` is the daily turnover cap's day
+    ITradingCalendar public immutable tradingCalendar;
 
     bytes32 public policyState;
+    /// @notice the average cost of `bookedStock`, in the oracle's price units (USDG per whole stock token, 1e18-scaled)
+    uint256 public avgCost;
     uint64 public strategyNonce;
     uint256 public lastStrategyAt;
+    /// @notice the US trading date of the last action, as days since 1970-01-01: `tradingCalendar.tradingDate`, which
+    ///         rolls at 20:00 New York time (DST included), the same session boundary the oracle's calendar keeps
     uint64 public turnoverEpoch;
+    /// @notice what the actions of trading date `turnoverEpoch` have taken out of inventory, in USDG
     uint256 public turnoverInEpoch;
 
     struct ExecutionLimits {
@@ -68,6 +86,9 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
     error BadIntent();
 
     event InventoryBooked(uint256 amount, uint256 stockInventory);
+    /// @notice a sale above `avgCost`: `gain` of the stock it took out of inventory was profit, and `toBuyback` of
+    ///         that (`payoutBps`) stayed in stock for the buy-back instead of being sold
+    event GainToBuyback(uint256 gain, uint256 toBuyback, uint256 avgCost, uint256 price);
     event StrategyExecuted(
         uint64 indexed nonce,
         StrategyAction indexed action,
@@ -94,6 +115,8 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         _validateEngineConfig(c, p, manifest);
 
         _engineConfig = c;
+        payoutBps = uint16(SpotEngineConfig.payoutBps(c.words[0]));
+        tradingCalendar = PriceOracle(oracle_).calendar();
         policyImplementation = manifest.implementation;
         policyRuntimeCodeHash = manifest.runtimeCodeHash;
         policyCapabilities = manifest.capabilities;
@@ -116,16 +139,13 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         );
     }
 
+    /// @dev The words are checked by `SpotEngineConfig.valid`, the same function `V2TreasuryDeployer` runs at
+    ///      `setEngineConfig`, `predict` and `deploy`: a constructor's revert reason does not survive CREATE2, so
+    ///      every bound here must also be refused, by name, before the deployer gets this far.
     function _validateEngineConfig(EngineConfig memory c, Params memory p, PolicyManifest memory manifest)
         private
         view
     {
-        uint256 packed = uint256(c.words[0]);
-        uint256 targetBps = uint16(packed);
-        uint256 deadbandBps = uint16(packed >> 16);
-        uint256 cooldown = uint32(packed >> 32);
-        uint256 maxTradeUsdg = uint256(c.words[1]);
-        uint256 maxDailyTurnoverUsdg = uint256(c.words[2]);
         bytes32 actualCodeHash = manifest.implementation.codehash;
         if (
             c.schema != StrategyCapabilities.CONFIG_SCHEMA_V1 || c.engineVersion != StrategyCapabilities.SPOT_ENGINE_V1
@@ -134,9 +154,9 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
                 || actualCodeHash == bytes32(0) || actualCodeHash != manifest.runtimeCodeHash || manifest.maxGas == 0
                 || manifest.maxGas > MAX_POLICY_GAS || manifest.maxReturnBytes != INTENT_RETURN_BYTES
                 || manifest.capabilities & SPOT_CAPABILITIES == 0 || manifest.capabilities & ~SPOT_CAPABILITIES != 0
-                || packed >> 64 != 0 || targetBps == 0 || targetBps >= BPS || deadbandBps == 0
-                || deadbandBps >= targetBps || targetBps + deadbandBps >= BPS || cooldown == 0 || maxTradeUsdg == 0
-                || maxTradeUsdg > p.sellChunkUsdg || maxDailyTurnoverUsdg < maxTradeUsdg
+                || !SpotEngineConfig.valid(
+                    c.words, p.minLotUsdg, p.sellChunkUsdg, SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps)
+                )
         ) revert BadEngineConfig();
     }
 
@@ -157,16 +177,21 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         return false;
     }
 
-    /// @notice Classify newly arrived graduation/tax stock as rebalance inventory. LP stock fees still enter the
-    ///         separate inherited `buybackStock` bucket through `creditLiquidityFee`.
+    /// @notice Classify newly arrived graduation/tax stock as rebalance inventory, at the live oracle price, which
+    ///         becomes part of its average cost -- the price kind 0 books a lot at. Out of hours there is no price to
+    ///         book it at, so it waits; `execute()` books it first. LP stock fees still enter the separate inherited
+    ///         `buybackStock` bucket through `creditLiquidityFee`.
     function book() public override nonReentrant returns (bool) {
-        return _bookInventory();
+        (bool ok, uint256 p) = health();
+        (bool live,) = _oracle.tryPrice();
+        return ok && live && _bookInventory(p);
     }
 
-    function _bookInventory() internal returns (bool) {
-        if (hook == address(0)) return false;
+    /// @dev `p` must be a live oracle price that `health()` accepts; both callers check it first.
+    function _bookInventory(uint256 p) internal returns (bool) {
         uint256 pending = unbookedStock();
         if (pending == 0) return false;
+        _addCost(pending, pending * p);
         bookedStock += pending;
         totalStockReceived += pending;
         emit InventoryBooked(pending, bookedStock);
@@ -174,6 +199,8 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
     }
 
     /// @notice Simulate the immutable policy. `execute()` always recomputes the context and intent on chain.
+    ///         For a sale, `amountIn` is the stock the action would take out of inventory; with a gain over
+    ///         `avgCost`, `payoutBps` of the gain part of it goes to the buy-back and the rest to the pool.
     function preview() external view returns (bool due, StrategyAction action, uint256 amountIn) {
         (bool ok, uint256 p) = health();
         (bool live,) = _oracle.tryPrice();
@@ -198,7 +225,7 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 maxDaily;
         (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig();
         if (lastStrategyAt != 0 && block.timestamp < lastStrategyAt + cooldown) return 0;
-        uint64 epoch = uint64(block.timestamp / 1 days);
+        uint64 epoch = _tradingDate();
         uint256 used = turnoverEpoch == epoch ? turnoverInEpoch : 0;
         if (used >= maxDaily) return 0;
         limits.remainingDaily = maxDaily - used;
@@ -248,11 +275,11 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
 
     /// @notice Execute one bounded policy action. Keepers choose no action, route, lot, price or recipient.
     function execute() external override nonReentrant returns (Action action, uint256 id) {
-        _bookInventory();
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         (bool live,) = _oracle.tryPrice();
         if (!live) revert Unhealthy();
+        _bookInventory(p);
 
         StrategyContext memory context = _context(p, bookedStock);
         StrategyIntent memory intent = _policyIntent(context);
@@ -293,7 +320,7 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 maxDaily;
         (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig();
         if (lastStrategyAt != 0 && block.timestamp < lastStrategyAt + cooldown) revert Cooldown();
-        limits.epoch = uint64(block.timestamp / 1 days);
+        limits.epoch = _tradingDate();
         limits.used = turnoverEpoch == limits.epoch ? turnoverInEpoch : 0;
         if (limits.used >= maxDaily) revert NotDue();
         limits.remainingDaily = maxDaily - limits.used;
@@ -332,10 +359,24 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 capUsdg = Math.min(Math.min(limits.maxTrade, limits.remainingDaily), excessUsdg);
         uint256 offered = Math.min(requested, Math.min(bookedStock, _ruleStockFor(capUsdg, price)));
         if (offered == 0 || _ruleValue(offered, price) < _params.minLotUsdg) revert NotDue();
-        (result.actualInput, result.actualOutput) = _swapStock(false, offered, price);
-        bookedStock -= result.actualInput;
-        result.turnover = _ruleValue(result.actualInput, price);
+        // `offered` leaves inventory. The part of it that is gain over the average cost is `offered * (1 - cost/p)`;
+        // `payoutBps` of that stays in stock for the buy-back and the rest is sold -- kind 0's split. A short fill
+        // takes out only the share of both that the sold amount stands for, so a dust fill moves dust.
+        uint256 cost = avgCost;
+        uint256 gain = price > cost ? offered - Math.mulDiv(offered, cost, price) : 0;
+        uint256 toBuyback = gain * payoutBps / BPS;
+        uint256 sale = offered - toBuyback;
+        (result.actualInput, result.actualOutput) = _swapStock(false, sale, price);
+        if (result.actualInput != sale) {
+            gain = Math.mulDiv(gain, result.actualInput, sale);
+            toBuyback = Math.mulDiv(toBuyback, result.actualInput, sale);
+        }
+        uint256 moved = result.actualInput + toBuyback;
+        bookedStock -= moved;
+        buybackStock += toBuyback;
+        result.turnover = _ruleValue(moved, price);
         result.action = Action.RebalanceSell;
+        if (gain != 0) emit GainToBuyback(gain, toBuyback, cost, price);
     }
 
     function _executeBuy(
@@ -353,9 +394,24 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 offered = Math.min(Math.min(requested, capUsdg), context.usdgInventory);
         if (offered < _params.minLotUsdg) revert NotDue();
         (result.actualInput, result.actualOutput) = _swapStock(true, offered, price);
+        _addCost(result.actualOutput, result.actualInput * _SCALE); // at the fill price, `actualInput / actualOutput`
         bookedStock += result.actualOutput;
         result.turnover = result.actualInput;
         result.action = Action.RebalanceBuy;
+    }
+
+    /// @dev The daily cap's day is the US equity session -- Sunday 20:00 to Friday 20:00 New York time, one trading
+    ///      date per 24 hours -- not the UTC calendar day, whose midnight falls at 19:00 New York time in winter, an hour
+    ///      before the session ends.
+    function _tradingDate() private view returns (uint64) {
+        return uint64(tradingCalendar.tradingDate(block.timestamp));
+    }
+
+    /// @dev Adds `qty` to the average cost at a total of `costTimesQty` (price x quantity, in the oracle's units), before
+    ///      `bookedStock` grows by `qty`. Rounded up, so rounding never manufactures a gain.
+    function _addCost(uint256 qty, uint256 costTimesQty) private {
+        uint256 held = bookedStock;
+        avgCost = Math.ceilDiv(held * avgCost + costTimesQty, held + qty);
     }
 
     function _context(uint256 p, uint256 inventory) private view returns (StrategyContext memory context) {
@@ -371,9 +427,10 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         });
     }
 
+    /// @dev The action's range is not re-checked here: `_policyIntent` refuses an out-of-range action word before
+    ///      the enum decode, so every intent that reaches this point already holds a declared action.
     function _basicIntentValid(StrategyIntent memory intent) private view returns (bool) {
-        return intent.configHash == configHash && intent.nonce == strategyNonce
-            && uint8(intent.action) <= uint8(StrategyAction.BuybackBurn);
+        return intent.configHash == configHash && intent.nonce == strategyNonce;
     }
 
     function _riskConfig()
@@ -403,7 +460,15 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         if (!success) revert PolicyFailure();
         if (size != INTENT_RETURN_BYTES || size > policyReturnLimit) revert BadPolicyReturn();
         bytes memory result = new bytes(size);
-        assembly ("memory-safe") { returndatacopy(add(result, 0x20), 0, size) }
+        uint256 actionWord;
+        assembly ("memory-safe") {
+            returndatacopy(add(result, 0x20), 0, size)
+            actionWord := mload(add(result, 0x60)) // word 2 of (configHash, nonce, action, amountIn, nextState)
+        }
+        // `abi.decode` would refuse an undeclared enum value too, but with EMPTY revert data that a keeper cannot
+        // tell from running out of gas; refuse it first, by name, so a policy returning a future action word
+        // (options are 64 and up) is diagnosable.
+        if (actionWord > uint256(type(StrategyAction).max)) revert BadPolicyReturn();
         intent = abi.decode(result, (StrategyIntent));
     }
 }

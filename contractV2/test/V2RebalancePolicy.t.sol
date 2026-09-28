@@ -130,18 +130,27 @@ contract V2RebalancePolicyTest is Test {
         EngineConfig memory good = _config(5000, 500, 60, 100e6, 500e6);
         StrategyContext memory x = _context(good, 80e18, 800e6, 200e6);
 
-        EngineConfig memory bad = good;
+        // each case from a fresh config: `bad = good` would alias memory, and the first mutation would then make
+        // every later case fail on the schema instead of on what it tests
+        EngineConfig memory bad = _config(5000, 500, 60, 100e6, 500e6);
         bad.schema++;
         vm.expectRevert(V2RebalancePolicy.BadConfig.selector);
         policy.decide(x, bad, 0);
-        bad = good;
+        bad = _config(5000, 500, 60, 100e6, 500e6);
         bad.engineVersion++;
         vm.expectRevert(V2RebalancePolicy.BadConfig.selector);
         policy.decide(x, bad, 0);
-        bad = good;
-        bad.words[0] |= bytes32(uint256(1) << 64);
+        bad = _config(5000, 500, 60, 100e6, 500e6);
+        bad.words[0] |= bytes32(uint256(1) << 80); // the lowest reserved bit
         vm.expectRevert(V2RebalancePolicy.BadConfig.selector);
         policy.decide(x, bad, 0);
+        // bits 64..79 are the engine's `payoutBps`: the policy ignores them and decides exactly as without them
+        EngineConfig memory paid = _config(5000, 500, 60, 100e6, 500e6);
+        paid.words[0] |= bytes32(uint256(10_000) << 64);
+        StrategyIntent memory withPayout = policy.decide(x, paid, 0);
+        StrategyIntent memory without = policy.decide(x, good, 0);
+        assertEq(uint256(withPayout.action), uint256(without.action));
+        assertEq(withPayout.amountIn, without.amountIn);
         bad = _config(0, 0, 0, 100e6, 500e6);
         vm.expectRevert(V2RebalancePolicy.BadConfig.selector);
         policy.decide(x, bad, 0);

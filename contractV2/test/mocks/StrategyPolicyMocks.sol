@@ -92,6 +92,31 @@ contract HugeReturnStrategyPolicy is StrategyPolicyMockBase {
     }
 }
 
+/// @dev A well-formed intent -- the right config hash, the right nonce, a declared action -- returned at the wrong
+///      length. Only the engine's exact-size check refuses it: 192 bytes would decode and execute, and 159 would fail
+///      inside the decoder with empty revert data. (`HugeReturnStrategyPolicy` cannot pin the size on its own: its
+///      action word is out of range, which the engine also refuses as `BadPolicyReturn`.)
+contract WrongLengthIntentStrategyPolicy is StrategyPolicyMockBase {
+    uint256 internal immutable length;
+
+    constructor(uint256 length_) {
+        length = length_;
+    }
+
+    function decide(StrategyContext calldata context, EngineConfig calldata, bytes32)
+        external
+        view
+        override
+        returns (StrategyIntent memory intent)
+    {
+        intent = _intent(context, StrategyAction.SellStock, type(uint256).max);
+        uint256 n = length;
+        assembly ("memory-safe") {
+            return(intent, n)
+        }
+    }
+}
+
 contract MalformedReturnStrategyPolicy is StrategyPolicyMockBase {
     function decide(StrategyContext calldata, EngineConfig calldata, bytes32)
         external
@@ -157,7 +182,9 @@ contract ExcessiveAmountStrategyPolicy is StrategyPolicyMockBase {
     }
 }
 
-/// @dev A spot engine must reject this raw action word before attempting an enum ABI decode.
+/// @dev Registered with the `OPTIONS_WRITE` capability, so the spot engine refuses it at configuration and at
+///      construction (`BadPolicy` / `BadEngineConfig`) and never calls it. Its raw action word 64 is the case
+///      `SpotRawActionStrategyPolicy` delivers to a spot engine at execution.
 contract OptionsActionStrategyPolicy is StrategyPolicyMockBase {
     uint256 internal constant OPTIONS_ACTION = 64;
 
@@ -173,6 +200,26 @@ contract OptionsActionStrategyPolicy is StrategyPolicyMockBase {
             StrategyCapabilities.OPTIONS_WRITE
         );
     }
+
+    function decide(StrategyContext calldata context, EngineConfig calldata, bytes32)
+        external
+        pure
+        override
+        returns (StrategyIntent memory intent)
+    {
+        intent = _intent(context, StrategyAction.Hold, 1);
+        assembly ("memory-safe") {
+            mstore(add(intent, 0x40), OPTIONS_ACTION)
+            return(intent, 0xa0)
+        }
+    }
+}
+
+/// @dev Spot-capable, so it passes registration, configuration and construction, then returns the raw action word
+///      64 in an otherwise well-formed 160-byte intent. The spot engine reads that word before the enum ABI decode
+///      and refuses it as `BadPolicyReturn`; left to `abi.decode`, it would revert with empty data.
+contract SpotRawActionStrategyPolicy is StrategyPolicyMockBase {
+    uint256 internal constant OPTIONS_ACTION = 64;
 
     function decide(StrategyContext calldata context, EngineConfig calldata, bytes32)
         external

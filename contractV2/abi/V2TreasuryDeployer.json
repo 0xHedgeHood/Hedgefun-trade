@@ -966,6 +966,11 @@
  },
  {
   "type": "error",
+  "name": "BadEngineConfig",
+  "inputs": []
+ },
+ {
+  "type": "error",
   "name": "BadKind",
   "inputs": []
  },

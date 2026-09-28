@@ -117,6 +117,26 @@ contract V2BuybackKindTest is V2FactoryFixture {
         assertEq(treasury.buybackStock(), left, "an expired sizing cache cannot spend the budget");
     }
 
+    /// The published score is `(stockEquivalentHeld + totalStockSpentOnBuybacks) / totalStockReceived`. Kind 1
+    /// books straight into the budget, never through `_book`, so it must write the denominator itself.
+    function test_kindOneBookRecordsReceivedStockSoTheScorecardHasADenominator() public {
+        _graduateV2(curve);
+        uint256 share = treasury.buybackStock();
+        assertGt(share, 0);
+        assertEq(treasury.totalStockReceived(), share, "the graduation share is stock received");
+        treasury.buyback();
+        assertGt(treasury.totalStockSpentOnBuybacks(), 0);
+        assertEq(treasury.totalStockReceived(), share, "spending is not receiving");
+        stock.mint(address(treasury), 7e18);
+        assertTrue(treasury.book());
+        assertEq(treasury.totalStockReceived(), share + 7e18, "every later arrival counts once");
+        assertFalse(treasury.book(), "nothing new to book");
+        assertEq(treasury.totalStockReceived(), share + 7e18, "a second book() counts nothing twice");
+        (bool ok, uint256 held) = treasury.stockEquivalentHeld();
+        assertTrue(ok);
+        assertGt((held + treasury.totalStockSpentOnBuybacks()) * 1e18 / treasury.totalStockReceived(), 0);
+    }
+
     function test_everyLaterStockArrivalIsBudgetToo() public {
         _graduateV2(curve);
         uint256 before = treasury.buybackStock();

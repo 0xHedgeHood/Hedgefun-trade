@@ -90,7 +90,8 @@ contract V2RebalancePolicy is IStrategyPolicy {
         ) revert BadConfig();
 
         uint256 packed = uint256(config.words[0]);
-        if (packed >> 64 != 0) revert BadConfig();
+        // bits 64..79 are the engine's `payoutBps`, which the treasury applies and this policy ignores
+        if (packed >> 80 != 0) revert BadConfig();
         policyConfig.targetBps = uint16(packed);
         policyConfig.deadbandBps = uint16(packed >> 16);
         policyConfig.cooldown = uint32(packed >> 32);

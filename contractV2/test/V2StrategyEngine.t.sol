@@ -25,8 +25,10 @@ import {
     HugeReturnStrategyPolicy,
     OptionsActionStrategyPolicy,
     RevertingStrategyPolicy,
+    SpotRawActionStrategyPolicy,
     StateWritingStrategyPolicy,
-    WrongConfigHashStrategyPolicy
+    WrongConfigHashStrategyPolicy,
+    WrongLengthIntentStrategyPolicy
 } from "./mocks/StrategyPolicyMocks.sol";
 import {V2FactoryFixture} from "./utils/V2FactoryFixture.sol";
 
@@ -107,7 +109,7 @@ contract V2StrategyEngineTest is V2FactoryFixture {
         config.schema = StrategyCapabilities.CONFIG_SCHEMA_V1;
         config.engineVersion = StrategyCapabilities.SPOT_ENGINE_V1;
         config.policyKey = policyKey;
-        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(60) << 32);
+        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(600) << 32);
         config.words[1] = bytes32(uint256(100e6));
         config.words[2] = bytes32(uint256(500e6));
     }
@@ -237,12 +239,11 @@ contract V2StrategyEngineTest is V2FactoryFixture {
         );
         EngineConfig memory config = _config();
         config.policyKey = permissiveKey;
-        config.words[0] |= bytes32(uint256(1) << 64);
+        config.words[0] |= bytes32(uint256(1) << 80); // the lowest reserved bit: 64..79 are `payoutBps`
         HedgeFunFactory.Request memory q = _request();
+        // the deployer runs the core constructor's own word check, so the refusal is named and comes before any quote
+        vm.expectRevert(V2TreasuryDeployer.BadEngineConfig.selector);
         deployer.setEngineConfig(q.symbol, q.nonce, engineKind, config);
-        (,, bytes32 terms) = factory.predict(q);
-        vm.expectRevert(V2TreasuryDeployer.TreasuryDeployFailed.selector);
-        factory.launch(q, terms);
     }
 
     function test_revertingPolicyCannotConsumeNonceOrMoveAssets() public {
@@ -264,6 +265,44 @@ contract V2StrategyEngineTest is V2FactoryFixture {
         treasury.execute();
         assertEq(treasury.strategyNonce(), 0);
         assertEq(treasury.turnoverInEpoch(), 0);
+    }
+
+    /// Audit round 4 E-5: an undeclared action word is refused by name before the enum decode, at execute and at
+    /// preview. `abi.decode` alone would refuse it with empty revert data a keeper cannot tell from out-of-gas.
+    function test_outOfRangeActionWordIsABadPolicyReturnNotAnEmptyRevert() public {
+        HedgeFunV2EngineTreasury treasury =
+            _launchTestPolicy(address(new SpotRawActionStrategyPolicy()), keccak256("raw-action-policy"), 25);
+        uint256 stockBefore = stock.balanceOf(address(treasury));
+        uint256 usdgBefore = usdg.balanceOf(address(treasury));
+        vm.expectRevert(HedgeFunV2EngineTreasury.BadPolicyReturn.selector);
+        treasury.execute();
+        vm.expectRevert(HedgeFunV2EngineTreasury.BadPolicyReturn.selector);
+        treasury.preview();
+        assertEq(treasury.strategyNonce(), 0);
+        assertEq(treasury.lastStrategyAt(), 0);
+        assertEq(stock.balanceOf(address(treasury)), stockBefore);
+        assertEq(usdg.balanceOf(address(treasury)), usdgBefore);
+    }
+
+    /// The exact-size check, pinned on its own: a valid intent one byte short or one word long is refused by name.
+    /// Without the check the long one would sell and the short one would fail in the decoder with empty data.
+    function test_intentOfTheWrongLengthIsABadPolicyReturnEvenWhenItsWordsAreValid() public {
+        HedgeFunV2EngineTreasury short_ =
+            _launchTestPolicy(address(new WrongLengthIntentStrategyPolicy(159)), keccak256("short-intent-policy"), 26);
+        vm.expectRevert(HedgeFunV2EngineTreasury.BadPolicyReturn.selector);
+        short_.execute();
+        HedgeFunV2EngineTreasury long_ =
+            _launchTestPolicy(address(new WrongLengthIntentStrategyPolicy(192)), keccak256("long-intent-policy"), 27);
+        uint256 stockBefore = long_.bookedStock();
+        vm.expectRevert(HedgeFunV2EngineTreasury.BadPolicyReturn.selector);
+        long_.execute();
+        assertEq(long_.bookedStock(), stockBefore);
+        assertEq(short_.strategyNonce() + long_.strategyNonce(), 0);
+        // control: the same intent at exactly 160 bytes is a sale
+        HedgeFunV2EngineTreasury exact =
+            _launchTestPolicy(address(new WrongLengthIntentStrategyPolicy(160)), keccak256("exact-intent-policy"), 28);
+        exact.execute();
+        assertEq(exact.strategyNonce(), 1);
     }
 
     function test_staticcallTrapsPolicyStateWrites() public {

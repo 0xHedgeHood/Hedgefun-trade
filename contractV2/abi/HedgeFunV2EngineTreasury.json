@@ -289,6 +289,19 @@
  },
  {
   "type": "function",
+  "name": "avgCost",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "book",
   "inputs": [],
   "outputs": [
@@ -803,6 +816,19 @@
  },
  {
   "type": "function",
+  "name": "payoutBps",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "policyCapabilities",
   "inputs": [],
   "outputs": [
@@ -1202,6 +1228,19 @@
  },
  {
   "type": "function",
+  "name": "tradingCalendar",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract ITradingCalendar"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "turnoverEpoch",
   "inputs": [],
   "outputs": [
@@ -1359,6 +1398,37 @@
    },
    {
     "name": "tokenBurned",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "GainToBuyback",
+  "inputs": [
+   {
+    "name": "gain",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "toBuyback",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "avgCost",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "price",
     "type": "uint256",
     "indexed": false,
     "internalType": "uint256"

@@ -105,7 +105,7 @@ contract V2StrategyOptionsBoundaryTest is V2FactoryFixture {
         c.schema = StrategyCapabilities.CONFIG_SCHEMA_V1;
         c.engineVersion = engineVersion;
         c.policyKey = key;
-        c.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(60) << 32);
+        c.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(600) << 32);
         c.words[1] = bytes32(uint256(10e6));
         c.words[2] = bytes32(uint256(100e6));
     }

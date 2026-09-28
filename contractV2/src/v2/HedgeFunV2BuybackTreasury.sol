@@ -27,11 +27,14 @@ contract HedgeFunV2BuybackTreasury is HedgeFunV2Treasury {
 
     /// @notice Pending stock becomes buy-back budget. Needs no oracle and no open market: the budget is spent by
     ///         `buyback()`, which is priced off the token pool, not the stock. Parked until graduation wires the pool.
+    /// @dev Also records `totalStockReceived`, the scorecard's denominator, which the inherited `_book` writes for a
+    ///      lot and this kind never reaches: without it the published score is a division by zero for life.
     function book() public override nonReentrant returns (bool) {
         if (hook == address(0)) return false;
         uint256 pending = unbookedStock();
         if (pending == 0) return false;
         buybackStock += pending;
+        totalStockReceived += pending;
         emit BuybackBooked(pending, buybackStock);
         return true;
     }

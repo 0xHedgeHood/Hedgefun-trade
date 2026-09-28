@@ -128,7 +128,7 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
         config.schema = StrategyCapabilities.CONFIG_SCHEMA_V1;
         config.engineVersion = StrategyCapabilities.SPOT_ENGINE_V1;
         config.policyKey = policyKey;
-        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(60) << 32);
+        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(600) << 32);
         config.words[1] = bytes32(maxTrade);
         config.words[2] = bytes32(maxDaily);
     }
@@ -298,11 +298,11 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
 
         vm.expectRevert(HedgeFunTreasuryBase.Cooldown.selector);
         treasury.execute();
-        vm.warp(block.timestamp + 60);
+        vm.warp(block.timestamp + 600);
         treasury.execute();
         assertEq(treasury.turnoverInEpoch(), 150e6, "second call must consume only remaining daily cap");
 
-        vm.warp(block.timestamp + 60);
+        vm.warp(block.timestamp + 600);
         (bool due,, uint256 amountIn) = treasury.preview();
         assertFalse(due, "preview must include the core daily-turnover gate");
         assertEq(amountIn, 0);
@@ -332,13 +332,23 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
         assertEq(stockBefore - treasury.bookedStock(), stock.balanceOf(address(venue)) - 100_000e18);
     }
 
+    /// @dev A `maxTradeUsdg` under the minimum lot no longer launches, so the dust here is what the daily budget
+    ///      leaves: 104 USDG a day against 100 USDG actions leaves 4 USDG, under the 5 USDG lot.
     function test_previewDoesNotClaimDustBelowTheCoreMinimumIsExecutable() public {
-        HedgeFunV2EngineTreasury treasury = _launch(105, 1e6, 5e6);
+        HedgeFunV2EngineTreasury treasury = _launch(105, 100e6, 104e6);
+        treasury.execute();
+        assertEq(treasury.turnoverInEpoch(), 100e6);
+        vm.warp(block.timestamp + 600);
         (bool due, StrategyAction action, uint256 amountIn) = treasury.preview();
-        assertFalse(due);
+        assertFalse(due, "4 USDG of remaining budget is below the 5 USDG lot");
         assertEq(uint256(action), uint256(StrategyAction.Hold));
         assertEq(amountIn, 0);
         vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
         treasury.execute();
+        // control: the same treasury with a fresh budget is due again
+        vm.warp((block.timestamp / 1 days + 1) * 1 days);
+        (due,, amountIn) = treasury.preview();
+        assertTrue(due);
+        assertGt(amountIn, 0);
     }
 }

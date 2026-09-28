@@ -17,7 +17,7 @@ contract StrategyEngineHandler is Test {
     uint256 private constant MIN_LOT = 5e6;
     uint256 private constant MAX_TRADE = 100e6;
     uint256 private constant MAX_DAILY = 500e6;
-    uint256 private constant COOLDOWN = 60;
+    uint256 private constant COOLDOWN = 600;
 
     HedgeFunV2EngineTreasury public immutable treasury;
     EngineAccountingVenue public immutable venue;
@@ -83,7 +83,7 @@ contract StrategyEngineHandler is Test {
 
     function advanceCooldownEdge(uint8 rawEdge) external {
         uint256 edge = uint256(rawEdge) % 3;
-        vm.warp(block.timestamp + (edge == 0 ? 59 : edge == 1 ? 60 : 61));
+        vm.warp(block.timestamp + (edge == 0 ? 599 : edge == 1 ? 600 : 601));
         _refreshFeeds();
     }
 
@@ -151,7 +151,8 @@ contract StrategyEngineHandler is Test {
             violation = true;
         }
 
-        uint64 expectedEpoch = uint64(block.timestamp / 1 days);
+        // the bucket is the listing calendar's trading date (the fixture's calendar keeps UTC days)
+        uint64 expectedEpoch = uint64(treasury.tradingCalendar().tradingDate(block.timestamp));
         if (treasury.turnoverEpoch() != expectedEpoch) violation = true;
         if (ghostTurnoverEpoch != expectedEpoch) {
             ghostTurnoverEpoch = expectedEpoch;
@@ -178,7 +179,8 @@ contract StrategyEngineHandler is Test {
                 treasury.lastStrategyAt(),
                 treasury.policyState(),
                 treasury.bookedStock(),
-                treasury.buybackStock()
+                treasury.buybackStock(),
+                treasury.avgCost()
             )
         );
         bytes32 accountingDigest = keccak256(
@@ -240,7 +242,7 @@ contract V2StrategyEngineInvariantTest is V2FactoryFixture {
         config.schema = StrategyCapabilities.CONFIG_SCHEMA_V1;
         config.engineVersion = StrategyCapabilities.SPOT_ENGINE_V1;
         config.policyKey = policyKey;
-        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(60) << 32);
+        config.words[0] = bytes32(uint256(5000) | uint256(500) << 16 | uint256(600) << 32);
         config.words[1] = bytes32(uint256(100e6));
         config.words[2] = bytes32(MAX_DAILY);
         deployer.setEngineConfig(request.symbol, request.nonce, engineKind, config);

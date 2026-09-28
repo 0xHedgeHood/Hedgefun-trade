@@ -41,4 +41,31 @@ Before a real V2 launch, require all of the following:
 5. Wire keepers by strategy kind. Kind 0 calls `book()` independently when stock arrives and `execute()` for trading; its individual `takeProfit`, `stopLoss`, and `buyDip` entry points revert. Kind 1 calls `book()` and the paced `buyback()`; its `execute()` reverts `UseBuyback`. Confirm stop-first behavior, partial stop completion, stale-feed halt, closed-market behavior, permissionless caller ordering, and kind-1 cooldown/cache behavior on the release commit.
 6. Keep `publicLaunch` false until the owner has reviewed one complete stock-specific fork replay, the trade router and frontend use the V2 factory/ABI, and the operator has a way to pause listings and respond to an oracle fault. The V1 launch router is incompatible with V2's pre-graduation curve.
 
+## Deployment parameters decided after audit round 4
+
+Two parameters were decided on 2026-09-28 in response to [audit round 4](../audit/round-4-2026-09-27/ISSUES.md). Neither
+needs code; both belong in the listing and launch procedure.
+
+**Trade tax: the creator chooses it within the factory's existing bounds.** The rehearsal's candidate bounds are
+1%–15%, and the founder does not want a tighter cap. The front end must show a creator what the tax is likely to
+cost them before they choose. The best evidence on this chain is the pons.family natural experiment in
+[PONS_TAX_ELASTICITY.md](./research/PONS_TAX_ELASTICITY.md): up to 5% total tax, graduation rates and the same
+creator's volume are flat; above 5%, graduation falls from about 1% of launches to 0.18% and the same creator gets
+about half the volume. Pons's total is its 1% base fee plus the creator's tax; the comparable Hedgefun number is the
+whole `taxBps`.
+
+**0.05%-fee listings: `sellChunkUsdg` is sized to the pool (M4-1).** The rebalance engine's actions are predictable
+and unpaid, and on a 0.05% V3 pool a sandwich inside the deviation gate pays once an action exceeds about 10% of the
+pool's USDG depth per 1% move. `maxTradeUsdg` can never exceed the listing's `sellChunkUsdg`, so the chunk is the
+bound. On every 0.05%-fee listing:
+
+1. At listing time, measure the pool's USDG depth for a 1% price move and set `sellChunkUsdg` to at most 10% of it
+   with `setListingGates(stock, maxDeviationBps, maxSlippageBps, sellChunkUsdg)`. This is a Safe transaction.
+2. Measure again before any V2 launch on that stock, and lower the chunk first if the depth has fallen. A launch
+   freezes the chunk in its treasury.
+3. Record the block, the measured depth and the chunk in the Safe proposal.
+
+For GME the rule gave a chunk of about 1,300 USDG on 2026-09-27, from roughly 13,500 USDG of depth per 1%. The rule
+costs no contract bytes.
+
 This script is a readiness check, not a production deployment command. The production transaction plan needs its own review of immutable recipients, role addresses, factory parameters, hook salt, all expected contract addresses, the exact kind-1 chunk code hashes, and the separate Safe `registerKind` transaction before anyone signs it.
