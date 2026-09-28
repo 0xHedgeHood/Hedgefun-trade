@@ -242,6 +242,10 @@ contract V2LowFrequencyForkTest is Test, HookMiner {
         request.stopBps = c.stopBps;
         request.lotBps = c.lotBps;
         request.expectedOpenPriceE18 = initialPrice;
+        // The creator chooses the raise: the scenarios' lot sizes were measured on an 80% sale (Rg ~ 100 USDG).
+        CurveDeployer curveDeployer = factory.curveDeployer();
+        vm.prank(CREATOR);
+        curveDeployer.setCurveConfig(request.symbol, request.nonce, 8000, 3);
         (,, bytes32 terms) = factory.predict(request);
         vm.prank(CREATOR);
         uint256 id = factory.launch(request, terms);

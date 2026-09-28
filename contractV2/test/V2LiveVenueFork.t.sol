@@ -107,7 +107,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         assertGt(address(PM).code.length, 0, "the production V4 manager must exist on this fork");
         _refresh(USDG_FEED); _refresh(GME_FEED);
         PriceOracle oracle = new PriceOracle(GME, GME_FEED, USDG_FEED, address(new AlwaysOpen()), 26 hours, 26 hours);
-        // About 25 USDG of virtual GME yields a ~100 USDG graduation target at the default 80% sale.
+        // About 25 USDG of virtual GME yields a ~100 USDG graduation target at the creator's 80% sale (below).
         // Small real V3 trades limit tick traversal/RPC reads. This is test economics, not production defaults.
         uint256 initialPrice = Math.mulDiv(25e18, 1e18, oracle.price()) / 1_000_000;
         assertGt(initialPrice, 0);
@@ -153,6 +153,10 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
             vm.prank(CREATOR);
             treasuryDeployer.setStrategyKind(request.symbol, request.nonce, strategyKind);
         }
+        // The creator chooses the raise: this replay was sized for an 80% sale and the 3-second window.
+        CurveDeployer curveDeployer = factory.curveDeployer();
+        vm.prank(CREATOR);
+        curveDeployer.setCurveConfig(request.symbol, request.nonce, 8000, 3);
         (,, bytes32 terms) = factory.predict(request);
         vm.prank(CREATOR); id = factory.launch(request, terms);
         curve = Curve(factory.curves(id)); token = HedgeFunToken(curve.token());

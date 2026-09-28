@@ -69,6 +69,7 @@ contract RehearseV2Launchpad is Script {
         // forge script without --broadcast simulates these transactions and discards them.
         Deployed memory x = _deploy(owner, protocol, d, salt, mined);
         _readBack(x, owner, protocol, d.lpFee);
+        _readBackCurveChoices(x.curve, d.snipeSeconds);
         console2.log("V2 treasury deployer", address(x.treasury));
         console2.log("V2 treasury code chunk A", x.treasury.chunkA());
         console2.log("V2 treasury code chunk B", x.treasury.chunkB());
@@ -82,6 +83,11 @@ contract RehearseV2Launchpad is Script {
         console2.log("V2 factory", address(x.factory));
         console2.log("V2 trade router", address(x.router));
         console2.log("lp fee", d.lpFee);
+        // Raise size and opening window are each creator's choice (CurveDeployer.setCurveConfig), not the owner's.
+        console2.log("creator saleBps range", x.curve.MIN_SALE_BPS(), x.curve.MAX_SALE_BPS());
+        console2.log("default saleBps (no registration)", x.curve.DEFAULT_SALE_BPS());
+        console2.log("creator snipeSeconds max", x.curve.MAX_SNIPE_SECONDS());
+        console2.log("default snipeSeconds (no registration)", d.snipeSeconds);
         console2.log("public launch", x.factory.publicLaunch());
         console2.log("readback passed; no stock listed or launched");
     }
@@ -127,6 +133,22 @@ contract RehearseV2Launchpad is Script {
             || keccak256(bytes.concat(a.code, b.code)) != keccak256(type(HedgeFunV2BuybackTreasury).creationCode)) {
             revert ReadbackFailed();
         }
+    }
+
+    /// @dev The creator's registry: the curve constructor's own sale bounds and nothing tighter, the 4400 default,
+    ///      the 180-second window cap, and a registration keyed by the factory's salt (symbol, creator, nonce).
+    ///      The registration is simulated from a throwaway address and discarded with everything else.
+    function _readBackCurveChoices(CurveDeployer curve, uint8 defaultSnipeSeconds) internal {
+        if (curve.MIN_SALE_BPS() != 1000 || curve.MAX_SALE_BPS() != 9000 || curve.DEFAULT_SALE_BPS() != 4400
+            || curve.MAX_SNIPE_SECONDS() != 180) revert ReadbackFailed();
+        address creator = address(uint160(uint256(keccak256("rehearsal creator"))));
+        bytes32 salt = keccak256(abi.encode("REHEARSE", creator, uint96(1)));
+        (uint16 sale, uint8 window) = curve.curveConfig(salt, defaultSnipeSeconds);
+        if (sale != 4400 || window != defaultSnipeSeconds) revert ReadbackFailed();
+        vm.prank(creator);
+        curve.setCurveConfig("REHEARSE", 1, 6000, 60);
+        (sale, window) = curve.curveConfig(salt, defaultSnipeSeconds);
+        if (sale != 6000 || window != 60) revert ReadbackFailed();
     }
 
     function _mineHook(uint256 start) internal view returns (bytes32 salt, address hook) {

@@ -19,17 +19,13 @@ import {HedgeFunBondingCurve} from "./HedgeFunBondingCurve.sol";
 contract HedgeFunV2Factory is HedgeFunFactory {
     using SafeERC20 for IERC20;
 
-    uint16 public constant DEFAULT_SALE_BPS = 8000;
-    uint16 public constant MIN_SALE_BPS = 1000;
-    uint16 public constant MAX_SALE_BPS = 9000;
+    /// @notice Also the creator's registry of per-launch curve choices (`setCurveConfig`): raise size and opening window.
     CurveDeployer public immutable curveDeployer;
-    mapping(address => uint16) private _saleBps;
     mapping(uint256 => address) public curves;
     mapping(address => uint256) private _curveIds;
     struct Frozen { PoolKey key; HedgeFunHook.Rates rates; }
     mapping(uint256 => Frozen) private _frozen;
 
-    event SaleBpsSet(address indexed stock, uint16 saleBps);
     event CurveLaunched(uint256 indexed id, address indexed curve, uint16 saleBps, uint256 virtualStock);
     event Graduated(uint256 indexed id, uint160 sqrtPriceX96, uint128 liquidity, uint256 stockSeeded, uint256 tokenSeeded, uint256 tokenBurned);
     event GraduationCapitalSplit(uint256 indexed id, uint256 lpStock, uint256 treasuryStock, bool treasuryBooked);
@@ -46,20 +42,9 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         curveDeployer.bind();
     }
 
-    function saleBps(address stock) public view returns (uint16) {
-        uint16 value = _saleBps[stock];
-        return value == 0 ? DEFAULT_SALE_BPS : value;
-    }
     /// @dev V1 keeps a zero LP fee; V2 has a fee-only vault and caps its static V4 fee at 0.30%.
     function _minLpFee() internal pure override returns (uint24) { return 1; }
     function _maxLpFee() internal pure override returns (uint24) { return 3000; }
-
-    /// @notice Changes future curves only; already quoted terms become stale.
-    function setSaleBps(address stock, uint16 value) external onlyOwner {
-        if (value < MIN_SALE_BPS || value > MAX_SALE_BPS) revert BadRequest();
-        _saleBps[stock] = value;
-        emit SaleBpsSet(stock, value);
-    }
 
     function graduationConfig(uint256 id) external view returns (PoolKey memory, HedgeFunHook.Rates memory) {
         return (_frozen[id].key, _frozen[id].rates);
@@ -75,17 +60,22 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         HedgeFunBondingCurve.Init memory p = _curveInit(q, token, treasury, d);
         uint16 lpBps = V2TreasuryDeployer(address(treasuryDeployer)).lpBps(q.stock);
         _preflight(p, d.tickSpacing, lpBps);
-        return keccak256(abi.encode(super._terms(q, token, treasury, d), p.saleBps, p.virtualStock, lpBps));
+        // The creator's two curve choices are in the curve's address, which `super._terms` does not cover: pin both.
+        return keccak256(abi.encode(super._terms(q, token, treasury, d), p.saleBps, p.snipeSeconds, p.virtualStock, lpBps));
     }
 
+    /// @dev The ONE place a curve's parameters are assembled; `predictCurve`, `_terms` (so `predict` and `_preflight`)
+    ///      and `_openAndSeed` all call it. `saleBps` and `snipeSeconds` are the creator's registration for this
+    ///      launch's salt, else the defaults (`CurveDeployer.curveConfig`).
     function _curveInit(Request memory q, address token, address treasury, Defaults memory d)
         private view returns (HedgeFunBondingCurve.Init memory p)
     {
+        (uint16 sale, uint8 window) = curveDeployer.curveConfig(_salt(q), d.snipeSeconds);
         p = HedgeFunBondingCurve.Init({factory: address(this), token: token, stock: q.stock,
             treasury: treasury, protocol: protocol, creator: q.creator, supply: d.supply,
             virtualStock: Math.mulDiv(listings[q.stock].openPriceE18, d.supply, 1e18, Math.Rounding.Ceil),
-            saleBps: saleBps(q.stock), taxBps: q.taxBps, protocolBps: d.protocolBps, creatorBps: q.creatorBps,
-            snipeBps: d.snipeBps, snipeSeconds: d.snipeSeconds});
+            saleBps: sale, taxBps: q.taxBps, protocolBps: d.protocolBps, creatorBps: q.creatorBps,
+            snipeBps: d.snipeBps, snipeSeconds: window});
     }
 
     function _openAndSeed(Request memory q, address token, address treasury, uint256, Defaults memory d) internal override {

@@ -78,6 +78,7 @@ contract V2StrategyEngineGainsTest is V2FactoryFixture {
         c.words[2] = bytes32(uint256(48_000e6));
         q.nonce = nextNonce++;
         deployer.setEngineConfig(q.symbol, q.nonce, engineKind, c);
+        _registerCurve(q); // the 80% sale these gains were measured on, now the creator's choice
         (,, bytes32 terms) = factory.predict(q);
         uint256 id = factory.launch(q, terms);
         (, address a,,,) = factory.strategies(id);

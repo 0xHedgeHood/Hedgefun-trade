@@ -70,10 +70,10 @@ contract V2LpDepthExperimentTest is V2FactoryFixture {
     }
 
     function _graduateWithEarlyBuyer(uint16 saleBps, uint16 lpBps) private returns (Run memory r) {
-        vm.startPrank(owner);
-        factory.setSaleBps(address(stock), saleBps);
-        V2TreasuryDeployer(address(factory.treasuryDeployer())).setLpBps(address(stock), lpBps);
-        vm.stopPrank();
+        creatorSaleBps = saleBps; // the creator's choice, registered by `_launchV2` for its salt
+        V2TreasuryDeployer treasuryDeployer = V2TreasuryDeployer(address(factory.treasuryDeployer()));
+        vm.prank(owner);
+        treasuryDeployer.setLpBps(address(stock), lpBps);
         (uint256 id, Curve curve, PoolKey memory key) = _launchV2(true);
         vm.warp(curve.launchedAt() + curve.snipeSeconds());
         r.saleBps = saleBps; r.lpBps = lpBps;

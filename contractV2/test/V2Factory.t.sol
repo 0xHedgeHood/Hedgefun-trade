@@ -82,9 +82,10 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         d.supply = 2_000_000e18;
         vm.startPrank(owner);
         factory.setDefaults(d);
-        factory.setSaleBps(address(stock), 9000);
         factory.list(address(stock), address(oracle), address(stockPool), openPrice * 2, false);
         vm.stopPrank();
+        // The creator re-registering the launched salt's curve choices reaches no deployed curve either.
+        factory.curveDeployer().setCurveConfig(_request().symbol, lastNonce, 9000, 180);
         _graduateV2(curve);
         (PoolKey memory actualKey, HedgeFunHook.Rates memory actualRates) = factory.graduationConfig(id);
         assertEq(keccak256(abi.encode(actualKey, actualRates)), frozen);
@@ -122,11 +123,11 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         vm.warp(start + 3); assertEq(curve.buyRateBps(), curve.taxBps());
     }
 
+    /// The owner no longer sets a stock's sale share; the creator's own choice is what moves a quote now.
     function test_quoteBecomesStaleWhenCurveTermsChange() public {
         HedgeFunFactory.Request memory q = _request();
         (,, bytes32 terms) = factory.predict(q);
-        vm.prank(owner);
-        factory.setSaleBps(address(stock), 9000);
+        factory.curveDeployer().setCurveConfig(q.symbol, q.nonce, 9000, 3);
         vm.expectRevert(HedgeFunFactory.Restated.selector);
         factory.launch(q, terms);
     }

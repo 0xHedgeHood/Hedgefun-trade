@@ -46,6 +46,14 @@ abstract contract V2FactoryFixture is Test, HookMiner {
     address internal owner = address(0xA11CE);
     address internal protocol = address(0x5AFE);
     uint256 internal openPrice;
+    /// The curve choices `_launchV2` registers, as the fixture's creator, for the salt it launches under
+    /// (`CurveDeployer.setCurveConfig`). The suites built on this fixture were written against an 80% sale and a
+    /// 3-second window, the factory's values before creators chose their own; they keep those numbers by choosing
+    /// them. Set `creatorSaleBps` to 0 to register nothing and launch on the defaults (4400 and `d.snipeSeconds`).
+    uint16 internal creatorSaleBps = 8000;
+    uint8 internal creatorSnipeSeconds = 3;
+    /// the nonce of the last `_launchV2`, whose salt is (`_request().symbol`, this contract, `lastNonce`)
+    uint96 internal lastNonce;
 
     function _setUpV2(uint8 decimals_) internal {
         vm.warp(1_700_000_000);
@@ -117,6 +125,8 @@ abstract contract V2FactoryFixture is Test, HookMiner {
     function _launchV2(bool tokenIs0) internal returns (uint256 id, HedgeFunBondingCurve curve, PoolKey memory key) {
         HedgeFunFactory.Request memory q = _request();
         while ((factory.predictToken(q) < address(stock)) != tokenIs0) q.nonce++;
+        lastNonce = q.nonce;
+        _registerCurve(q);
         address predictedCurve = factory.predictCurve(q);
         (,, bytes32 terms) = factory.predict(q);
         id = factory.launch(q, terms);
@@ -127,6 +137,13 @@ abstract contract V2FactoryFixture is Test, HookMiner {
         IERC20(curve.token()).approve(address(curve), type(uint256).max);
         assertEq(uint256(curve.status()), uint256(HedgeFunBondingCurve.Status.Active));
         assertEq(HedgeFunTreasuryBase(curve.treasury()).hook(), address(0));
+    }
+
+    /// the creator's curve choices for `q`'s salt; call it after the final nonce is chosen and before `predict`
+    function _registerCurve(HedgeFunFactory.Request memory q) internal {
+        if (creatorSaleBps != 0) {
+            factory.curveDeployer().setCurveConfig(q.symbol, q.nonce, creatorSaleBps, creatorSnipeSeconds);
+        }
     }
 
     function _graduateV2(HedgeFunBondingCurve curve) internal {

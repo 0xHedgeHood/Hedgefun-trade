@@ -33,10 +33,35 @@ contract CurveDeployer is BoundDeployer {
     ///         module over EIP-170. `deploy` and `predict` hash `code ++ args` exactly as before, so a curve's
     ///         address is derived as it always was; check it with `keccak256(curveChunk.code) == keccak256(type(HedgeFunBondingCurve).creationCode)`.
     address public immutable curveChunk;
+
+    /// @notice The raise a launch gets when its creator registered nothing: 44% of supply sold on the curve.
+    uint16 public constant DEFAULT_SALE_BPS = 4400;
+    /// @notice The curve constructor's lower bound on `saleBps`, 10% of supply sold. A creator's `saleBps` is anything
+    ///         the constructor accepts, and nothing narrower.
+    uint16 public constant MIN_SALE_BPS = 1000;
+    /// @notice The curve constructor's upper bound on `saleBps`, 90% of supply sold.
+    uint16 public constant MAX_SALE_BPS = 9000;
+    /// @notice The longest opening window a creator may choose. 0 is "off": the flat tax from the first second.
+    uint8 public constant MAX_SNIPE_SECONDS = 180;
+
+    struct CurveChoice {
+        uint16 saleBps;      // share of supply sold on the curve; 0 = nothing registered
+        uint8 snipeSeconds;  // opening buy-tax window; 0 = none
+    }
+    /// @notice what a creator registered for a factory salt `keccak256(abi.encode(symbol, creator, nonce))`.
+    ///         `saleBps` 0 means nothing was registered; `curveConfig` then gives the defaults.
+    /// @dev Read only through external calls to this deployer, never inside `executeGraduation`'s delegatecall,
+    ///      where this contract's storage slots would be the factory's.
+    mapping(bytes32 => CurveChoice) public curveConfigOf;
+
+    /// @notice A creator registered or changed the curve choices for their own salt (symbol, creator, nonce).
+    event CurveConfigSet(address indexed creator, string symbol, uint96 nonce, uint16 saleBps, uint8 snipeSeconds);
     error CurveDeployFailed();
     error VaultDeployFailed();
     error Unseedable();
     error InexactTransfer();
+    /// @notice `saleBps` outside [MIN_SALE_BPS, MAX_SALE_BPS], or `snipeSeconds` over MAX_SNIPE_SECONDS.
+    error BadCurveConfig();
     struct GraduationCtx {
         PoolKey key;
         HedgeFunHook.Rates rates;
@@ -51,6 +76,29 @@ contract CurveDeployer is BoundDeployer {
     }
     constructor() {
         curveChunk = address(new V2InitCodeChunk(type(HedgeFunBondingCurve).creationCode));
+    }
+
+    /// @notice A creator chooses the raise size and the opening window of their own upcoming launch. The salt is
+    ///         (symbol, msg.sender, nonce), exactly as the factory derives it, so nobody can choose for anyone else.
+    ///         `saleBps` is the share of supply sold on the curve: the graduation raise is
+    ///         `V * saleBps / (10000 - saleBps)` of the opening valuation `V`. `snipeSeconds` is how long the opening
+    ///         buy tax takes to decay to the flat tax; 0 is none. Both are in the launch terms, so a change after
+    ///         `predict` makes the launch revert `Restated`. A launch with no registration gets `DEFAULT_SALE_BPS`
+    ///         and the factory's default window.
+    /// @dev No owner limit applies per stock. A raise larger than the stock's V3 pool can deliver never graduates,
+    ///      and its buyers can only sell back to the curve; `tools/v2_launch_check.py` shows that before a launch.
+    function setCurveConfig(string calldata symbol, uint96 nonce, uint16 saleBps, uint8 snipeSeconds) external {
+        if (saleBps < MIN_SALE_BPS || saleBps > MAX_SALE_BPS || snipeSeconds > MAX_SNIPE_SECONDS) revert BadCurveConfig();
+        curveConfigOf[keccak256(abi.encode(symbol, msg.sender, nonce))] = CurveChoice(saleBps, snipeSeconds);
+        emit CurveConfigSet(msg.sender, symbol, nonce, saleBps, snipeSeconds);
+    }
+
+    /// @notice The values a launch under `salt` is built with: the creator's registration, else `DEFAULT_SALE_BPS`
+    ///         and `defaultSnipeSeconds`, which the factory passes as its current `Defaults.snipeSeconds`. The
+    ///         factory's `predict`, `predictCurve`, terms, preflight and launch all read this one function.
+    function curveConfig(bytes32 salt, uint8 defaultSnipeSeconds) external view returns (uint16 saleBps, uint8 snipeSeconds) {
+        CurveChoice memory c = curveConfigOf[salt];
+        return c.saleBps == 0 ? (DEFAULT_SALE_BPS, defaultSnipeSeconds) : (c.saleBps, c.snipeSeconds);
     }
 
     /// @dev Graduation quotes live here so the factory stays under EIP-170's runtime limit.

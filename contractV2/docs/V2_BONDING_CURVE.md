@@ -40,9 +40,9 @@ Each curve and graduated pool use the same listed stock. Payment/receipt assets 
 change to the pool's quote currency or to the treasury's strategy stock. Dollar prices in a UI are estimates;
 the graduation condition is fixed in raw stock/token units and never depends on a manipulable displayed FDV.
 
-The listing, treasury rule and execution bounds, supply, opening price, curve allocation, fees and V4 pool
-settings are committed by `predict(Request)` and checked by `launch`. A defaults change invalidates a pending
-launch quote. After launch, its terms remain frozen even if that stock is delisted or future defaults change.
+The listing, treasury rule and execution bounds, supply, opening price, curve allocation, the creator's raise size
+and opening window, fees and V4 pool settings are committed by `predict(Request)` and checked by `launch`. A
+defaults change invalidates a pending launch quote. After launch, its terms remain frozen even if that stock is delisted or future defaults change.
 The protocol payout address inherited from V1 is immutable. Hook payout administration after graduation retains
 V1's existing rules; curve-era fee recipients are immutable.
 
@@ -51,8 +51,10 @@ Let initial supply be `S`, virtual stock be `V`, and accounted token inventory b
 - `V = ceil(openPriceE18 * S / 1e18)`; opening price uses raw stock units per token unit, scaled by 1e18.
 - Fixed product `K = S * V`; effective stock `Y = ceil(K / T)`; real reserve `R = Y - V`.
 - Minimum inventory `Tmin = floor(S * (10000 - saleBps) / 10000)`.
-- `saleBps` defaults to 8000 and can be configured from 1000 through 9000 for future launches only.
-- Terminal effective stock `Yg = ceil(K / Tmin)`; net stock graduation target `Rg = Yg - V`.
+- `saleBps` is the creator's choice for their own launch, 1000 through 9000, and 4400 when they register none
+  ([below](#raise-size-and-opening-window-the-creators-choice)).
+- Terminal effective stock `Yg = ceil(K / Tmin)`; net stock graduation target `Rg = Yg - V`, which is
+  `ceil(V * saleBps / (10000 - saleBps))` whenever `S * (10000 - saleBps)` divides by 10,000.
 
 Buys are capped at the terminal cost. Both sides are canonicalized to `ceil(K/T)` so an integer-rounding surplus
 cannot be harvested by a later round trip. Buy tax removes tokens from the gross purchase and burns them; the
@@ -83,13 +85,16 @@ The open-to-terminal multiple, `(1 / (1 - saleBps))^2`, is the larger lever: 80%
 and the LP fee's effect on the real contracts, are in the [depth experiment](./V2_LP_DEPTH_EXPERIMENT.md).
 That experiment also records a historical, now-disabled sell-spike scenario.
 
-The curve snapshots the launch's buy-side snipe rate and duration. Its buy-side token burn falls linearly from
+The curve snapshots the launch's buy-side snipe rate and duration: the rate is the factory owner's `snipeBps`, the
+duration the creator's `snipeSeconds`. Its buy-side token burn falls linearly from
 `snipeBps` to the flat tax over the full `snipeSeconds`, rounded up:
 `taxBps + ceil((snipeBps - taxBps) * (snipeSeconds - elapsed) / snipeSeconds)` while `elapsed < snipeSeconds`, then
 `taxBps`. The window therefore lasts the whole `snipeSeconds`, and every second inside it pays strictly more than the
 flat tax. With the shipped 99% / 3-second defaults and a 10% tax that is 99% in the launch second, 69.34% one second
-later, 39.67% two seconds later, then 10% (at the 15% maximum tax: 99%, 71%, 43%, then 15%). A `snipeBps` at or
-below the tax, including 0, means no opening premium: the flat tax from the first second.
+later, 39.67% two seconds later, then 10% (at the 15% maximum tax: 99%, 71%, 43%, then 15%). Over a creator's
+60-second window it is 54.5% at 30 seconds and 11.49% at 59; over 180 seconds, 98.51% at one second and 10.5% at 179.
+A `snipeBps` at or below the tax, including 0, or a `snipeSeconds` of 0, means no opening premium: the flat tax from
+the first second.
 `quoteBuy()` includes the current rate and `buyRateBps()` exposes it.
 Before 2026-09-28 the curve decayed the opening rate toward zero and only floored it at the tax, which ended the
 window early, at `snipeSeconds * (1 - taxBps / snipeBps)`: 99% / 66% / 33% at the shipped defaults, and the flat 10%
@@ -101,6 +106,64 @@ snipe window nor a launch sell spike. Graduated V2 pools freeze `spikeBps = 0`: 
 permissionless buybacks, so buyback notifications cannot turn trading volume into a repeated sell spike.
 This is trading friction rather than ordering protection: the [market scenarios](./V2_MARKET_SCENARIOS.md)
 still produce profitable sandwiches at seconds 1 and 2 when a victim accepts wide slippage.
+
+## Raise size and opening window: the creator's choice
+
+Each V2 creator chooses two things for their own launch, before `predict`, on the curve deployer:
+
+```solidity
+CurveDeployer(factory.curveDeployer()).setCurveConfig(symbol, nonce, saleBps, snipeSeconds);
+```
+
+- **Raise size, `saleBps`, 1000 through 9000.** The share of supply sold on the curve. The graduation raise is
+  `Rg = V * saleBps / (10000 - saleBps)` of the opening valuation `V`: at a $10k opening FDV, 1000 raises about
+  $1.1k, 4400 about $7.9k, 6000 $15k, 8000 $40k and 9000 $90k. The open-to-terminal price multiple is
+  `(10000 / (10000 - saleBps))^2`: 3.2x at 4400, 25x at 8000, 100x at 9000.
+- **Opening window, `snipeSeconds`, 0 through 180.** How long the opening buy tax takes to decay to the flat tax, on
+  the schedule above. 0 turns it off. The opening rate `snipeBps` stays the factory owner's default.
+
+The bounds are validity bounds and nothing tighter: `MIN_SALE_BPS` and `MAX_SALE_BPS` are the curve constructor's
+own, and the 180-second cap is the only limit on the window. The owner sets no per-stock limit on either choice, and
+every listed stock is available. Until 2026-09-28 the factory owner set `saleBps` per stock (`setSaleBps`, default
+8000). That setter, its mapping and its event are gone, which freed the factory bytes for the call that reads the
+creator's choice.
+
+**Nobody chooses for anyone else.** The registration is keyed by `keccak256(abi.encode(symbol, msg.sender, nonce))`,
+the salt the factory derives from `(q.symbol, q.creator, q.nonce)`, the same pattern as `setStrategyKind` and
+`setEngineConfig`. A registration from any other address lands under that address's own salt and reaches only a
+launch in which it is the creator. A pending quote cannot be moved by a stranger.
+
+**Defaults.** A launch whose creator registered nothing gets `DEFAULT_SALE_BPS = 4400` and the factory's
+`Defaults.snipeSeconds` at quote time. `curveConfig(salt, defaultSnipeSeconds)` returns the values a launch is built
+with; `curveConfigOf(salt)` returns the raw registration, where a `saleBps` of 0 means none. A registration can be
+changed until the launch but not deleted: to return to the defaults, register 4400 and the factory's window.
+
+**Both choices are in `terms`.** `_curveInit` is the one place a curve's parameters are assembled, and `predictCurve`,
+`predict`, `_preflight` and `launch` all go through it, so they all read the same registration. V2's `_terms` hashes
+`saleBps`, `snipeSeconds`, `virtualStock` and `lpBps` over V1's terms. The window has to be named: V1's terms cover
+the hook's rates with the factory's default window, and the curve's own address, which does encode the creator's
+window, is not part of the terms. Changing either choice after `predict` therefore makes `launch` revert `Restated`.
+Registering the quoted values again makes the quote good again; terms cover the values, not the act of registering.
+`_preflight` runs on the creator's values, so a choice that leaves the V4 seed empty or tiny, overflows or cannot
+be priced is refused at `predict` and at `launch` with `Unseedable`.
+
+**What the front end must show.** A raise larger than the stock's V3 pool can deliver can never graduate, and its
+buyers can only sell back to the curve (audit round 3 M-3). Nothing on chain refuses such a launch. Rule 1(a) of
+`tools/v2_launch_check.py` detects it before launch:
+
+```sh
+python3 tools/v2_launch_check.py --stock <T> --factory <V2 factory> --sale-bps <creator's saleBps>
+```
+
+The front end shows the check's PASS or FAIL to the creator as a warning, with rule 1(b) as well: a raise the pool
+can deliver may still push its price outside every treasury's deviation gate. See the
+[rehearsal record](./V2_DEPLOYMENT_REHEARSAL.md#raise-size-and-opening-window-decided-2026-09-28).
+
+**Why the registry lives in `CurveDeployer`.** The factory had 25 bytes left under EIP-170 and its `Request` is V1's
+launch ABI, so neither can carry the choice. The curve deployer is the curve's own bound deployer: the factory
+already calls it at quote and launch with the same salt, and it had 8,864 bytes free. The registry is read only
+through external calls, never inside `executeGraduation`'s delegatecall, where the deployer's storage slots would be
+the factory's.
 
 ## Fees and treasury activation
 
@@ -118,7 +181,7 @@ because the observation ring is young. Normal V1 TWAP and bounded anchor behavio
 
 ### Strategy kinds
 
-The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`, not in the factory: the factory sits 25
+The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`, not in the factory: the factory sits 179
 bytes under EIP-170 and its `Request` is the deployed V1 ABI. Kind 0 is `HedgeFunV2Treasury` and needs no call. A
 creator picks another registered kind for their own upcoming launch with `setStrategyKind(symbol, nonce, kind)`;
 the deployer derives the same `(symbol, msg.sender, nonce)` salt the factory uses, so nobody can choose for someone

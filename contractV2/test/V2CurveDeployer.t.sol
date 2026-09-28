@@ -45,7 +45,7 @@ contract V2CurveDeployerTest is V2FactoryFixture {
         HedgeFunBondingCurve.Init memory p = HedgeFunBondingCurve.Init({
             factory: address(factory), token: curve.token(), stock: curve.stock(), treasury: curve.treasury(),
             protocol: curve.protocol(), creator: curve.creator(), supply: curve.initialSupply(),
-            virtualStock: curve.virtualStock(), saleBps: factory.saleBps(address(stock)), taxBps: curve.taxBps(),
+            virtualStock: curve.virtualStock(), saleBps: 4400, taxBps: curve.taxBps(),
             protocolBps: curve.protocolBps(), creatorBps: curve.creatorBps(), snipeBps: curve.snipeBps(),
             snipeSeconds: curve.snipeSeconds()
         });
