@@ -5,8 +5,17 @@ import {BoundDeployer} from "../HedgeFunDeployers.sol";
 import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {IUniswapV3Pool} from "../interfaces/IUniswapV3.sol";
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
+import {EngineConfig, IStrategyPolicy, PolicyManifest, StrategyCapabilities} from "./strategy/IStrategyPolicy.sol";
 
-interface IFactoryOwner { function owner() external view returns (address); }
+interface IFactoryOwner {
+    function owner() external view returns (address);
+}
+
+interface IStrategyEngineIntrospection {
+    function engineVersion() external view returns (uint32);
+    function strategyId() external view returns (bytes32);
+    function configHash() external view returns (bytes32);
+}
 
 contract V2InitCodeChunk {
     constructor(bytes memory data) {
@@ -30,15 +39,64 @@ contract V2TreasuryDeployer is BoundDeployer {
     error BadKind();
     error NotOwner();
     error BadLpBps();
+    error BadPolicy();
+    error InitCodeTooLarge();
 
-    struct Kind { address chunkA; address chunkB; }
+    struct Kind {
+        address chunkA;
+        address chunkB;
+        uint32 engineVersion;
+        uint32 engineConfigSchema;
+        bytes32 creationCodeHash;
+        uint256 capabilities;
+    }
     /// registered strategy code, by kind. Index 0 is `HedgeFunV2Treasury`.
     Kind[] private _kinds;
     /// @notice the kind a creator chose for a salt; unset = kind 0
     mapping(bytes32 => uint8) public strategyKindOf;
+    mapping(bytes32 => EngineConfig) private _engineConfigOf;
+    mapping(bytes32 => PolicyManifest) private _policies;
+    mapping(bytes32 => bytes32) public policyDependencyManifestHash;
+    mapping(bytes32 => bytes32) public policyAuditManifestHash;
+
+    uint256 public constant MAX_RUNTIME_CODE_SIZE = 24_576;
+    uint256 public constant MAX_INITCODE_SIZE = 49_152;
+    uint32 public constant MAX_POLICY_GAS = 500_000;
+    uint16 public constant POLICY_RETURN_BYTES = 160;
 
     event KindRegistered(uint8 indexed kind, address chunkA, address chunkB);
+    event EngineKindRegistered(
+        uint8 indexed kind,
+        uint32 indexed engineVersion,
+        uint32 indexed configSchema,
+        bytes32 creationCodeHash,
+        uint256 capabilities
+    );
     event StrategyKindSet(address indexed creator, string symbol, uint96 nonce, uint8 kind);
+    event EngineConfigSet(
+        address indexed creator,
+        string symbol,
+        uint96 nonce,
+        uint8 indexed kind,
+        bytes32 indexed policyKey,
+        bytes32 rawConfigHash
+    );
+    event PolicyRegistered(
+        bytes32 indexed policyKey,
+        address indexed implementation,
+        bytes32 runtimeCodeHash,
+        uint32 engineVersion,
+        uint32 configSchema,
+        uint256 capabilities,
+        uint32 maxGas,
+        uint16 maxReturnBytes,
+        bytes32 dependencyManifestHash,
+        bytes32 auditManifestHash
+    );
+    event PolicyDisabled(bytes32 indexed policyKey);
+    event TreasuryCodeBound(
+        address indexed treasury, uint8 indexed kind, bytes32 initCodeHash, bytes32 runtimeCodeHash, bytes32 configHash
+    );
     event LpBpsSet(address indexed stock, uint16 lpBps);
 
     /// @notice the share of a graduating curve's REAL stock reserve that seeds the V4 pool; the rest is this
@@ -55,6 +113,7 @@ contract V2TreasuryDeployer is BoundDeployer {
         uint16 value = _lpBps[stock];
         return value == 0 ? DEFAULT_LP_BPS : value;
     }
+
     /// @notice Changes future launches only; a pending quote for `stock` becomes stale (`Restated`).
     function setLpBps(address stock, uint16 value) external {
         _onlyOwner();
@@ -62,13 +121,14 @@ contract V2TreasuryDeployer is BoundDeployer {
         _lpBps[stock] = value;
         emit LpBpsSet(stock, value);
     }
+
     function _onlyOwner() private view {
         if (factory == address(0) || msg.sender != IFactoryOwner(factory).owner()) revert NotOwner();
     }
 
     constructor() {
         (address a, address b) = makeChunks(type(HedgeFunV2Treasury).creationCode);
-        _kinds.push(Kind(a, b));
+        _kinds.push(Kind(a, b, 0, 0, keccak256(type(HedgeFunV2Treasury).creationCode), 0));
         emit KindRegistered(0, a, b);
     }
 
@@ -87,23 +147,146 @@ contract V2TreasuryDeployer is BoundDeployer {
         }
     }
 
-    function version() external pure returns (uint256) { return 2; }
-    function kindCount() external view returns (uint256) { return _kinds.length; }
+    function version() external pure returns (uint256) {
+        return 2;
+    }
+
+    function kindCount() external view returns (uint256) {
+        return _kinds.length;
+    }
+
     function kinds(uint8 kind) external view returns (address chunkA_, address chunkB_) {
         if (kind >= _kinds.length) revert BadKind();
         Kind storage k = _kinds[kind];
         return (k.chunkA, k.chunkB);
     }
-    function chunkA() external view returns (address) { return _kinds[0].chunkA; }
-    function chunkB() external view returns (address) { return _kinds[0].chunkB; }
+
+    function chunkA() external view returns (address) {
+        return _kinds[0].chunkA;
+    }
+
+    function chunkB() external view returns (address) {
+        return _kinds[0].chunkB;
+    }
+
+    function kindManifest(uint8 kind)
+        external
+        view
+        returns (uint32 engineVersion, uint32 configSchema, bytes32 creationCodeHash, uint256 capabilities)
+    {
+        if (kind >= _kinds.length) revert BadKind();
+        Kind storage k = _kinds[kind];
+        return (k.engineVersion, k.engineConfigSchema, k.creationCodeHash, k.capabilities);
+    }
 
     /// @notice The bound factory's owner adds a strategy kind for FUTURE launches. Existing kinds never change.
     function registerKind(address a, address b) external returns (uint8 kind) {
         _onlyOwner();
         if (a.code.length == 0 || b.code.length == 0 || _kinds.length == type(uint8).max) revert BadKind();
         kind = uint8(_kinds.length);
-        _kinds.push(Kind(a, b));
+        _kinds.push(Kind(a, b, 0, 0, _creationCodeHash(a, b), 0));
         emit KindRegistered(kind, a, b);
+    }
+
+    /// @notice Register an execution core separately from its policies. All future configurations for this kind
+    ///         must use the declared schema, and every policy capability must be a subset of this core's surface.
+    function registerEngineKind(address a, address b, uint32 engineVersion, uint32 configSchema, uint256 capabilities)
+        external
+        returns (uint8 kind)
+    {
+        _onlyOwner();
+        if (
+            a.code.length == 0 || b.code.length == 0 || engineVersion == 0 || configSchema == 0 || capabilities == 0
+                || _kinds.length == type(uint8).max
+        ) revert BadKind();
+        bytes32 codeHash = _creationCodeHash(a, b);
+        kind = uint8(_kinds.length);
+        _kinds.push(Kind(a, b, engineVersion, configSchema, codeHash, capabilities));
+        emit KindRegistered(kind, a, b);
+        emit EngineKindRegistered(kind, engineVersion, configSchema, codeHash, capabilities);
+    }
+
+    /// @notice Register one audited policy identity. A policy is advisory: the selected engine remains the sole
+    ///         custody and risk boundary. Registrations are immutable; disabling only blocks future launches.
+    function registerPolicy(
+        address implementation,
+        uint32 maxGas,
+        uint16 maxReturnBytes,
+        bytes32 dependencyManifestHash,
+        bytes32 auditManifestHash
+    ) external returns (bytes32 policyKey) {
+        _onlyOwner();
+        if (
+            implementation.code.length == 0 || maxGas == 0 || maxGas > MAX_POLICY_GAS
+                || maxReturnBytes != POLICY_RETURN_BYTES || dependencyManifestHash == bytes32(0)
+                || auditManifestHash == bytes32(0)
+        ) revert BadPolicy();
+
+        uint32 engineVersion;
+        uint32 configSchema;
+        uint256 capabilities;
+        try IStrategyPolicy(implementation).policyMetadata() returns (
+            uint32 engineVersion_, uint32 configSchema_, uint256 capabilities_
+        ) {
+            engineVersion = engineVersion_;
+            configSchema = configSchema_;
+            capabilities = capabilities_;
+        } catch {
+            revert BadPolicy();
+        }
+        if (engineVersion == 0 || configSchema == 0 || capabilities == 0) revert BadPolicy();
+
+        bytes32 runtimeCodeHash = implementation.codehash;
+        policyKey = keccak256(
+            abi.encode(
+                implementation,
+                runtimeCodeHash,
+                engineVersion,
+                configSchema,
+                capabilities,
+                maxGas,
+                maxReturnBytes,
+                dependencyManifestHash,
+                auditManifestHash
+            )
+        );
+        if (_policies[policyKey].implementation != address(0)) revert BadPolicy();
+        _policies[policyKey] = PolicyManifest({
+            implementation: implementation,
+            runtimeCodeHash: runtimeCodeHash,
+            engineVersion: engineVersion,
+            configSchema: configSchema,
+            maxGas: maxGas,
+            maxReturnBytes: maxReturnBytes,
+            capabilities: capabilities,
+            enabledForNewLaunches: true
+        });
+        policyDependencyManifestHash[policyKey] = dependencyManifestHash;
+        policyAuditManifestHash[policyKey] = auditManifestHash;
+        emit PolicyRegistered(
+            policyKey,
+            implementation,
+            runtimeCodeHash,
+            engineVersion,
+            configSchema,
+            capabilities,
+            maxGas,
+            maxReturnBytes,
+            dependencyManifestHash,
+            auditManifestHash
+        );
+    }
+
+    function disablePolicy(bytes32 policyKey) external {
+        _onlyOwner();
+        PolicyManifest storage manifest = _policies[policyKey];
+        if (manifest.implementation == address(0) || !manifest.enabledForNewLaunches) revert BadPolicy();
+        manifest.enabledForNewLaunches = false;
+        emit PolicyDisabled(policyKey);
+    }
+
+    function policy(bytes32 policyKey) external view returns (PolicyManifest memory) {
+        return _policies[policyKey];
     }
 
     /// @notice A creator picks the strategy for their own upcoming launch: the salt is (symbol, msg.sender, nonce),
@@ -111,8 +294,32 @@ contract V2TreasuryDeployer is BoundDeployer {
     ///         moves the treasury address and the launch reverts `Restated` -- re-quote. Kind 0 needs no call.
     function setStrategyKind(string calldata symbol, uint96 nonce, uint8 kind) external {
         if (kind >= _kinds.length) revert BadKind();
+        if (_kinds[kind].engineConfigSchema != 0) revert BadKind();
         strategyKindOf[keccak256(abi.encode(symbol, msg.sender, nonce))] = kind;
         emit StrategyKindSet(msg.sender, symbol, nonce, kind);
+    }
+
+    /// @notice Select an engine and bind its fixed-width config to the creator's exact factory salt.
+    function setEngineConfig(string calldata symbol, uint96 nonce, uint8 kind, EngineConfig calldata config) external {
+        if (kind >= _kinds.length) revert BadKind();
+        Kind storage k = _kinds[kind];
+        PolicyManifest storage manifest = _policies[config.policyKey];
+        if (
+            k.engineConfigSchema == 0 || config.engineVersion != k.engineVersion
+                || config.schema != k.engineConfigSchema || manifest.implementation == address(0)
+                || !manifest.enabledForNewLaunches || manifest.implementation.codehash != manifest.runtimeCodeHash
+                || manifest.engineVersion != config.engineVersion || manifest.configSchema != config.schema
+                || manifest.capabilities & ~k.capabilities != 0
+        ) revert BadPolicy();
+        bytes32 salt = keccak256(abi.encode(symbol, msg.sender, nonce));
+        strategyKindOf[salt] = kind;
+        _engineConfigOf[salt] = config;
+        emit StrategyKindSet(msg.sender, symbol, nonce, kind);
+        emit EngineConfigSet(msg.sender, symbol, nonce, kind, config.policyKey, keccak256(abi.encode(config)));
+    }
+
+    function engineConfigOf(bytes32 salt) external view returns (EngineConfig memory) {
+        return _engineConfigOf[salt];
     }
 
     function _code(bytes32 salt, bytes calldata args) private view returns (bytes memory code) {
@@ -121,18 +328,39 @@ contract V2TreasuryDeployer is BoundDeployer {
         address b = k.chunkB;
         uint256 alen = a.code.length;
         uint256 blen = b.code.length;
-        code = new bytes(alen + blen + args.length);
+        uint256 configLen = k.engineConfigSchema == 0 ? 0 : 192;
+        code = new bytes(alen + blen + args.length + configLen);
         assembly ("memory-safe") {
             let dst := add(code, 0x20)
             extcodecopy(a, dst, 0, alen)
             extcodecopy(b, add(dst, alen), 0, blen)
             calldatacopy(add(add(dst, alen), blen), args.offset, args.length)
         }
+        if (configLen != 0) {
+            EngineConfig memory config = _engineConfigOf[salt];
+            if (
+                config.engineVersion != k.engineVersion || config.schema != k.engineConfigSchema
+                    || config.policyKey == bytes32(0)
+            ) revert BadPolicy();
+            PolicyManifest storage manifest = _policies[config.policyKey];
+            if (
+                manifest.implementation == address(0) || !manifest.enabledForNewLaunches
+                    || manifest.implementation.codehash != manifest.runtimeCodeHash
+                    || manifest.engineVersion != config.engineVersion || manifest.configSchema != config.schema
+                    || manifest.capabilities & ~k.capabilities != 0
+            ) revert BadPolicy();
+            bytes memory encoded = abi.encode(config);
+            assembly ("memory-safe") {
+                mcopy(add(add(add(add(code, 0x20), alen), blen), args.length), add(encoded, 0x20), 192)
+            }
+        }
+        if (code.length > MAX_INITCODE_SIZE) revert InitCodeTooLarge();
     }
 
     function _validate(bytes calldata args) private view {
-        (,, address v3Pool,,,,, HedgeFunTreasuryBase.Params memory p) = abi.decode(args,
-            (address, address, address, address, address, address, address, HedgeFunTreasuryBase.Params));
+        (,, address v3Pool,,,,, HedgeFunTreasuryBase.Params memory p) = abi.decode(
+            args, (address, address, address, address, address, address, address, HedgeFunTreasuryBase.Params)
+        );
         uint256 friction = p.maxSlippageBps + uint256(IUniswapV3Pool(v3Pool).fee()) / 100 + p.bountyBps;
         if (p.stopBps != 0 && p.stopBps <= friction) revert StopInsideExecutionFriction(p.stopBps, friction);
     }
@@ -141,14 +369,34 @@ contract V2TreasuryDeployer is BoundDeployer {
         _onlyFactory();
         _validate(args);
         bytes memory code = _code(salt, args);
+        bytes32 initCodeHash = keccak256(code);
         assembly ("memory-safe") { a := create2(0, add(code, 0x20), mload(code), salt) }
-        if (a == address(0)) revert TreasuryDeployFailed();
+        if (a == address(0) || a.code.length == 0 || a.code.length > MAX_RUNTIME_CODE_SIZE) {
+            revert TreasuryDeployFailed();
+        }
+        uint8 kind = strategyKindOf[salt];
+        bytes32 boundConfigHash;
+        Kind storage k = _kinds[kind];
+        if (k.engineConfigSchema != 0) {
+            EngineConfig storage config = _engineConfigOf[salt];
+            IStrategyEngineIntrospection engine = IStrategyEngineIntrospection(a);
+            boundConfigHash = engine.configHash();
+            if (
+                engine.engineVersion() != config.engineVersion || engine.strategyId() != config.policyKey
+                    || boundConfigHash == bytes32(0)
+            ) revert TreasuryDeployFailed();
+        }
         // `args` starts (usdg, stock, ...): the stock is its second word
         lpBpsOfTreasury[a] = lpBps(address(uint160(uint256(bytes32(args[32:64])))));
+        emit TreasuryCodeBound(a, kind, initCodeHash, a.codehash, boundConfigHash);
     }
 
     function predict(bytes32 salt, bytes calldata args) external view returns (address) {
         _validate(args);
         return _at(salt, keccak256(_code(salt, args)));
+    }
+
+    function _creationCodeHash(address a, address b) private view returns (bytes32) {
+        return keccak256(bytes.concat(a.code, b.code));
     }
 }

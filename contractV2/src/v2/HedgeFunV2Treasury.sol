@@ -24,7 +24,9 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
     uint256 public lastStopAt;
     uint256 public lastStopStockUpdatedAt;
 
-    enum Action { Stop, TakeProfit, BuyDip }
+    /// @dev The first three values are the deployed V2 ABI. New engine actions append only,
+    ///      so existing return values and indexers keep their meaning.
+    enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell }
     error UseExecute();
     event LotsCoalesced(uint256 indexed kept, uint256 indexed removed, uint256 qty, uint256 cost);
 

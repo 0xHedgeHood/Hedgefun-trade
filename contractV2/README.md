@@ -1,7 +1,7 @@
 # Hedgefun contracts V2
 
-This directory is the V2 source snapshot from the integration branch `codex/v2-main-integration` (tip
-`9679614`), applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
+This directory is the V2 source snapshot from the integration branch `codex/v2-main-integration` (PR #84) plus the
+strategy engine (PR #91), combined tip `5aedceb`, applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
 deployment**: nothing launched under V1 changes. Files keep their paths relative to the Foundry project, and the
 compiler version, optimizer settings, EVM version, metadata-hash setting and dependency revisions are the same as V1.
 
@@ -19,12 +19,15 @@ permanently locked V4 full-range position and the strategy treasury, and the tre
 | `src/v2/V2LiquidityVault.sol` | Owns the locked full-range V4 position; fee-only collection, no liquidity removal or upgrade path |
 | `src/v2/HedgeFunV2Treasury.sol`, `src/v2/V2TreasuryDeployer.sol` | The V1 rule, inactive until `wire()`; one atomic `execute()` (stop first, then take-profit, then dip) and pluggable strategy kinds |
 | `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks; none does today) |
+| `src/v2/HedgeFunV2EngineTreasury.sol`, `src/v2/strategy/IStrategyPolicy.sol` | The strategy engine: a treasury that executes a registered, stateless policy's intent (hold / buy / sell) under its own custody, cooldown, per-call and daily-turnover limits; the policy is pinned by runtime code hash and committed in the CREATE2 config |
+| `src/v2/strategy/V2RebalancePolicy.sol` | The first policy: keep stock at a target share of treasury value, act outside a deadband |
 | `src/v2/HedgeFunV2TradeRouter.sol`, `src/v2/HedgeFunV2NativeRouter.sol` | Any-ERC20 and native-currency entry and exit through V3 hops, with minimum-out and explicit partial-fill refunds |
 
 The four V1 files that changed (`HedgeFunFactory`, `HedgeFunTreasury`, `HedgeFunTreasuryBase`, `hooks/HedgeFunHook`)
 changed to let V2 inherit them; the V1 deployment does not pick those changes up.
 
 Design and review notes are in `docs/`: start with [`V2_BONDING_CURVE.md`](./docs/V2_BONDING_CURVE.md), then
+[`STRATEGY_ENGINE.md`](./docs/STRATEGY_ENGINE.md),
 [`V2_DUAL_ENGINE_REVIEW.md`](./docs/V2_DUAL_ENGINE_REVIEW.md) and [`V2_ADVERSARIAL_REVIEW.md`](./docs/V2_ADVERSARIAL_REVIEW.md).
 Some links inside those documents point at parts of the main repository that this snapshot omits.
 `lab/` is the offline research workbench those documents cite (Python, no chain access needed for the model).

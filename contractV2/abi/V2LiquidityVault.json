@@ -82,6 +82,19 @@
  },
  {
   "type": "function",
+  "name": "creditPendingStock",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "amount",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
   "name": "factory",
   "inputs": [],
   "outputs": [

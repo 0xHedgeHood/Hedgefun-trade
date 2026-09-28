@@ -1,0 +1,150 @@
+[
+ {
+  "type": "function",
+  "name": "decide",
+  "inputs": [
+   {
+    "name": "context",
+    "type": "tuple",
+    "internalType": "struct StrategyContext",
+    "components": [
+     {
+      "name": "configHash",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "price",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "stockInventory",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "stockValueUsdg",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "usdgInventory",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "buybackStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "lastActionAt",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "nonce",
+      "type": "uint64",
+      "internalType": "uint64"
+     }
+    ]
+   },
+   {
+    "name": "config",
+    "type": "tuple",
+    "internalType": "struct EngineConfig",
+    "components": [
+     {
+      "name": "schema",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "engineVersion",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "policyKey",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "words",
+      "type": "bytes32[3]",
+      "internalType": "bytes32[3]"
+     }
+    ]
+   },
+   {
+    "name": "state",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "intent",
+    "type": "tuple",
+    "internalType": "struct StrategyIntent",
+    "components": [
+     {
+      "name": "configHash",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "nonce",
+      "type": "uint64",
+      "internalType": "uint64"
+     },
+     {
+      "name": "action",
+      "type": "uint8",
+      "internalType": "enum StrategyAction"
+     },
+     {
+      "name": "amountIn",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "nextState",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     }
+    ]
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "policyMetadata",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "engineVersion",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "configSchema",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "capabilities",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "pure"
+ },
+ {
+  "type": "error",
+  "name": "BadConfig",
+  "inputs": []
+ }
+]
