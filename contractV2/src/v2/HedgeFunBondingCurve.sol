@@ -76,14 +76,16 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     }
 
     /// @notice Current buy-side burn rate. The short opening window applies equally to every buyer.
+    /// @dev Falls linearly from `snipeBps` at launch to `taxBps` at `snipeSeconds`, rounded up, so every second inside
+    ///      the window pays strictly more than the flat tax: `taxBps + ceil((snipeBps - taxBps) * (seconds - elapsed) / seconds)`.
+    ///      A `snipeBps` at or below `taxBps` (0 is "off") is the flat tax throughout, never an underflow.
     function buyRateBps() public view returns (uint256 rate) {
         rate = taxBps;
         uint256 seconds_ = snipeSeconds;
-        if (seconds_ == 0) return rate;
+        if (seconds_ == 0 || snipeBps <= rate) return rate;
         uint256 elapsed = block.timestamp - launchedAt;
         if (elapsed >= seconds_) return rate;
-        uint256 opening = uint256(snipeBps) * (seconds_ - elapsed) / seconds_;
-        return opening > rate ? opening : rate;
+        return rate + Math.ceilDiv((snipeBps - rate) * (seconds_ - elapsed), seconds_);
     }
 
     function quoteBuy(uint256 maxStockIn) public view returns (uint256 stockSpent, uint256 tokensOut, uint256 taxTokens) {

@@ -116,8 +116,9 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         factory.setDefaults(d);
         assertEq(curve.snipeBps(), 9900, "existing launch retains frozen rate");
         assertEq(curve.snipeSeconds(), 3, "existing launch retains frozen window");
-        vm.warp(start + 1); assertEq(curve.buyRateBps(), 6600);
-        vm.warp(start + 2); assertEq(curve.buyRateBps(), 3300);
+        // 1000 + ceil(8900 * 2 / 3) and 1000 + ceil(8900 / 3): decays to the 10% tax, not to zero (was 6600 / 3300).
+        vm.warp(start + 1); assertEq(curve.buyRateBps(), 6934);
+        vm.warp(start + 2); assertEq(curve.buyRateBps(), 3967);
         vm.warp(start + 3); assertEq(curve.buyRateBps(), curve.taxBps());
     }
 

@@ -63,13 +63,13 @@ function showBatchResults(data) {
     `本次输入：机器人 ${batchNumber(data.inputs.bot_stock)} STOCK，用户 ${batchNumber(data.inputs.user_stock)} STOCK，最多滑点 ${batchNumber(data.inputs.slippage_bps / 100, 2)}%。各方案最低到账按该方案的独立报价计算。`));
   const grid = batchNode("div", "batch-result-grid");
   grid.append(
-    batchCard("现行逐笔曲线", "第 1 秒 · 66% 买税", data.current_second_one.bot_pnl_stock, data.current_second_one, false),
+    batchCard("现行逐笔曲线", "第 1 秒 · 69.34% 买税", data.current_second_one.bot_pnl_stock, data.current_second_one, false),
     batchCard("直接聚合买单", "同批同价 · 10% 买税", data.naive_batch.bot_pnl_stock, data.naive_batch, true),
     batchCard("清算价对齐批后价格", "同批同价 · 10% 买税", data.aligned_batch.bot_pnl_stock, data.aligned_batch, true),
   );
   batchResults.append(grid);
   const retained = batchNode("div", "batch-tax-note");
-  retained.append(batchNode("strong", null, "如果继续保留开盘 66% 买税"));
+  retained.append(batchNode("strong", null, "如果继续保留开盘 69.34% 买税"));
   const taxedNaive = data.retained_opening_tax.naive_batch;
   const taxedAligned = data.retained_opening_tax.aligned_batch;
   retained.append(batchNode("p", null,

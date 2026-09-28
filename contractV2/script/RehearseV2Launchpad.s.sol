@@ -10,6 +10,7 @@ import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
 import {CurveDeployer} from "../src/v2/CurveDeployer.sol";
+import {HedgeFunBondingCurve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {HedgeFunV2TradeRouter} from "../src/v2/HedgeFunV2TradeRouter.sol";
 
 /// @notice Simulates the V2 platform deployment against a local Robinhood Chain fork.
@@ -76,6 +77,7 @@ contract RehearseV2Launchpad is Script {
         console2.log("registered strategy kinds", x.treasury.kindCount());
         console2.log("token deployer", address(x.token));
         console2.log("curve deployer", address(x.curve));
+        console2.log("curve code chunk", x.curve.curveChunk());
         console2.log("hook", address(x.hook));
         console2.log("V2 factory", address(x.factory));
         console2.log("V2 trade router", address(x.router));
@@ -116,6 +118,10 @@ contract RehearseV2Launchpad is Script {
             || address(x.router.factory()) != address(x.factory) || x.treasury.version() != 2
             || x.factory.getDefaults().lpFee != lpFee) revert ReadbackFailed();
         if (x.treasury.kindCount() != 2) revert ReadbackFailed();
+        // The curve deployer creates its curve-code chunk in its own constructor; every curve address hashes it.
+        if (keccak256(x.curve.curveChunk().code) != keccak256(type(HedgeFunBondingCurve).creationCode)) {
+            revert ReadbackFailed();
+        }
         (address a, address b) = x.treasury.kinds(1);
         if (a != x.kindOneChunkA || b != x.kindOneChunkB
             || keccak256(bytes.concat(a.code, b.code)) != keccak256(type(HedgeFunV2BuybackTreasury).creationCode)) {

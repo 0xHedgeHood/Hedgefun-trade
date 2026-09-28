@@ -65,6 +65,8 @@ abstract contract V2FactoryFixture is Test, HookMiner {
         hook = _deployHook(pm);
         factory = new HedgeFunV2Factory(owner, address(pm), address(v3f), address(usdg), protocol,
             address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(hook), address(new CurveDeployer()), _defaults());
+        // CurveDeployer creates its curve-code chunk in its own constructor: every curve address below hashes these bytes.
+        assertEq(keccak256(factory.curveDeployer().curveChunk().code), keccak256(type(HedgeFunBondingCurve).creationCode));
         openPrice = 50 * 10 ** decimals_ / 1_000_000;
         vm.startPrank(owner);
         factory.list(address(stock), address(oracle), address(stockPool), openPrice, true);

@@ -22,18 +22,19 @@ forge script script/RehearseV2Launchpad.s.sol:RehearseV2Launchpad \
 
 The three role addresses above are examples from the existing V1 deployment record, **not assertions of current control**. Confirm their code, Safe threshold, owners, and intended V2 roles at the rehearsal block. The script requires `OWNER` and `PROTOCOL` to answer as Safes with at least two signatures, checks that `CALENDAR` exists, and refuses a broadcaster holding either role. It uses the known PoolManager, V3 factory and USDG addresses; all must have code on the fork. If a mined hook address is occupied, set `HOOK_SALT_START` beyond the printed salt and rerun.
 
-The rehearsal uses fixed candidate defaults: 1 billion token supply, 0.30% V4 LP fee, 1%–15% configurable token tax, 25 USDG launch fee, 3-second opening buy tax, and V1-sized strategy execution gates/chunks. These are **candidate settings**; confirm them with a stock-specific price, depth, and curve/LP capital analysis before launch. V2 cannot reuse V1's zero LP fee because its locked vault collects LP fees. The script prints the deployed addresses, kind-0 and kind-1 code chunks, `registered strategy kinds 2`, and its readback result. The kind-1 `registerKind` call is simulated with the configured owner address; it does not prove Safe signing or execution. A successful output ends with `readback passed; no stock listed or launched` and `public launch false`.
+The rehearsal uses fixed candidate defaults: 1 billion token supply, 0.30% V4 LP fee, 1%–15% configurable token tax, 25 USDG launch fee, 3-second opening buy tax, and V1-sized strategy execution gates/chunks. These are **candidate settings**; confirm them with a stock-specific price, depth, and curve/LP capital analysis before launch. V2 cannot reuse V1's zero LP fee because its locked vault collects LP fees. The script prints the deployed addresses, kind-0 and kind-1 code chunks, the curve deployer's curve code chunk, `registered strategy kinds 2`, and its readback result; the readback also requires that chunk's code to equal the curve's creation code. The kind-1 `registerKind` call is simulated with the configured owner address; it does not prove Safe signing or execution. A successful output ends with `readback passed; no stock listed or launched` and `public launch false`.
 
 On 2026-09-27, the script completed without `--broadcast` against a local fork of Robinhood Chain block
 **70,786,980** (`0xa6acfdd287dfd85edd9c6b555031d578b8f51cfdf9eb4792857249401e35b72a`). It compiled,
 deployed the kind-0 and kind-1 code chunks, both other deployers, the mined hook, V2 factory and trade router in the
 simulation, registered kind 1 through the simulated owner call, and passed the code-hash, binding, defaults and
 closed-public-launch readbacks. Estimated total script gas was **35,150,486**. These simulated addresses are not
-production addresses.
+production addresses. That run predates the curve deployer's code chunk and the opening-tax fix of 2026-09-28; repeat
+it on the release commit (item 2 below).
 
 Before a real V2 launch, require all of the following:
 
-1. V2 PR reviewed and merged after the full local suite, live venue fork suite, ABI/document checks, and runtime/initcode size checks pass. The hook, curve deployer, and factory have narrow code-size margins.
+1. V2 PR reviewed and merged after the full local suite, live venue fork suite, ABI/document checks, and runtime/initcode size checks pass. The factory has a narrow code-size margin (25 runtime bytes); the curve deployer has 8,864 since the curve's creation code moved into its chunk.
 2. Repeat this rehearsal at a recent fork block using the exact release commit and intended Safe/calendar addresses. Record the commit, fork block, default settings, readback, and gas estimates. A fork result does not prove chain RPC availability or actual account signing.
 3. Verify each stock's oracle, USDG V3 pool, market-hours behavior, opening price, curve endpoint, graduation V4 pool, and trading route. Check token transfers and pool fee on a stock-specific fork launch and buy/sell/graduation replay. Before enabling a listing or opening public launches, compute the full-raise stock target `Rg = ceil(supply * virtualStock / minTokenReserve) - virtualStock` in raw stock units. On current chain state, fork-simulate sourcing that stock amount through the intended V3 route (including a single-buyer fill), verify the route can deliver it, and check the post-swap spot against both the stock oracle and the V3 TWAP using the tightest live V1 treasury deviation gate for that stock; also replay each affected V1 treasury's `health()` after the simulated trade. Record block, stock/USDG decimals, required stock, USDG input, price deviation and a liquidity buffer. Reject the listing if the route or gate fails. While public launches are open, monitor pool depth and disable the listing if it falls below the threshold; this cannot guarantee a check immediately before a permissionless launch. Keep public launches closed if a per-launch operator check is required. Direct-stock buys remain possible, so V3 inventory alone does not prove a curve can never graduate. A listing is a separate Safe decision; keep it disabled until this check passes. Disabling it later stops only future launches.
    Record `saleBps` and `lpBps` explicitly for that stock in the Safe proposal and show full-raise size, V4 opening depth, and early-buyer exit scenarios at those values. The code's permissive 90% sale / 10% LP bounds are validity bounds, not recommended settings; the experiment's 70% / 60% is a hypothesis, not a proven safe default. Do not rely on an unset deployer default to make this decision.
@@ -44,7 +45,8 @@ Before a real V2 launch, require all of the following:
 ## Deployment parameters decided after audit round 4
 
 Two parameters were decided on 2026-09-28 in response to [audit round 4](../audit/round-4-2026-09-27/ISSUES.md). Neither
-needs code; both belong in the listing and launch procedure.
+needs code; both belong in the listing and launch procedure. A third constraint, on V1, follows from the V2 opening-tax
+fix of the same day.
 
 **Trade tax: the creator chooses it within the factory's existing bounds.** The rehearsal's candidate bounds are
 1%–15%, and the founder does not want a tighter cap. The front end must show a creator what the tax is likely to
@@ -67,5 +69,15 @@ bound. On every 0.05%-fee listing:
 
 For GME the rule gave a chunk of about 1,300 USDG on 2026-09-27, from roughly 13,500 USDG of depth per 1%. The rule
 costs no contract bytes.
+
+**V1's opening window stays at 3 seconds.** The V2 curve now decays its opening buy rate to the flat tax over the whole
+window ([bonding curve](./V2_BONDING_CURVE.md#frozen-terms-and-curve-math)). The deployed V1 hook keeps the old formula,
+`max(snipeBps * (snipeSeconds - elapsed) / snipeSeconds, taxBps)`, and is immutable, so the fix cannot reach it. That
+formula reaches the flat tax at `snipeSeconds * (1 - taxBps / snipeBps)`, ending the window early by
+`snipeSeconds * taxBps / snipeBps`. At 3 seconds it does not bite: the window's last second reads `snipeBps / 3`, 33% at
+the shipped 99%, above the 15% `MAX_TAX_BPS` that bounds every launch's tax. Keep V1's `snipeSeconds` at 3. The V1
+factory's `setDefaults` does not refuse a larger value, and raising it would end every later V1 launch's window early
+(by about 9 seconds of a 60-second window at a 15% tax). For the same reason keep V1's `snipeBps` well above 4,500
+(3 x 15%): near that value the last second already reads the flat tax.
 
 This script is a readiness check, not a production deployment command. The production transaction plan needs its own review of immutable recipients, role addresses, factory parameters, hook salt, all expected contract addresses, the exact kind-1 chunk code hashes, and the separate Safe `registerKind` transaction before anyone signs it.

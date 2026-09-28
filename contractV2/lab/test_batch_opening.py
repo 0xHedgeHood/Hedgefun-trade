@@ -18,7 +18,7 @@ class OpeningBatchModelTest(unittest.TestCase):
         naive = result["naive_batch"]
         aligned = result["aligned_batch"]
         self.assertTrue(all(case["user_filled"] for case in (current, naive, aligned)))
-        self.assertAlmostEqual(current["bot_pnl_stock"], 0.340310261340061735, places=12)
+        self.assertAlmostEqual(current["bot_pnl_stock"], 0.297156660219256890, places=12)
         self.assertAlmostEqual(naive["bot_pnl_stock"], 0.20740866440407266, places=12)
         self.assertLess(aligned["bot_pnl_stock"], 0)
         self.assertGreater(naive["spot_to_clearing_ratio"], 1)
@@ -85,11 +85,11 @@ class OpeningBatchModelTest(unittest.TestCase):
         for method in ("naive_batch", "aligned_batch"):
             plain = result[method]
             taxed = result["retained_opening_tax"][method]
-            self.assertEqual(taxed["opening_buy_tax_pct"], 66)
+            self.assertEqual(taxed["opening_buy_tax_pct"], 69.34)
             self.assertTrue(taxed["user_filled"])
             self.assertGreaterEqual(taxed["user_out_fun"], taxed["user_min_out_fun"])
             self.assertLess(taxed["bot_pnl_stock"], plain["bot_pnl_stock"])
-            self.assertAlmostEqual(taxed["user_out_fun"] / plain["user_out_fun"], 0.34 / 0.9)
+            self.assertAlmostEqual(taxed["user_out_fun"] / plain["user_out_fun"], (1 - 0.6934) / 0.9)
 
     def test_rejects_unbounded_or_malformed_inputs(self):
         invalid = (

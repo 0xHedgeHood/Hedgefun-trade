@@ -17,7 +17,7 @@ VIRTUAL_STOCK = D(50)
 MIN_TOKEN_RESERVE = SUPPLY * D("0.2")
 INITIAL_INVARIANT = SUPPLY * VIRTUAL_STOCK
 FLAT_TAX = D("0.10")
-SECOND_ONE_BUY_TAX = D("0.66")
+SECOND_ONE_BUY_TAX = D("0.6934")  # 1000 + ceil(8900 * 2 / 3) bps: the V2 curve at second 1 of 3, 10% tax
 
 
 def _input(payload: dict, key: str, low: Decimal, high: Decimal) -> Decimal:
@@ -191,7 +191,7 @@ def simulate_batch_opening(payload: dict) -> dict:
             "assumptions": [
                 "Research-only continuous x*y=k model; batch contract and price reset are not implemented.",
                 "Three blocks only decide whether orders share a batch; the formulas do not model inclusion or cancellation.",
-                "Primary opening batch uses 10% buy and sell taxes; a separate sensitivity keeps the current 66% second-one buy tax.",
+                "Primary opening batch uses 10% buy and sell taxes; a separate sensitivity keeps the current 69.34% second-one buy tax.",
                 "Min-out checks net FUN at settlement against each method's solo quote; failed orders receive a full STOCK refund.",
                 "The bot order has min-out zero in this two-order experiment; production orders would each carry a min-out.",
                 "Late-user fresh quotes are taken after the bot-only batch; stale quotes are checked against the pre-opening solo quote and may refund.",

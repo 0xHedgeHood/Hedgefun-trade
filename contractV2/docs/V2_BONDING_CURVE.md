@@ -83,9 +83,18 @@ The open-to-terminal multiple, `(1 / (1 - saleBps))^2`, is the larger lever: 80%
 and the LP fee's effect on the real contracts, are in the [depth experiment](./V2_LP_DEPTH_EXPERIMENT.md).
 That experiment also records a historical, now-disabled sell-spike scenario.
 
-The curve snapshots the launch's buy-side snipe rate and duration. With the shipped 99% / 3-second defaults,
-its buy-side token burn falls linearly to the flat tax: 99% in the launch second, 66% one second later,
-33% two seconds later, then the flat rate. `quoteBuy()` includes the current rate and `buyRateBps()` exposes it.
+The curve snapshots the launch's buy-side snipe rate and duration. Its buy-side token burn falls linearly from
+`snipeBps` to the flat tax over the full `snipeSeconds`, rounded up:
+`taxBps + ceil((snipeBps - taxBps) * (snipeSeconds - elapsed) / snipeSeconds)` while `elapsed < snipeSeconds`, then
+`taxBps`. The window therefore lasts the whole `snipeSeconds`, and every second inside it pays strictly more than the
+flat tax. With the shipped 99% / 3-second defaults and a 10% tax that is 99% in the launch second, 69.34% one second
+later, 39.67% two seconds later, then 10% (at the 15% maximum tax: 99%, 71%, 43%, then 15%). A `snipeBps` at or
+below the tax, including 0, means no opening premium: the flat tax from the first second.
+`quoteBuy()` includes the current rate and `buyRateBps()` exposes it.
+Before 2026-09-28 the curve decayed the opening rate toward zero and only floored it at the tax, which ended the
+window early, at `snipeSeconds * (1 - taxBps / snipeBps)`: 99% / 66% / 33% at the shipped defaults, and the flat 10%
+from second 54 of a 60-second window. The deployed V1 hook keeps that formula; see
+[the V1 opening window](./V2_DEPLOYMENT_REHEARSAL.md#deployment-parameters-decided-after-audit-round-4).
 Unlike V1, V2 has no launch-transaction buyer exemption: curve quotes remain identical for every recipient,
 including the creator. The sell-side stock tax stays flat during this window. Graduation starts neither a second
 snipe window nor a launch sell spike. Graduated V2 pools freeze `spikeBps = 0`: LP fees fund
@@ -264,8 +273,8 @@ Solidity 0.8.26, optimizer runs 1, Cancun, no metadata hash:
 
 | V2 contract | Runtime bytes | Compiled initcode bytes before constructor arguments |
 |---|---:|---:|
-| HedgeFunBondingCurve | 6,971 | 8,944 |
-| CurveDeployer | 24,564 | 24,614 |
+| HedgeFunBondingCurve | 6,985 | 8,965 |
+| CurveDeployer | 15,712 | 25,157 |
 | HedgeFunV2Factory | 24,551 | 28,692 |
 | HedgeFunV2Treasury | 21,602 | 26,216 |
 | HedgeFunV2BuybackTreasury | 14,883 | 19,380 |
@@ -276,7 +285,10 @@ Solidity 0.8.26, optimizer runs 1, Cancun, no metadata hash:
 | HedgeFunV2TradeRouter | 11,150 | 11,677 |
 | HedgeFunV2NativeRouter | 5,749 | 6,147 |
 
-All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 25 runtime bytes free
-and the CurveDeployer 12; future features need another size check. The strategy engine has 2,223
-runtime bytes free and the treasury deployer 13,131. The reference generator also checks the curve's bytecode directly
+All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 25 runtime bytes free;
+future features need another size check. The CurveDeployer has 8,864: it had 12 until the curve's creation code
+moved out of its runtime into a `V2InitCodeChunk` it creates in its own constructor (`curveChunk()`), which is why
+its initcode, not its runtime, now carries the curve. `deploy` and `predict` hash the chunk's bytes, identical to
+`type(HedgeFunBondingCurve).creationCode`, so curve addresses are derived exactly as before. The strategy engine has
+2,223 runtime bytes free and the treasury deployer 13,131. The reference generator also checks the curve's bytecode directly
 because Foundry's size table omits it due to its `invariant()` getter.

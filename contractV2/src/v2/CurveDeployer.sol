@@ -13,6 +13,7 @@ import {PoolKey} from "v4-core/src/types/PoolKey.sol";
 import {Currency} from "v4-core/src/types/Currency.sol";
 import {HedgeFunHook} from "../hooks/HedgeFunHook.sol";
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
+import {V2InitCodeChunk} from "./V2TreasuryDeployer.sol";
 
 interface IV2LpShare { function lpBpsOfTreasury(address treasury) external view returns (uint16); }
 
@@ -27,6 +28,11 @@ interface IV2GraduationView {
 contract CurveDeployer is BoundDeployer {
     using SafeERC20 for IERC20;
     address private immutable SELF = address(this);
+    /// @notice The curve's creation code, byte for byte, held as the runtime code of an inert `V2InitCodeChunk` that
+    ///         this deployer creates in its own constructor. Embedded here beside the vault's, it would put this
+    ///         module over EIP-170. `deploy` and `predict` hash `code ++ args` exactly as before, so a curve's
+    ///         address is derived as it always was; check it with `keccak256(curveChunk.code) == keccak256(type(HedgeFunBondingCurve).creationCode)`.
+    address public immutable curveChunk;
     error CurveDeployFailed();
     error VaultDeployFailed();
     error Unseedable();
@@ -43,6 +49,10 @@ contract CurveDeployer is BoundDeployer {
         uint256 max0;
         uint256 max1;
     }
+    constructor() {
+        curveChunk = address(new V2InitCodeChunk(type(HedgeFunBondingCurve).creationCode));
+    }
+
     /// @dev Graduation quotes live here so the factory stays under EIP-170's runtime limit.
     function sqrtPrice(uint256 effectiveStock, uint256 tokens, bool tokenIs0) external pure returns (uint160) {
         uint256 value = Math.sqrt(tokenIs0
@@ -106,12 +116,22 @@ contract CurveDeployer is BoundDeployer {
     }
     function deploy(bytes32 salt, bytes calldata args) external returns (address a) {
         _onlyFactory();
-        bytes memory code = abi.encodePacked(type(HedgeFunBondingCurve).creationCode, args);
+        bytes memory code = _curveCode(args);
         assembly { a := create2(0, add(code, 0x20), mload(code), salt) }
         if (a == address(0)) revert CurveDeployFailed();
     }
     function predict(bytes32 salt, bytes calldata args) external view returns (address) {
-        return _at(salt, keccak256(abi.encodePacked(type(HedgeFunBondingCurve).creationCode, args)));
+        return _at(salt, keccak256(_curveCode(args)));
+    }
+    /// @dev `type(HedgeFunBondingCurve).creationCode ++ args`, the creation code copied from `curveChunk`.
+    function _curveCode(bytes calldata args) private view returns (bytes memory code) {
+        address chunk = curveChunk;
+        uint256 len = chunk.code.length;
+        code = new bytes(len + args.length);
+        assembly ("memory-safe") {
+            extcodecopy(chunk, add(code, 0x20), 0, len)
+            calldatacopy(add(add(code, 0x20), len), args.offset, args.length)
+        }
     }
     function deployVault(bytes32 salt, bytes calldata args) external returns (address a) {
         _onlyFactory();

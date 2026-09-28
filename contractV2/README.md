@@ -1,7 +1,7 @@
 # Hedgefun contracts V2
 
 This directory is the V2 source snapshot from the integration branch `codex/v2-main-integration` (PR #84) plus the
-strategy engine (PR #91) and the round-4 audit fixes (PR #94), main at `8baed1d`, applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
+strategy engine (PR #91) the round-4 audit fixes (PR #94) and the opening-tax decay fix (PR #95), main at `2c01503`, applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
 deployment**: nothing launched under V1 changes. Files keep their paths relative to the Foundry project, and the
 compiler version, optimizer settings, EVM version, metadata-hash setting and dependency revisions are the same as V1.
 
