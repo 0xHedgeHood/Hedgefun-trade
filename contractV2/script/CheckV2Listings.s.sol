@@ -134,7 +134,9 @@ contract V2CheckQuoter {
 ///                                               (`CurveDeployer.setCurveConfig`): 0 = the deployer's default
 ///   runFactory(address factory, address[] stocks)
 contract CheckV2Listings is Script {
-    address internal constant USDG = 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168;
+    address internal constant MAINNET_USDG = 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168;
+    /// the listing's quote token: the factory's own `usdg` when one is given (the testnet's is tUSDG), else mainnet's
+    address internal usdg;
     uint160 internal constant MIN_SQRT = 4295128739;
     uint160 internal constant MAX_SQRT = 1461446703485210103287273052203988822378723970342;
     /// the drain's budget: 500 million USDG, round 3's All18 figure. Far past any raise; bounded so a full-range
@@ -224,7 +226,8 @@ contract CheckV2Listings is Script {
         // Read-only by construction: nothing here broadcasts, and a broadcast context is refused outright.
         require(!vm.isContext(VmSafe.ForgeContext.ScriptBroadcast) && !vm.isContext(VmSafe.ForgeContext.ScriptResume),
             "CheckV2Listings is read-only: run it without --broadcast");
-        require(USDG.code.length != 0, "USDG has no code: not a Robinhood Chain fork");
+        usdg = factory == address(0) ? MAINNET_USDG : HedgeFunFactory(factory).usdg();
+        require(usdg.code.length != 0, "USDG has no code: not a Robinhood Chain fork");
         quoter = new V2CheckQuoter();
         console2.log(string.concat("V2CHECK_META {\"chainId\":", vm.toString(block.chainid),
             ",\"block\":", vm.toString(block.number), ",\"timestamp\":", vm.toString(block.timestamp),
@@ -286,7 +289,7 @@ contract CheckV2Listings is Script {
         IUniswapV3Pool pool = IUniswapV3Pool(e.pool);
         address t0 = pool.token0();
         address t1 = pool.token1();
-        if (!((t0 == e.stock && t1 == USDG) || (t0 == USDG && t1 == e.stock))) {
+        if (!((t0 == e.stock && t1 == usdg) || (t0 == usdg && t1 == e.stock))) {
             r.configError = "pool is not the stock/USDG pair";
             return;
         }
@@ -295,7 +298,7 @@ contract CheckV2Listings is Script {
         (bool okS, bytes memory sp) = e.pool.staticcall(abi.encodeWithSignature("tickSpacing()"));
         if (okS && sp.length == 32) r.tickSpacing = abi.decode(sp, (int24));
         r.stockDecimals = IERC20Metadata(e.stock).decimals();
-        r.usdgDecimals = IERC20Metadata(USDG).decimals();
+        r.usdgDecimals = IERC20Metadata(usdg).decimals();
         if (e.oracle.code.length == 0) { r.configError = "oracle has no code"; return; }
         try PriceOracle(e.oracle).stock() returns (address priced) {
             if (priced != e.stock) { r.configError = "oracle prices a different stock"; return; }
@@ -317,7 +320,7 @@ contract CheckV2Listings is Script {
     }
 
     function _probe(R memory r) internal returns (V2CheckGateProbe probe) {
-        try new V2CheckGateProbe(USDG, r.e.stock, r.e.pool, r.e.oracle) returns (V2CheckGateProbe g) {
+        try new V2CheckGateProbe(usdg, r.e.stock, r.e.pool, r.e.oracle) returns (V2CheckGateProbe g) {
             probe = g;
         } catch (bytes memory why) {
             r.configError = bytes4(why) == PoolTrader.ShortObservationRing.selector

@@ -1,9 +1,6 @@
 # Hedgefun contracts V2
 
-This directory is the V2 source snapshot from the integration branch `codex/v2-main-integration` (PR #84) plus the
-strategy engine (PR #91) the round-4 audit fixes (PR #94) the opening-tax decay fix (PR #95) and creator-chosen raise size and window (PR #97), main at `36ed624`, applied on top of the V1 snapshot in [`contractV1/`](../contractV1/README.md). V2 is a **separate
-deployment**: nothing launched under V1 changes. Files keep their paths relative to the Foundry project, and the
-compiler version, optimizer settings, EVM version, metadata-hash setting and dependency revisions are the same as V1.
+This directory is the self-contained V2 contract snapshot from main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The Solidity files in `src/` are byte-identical to that source commit. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
 
 ## What V2 adds
 
@@ -14,11 +11,11 @@ permanently locked V4 full-range position and the strategy treasury, and the tre
 | File | Role |
 | --- | --- |
 | `src/v2/HedgeFunV2Factory.sol` | V2 listings, `predict`/`launch` with V1's terms commitment, and the authenticated `graduateCurve()` path |
-| `src/v2/CurveDeployer.sol` | Holds the curve creation code and the one-time graduation execution (the factory is 143 bytes under EIP-170) |
+| `src/v2/CurveDeployer.sol` | Holds the curve creation code and the one-time graduation execution |
 | `src/v2/HedgeFunBondingCurve.sol` | Per-launch fixed-product curve: buys, sells, launch-window buy tax, fee liabilities, the graduation trigger |
 | `src/v2/V2LiquidityVault.sol` | Owns the locked full-range V4 position; fee-only collection, no liquidity removal or upgrade path |
 | `src/v2/HedgeFunV2Treasury.sol`, `src/v2/V2TreasuryDeployer.sol` | The V1 rule, inactive until `wire()`; one atomic `execute()` (stop first, then take-profit, then dip) and pluggable strategy kinds |
-| `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks; none does today) |
+| `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks) |
 | `src/v2/HedgeFunV2EngineTreasury.sol`, `src/v2/strategy/IStrategyPolicy.sol` | The strategy engine: a treasury that executes a registered, stateless policy's intent (hold / buy / sell) under its own custody, cooldown, per-call and daily-turnover limits; the policy is pinned by runtime code hash and committed in the CREATE2 config |
 | `src/v2/strategy/V2RebalancePolicy.sol` | The first policy: keep stock at a target share of treasury value, act outside a deadband |
 | `src/v2/HedgeFunV2TradeRouter.sol`, `src/v2/HedgeFunV2NativeRouter.sol` | Any-ERC20 and native-currency entry and exit through V3 hops, with minimum-out and explicit partial-fill refunds |
@@ -48,9 +45,28 @@ Chain at a pinned block through the `robinhood` RPC alias in `foundry.toml` and 
 `script/RehearseV2Launchpad.s.sol` is the fork-only deployment rehearsal; it reads its addresses from the environment
 and is not a deployment record.
 
+## Public testnet
+
+Run all commands from `contractV2/`. Python tools require **Python 3.11 or newer** (the standard-library TOML reader resolves Foundry RPC aliases). The testnet harness targets Robinhood Chain **46630** and refuses other chains. It uses test USDG, mintable test stocks, operator-set feeds, and its own V3 pools; these assets have no value. See [`TESTNET_V2.md`](./docs/TESTNET_V2.md) for prerequisites, the operator runbook and frontend integration boundaries.
+
+```sh
+python3 -m unittest discover -s tests -p 'test_*.py'
+forge test --match-contract DeployV2TestnetTest
+# Read-only listing checks after a verified deployment:
+python3 tools/v2_launch_check.py --testnet
+python3 tools/v2_launch_check.py --testnet --sale-bps 9000
+```
+
+The operator supplies a testnet-only signer and test ETH. Dry-run output and an intended broadcast are not evidence of deployment; verify receipts and live roles before sharing addresses. No keys, broadcast artifacts or completed deployment inventory are included here.
+
+## Build sizes
+
+At this snapshot, `forge build --sizes` reports runtime sizes of 24,397 bytes for `HedgeFunV2Factory` (179 bytes below EIP-170), 16,730 for `CurveDeployer`, 11,445 for `V2TreasuryDeployer` and 19,354 for `HedgeFunHook`. Recheck these after any source or compiler change.
+
 ## Status
 
-**Not deployed and not approved for launch.** Opening-sniper economics remain a product decision (the market
-scenario tests still find profitable sandwiches at seconds 1 and 2 of a launch), the factory sits 143 bytes under
-the EIP-170 limit, and this source has not had a third-party audit. Strategy tokens still give holders no claim on
-the treasury and no redemption right.
+**Testnet candidate; mainnet launch approval is not established by this snapshot.** Testnet uses much deeper pools than mainnet and deliberately replaces price feeds and assets. Mainnet still requires reviewed owner/recipient addresses, actual listing-depth checks, V2 frontend and keeper integration, and verified deployment receipts. The opening-window economics remain a product choice. Strategy tokens give holders no claim on the treasury and no redemption right.
+
+The [X creator launch and settlement design](./docs/X_CREATOR_LAUNCH_DESIGN.md) describes a separate, unimplemented integration; X Money payouts are not part of this release.
+
+The scoped security review is in [`V2_TESTNET_REVIEW.md`](./docs/V2_TESTNET_REVIEW.md). It is an engineering review, not a claim of independent audit certification.

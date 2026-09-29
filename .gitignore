@@ -10,3 +10,8 @@ contractV2/broadcast/
 **/*.keystore
 **/*wk.txt
 .DS_Store
+
+# Generated testnet plans and local Python caches are not release evidence.
+contractV2/deploy/testnet-v2.dryrun.json
+**/__pycache__/
+contractV2/deploy/testnet-v2.candidate.json

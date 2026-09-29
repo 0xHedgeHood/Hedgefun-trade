@@ -1,4 +1,11 @@
 [profile.default]
+# Testnet scripts read vendored V3 creation code and manage deployment manifests.
+fs_permissions = [
+  { access = "read", path = "./lib/v4-core/test/bin/v3Factory.bytecode" },
+  { access = "read-write", path = "./deploy/testnet-v2.json" },
+  { access = "read-write", path = "./deploy/testnet-v2.candidate.json" },
+  { access = "read-write", path = "./deploy/testnet-v2.dryrun.json" },
+]
 src = "src"
 test = "test"
 out = "out"
