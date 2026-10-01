@@ -14,9 +14,10 @@ import {
 
 /// @notice A stateless, fixed-width stock/USDG allocation policy for the spot strategy engine.
 /// @dev `words[0]` packs targetBps in bits 0..15, deadbandBps in bits 16..31 and cooldown in bits 32..63.
-///      `words[1]` and `words[2]` are maximum action / daily turnover percentages of current trading NAV,
+///      `words[1]` and `words[2]` are maximum action / daily turnover percentages of the fund's total external assets,
 ///      in basis points. The core independently clips by the listing chunk, minLot, and actual daily spend.
-///      NAV is stockValueUsdg + usdgInventory; buyback stock and LP assets never enter it.
+///      Allocation uses tradable stockValueUsdg + usdgInventory. The shared context omits LP assets,
+///      so this policy proposes the target gap; only the core applies total-asset percentage caps.
 contract V2AssetPercentRebalancePolicy is IStrategyPolicy {
     uint256 private constant BPS = 10_000;
 
@@ -24,7 +25,6 @@ contract V2AssetPercentRebalancePolicy is IStrategyPolicy {
         uint16 targetBps;
         uint16 deadbandBps;
         uint32 cooldown;
-        uint256 maxTradeBps;
     }
 
     error BadConfig();
@@ -66,19 +66,18 @@ contract V2AssetPercentRebalancePolicy is IStrategyPolicy {
         uint256 totalValue = context.stockValueUsdg + context.usdgInventory;
         if (totalValue == 0) return (StrategyAction.Hold, 0);
 
-        uint256 maxTrade = Math.mulDiv(totalValue, config.maxTradeBps, BPS);
         uint256 targetValue = Math.mulDiv(totalValue, config.targetBps, BPS);
         uint256 lowerValue = Math.mulDiv(totalValue, config.targetBps - config.deadbandBps, BPS);
         uint256 upperValue = Math.mulDiv(totalValue, config.targetBps + config.deadbandBps, BPS);
 
         if (context.stockValueUsdg < lowerValue) {
-            amountIn = Math.min(targetValue - context.stockValueUsdg, maxTrade);
+            amountIn = targetValue - context.stockValueUsdg;
             amountIn = Math.min(amountIn, context.usdgInventory);
             return amountIn == 0 ? (StrategyAction.Hold, 0) : (StrategyAction.BuyStock, amountIn);
         }
 
         if (context.stockValueUsdg > upperValue && context.stockInventory != 0) {
-            uint256 tradeValue = Math.min(context.stockValueUsdg - targetValue, maxTrade);
+            uint256 tradeValue = context.stockValueUsdg - targetValue;
             amountIn = Math.mulDiv(tradeValue, context.stockInventory, context.stockValueUsdg);
             amountIn = Math.min(amountIn, context.stockInventory);
             return amountIn == 0 ? (StrategyAction.Hold, 0) : (StrategyAction.SellStock, amountIn);
@@ -97,6 +96,5 @@ contract V2AssetPercentRebalancePolicy is IStrategyPolicy {
         policyConfig.targetBps = uint16(packed);
         policyConfig.deadbandBps = uint16(packed >> 16);
         policyConfig.cooldown = uint32(packed >> 32);
-        policyConfig.maxTradeBps = uint256(config.words[1]);
     }
 }

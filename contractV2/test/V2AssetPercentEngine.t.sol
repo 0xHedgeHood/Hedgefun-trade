@@ -11,6 +11,7 @@ import {HedgeFunBondingCurve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {AssetPercentEngineConfig} from "../src/v2/strategy/AssetPercentEngineConfig.sol";
 import {V2AssetPercentRebalancePolicy} from "../src/v2/strategy/V2AssetPercentRebalancePolicy.sol";
 import {EngineConfig, StrategyAction} from "../src/v2/strategy/IStrategyPolicy.sol";
+import {FundAssetMath} from "./utils/FundAssetMath.sol";
 import {V2StrategyEngineAccountingFixture} from "./V2StrategyEngineAccounting.t.sol";
 
 contract AssetPercentConfigHarness {
@@ -126,7 +127,9 @@ contract V2AssetPercentEngineTest is V2AssetPercentEngineFixture {
         HedgeFunV2AssetPercentEngineTreasury t = _launchPercent(922, 1000, 5000, 0);
         Risk memory initial = _risk(t);
         assertTrue(initial.healthy);
-        assertEq(initial.nav, Math.mulDiv(t.bookedStock(), PRICE, 1e30));
+        (uint256 held, uint256 parked, uint256 principal, uint256 fees,) = t.assetReader().assetBalances();
+        assertGt(principal, 0);
+        assertEq(initial.nav, Math.mulDiv(held + parked + principal + fees, PRICE, 1e30));
         assertEq(initial.trade, initial.nav / 10); assertEq(initial.daily, initial.nav / 2);
         usdg.mint(address(t), initial.nav + 1);
         Risk memory grown = _risk(t);
@@ -135,7 +138,7 @@ contract V2AssetPercentEngineTest is V2AssetPercentEngineFixture {
         assertEq(grown.daily, Math.mulDiv(grown.nav, 5000, 10_000));
         _price(50e18);
         Risk memory shrunk = _risk(t);
-        assertEq(shrunk.nav, Math.mulDiv(t.bookedStock(), 50e18, 1e30) + t.reserveUsdg());
+        assertEq(shrunk.nav, Math.mulDiv(held + parked + principal + fees, 50e18, 1e30) + t.reserveUsdg());
         assertLt(shrunk.nav, grown.nav); assertLt(shrunk.trade, grown.trade); assertLt(shrunk.daily, grown.daily);
     }
 
@@ -219,24 +222,24 @@ contract V2AssetPercentEngineTest is V2AssetPercentEngineFixture {
         _assertWait(t); assertEq(t.turnoverInEpoch(), used);
     }
 
-    function test_stockDonationsPreviewMatchesBookingAndBuybackLpStockIsExcluded() public {
+    function test_stockDonationsAndBuybackAreIncludedWhileInventoryStaysIsolated() public {
         HedgeFunV2AssetPercentEngineTreasury t = _launchPercent(929, 1000, 5000, 0);
         Risk memory initial = _risk(t);
         uint256 lpStock = 20e18;
         stock.mint(t.liquidityVault(), lpStock);
         vm.prank(t.liquidityVault()); stock.approve(address(t), lpStock);
         vm.prank(t.liquidityVault()); t.creditLiquidityFee(lpStock);
-        assertEq(t.buybackStock(), lpStock); assertEq(_risk(t).nav, initial.nav);
+        assertEq(t.buybackStock(), lpStock); assertEq(_risk(t).nav, initial.nav + 2000e6);
         assertGt(stock.balanceOf(address(pm)), 0, "LP assets remain outside the trading treasury");
         stock.mint(address(t), 10e18);
-        Risk memory donated = _risk(t); assertEq(donated.nav, initial.nav + 1000e6);
+        Risk memory donated = _risk(t); assertEq(donated.nav, initial.nav + 3000e6);
         (bool due,, uint256 offered) = t.preview(); assertTrue(due);
         uint256 held = t.bookedStock(); uint256 pending = t.unbookedStock();
         t.execute(); assertEq(t.bookedStock(), held + pending - offered);
         assertEq(t.unbookedStock(), 0); assertEq(t.buybackStock(), lpStock);
     }
 
-    function test_gainPayoutExcludesBuybackAndCountsAllActuallyMovedInventory() public {
+    function test_gainPayoutRetainsBuybackInFullNavAndCountsAllActuallyMovedInventory() public {
         HedgeFunV2AssetPercentEngineTreasury t = _launchPercent(930, 1000, 5000, 10_000);
         _price(200e18); Risk memory r = _risk(t);
         (bool due,, uint256 offered) = t.preview(); assertTrue(due);
@@ -251,7 +254,7 @@ contract V2AssetPercentEngineTest is V2AssetPercentEngineFixture {
         assertEq(t.turnoverInEpoch(), Math.mulDiv(sold + bb, 200e18, 1e30));
         assertLe(t.turnoverInEpoch(), r.trade);
         Risk memory after_ = _risk(t);
-        assertEq(after_.nav, Math.mulDiv(t.bookedStock(), 200e18, 1e30) + t.reserveUsdg());
+        assertEq(after_.nav, FundAssetMath.nav(t, stock, 200e18, 1e30));
         assertLt(after_.nav, r.nav); assertEq(after_.trade, after_.nav / 10);
     }
 

@@ -9,36 +9,58 @@ The existing schema-1 Engine, policy, deployer, factory, registrations and deplo
 funds cannot migrate their immutable rules; a new configuration belongs to a new launch.
 
 The new core copies the reviewed rewarded Engine deliberately: its private execution methods cannot be overridden
-without changing the old source/creation code. Only schema validation, live percentage sizing and the additive
-`riskLimits()` view differ. A shared refactor would change the creation commitment of the old deployment.
+without changing the old source/creation code. Schema validation, live total-asset percentage sizing, a constructor-created immutable asset reader and the
+additive `riskLimits()` view differ. A shared refactor would change the creation commitment of the old deployment.
 
 ## Asset denominator and execution
 
-The denominator is **current trading assets**, expressed in USDG base units:
+The trade/daily percentage denominator is **this fund's total external assets**, expressed in USDG base units:
 
 ```text
-NAV = floor(tradingStock * liveStockPrice / stockToUsdgScale) + reserveUsdg
-tradingStock = bookedStock + unbookedStock
+stockAssets = stock.balanceOf(treasury) + stock.balanceOf(ownVault)
+            + ownFullRangeLpStockPrincipal + ownUncollectedStockFees
+NAV = floor(stockAssets * healthyLiveStockPrice / stockToUsdgScale) + treasuryUSDG
+allocationNAV = floor((bookedStock + unbookedStock) * healthyLiveStockPrice / stockToUsdgScale) + treasuryUSDG
 maxTrade = min(floor(NAV * maxTradeBps / 10000), frozen listing sellChunkUsdg)
 dailyLimit = floor(NAV * maxDailyTurnoverBps / 10000)
 used = turnoverInEpoch, when turnoverEpoch == calendar.tradingDate(now), otherwise 0
 remainingDaily = max(0, dailyLimit - used)
 ```
 
-The stock price is the healthy live oracle stock/USDG price. `Math.mulDiv` floors the percentage calculations
-without an intermediate multiplication overflow. Both `preview()` and `execute()` calculate limits from the
-same context; execute first books incoming stock at the live price. Pending stock donations/taxes are already
-included in preview. USDG donations enter the cash balance immediately.
+**Buyback stock and the fund's own LP stock assets are included in the percentage denominator.** The allocation
+70% target and band still use only tradable inventory plus USDG (`allocationNAV`). Locked LP and buyback stock
+never become executable inventory. Self-issued FUN held in the treasury, vault or LP has zero external-asset
+value and is excluded; unrelated funds, third-party positions and the PoolManager's aggregate balances are also
+excluded. USDG/stock donations to the treasury and stock parked in this vault enter the denominator immediately.
 
-**Buyback stock and every LP asset are excluded.** LP stock fees transferred through `creditLiquidityFee` go into
-the buyback bucket. Their transfer does not increase trading NAV. This denominator is the same trading-inventory
-denominator used for the allocation target, rather than the total value of all fund assets including locked LP.
+Each new treasury constructs its own `V2FundAssetReader` and freezes it as `assetReader`. Its creation code
+commits the reader code; creator, keeper and policy cannot select or replace a reader. The reader verifies this
+vault's factory, treasury, stock, FUN, manager, seeded status and entire PoolKey against the treasury's fixed
+wiring. It reads only the position owned by this vault at `minUsableTick/maxUsableTick`, salt zero. Stock principal
+uses that position's liquidity and the current V4 sqrt price clamped to its full range, rounded down. Only that
+stock quantity is valued at the same healthy live V3 oracle stock/USDG price used for allocation and execution.
+Uncollected stock fee is `floor(unchecked(feeGrowthInside - lastFeeGrowthInside) * ownLiquidity / 2^128)`, matching
+V4's fee-growth wrap semantics. No value is assigned to the FUN leg.
+
+Fee collection moves stock from uncollected fees to vault balance, then to treasury buyback stock. Each stage
+is counted exactly once: pending fee accounting is already in vault balance and buyback stock is already in
+treasury balance. Failed delivery parks stock in the vault and a later retry conserves NAV. Moving a sale's
+profit stock into the buyback bucket likewise preserves total NAV while reducing tradable allocation assets.
+Actual buyback spends stock to acquire/burn FUN, so it can decrease total external assets.
+
+The reader refuses all snapshots while the PoolManager is unlocked. V4 swap, seed and fee-poke callbacks can
+contain temporarily unsettled balances/position growth; they cannot be used to enlarge capacity. A missing,
+unseeded, misbound or malformed vault, zero price, quantity/value overflow, or reader failure makes riskLimits
+unhealthy and preview wait; execute reverts before booking and never falls back to the tradable denominator.
+Both preview and execute read a settled full-asset snapshot before constructing the tradable policy context.
+The existing shared context ABI is unchanged. Because that context omits LP assets, the advisory policy proposes
+the complete tradable target gap; the core alone clips it by full-NAV percentages and the remaining hard limits.
 
 An action must also be outside the allocation band, obey the cooldown, stay within the amount needed to reach
 target, use the fixed venue, pass its health/price-limit checks, and have sufficient actual input. A percentage
 cap below `minLotUsdg`, or a daily remainder below it, means **wait**; the core never rounds the cap up to minLot.
 The sell-side conversion back to stock units can floor below minLot as well. A small fund may remain idle until
-its trading assets grow. A large fund can hit the listing's absolute chunk even with a larger percentage allowance.
+its total external assets grow. A large fund can hit the listing's absolute chunk even with a larger percentage allowance.
 
 The daily cap follows the oracle calendar's **US trading date**, rolling at 20:00 New York time with DST. It is
 a cumulative turnover cap, not a rolling 24-hour limit. `used` is an absolute USDG ledger and does not reset when
@@ -46,12 +68,12 @@ the price, balances, target or NAV change within a session. A smaller NAV may ma
 already-used turnover: remaining becomes zero, without refunding or rewriting history. A subsequent increase
 in NAV releases only `newLimit - used`. Only a new trading date starts a fresh ledger.
 
-For example, 1,000 USDG of trading assets with a 10% trade / 50% daily configuration permits up to 100 USDG per
+For example, 1,000 USDG of total external assets with a 10% trade / 50% daily configuration permits up to 100 USDG per
 action and 500 USDG cumulative turnover. After 200 USDG has been used, a fall to 300 USDG of NAV produces a 150
 USDG daily limit and zero remainder. A recovery to 600 USDG gives a 300 USDG limit and 100 USDG remainder. The
 listing chunk and minLot can reduce or prevent a proposed action in all three snapshots.
 
-Fees, execution reward and gain allocation can reduce NAV during an action. The successful action is bounded
+Swap fees and execution rewards can reduce NAV during an action; reserving stock for buyback alone does not. The successful action is bounded
 by its **pre-trade** NAV; historical used turnover may exceed the cap computed from its post-trade NAV. This is
 expected. Requiring a post-trade inequality would incorrectly undo otherwise valid actions.
 
@@ -75,8 +97,8 @@ struct EngineConfig {
 | bits 32–63 | cooldown seconds | 600–`uint32.max` |
 | bits 64–79 | profit buyback share, bps | 0–10,000 |
 | bits 80–255 | reserved | zero |
-| `words[1]` | maximum action as trading-NAV bps | 1–10,000, full-width word; never truncate high bits |
-| `words[2]` | maximum daily turnover as trading-NAV bps | `>= words[1]`; `<= 10,000`; `<= 24*words[1]` |
+| `words[1]` | maximum action as total-external-asset NAV bps | 1–10,000, full-width word; never truncate high bits |
+| `words[2]` | maximum daily turnover as total-external-asset NAV bps | `>= words[1]`; `<= 10,000`; `<= 24*words[1]` |
 
 10% = 1,000 bps and 50% = 5,000 bps. Recommended initial UI inputs are target 70%, band 5 percentage points,
 cooldown 600 seconds, action cap 10%, daily cap 50%, profit buyback share 0%. They are a starting configuration,
@@ -98,7 +120,7 @@ The rewarded Engine rules remain:
 - A successful executor receives frozen `bountyBps` of actual gross swap output: stock for buys, USDG for sells.
   The execution event retains gross output; `KeeperRewardPaid` identifies the reward separately.
 - Profit payout is a stock allocation to future token buyback/burn, not a creator dividend. Moving stock into
-  this bucket removes it from subsequent trading NAV.
+  this bucket removes it from tradable allocation assets while keeping it in the full-NAV percentage denominator.
 - Dust fills below minLot, unhealthy markets, invalid policy returns, failed reward transfers and reentrancy
   revert atomically; no nonce, cooldown, state or budget is consumed. Hold does not commit a next state.
 - Inherited `takeProfit`, `stopLoss` and `buyDip` still require the combined `execute()` path. Inherited paced
@@ -120,7 +142,7 @@ function riskLimits() external view returns (
 );
 ```
 
-Amounts are USDG base units. `healthy` describes a valid live pricing snapshot, not whether allocation and
+Amounts are USDG base units. `healthy` describes a valid live pricing and settled asset snapshot, not whether allocation and
 cooldown permit a trade. Unhealthy/overflowing snapshots report false and zero NAV/caps/remainder; epoch and
 used remain available. The inherited average-cost ledger retains checked price-times-quantity arithmetic;
 extreme balances can fail closed. Full-width percentage `mulDiv` support does not promise every uint256-sized
@@ -143,13 +165,14 @@ limitation is explicitly tested and does not authorize changing the old deployer
 Use the repository's Foundry configuration: Solidity 0.8.26, optimizer enabled/runs 1, Cancun EVM and
 `bytecode_hash = none`. Reproduce with `forge build` and `forge test --match-contract 'V2AssetPercent.*Test'`.
 Tests cover actual factory prediction, launch and graduation, live NAV growth/shrink, percentage/chunk sizing,
-minLot/dust/rounding, dynamic daily capacity, deposits/LP/buyback exclusion, partial settlement/rewards,
+minLot/dust/rounding, dynamic daily capacity, deposits/own-LP/buyback inclusion, self-issued FUN/unrelated-position exclusion, fee delivery conservation and unlocked-manager refusal, partial settlement/rewards,
 constructor and policy bounds, old-code isolation, hostile policies/staticcall/returndata, reentrancy, and
 real winter/summer/DST trading sessions. Stateful invariants use the authoritative health price and independently
-derive turnover from balance deltas and buyback allocation; they check caps against each action's pre-trade NAV.
+read the owned V4 position/balances independently of the production reader, and derive turnover from balance
+deltas and buyback allocation; they check caps against each action's pre-trade NAV.
 
-Local final verification: **1,658 passed, zero failed, 58 skipped** across the repository. The seven new suites
-contribute **39 passing tests**, including three 256-case fuzz tests and two stateful invariants, each run for
+Local final verification: **1,667 passed, zero failed, 58 skipped** across the repository. The eight new suites
+contribute **48 passing tests**, including four 256-case fuzz tests and two stateful invariants, each run for
 256 sequences of 500 calls (128,000 calls per invariant). The skipped optional fork/integration cases are not
 live deployment evidence. `forge build --sizes` and the subsequent final build passed.
 
@@ -157,14 +180,19 @@ Build commitments (creation code excludes constructor arguments):
 
 | Artifact | Bytes | Keccak256 |
 | --- | ---: | --- |
-| new treasury creation | 29,921 | `0xf8854a3949d510bf3c49243ceb8ee4dd1eeedda5f45640276c542bab30b79caa` |
-| new treasury runtime template | 23,205 | contains immutable placeholders; actual fund runtime depends on constructor inputs |
-| new policy runtime | 1,973 | `0xf12d579197a13a01e83cbc76abc25df97b14d0cb25860f93dfd48061767215b9` |
+| new treasury creation (embeds reader creation) | 37,933 | `0x39ca295fb1c2377b51d44e10388468e3c3f157ef86d97b9c09f71cec0ea9a8ac` |
+| new treasury runtime template | 23,642 | contains immutable placeholders; actual fund runtime depends on constructor inputs |
+| new policy runtime | 1,913 | `0xffbe2810ce4fba86dc8bdbaa1e80eb30f3f90e58ffde52fc90c0c14c6ef945c5` |
+| trusted reader creation | 7,415 | `0x126dbfc4dab74bd6cbce756b2e5c097488fc02403935e2b2f79f32f57e94cf8f` |
+| trusted reader runtime template | 6,951 | contains immutable placeholders; actual runtime is fund-specific |
 | existing rewarded treasury creation | 29,388 | `0x21db9a11b19dfe73eb5e372972f0dc7057595360c989d92012ba4b638e0d271f` |
 | existing policy runtime | 1,799 | `0x703c92e4d169643e9b20eadf00cd53470b95699186a5ce9131feee42299c0b74` |
 
-The new treasury plus frozen constructor arguments/config is 30,785 initcode bytes, below EIP-3860's 49,152;
-runtime is below EIP-170's 24,576. The registered policy budget is 150,000 gas with exact 160-byte intent return.
+The new treasury plus frozen constructor arguments/config is 38,797 initcode bytes, below EIP-3860's 49,152;
+runtime is 23,642, below EIP-170's 24,576 with 934 bytes remaining. The reader's creation plus its six
+constructor arguments is 7,607 bytes, and its runtime is 6,951. Each of the two treasury creation chunks is
+below 24,576 bytes. Future source changes must recheck both runtime and complete initcode limits. The immutable reader is created during each new fund launch, not deployed as a user-selected registry
+component. The registered policy budget is 150,000 gas with exact 160-byte intent return.
 Tests execute the genuine policy through this budget. These commitments must be recomputed after any production
 source/configuration change; source commit must identify the committed new source, not just its base revision.
 
@@ -190,7 +218,8 @@ This section is a reviewable operator plan, not an executed deployment. No keys 
    policy runtime hash, creation hash and policy key. Recheck the snapshot of old kinds/funds is unchanged.
 5. Exercise new testnet-only funds with schema 2 by direct creator registration, quote, launch, graduation and
    controlled buy/sell calls. Verify exact frozen words, bound config hash, `preview`/`riskLimits`, actual fills,
-   keeper rewards, cumulative epoch ledger and tiny-NAV waits. This requires additional explicit human signing;
+   keeper rewards, owned LP/BB denominator, fee delivery conservation, unlocked-manager waits, cumulative epoch
+   ledger and tiny-NAV waits. This requires additional explicit human signing;
    a local test/fork cannot establish a live deployment proof.
 6. Only after real deployment/registration receipt/readback verification, publish
    `/testnet-v2-asset-percent-engine.json` in the frontend. Do not edit the original fee address book or publish a
@@ -210,6 +239,11 @@ The separate published proof is `v2-asset-percent-engine-proof-v1` and must cont
 | `creationCodeHash`, `policyRuntimeHash` | reproduced source commitments and live code/readback |
 | `policy`, `policyKey` | actual new policy address and immutable registration key |
 | `engineRegistrationTx`, `policyRegistrationTx` | distinct actual successful registration transaction hashes |
+
+A new full-asset reader/policy/treasury creation commitment is required; the earlier local trading-only
+percentage commitments cannot be accepted as this implementation. All old deployed schema-1 code remains
+unchanged. Optional proof audit material should also record each launched fund's immutable `assetReader`, its
+runtime code and constructor binding getters.
 
 The frontend checks registration receipt blocks are no later than its quote block, checks both transactions
 target the registry and come from the published factory owner, and matches the two events and live manifests/

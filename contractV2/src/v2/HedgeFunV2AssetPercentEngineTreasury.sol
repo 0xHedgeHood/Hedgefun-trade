@@ -17,9 +17,10 @@ import {
     StrategyContext,
     StrategyIntent
 } from "./strategy/IStrategyPolicy.sol";
+import {V2FundAssetReader} from "./V2FundAssetReader.sol";
 import {AssetPercentEngineConfig} from "./strategy/AssetPercentEngineConfig.sol";
 
-/// @notice An append-only, schema-2 spot-policy engine with live trading-NAV percentage limits.
+/// @notice An append-only, schema-2 spot-policy engine with live total-external-asset percentage limits.
 /// @dev Its registry kind is assigned at registration, never assumed. Schema 1 fixed-amount engines are unchanged.
 ///
 /// The policy is advisory only. It is called with `STATICCALL`, has no custody and can propose one fixed-width
@@ -45,6 +46,7 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
     uint256 private constant SPOT_CAPABILITIES = StrategyCapabilities.SPOT_BUY | StrategyCapabilities.SPOT_SELL;
 
     EngineConfig private _engineConfig;
+    V2FundAssetReader public immutable assetReader;
     address public immutable policyImplementation;
     bytes32 public immutable policyRuntimeCodeHash;
     uint256 public immutable policyCapabilities;
@@ -123,6 +125,7 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         PolicyManifest memory manifest = IV2StrategyRegistry(msg.sender).policy(c.policyKey);
         _validateEngineConfig(c, p, manifest);
 
+        assetReader = new V2FundAssetReader(stock_, usdg_, poolManager_, token_, factory_, _SCALE);
         _engineConfig = c;
         payoutBps = uint16(AssetPercentEngineConfig.payoutBps(c.words[0]));
         tradingCalendar = PriceOracle(oracle_).calendar();
@@ -182,8 +185,8 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         return _engineConfig;
     }
 
-    /// @notice Live risk snapshot in USDG base units. NAV includes pending trading stock and USDG, excludes
-    ///         buyback stock and all LP assets. Caps are floored; minLot never raises a percentage cap.
+    /// @notice Live risk snapshot in USDG base units. NAV includes all treasury stock (buyback/pending),
+    ///         cash and this fund vault's LP stock principal, uncollected stock fees and parked stock; excludes FUN. Caps are floored; minLot never raises a percentage cap.
     ///         Remaining daily capacity can decrease to zero or grow as NAV changes within the trading date.
     ///         Healthy describes the price snapshot, not cooldown or an executable allocation opportunity.
     function riskLimits() external view returns (
@@ -195,11 +198,8 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         (bool ok, uint256 price) = health();
         (bool live,) = _oracle.tryPrice();
         if (!ok || !live) return (false, 0, 0, 0, 0, epoch, usedUsdg);
-        StrategyContext memory context = _context(price, bookedStock + unbookedStock());
-        if (context.stockValueUsdg > type(uint256).max - context.usdgInventory) {
-            return (false, 0, 0, 0, 0, epoch, usedUsdg);
-        }
-        navUsdg = context.stockValueUsdg + context.usdgInventory;
+        try assetReader.totalAssets(price) returns (uint256 value) { navUsdg = value; }
+        catch { return (false, 0, 0, 0, 0, epoch, usedUsdg); }
         (,,, maxTradeUsdg, maxDailyTurnoverUsdg) = _riskConfig(navUsdg);
         remainingDailyUsdg = maxDailyTurnoverUsdg > usedUsdg ? maxDailyTurnoverUsdg - usedUsdg : 0;
         healthy = true;
@@ -238,17 +238,20 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         (bool ok, uint256 p) = health();
         (bool live,) = _oracle.tryPrice();
         if (!ok || !live) return (false, StrategyAction.Hold, 0);
+        uint256 nav;
+        try assetReader.totalAssets(p) returns (uint256 value) { nav = value; }
+        catch { return (false, StrategyAction.Hold, 0); }
         StrategyContext memory context = _context(p, bookedStock + unbookedStock());
         StrategyIntent memory intent = _policyIntent(context);
         if (!_basicIntentValid(intent) || intent.action == StrategyAction.Hold) {
             return (false, StrategyAction.Hold, 0);
         }
-        amountIn = _previewExecutableAmount(context, intent, p);
+        amountIn = _previewExecutableAmount(context, intent, p, nav);
         if (amountIn == 0) return (false, StrategyAction.Hold, 0);
         return (true, intent.action, amountIn);
     }
 
-    function _previewExecutableAmount(StrategyContext memory context, StrategyIntent memory intent, uint256 price)
+    function _previewExecutableAmount(StrategyContext memory context, StrategyIntent memory intent, uint256 price, uint256 nav)
         private
         view
         returns (uint256 offered)
@@ -259,7 +262,7 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         if (context.stockValueUsdg > type(uint256).max - context.usdgInventory) return 0;
         limits.totalValue = context.stockValueUsdg + context.usdgInventory;
         if (limits.totalValue == 0) return 0;
-        (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig(limits.totalValue);
+        (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig(nav);
         if (lastStrategyAt != 0 && block.timestamp < lastStrategyAt + cooldown) return 0;
         uint64 epoch = _tradingDate();
         uint256 used = turnoverEpoch == epoch ? turnoverInEpoch : 0;
@@ -313,6 +316,9 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         if (!ok) revert Unhealthy();
         (bool live,) = _oracle.tryPrice();
         if (!live) revert Unhealthy();
+        uint256 nav;
+        try assetReader.totalAssets(p) returns (uint256 value) { nav = value; }
+        catch { revert Unhealthy(); }
         _bookInventory(p);
 
         StrategyContext memory context = _context(p, bookedStock);
@@ -320,7 +326,7 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         if (!_basicIntentValid(intent) || intent.action == StrategyAction.Hold) revert NotDue();
 
         uint256 requested = intent.amountIn;
-        ExecutionLimits memory limits = _executionLimits(context);
+        ExecutionLimits memory limits = _executionLimits(context, nav);
         _notePrice(p);
         _noteTokenSpot();
         ExecutionResult memory result = _executeIntent(context, intent, p, limits);
@@ -356,13 +362,13 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
         }
     }
 
-    function _executionLimits(StrategyContext memory context) private view returns (ExecutionLimits memory limits) {
+    function _executionLimits(StrategyContext memory context, uint256 nav) private view returns (ExecutionLimits memory limits) {
         uint256 cooldown;
         uint256 maxDaily;
         if (context.stockValueUsdg > type(uint256).max - context.usdgInventory) revert BadIntent();
         limits.totalValue = context.stockValueUsdg + context.usdgInventory;
         if (limits.totalValue == 0) revert NotDue();
-        (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig(limits.totalValue);
+        (limits.targetBps, limits.deadbandBps, cooldown, limits.maxTrade, maxDaily) = _riskConfig(nav);
         if (lastStrategyAt != 0 && block.timestamp < lastStrategyAt + cooldown) revert Cooldown();
         limits.epoch = _tradingDate();
         limits.used = turnoverEpoch == limits.epoch ? turnoverInEpoch : 0;

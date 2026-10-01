@@ -124,14 +124,14 @@ contract V2AssetPercentPolicyTest is Test {
         assertEq(intent.nonce, c.nonce); assertEq(intent.nextState, bytes32(uint256(12)));
     }
 
-    function test_sellAndBuyProposalsScaleWithCurrentTradingNav() public {
+    function test_proposalsCoverTradableTargetGapLeavingFullNavCapsToCore() public {
         StrategyIntent memory sale = policy.decide(_context(1000e6, 0), _config(), 0);
-        assertEq(uint256(sale.action), uint256(StrategyAction.SellStock)); assertEq(sale.amountIn, 1e18);
-        sale = policy.decide(_context(2000e6, 0), _config(), 0); assertEq(sale.amountIn, 2e18);
+        assertEq(uint256(sale.action), uint256(StrategyAction.SellStock)); assertEq(sale.amountIn, 3e18);
+        sale = policy.decide(_context(2000e6, 0), _config(), 0); assertEq(sale.amountIn, 6e18);
         StrategyIntent memory buy = policy.decide(_context(200e6, 800e6), _config(), 0);
-        assertEq(uint256(buy.action), uint256(StrategyAction.BuyStock)); assertEq(buy.amountIn, 100e6);
-        buy = policy.decide(_context(400e6, 1600e6), _config(), 0); assertEq(buy.amountIn, 200e6);
-        buy = policy.decide(_context(1, 10), _config(), 0); assertEq(buy.amountIn, 1, "floor to base unit");
+        assertEq(uint256(buy.action), uint256(StrategyAction.BuyStock)); assertEq(buy.amountIn, 500e6);
+        buy = policy.decide(_context(400e6, 1600e6), _config(), 0); assertEq(buy.amountIn, 1000e6);
+        buy = policy.decide(_context(1, 10), _config(), 0); assertEq(buy.amountIn, 6, "floor target to base unit");
     }
 
     function test_bandEqualityAndCooldownHoldAreObservationsWithoutStateMutation() public {
@@ -150,7 +150,7 @@ contract V2AssetPercentPolicyTest is Test {
     function test_mulDivAcceptsFullWidthNavWhileOverflowSumHoldsAndWrongSchemaRefuses() public {
         StrategyContext memory c = _context(0, type(uint256).max);
         StrategyIntent memory intent = policy.decide(c, _config(), 0);
-        assertEq(intent.amountIn, Math.mulDiv(type(uint256).max, 1000, 10_000));
+        assertEq(intent.amountIn, Math.mulDiv(type(uint256).max, 7000, 10_000));
         c.stockValueUsdg = 1;
         assertEq(uint256(policy.decide(c, _config(), 0).action), uint256(StrategyAction.Hold));
         EngineConfig memory old = _config(); old.schema = 1;

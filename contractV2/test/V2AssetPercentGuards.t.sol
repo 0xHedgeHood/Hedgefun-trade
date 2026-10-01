@@ -117,7 +117,9 @@ contract V2AssetPercentGuardsTest is V2AssetPercentEngineFixture {
         HedgeFunV2AssetPercentEngineTreasury t = _launchPercent(1212, 1000, 5000, 0);
         deal(address(usdg), address(t), type(uint256).max);
         Risk memory r = _risk(t); assertFalse(r.healthy); assertEq(r.nav, 0);
-        _assertWait(t);
+        (bool due,,) = t.preview(); assertFalse(due);
+        vm.expectRevert(HedgeFunTreasuryBase.Unhealthy.selector); t.execute();
+        assertEq(t.strategyNonce(), 0); assertEq(t.turnoverInEpoch(), 0);
         // Separate bounded ledger for a partial buy whose actual input is under minLot.
         t = _launchPercent(1213, 1000, 5000, 0);
         usdg.mint(address(t), _risk(t).nav * 3); venue.setFillBps(1);

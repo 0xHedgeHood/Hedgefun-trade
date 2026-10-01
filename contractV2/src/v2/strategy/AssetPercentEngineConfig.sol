@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-/// @notice Schema 2 for engine version 1: trading limits are percentages of current trading NAV.
+/// @notice Schema 2 for engine version 1: trading limits are percentages of current fund total external assets.
 /// @dev Schema 1 is never reinterpreted. words[0] retains target[0..15], band[16..31], cooldown[32..63],
 /// payout[64..79]; reserved bits must be zero. words[1]/[2] are full-width bps words, with no reserved high bits.
 /// Percentage caps are floored at preview/execute using Math.mulDiv(NAV, bps, 10000).

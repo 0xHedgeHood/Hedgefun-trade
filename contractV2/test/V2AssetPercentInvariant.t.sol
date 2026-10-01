@@ -8,6 +8,7 @@ import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
 import {EngineAccountingVenue} from "./V2StrategyEngineAccounting.t.sol";
 import {MockFeed, MockToken} from "./mocks/Mocks.sol";
 import {GraduationStock} from "./utils/V2FactoryFixture.sol";
+import {FundAssetMath} from "./utils/FundAssetMath.sol";
 import {V2AssetPercentEngineFixture} from "./V2AssetPercentEngine.t.sol";
 
 contract AssetPercentEngineHandler is Test {
@@ -131,8 +132,7 @@ contract AssetPercentEngineHandler is Test {
 
         BeforeFill memory before_;
         (, before_.price) = treasury.health(); // same certified price as the core, even if pool spot differs
-        uint256 preNav = Math.mulDiv(treasury.bookedStock() + treasury.unbookedStock(), before_.price, 1e30)
-            + treasury.reserveUsdg();
+        uint256 preNav = FundAssetMath.nav(treasury, stock, before_.price, 1e30);
         before_.tradeLimit = Math.min(Math.mulDiv(preNav, MAX_TRADE_BPS, 10000), CHUNK);
         before_.dailyLimit = Math.mulDiv(preNav, MAX_DAILY_BPS, 10000);
         before_.stockBalance = stock.balanceOf(address(treasury));
