@@ -1,0 +1,39 @@
+name: offline Go loadtest
+
+on:
+  push:
+    paths:
+      - 'contractV2/tools/v2load/**'
+      - '.github/workflows/go-loadtest.yml'
+  pull_request:
+    paths:
+      - 'contractV2/tools/v2load/**'
+      - '.github/workflows/go-loadtest.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  go:
+    name: offline CLI race, fuzz and build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: contractV2/tools/v2load
+    env:
+      GOTOOLCHAIN: local
+      GOPROXY: 'off'
+      GOSUMDB: 'off'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: contractV2/tools/v2load/go.mod
+          cache: false
+      - run: test -z "$(gofmt -l .)"
+      - run: go vet ./...
+      - run: go test -race -count=1 ./...
+      - run: go test ./internal/ledger -fuzz FuzzAccounting -fuzztime 5s
+      - run: go build -o bin/v2load ./cmd/v2load
+      - run: ./bin/v2load run --users 40 --workers 40 --rounds 25 --json

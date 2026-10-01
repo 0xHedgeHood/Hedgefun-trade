@@ -1,0 +1,35 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/109",
+  "sourceHead": "656ed4fd8d3080e41e0ff2f8dc611e64ac68a875",
+  "sourceMergeBase": "9b872a2e7467f5ec7970b91ef9dca8214f218fd8",
+  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBranch": "codex/sync-pr-109",
+  "parentSourcePullRequest": null,
+  "mirroredPaths": [
+    ".github/workflows/go-loadtest.yml",
+    "contractV2/tools/v2load/.gitignore",
+    "contractV2/tools/v2load/README.md",
+    "contractV2/tools/v2load/cmd/v2load/main.go",
+    "contractV2/tools/v2load/cmd/v2load/main_test.go",
+    "contractV2/tools/v2load/go.mod",
+    "contractV2/tools/v2load/internal/ledger/ledger.go",
+    "contractV2/tools/v2load/internal/ledger/ledger_test.go",
+    "contractV2/tools/v2load/internal/runner/runner.go",
+    "contractV2/tools/v2load/internal/runner/runner_test.go"
+  ],
+  "adaptations": [
+    {
+      "source": ".github/workflows/go-loadtest.yml",
+      "target": ".github/workflows/go-loadtest.yml",
+      "reason": "Adapt repository-root workflow to contractV2 paths."
+    },
+    {
+      "source": "README.md",
+      "target": "contractV2/README.md",
+      "reason": "Retain curated mirror instructions and link the original source README."
+    }
+  ],
+  "byteIdenticalChangedSolidity": [],
+  "transitiveMergedSourcePullRequests": []
+}
