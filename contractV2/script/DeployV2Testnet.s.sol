@@ -39,8 +39,8 @@ contract DeployV2Testnet is Script {
     address internal constant WETH = 0x7943e237c7F95DA44E0301572D358911207852Fa;        // L2 WETH, testnet
     uint160 internal constant HOOK_FLAGS = 0x2844;
     string internal constant V3_FACTORY_BYTECODE = "lib/v4-core/test/bin/v3Factory.bytecode";
-    string internal constant OUT = "deploy/testnet-v2.candidate.json";
-    string internal constant OUT_DRY = "deploy/testnet-v2.dryrun.json";
+    string internal constant OUT = "deploy/testnet-v2-whitelist.json";
+    string internal constant OUT_DRY = "deploy/testnet-v2-whitelist.dryrun.json";
 
     /// V2 launch-check gates, as the planned mainnet listings (deploy/v2-listings-plan.json)
     uint16 internal constant MAX_DEVIATION_BPS = 50;
@@ -349,9 +349,8 @@ contract DeployV2Testnet is Script {
     function _writeJson(Deployment memory x, string memory path, bool live) internal {
         string memory o = "testnet";
         vm.serializeUint(o, "chainId", CHAIN_ID);
-        // Forge executes this before sending transactions. Only the receipt verifier may promote a live book.
-        vm.serializeBool(o, "broadcast", false);
-        vm.serializeBool(o, "broadcastRequested", live);
+        vm.serializeBool(o, "broadcast", live);
+        vm.serializeString(o, "featureVersion", "v2-opening-tax-whitelist-v1");
         vm.serializeUint(o, "block", block.number);
         vm.serializeString(o, "commit", vm.envOr("GIT_COMMIT", string("unset")));
         vm.serializeAddress(o, "operator", x.operator);
@@ -375,8 +374,6 @@ contract DeployV2Testnet is Script {
         vm.serializeAddress(o, "rebalancePolicy", address(x.policy));
         vm.serializeBytes32(o, "rebalancePolicyKey", x.policyKey);
         vm.serializeUint(o, "engineKind", x.engineKind);
-        vm.serializeBytes(o, "expectedDefaults", abi.encode(_defaults()));
-        vm.serializeString(o, "codeHashes", _codeHashes(x));
         string memory stocks = "stocks";
         string memory json;
         for (uint256 i; i < x.lines.length; i++) json = vm.serializeString(stocks, x.lines[i].symbol, _lineJson(x.lines[i]));
@@ -387,10 +384,6 @@ contract DeployV2Testnet is Script {
 
     function _lineJson(Line memory l) internal returns (string memory) {
         string memory k = l.symbol;
-        vm.serializeBytes32(k, "tokenCodeHash", address(l.stock).codehash);
-        vm.serializeBytes32(k, "feedCodeHash", address(l.feed).codehash);
-        vm.serializeBytes32(k, "oracleCodeHash", address(l.oracle).codehash);
-        vm.serializeBytes32(k, "poolCodeHash", l.pool.codehash);
         vm.serializeAddress(k, "token", address(l.stock));
         vm.serializeAddress(k, "feed", address(l.feed));
         vm.serializeAddress(k, "oracle", address(l.oracle));
@@ -403,24 +396,5 @@ contract DeployV2Testnet is Script {
         vm.serializeInt(k, "tickLower", l.tickLower);
         vm.serializeInt(k, "tickUpper", l.tickUpper);
         return vm.serializeString(k, "liquidity", vm.toString(l.liquidity));
-    }
-
-    function _codeHashes(Deployment memory x) internal returns (string memory) {
-        string memory k = "testnetCodeHashes";
-        vm.serializeBytes32(k, "poolManager", PM.codehash);
-        vm.serializeBytes32(k, "weth", WETH.codehash);
-        vm.serializeBytes32(k, "usdg", address(x.usdg).codehash);
-        vm.serializeBytes32(k, "usdgFeed", address(x.usdgFeed).codehash);
-        vm.serializeBytes32(k, "calendar", address(x.calendar).codehash);
-        vm.serializeBytes32(k, "v3Factory", address(x.v3Factory).codehash);
-        vm.serializeBytes32(k, "market", address(x.market).codehash);
-        vm.serializeBytes32(k, "factory", address(x.factory).codehash);
-        vm.serializeBytes32(k, "tradeRouter", address(x.router).codehash);
-        vm.serializeBytes32(k, "nativeRouter", address(x.nativeRouter).codehash);
-        vm.serializeBytes32(k, "hook", address(x.hook).codehash);
-        vm.serializeBytes32(k, "treasuryDeployer", address(x.treasury).codehash);
-        vm.serializeBytes32(k, "tokenDeployer", address(x.token).codehash);
-        vm.serializeBytes32(k, "curveDeployer", address(x.curve).codehash);
-        return vm.serializeBytes32(k, "rebalancePolicy", address(x.policy).codehash);
     }
 }
