@@ -82,8 +82,8 @@ contract AccountingAlwaysSellPolicy is IStrategyPolicy {
     }
 }
 
-contract V2StrategyEngineAccountingTest is V2FactoryFixture {
-    uint256 private constant PRICE = 100e18;
+abstract contract V2StrategyEngineAccountingFixture is V2FactoryFixture {
+    uint256 internal constant PRICE = 100e18;
 
     V2TreasuryDeployer internal deployer;
     V2RebalancePolicy internal policyImplementation;
@@ -91,7 +91,7 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
     bytes32 internal policyKey;
     uint8 internal engineKind;
 
-    function setUp() public {
+    function setUp() public virtual {
         _setUpV2(18);
         venue = new EngineAccountingVenue(address(stock), address(usdg), 3000, 1e30, PRICE);
         stockPool = venue;
@@ -124,7 +124,7 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
         vm.stopPrank();
     }
 
-    function _config(uint256 maxTrade, uint256 maxDaily) internal view returns (EngineConfig memory config) {
+    function _config(uint256 maxTrade, uint256 maxDaily) internal view virtual returns (EngineConfig memory config) {
         config.schema = StrategyCapabilities.CONFIG_SCHEMA_V1;
         config.engineVersion = StrategyCapabilities.SPOT_ENGINE_V1;
         config.policyKey = policyKey;
@@ -148,6 +148,9 @@ contract V2StrategyEngineAccountingTest is V2FactoryFixture {
         stock.approve(address(curve), type(uint256).max);
         _graduateV2(curve);
     }
+}
+
+contract V2StrategyEngineAccountingTest is V2StrategyEngineAccountingFixture {
 
     function testFuzz_shortSellFillUsesOnlyActualInput(uint16 fillBps) public {
         fillBps = uint16(bound(fillBps, 500, 9_999));

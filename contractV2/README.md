@@ -82,3 +82,9 @@ This branch mirrors [Deploy and verify V2 whitelist stack on Robinhood testnet](
 ## Source PR #104
 
 This branch mirrors [Audit TSLA V2 testnet stress journey](https://github.com/keyuyuan/hedgefund/pull/104) at source commit `64c0adc602bbcbb70c0b4511ac67ee2aa40fceca`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+## Source PR #111
+
+This branch mirrors [Add isolated two-sided-fee testnet deployment and TSLA rehearsal](https://github.com/keyuyuan/hedgefund/pull/111) at source commit `4e437ca9e724f2f4b7df74df9ffb100f2d22f7c9`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/4e437ca9e724f2f4b7df74df9ffb100f2d22f7c9/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+Keeper proof archives retain the original sourceCommit and receipt hashes, including source PR #112. tools/audit_v2_keeper_reward.py verifies the original repository history and layout: replay that audit from the pinned keyuyuan/hedgefund checkout, not this prefixed mirror. Do not replace the proof source commit with a mirror commit.

@@ -384,7 +384,7 @@ contract V2TreasuryDeployer is BoundDeployer {
                     _engineConfigOf[salt].words,
                     p.minLotUsdg,
                     p.sellChunkUsdg,
-                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps)
+                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps, p.bountyBps)
                 )
         ) revert BadEngineConfig();
     }

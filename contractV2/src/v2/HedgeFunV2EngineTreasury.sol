@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {ITradingCalendar} from "../interfaces/ITradingCalendar.sol";
 import {PriceOracle} from "../PriceOracle.sol";
@@ -34,6 +36,8 @@ import {SpotEngineConfig} from "./strategy/SpotEngineConfig.sol";
 /// and moves to `buybackStock` instead of being sold, for the inherited paced `buyback()` to burn. The principal and
 /// the rest of the gain are sold. `payoutBps = 0` is a pure rebalance whose buy-back is funded by LP fees alone.
 contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
+    using SafeERC20 for IERC20;
+
     uint256 private constant BPS = 10_000;
     uint256 private constant INTENT_RETURN_BYTES = 160;
     uint256 public constant MAX_POLICY_GAS = 500_000;
@@ -77,6 +81,7 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 actualInput;
         uint256 actualOutput;
         uint256 turnover;
+        uint256 keeperReward;
     }
 
     error BadEngineConfig();
@@ -99,6 +104,9 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 turnoverUsdg,
         bytes32 nextState
     );
+    /// @notice Paid to the successful executor from this action's actual output, after all effects are committed.
+    ///         `StrategyExecuted.actualOutput` remains the gross swap output; retained output is gross minus reward.
+    event KeeperRewardPaid(uint64 indexed nonce, address indexed executor, address indexed asset, uint256 amount);
 
     constructor(
         address usdg_,
@@ -155,7 +163,10 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
                 || manifest.maxGas > MAX_POLICY_GAS || manifest.maxReturnBytes != INTENT_RETURN_BYTES
                 || manifest.capabilities & SPOT_CAPABILITIES == 0 || manifest.capabilities & ~SPOT_CAPABILITIES != 0
                 || !SpotEngineConfig.valid(
-                    c.words, p.minLotUsdg, p.sellChunkUsdg, SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps)
+                    c.words,
+                    p.minLotUsdg,
+                    p.sellChunkUsdg,
+                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps, p.bountyBps)
                 )
         ) revert BadEngineConfig();
     }
@@ -273,7 +284,8 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         if (offered < _params.minLotUsdg) return 0;
     }
 
-    /// @notice Execute one bounded policy action. Keepers choose no action, route, lot, price or recipient.
+    /// @notice Execute one bounded policy action, paying its caller `bountyBps` of the actual swap output.
+    ///         Sells pay USDG; buys pay stock. Keepers choose no action, route, lot, price or reward recipient.
     function execute() external override nonReentrant returns (Action action, uint256 id) {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
@@ -313,6 +325,13 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
             result.turnover,
             intent.nextState
         );
+        // Reward callbacks see the final inventory, cost, turnover, cooldown, state and nonce. A failed transfer
+        // reverts the entire action, including its swap; there is no unpaid reward liability or claim path.
+        if (result.keeperReward != 0) {
+            IERC20 rewardAsset = result.action == Action.RebalanceSell ? _usdg : _stock;
+            emit KeeperRewardPaid(strategyNonce, msg.sender, address(rewardAsset), result.keeperReward);
+            rewardAsset.safeTransfer(msg.sender, result.keeperReward);
+        }
     }
 
     function _executionLimits(StrategyContext memory context) private view returns (ExecutionLimits memory limits) {
@@ -367,6 +386,7 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 toBuyback = gain * payoutBps / BPS;
         uint256 sale = offered - toBuyback;
         (result.actualInput, result.actualOutput) = _swapStock(false, sale, price);
+        result.keeperReward = Math.mulDiv(result.actualOutput, _params.bountyBps, BPS);
         if (result.actualInput != sale) {
             gain = Math.mulDiv(gain, result.actualInput, sale);
             toBuyback = Math.mulDiv(toBuyback, result.actualInput, sale);
@@ -394,8 +414,12 @@ contract HedgeFunV2EngineTreasury is HedgeFunV2Treasury {
         uint256 offered = Math.min(Math.min(requested, capUsdg), context.usdgInventory);
         if (offered < _params.minLotUsdg) revert NotDue();
         (result.actualInput, result.actualOutput) = _swapStock(true, offered, price);
-        _addCost(result.actualOutput, result.actualInput * _SCALE); // at the fill price, `actualInput / actualOutput`
-        bookedStock += result.actualOutput;
+        result.keeperReward = Math.mulDiv(result.actualOutput, _params.bountyBps, BPS);
+        uint256 retainedStock = result.actualOutput - result.keeperReward;
+        // The whole USDG spend bought the stock retained after the executor's reward. Booking gross output would
+        // create phantom inventory; pricing it at gross output would understate cost and manufacture later gains.
+        _addCost(retainedStock, result.actualInput * _SCALE);
+        bookedStock += retainedStock;
         result.turnover = result.actualInput;
         result.action = Action.RebalanceBuy;
     }
