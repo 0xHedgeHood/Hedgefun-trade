@@ -78,3 +78,7 @@ This branch mirrors [Add V2 opening-tax recipient whitelist](https://github.com/
 ## Source PR #103
 
 This branch mirrors [Deploy and verify V2 whitelist stack on Robinhood testnet](https://github.com/keyuyuan/hedgefund/pull/103) at source commit `d7f20e10a24646bcfb2c752d4fbf44d612445498`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/d7f20e10a24646bcfb2c752d4fbf44d612445498/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+## Source PR #108
+
+This branch mirrors [Append four synthetic stocks to V2 testnet](https://github.com/keyuyuan/hedgefund/pull/108) at source commit `4ff128573152c6a6589a64c6636d6f6de1919580`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/4ff128573152c6a6589a64c6636d6f6de1919580/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.

@@ -8,6 +8,8 @@ fs_permissions = [
   { access = "read-write", path = "./deploy/testnet-v2.dryrun.json" },
   { access = "read-write", path = "./deploy/testnet-v2-whitelist.json" },
   { access = "read-write", path = "./deploy/testnet-v2-whitelist.dryrun.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-stock-extension.candidate.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-stock-extension.dryrun.json" },
 ]
 src = "src"
 out = "out"

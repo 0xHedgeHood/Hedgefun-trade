@@ -1,0 +1,22 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/108",
+  "sourceHead": "4ff128573152c6a6589a64c6636d6f6de1919580",
+  "sourceMergeBase": "d7f20e10a24646bcfb2c752d4fbf44d612445498",
+  "targetBase": "codex/sync-pr-103",
+  "targetBranch": "codex/sync-pr-108",
+  "parentSourcePullRequest": 103,
+  "mirroredPaths": [
+    "contractV2/.gitignore",
+    "contractV2/docs/TESTNET_STOCK_EXTENSION.md",
+    "contractV2/foundry.toml",
+    "contractV2/script/AddV2TestnetStocks.s.sol",
+    "contractV2/test/AddV2TestnetStocks.t.sol"
+  ],
+  "adaptations": [],
+  "byteIdenticalChangedSolidity": [
+    "script/AddV2TestnetStocks.s.sol",
+    "test/AddV2TestnetStocks.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}
