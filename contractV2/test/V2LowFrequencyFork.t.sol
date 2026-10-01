@@ -177,7 +177,7 @@ contract V2LowFrequencyForkTest is Test, HookMiner {
         d.spikeSeconds = 120;
         d.snipeBps = 9900;
         d.snipeSeconds = 3;
-        d.sweepTipBps = 50;
+        d.sweepTipBps = 0;
         d.bountyBps = c.bountyBps;
         d.maxSlippageBps = c.maxSlippageBps;
         d.maxDeviationBps = c.maxDeviationBps;
@@ -200,7 +200,7 @@ contract V2LowFrequencyForkTest is Test, HookMiner {
 
     function _newFactory(ForkRuleConfig memory c) private returns (HedgeFunV2Factory) {
         return new HedgeFunV2Factory(OWNER, address(PM), V3_FACTORY, USDG, PROTOCOL,
-            address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(_deployHook(PM)),
+            address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(_deployV2Hook(PM)),
             address(new CurveDeployer()), _defaults(c));
     }
 

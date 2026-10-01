@@ -56,9 +56,10 @@ Let initial supply be `S`, virtual stock be `V`, and accounted token inventory b
 - Terminal effective stock `Yg = ceil(K / Tmin)`; net stock graduation target `Rg = Yg - V`, which is
   `ceil(V * saleBps / (10000 - saleBps))` whenever `S * (10000 - saleBps)` divides by 10,000.
 
-Buys are capped at the terminal cost. Both sides are canonicalized to `ceil(K/T)` so an integer-rounding surplus
-cannot be harvested by a later round trip. Buy tax removes tokens from the gross purchase and burns them; the
-sale allocation therefore counts gross tokens including that burn. Sells return stock net of tax. Unsolicited
+Buys are capped at the gross payment whose net principal reaches the terminal cost. Both sides are canonicalized
+to `ceil(K/T)` so an integer-rounding surplus cannot be harvested by a later round trip. The base buy fee is
+deducted from the actual stock payment and accrues to protocol, creator and treasury; only the opening premium
+burns tokens. The sale allocation counts gross tokens including that opening burn. Sells return stock net of tax. Unsolicited
 transfers do not move quotes, reserve accounting or graduation progress. Virtual stock is never spendable.
 
 Graduation initializes V4 at the terminal curve price `Yg / Tmin`, rounded to its sqrt-price representation.
@@ -76,8 +77,9 @@ For example, `S = 1,000,000`, `V = 100` stock and an 80% sale give `Tmin = 200,0
 with all 400 stock. Thus the new design preserves terminal **spot** but cuts starting V4 depth; execution
 also includes the V4 LP fee and hook tax and need not equal the final curve execution price.
 
-How thin that is, on the same example: the pool opens with 200 stock against a float of 800,000 FUN that was bought
-for 400 stock. Selling 1% of the float (8,000 FUN) into it returns about 18 stock and moves the price about −17%;
+The following historical depth example ignores fees and opening burns. The pool opens with 200 stock against a
+float of 800,000 FUN funded by 400 stock of net principal; base fees are additional payments. Selling 1% of that float
+(8,000 FUN) into it returns about 18 stock and moves the price about −17%;
 selling 10% moves it about −75%. The pool absorbs roughly 100 stock of selling before the price halves, so early
 curve buyers holding a 5x paper gain are exiting into a pool that holds half of what they paid in. The LP share is a
 per-stock listing decision, to be set from measured post-graduation selling; a launch UI must show these numbers.
@@ -86,11 +88,13 @@ and the LP fee's effect on the real contracts, are in the [depth experiment](./V
 That experiment also records a historical, now-disabled sell-spike scenario.
 
 The curve snapshots the launch's buy-side snipe rate and duration: the rate is the factory owner's `snipeBps`, the
-duration the creator's `snipeSeconds`. Its buy-side token burn falls linearly from
+duration the creator's `snipeSeconds`. Its combined nominal buy rate falls linearly from
 `snipeBps` to the flat tax over the full `snipeSeconds`, rounded up:
 `taxBps + ceil((snipeBps - taxBps) * (snipeSeconds - elapsed) / snipeSeconds)` while `elapsed < snipeSeconds`, then
 `taxBps`. The window therefore lasts the whole `snipeSeconds`, and every second inside it pays strictly more than the
-flat tax. With the shipped 99% / 3-second defaults and a 10% tax that is 99% in the launch second, 69.34% one second
+flat tax. The base fee is stock income; the separate token burn is
+`floor(grossTokens * (currentRate - taxBps) / (10000 - taxBps))`.
+With the shipped 99% / 3-second defaults and a historical 10% test tax that is 99% in the launch second, 69.34% one second
 later, 39.67% two seconds later, then 10% (at the 15% maximum tax: 99%, 71%, 43%, then 15%). Over a creator's
 60-second window it is 54.5% at 30 seconds and 11.49% at 59; over 180 seconds, 98.51% at one second and 10.5% at 179.
 A `snipeBps` at or below the tax, including 0, or a `snipeSeconds` of 0, means no opening premium: the flat tax from
@@ -100,8 +104,9 @@ Before 2026-09-28 the curve decayed the opening rate toward zero and only floore
 window early, at `snipeSeconds * (1 - taxBps / snipeBps)`: 99% / 66% / 33% at the shipped defaults, and the flat 10%
 from second 54 of a 60-second window. The deployed V1 hook keeps that formula; see
 [the V1 opening window](./V2_DEPLOYMENT_REHEARSAL.md#deployment-parameters-decided-after-audit-round-4).
-Unlike V1, V2 has no launch-transaction buyer exemption: curve quotes remain identical for every recipient,
-including the creator. The sell-side stock tax stays flat during this window. Graduation starts neither a second
+V2 creators can freeze up to 32 additional opening-premium exemptions; the creator is automatically exempt.
+Use `quoteBuyFor(amount, recipient)` for recipient-specific output. Exempt recipients still pay the base stock fee;
+see [the whitelist guide](./V2_OPENING_TAX_WHITELIST.md). The sell-side stock tax stays flat during this window. Graduation starts neither a second
 snipe window nor a launch sell spike. Graduated V2 pools freeze `spikeBps = 0`: LP fees fund
 permissionless buybacks, so buyback notifications cannot turn trading volume into a repeated sell spike.
 This is trading friction rather than ordering protection: the [market scenarios](./V2_MARKET_SCENARIOS.md)
@@ -167,11 +172,17 @@ the factory's.
 
 ## Fees and treasury activation
 
-Curve buy tax burns strategy tokens. Curve sell tax is denominated in stock and split between protocol, creator
-and treasury. These liabilities never count toward principal or LP. Anyone may call `claimFees(recipient)`;
+Curve buy and sell base fees are denominated in stock and split between protocol, creator and treasury.
+The recommended release configuration is 3% with a 20%/10%/70% split. Opening buy premiums burn tokens separately.
+These liabilities never count toward principal or LP. Anyone may call `claimFees(recipient)`;
 funds can only go to that recipient. A blocked fee recipient cannot stop other claims or curve trades. Claims
 continue after graduation. Both sides of stock transfers are checked, rejecting transfer fees and sender
 surcharges instead of short-paying a user or consuming a donation.
+
+Graduated pools use `HedgeFunV2Hook`: ordinary buy fees remain per-pool token claims until an owner-operated,
+bounded conversion produces stock claims. Permissionless sweeping then applies the same split as sell fees,
+with `sweepTipBps = 0`. Pending claims are not paid cash. See [V2 two-sided fees](./V2_TWO_SIDED_FEES.md)
+for conversion guards, ABI semantics and fresh-deployment requirements.
 
 V2 requires `V2TreasuryDeployer`, which deploys `HedgeFunV2Treasury`. Before graduation, `health()` returns
 `(false, 0)`: fees or direct donations may accumulate, but booking, take-profit, stop-loss and dip buying do not
@@ -181,7 +192,7 @@ because the observation ring is young. Normal V1 TWAP and bounded anchor behavio
 
 ### Strategy kinds
 
-The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`, not in the factory: the factory sits 179
+The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`, not in the factory: the factory sits 75
 bytes under EIP-170 and its `Request` is the deployed V1 ABI. Kind 0 is `HedgeFunV2Treasury` and needs no call. A
 creator picks another registered kind for their own upcoming launch with `setStrategyKind(symbol, nonce, kind)`;
 the deployer derives the same `(symbol, msg.sender, nonce)` salt the factory uses, so nobody can choose for someone
@@ -192,7 +203,7 @@ A kind must take `HedgeFunV2Treasury`'s constructor arguments and serve the same
 and routers call. This release registers only kind 0.
 
 **Kind 1 (opt-in, `HedgeFunV2BuybackTreasury`; production registration requires a separate Safe transaction):** a pure buy-back treasury. All
-stock it receives -- its graduation share, sell tax, stock-side LP fees -- is booked as `buybackStock`; it opens
+stock it receives -- its graduation share, trading fees, stock-side LP fees -- is booked as `buybackStock`; it opens
 no stock lot and `execute()` reverts `UseBuyback`. Spending goes only through the inherited `buyback()`: one
 `buybackChunkUsdg` per `buybackCooldown`, bounded by the pool TWAP/anchor and `maxBuybackImpactBps`, burning what
 it buys. Graduation's own `book()` therefore turns the treasury's share of the raise into
@@ -219,7 +230,7 @@ continues to gate stock strategy execution after activation. If the oracle is st
 the graduation stock remains in the treasury as `unbookedStock()` until anyone calls `book()` when a live
 oracle is available. `stockEquivalentHeld()` includes pending stock when its health gate permits a quote;
 indexers should also show `GraduationCapitalSplit.treasuryBooked` and the raw pending balance. See the
-[V2 emergency scope](../emergency/README.md).
+[V2 emergency scope](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/emergency/README.md).
 Treasury funding remains a one-way contribution, not a redeemable deposit or backing claim for token holders.
 
 V1 still enforces `lpFee = 0`. This dual-engine V2 requires a nonzero static V4 LP fee capped at 3000
@@ -300,11 +311,11 @@ Unsolicited native sends are rejected, while forcibly sent native currency and E
 Indexers should attribute native trades using `NativeBought` / `NativeSold`, whose buyer/seller is the user.
 The underlying router event names the native wrapper as caller: it is the same trade, not another trade to add
 to volume. Curve, router and hook events are also layers of one execution. In every case display graduation
-burns, buy-tax burns and strategy-profit buyback burns as distinct categories.
+burns, opening-premium burns and strategy-profit buyback burns as distinct categories.
 
 ## Deployment and frontend boundaries
 
-Deploy fresh token/curve/V2-treasury deployers, mine a hook address with the required permission bits, and create
+Deploy fresh token/curve/V2-treasury deployers, mine a `HedgeFunV2Hook` address with the required permission bits, and create
 the V2 factory, which binds them. Then configure verified stock listings, safe opening/curve parameters, a trade
 router, and optionally the native wrapper. Use the matching generated [ABI surface](../abi/SURFACE.md).
 Do not enable the V1 `HedgeFunLaunchRouter` for V2: its optional first buy goes straight to V4 and its booking
@@ -336,20 +347,21 @@ Solidity 0.8.26, optimizer runs 1, Cancun, no metadata hash:
 
 | V2 contract | Runtime bytes | Compiled initcode bytes before constructor arguments |
 |---|---:|---:|
-| HedgeFunBondingCurve | 6,985 | 8,965 |
-| CurveDeployer | 15,712 | 25,157 |
-| HedgeFunV2Factory | 24,551 | 28,692 |
+| HedgeFunBondingCurve | 7,887 | 10,634 |
+| CurveDeployer | 19,329 | 30,444 |
+| HedgeFunV2Hook | 22,605 | 22,942 |
+| HedgeFunV2Factory | 24,501 | 28,763 |
 | HedgeFunV2Treasury | 21,602 | 26,216 |
 | HedgeFunV2BuybackTreasury | 14,883 | 19,380 |
 | HedgeFunV2EngineTreasury | 22,353 | 29,029 |
 | V2RebalancePolicy | 1,799 | 1,827 |
 | V2TreasuryDeployer | 11,445 | 38,732 |
 | V2LiquidityVault | 7,327 | 8,448 |
-| HedgeFunV2TradeRouter | 11,150 | 11,677 |
-| HedgeFunV2NativeRouter | 5,749 | 6,147 |
+| HedgeFunV2TradeRouter | 11,966 | 12,494 |
+| HedgeFunV2NativeRouter | 5,812 | 6,210 |
 
-All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 25 runtime bytes free;
-future features need another size check. The CurveDeployer has 8,864: it had 12 until the curve's creation code
+All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 75 runtime bytes free;
+future features need another size check. The CurveDeployer has 5,247: its original implementation had 12 until the curve's creation code
 moved out of its runtime into a `V2InitCodeChunk` it creates in its own constructor (`curveChunk()`), which is why
 its initcode, not its runtime, now carries the curve. `deploy` and `predict` hash the chunk's bytes, identical to
 `type(HedgeFunBondingCurve).creationCode`, so curve addresses are derived exactly as before. The strategy engine has

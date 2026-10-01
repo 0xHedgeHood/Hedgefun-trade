@@ -2,6 +2,10 @@
 
 V2 creators can fix up to 32 additional wallet addresses that pay only the ordinary `taxBps` on curve buys during the opening window. The creator address is automatically exempt; in V2 that address is also the creator-fee recipient. The exemption never removes the ordinary buy tax, never changes sell tax, and does not carry into the graduated V4 pool.
 
+Under [the two-sided fee model](./V2_TWO_SIDED_FEES.md), the ordinary buy fee is stock revenue, and only the
+opening premium burns tokens. An exempt recipient therefore has zero opening burn while still paying the base fee.
+The third `quoteBuyFor` result means opening burn only; deployed older curves keep their original semantics.
+
 ## Launch flow
 
 The whitelist is a creator-owned launch choice, keyed by the same `(symbol, creator, nonce)` salt as `setCurveConfig`. Before requesting a quote or submitting a launch, the creator calls:

@@ -106,7 +106,7 @@ contract V2OpeningTaxExemptionTest is V2FactoryFixture {
         (, uint256 normalOut, uint256 normalBurn) = curve.quoteBuyFor(budget, OTHER);
         assertGt(out, normalOut);
         assertLt(burned, normalBurn);
-        assertEq(burned, (out + burned) * 1000 / 10_000);
+        assertEq(burned, 0, "exemption removes the extra burn, base fee remains in stock");
         stock.mint(WHITELISTED, budget);
         vm.startPrank(WHITELISTED);
         stock.approve(address(curve), budget);
@@ -119,7 +119,8 @@ contract V2OpeningTaxExemptionTest is V2FactoryFixture {
         assertEq(token.balanceOf(WHITELISTED), out);
         assertEq(supplyBefore - token.totalSupply(), burned);
         assertEq(curve.tokenReserve() + out + burned, curve.initialSupply());
-        assertEq(curve.realStockReserve(), spent);
+        assertEq(curve.realStockReserve(), spent - spent * 1000 / 10_000);
+        assertEq(curve.totalFees(), spent * 1000 / 10_000);
 
         (spent, out, burned) = curve.quoteBuyFor(budget, OTHER);
         stock.mint(OTHER, budget);
@@ -129,7 +130,7 @@ contract V2OpeningTaxExemptionTest is V2FactoryFixture {
         assertEq(actualSpent, spent);
         assertEq(actualOut, out);
         assertEq(supplyBefore - token.totalSupply(), burned);
-        assertEq(burned, (out + burned) * 9900 / 10_000);
+        assertEq(burned, (out + burned) * (9900 - 1000) / (10_000 - 1000));
     }
 
     function testExactlyThirtyTwoAdditionalRecipientsCanLaunch() public {

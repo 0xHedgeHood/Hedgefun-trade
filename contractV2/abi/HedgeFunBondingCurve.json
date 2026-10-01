@@ -76,11 +76,29 @@
       "name": "snipeSeconds",
       "type": "uint8",
       "internalType": "uint8"
+     },
+     {
+      "name": "openingTaxExemptions",
+      "type": "address[]",
+      "internalType": "address[]"
      }
     ]
    }
   ],
   "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "MAX_OPENING_TAX_EXEMPTIONS",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "view"
  },
  {
   "type": "function",
@@ -128,6 +146,25 @@
   "outputs": [
    {
     "name": "rate",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "buyRateBpsFor",
+  "inputs": [
+   {
+    "name": "recipient",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
     "type": "uint256",
     "internalType": "uint256"
    }
@@ -233,6 +270,25 @@
  },
  {
   "type": "function",
+  "name": "isOpeningTaxExempt",
+  "inputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "launchedAt",
   "inputs": [],
   "outputs": [
@@ -253,6 +309,25 @@
     "name": "",
     "type": "uint256",
     "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "openingTaxExemptions",
+  "inputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
    }
   ],
   "stateMutability": "view"
@@ -291,6 +366,40 @@
     "name": "maxStockIn",
     "type": "uint256",
     "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "stockSpent",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "tokensOut",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "taxTokens",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "quoteBuyFor",
+  "inputs": [
+   {
+    "name": "maxStockIn",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "recipient",
+    "type": "address",
+    "internalType": "address"
    }
   ],
   "outputs": [
@@ -602,6 +711,19 @@
  },
  {
   "type": "event",
+  "name": "OpeningTaxExemptionsFixed",
+  "inputs": [
+   {
+    "name": "recipients",
+    "type": "address[]",
+    "indexed": false,
+    "internalType": "address[]"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
   "name": "Ready",
   "inputs": [],
   "anonymous": false
@@ -655,6 +777,43 @@
    },
    {
     "name": "fee",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "TradeFeesAccrued",
+  "inputs": [
+   {
+    "name": "buying",
+    "type": "bool",
+    "indexed": true,
+    "internalType": "bool"
+   },
+   {
+    "name": "fee",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "protocolFee",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "creatorFee",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "treasuryFee",
     "type": "uint256",
     "indexed": false,
     "internalType": "uint256"

@@ -90,10 +90,10 @@ contract V2CurveSecurityTest is Test {
     }
     function test_releaseCallbackCannotConsumeRemainingFees() public {
         _buyAndSell();
-        uint256 owed = curve.claimable(role);
         stock.arm(address(curve));
         vm.prank(user);
         curve.buy(type(uint256).max, 1, user, block.timestamp);
+        uint256 owed = curve.claimable(role);
         assertGt(released, 0);
         assertFalse(stock.reentrySucceeded());
         assertEq(stock.rejection(), bytes4(keccak256("ReentrancyGuardReentrantCall()")));

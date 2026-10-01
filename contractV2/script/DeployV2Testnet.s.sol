@@ -7,7 +7,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunFactory, TokenDeployer} from "../src/HedgeFunFactory.sol";
-import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../src/hooks/HedgeFunV2Hook.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
@@ -98,7 +98,7 @@ contract DeployV2Testnet is Script {
         V2TreasuryDeployer treasury;
         TokenDeployer token;
         CurveDeployer curve;
-        HedgeFunHook hook;
+        HedgeFunV2Hook hook;
         HedgeFunV2Factory factory;
         HedgeFunV2TradeRouter router;
         HedgeFunV2NativeRouter nativeRouter;
@@ -220,7 +220,7 @@ contract DeployV2Testnet is Script {
         x.token = new TokenDeployer();
         x.curve = new CurveDeployer();
         (, address mined) = _hookAddress(x.hookSalt);
-        x.hook = new HedgeFunHook{salt: x.hookSalt}(IPoolManager(PM));
+        x.hook = new HedgeFunV2Hook{salt: x.hookSalt}(IPoolManager(PM));
         if (address(x.hook) != mined || uint160(address(x.hook)) & 0x3FFF != HOOK_FLAGS) revert BadHook(mined, address(x.hook));
         x.factory = new HedgeFunV2Factory(x.owner, PM, address(x.v3Factory), address(x.usdg), x.protocol,
             address(x.treasury), address(x.token), address(x.hook), address(x.curve), _defaults());
@@ -263,7 +263,7 @@ contract DeployV2Testnet is Script {
         d.maxCreatorBps = 3000;
         d.spikeBps = 0;
         d.spikeSeconds = 0;
-        d.sweepTipBps = 50;
+        d.sweepTipBps = 0; // V2 stock revenue is split exactly 20% protocol / creator share / treasury remainder.
         d.snipeBps = 9900;
         d.snipeSeconds = 3;
         d.bountyBps = 50;
@@ -287,6 +287,7 @@ contract DeployV2Testnet is Script {
         }
         if (x.treasury.factory() != address(f) || x.token.factory() != address(f) || x.curve.factory() != address(f)
             || x.hook.factory() != address(f) || address(x.router.factory()) != address(f)) revert ReadbackFailed("binding");
+        if (x.hook.version() != 2) revert ReadbackFailed("two-sided fee hook");
         if (x.treasury.kindCount() != 3 || x.engineKind != 2) revert ReadbackFailed("kinds");
         if (x.treasury.policy(x.policyKey).implementation != address(x.policy)) revert ReadbackFailed("policy");
         if (keccak256(abi.encode(f.getDefaults())) != keccak256(abi.encode(_defaults()))) revert ReadbackFailed("defaults");
@@ -307,12 +308,12 @@ contract DeployV2Testnet is Script {
     }
 
     function _hookAddress(bytes32 salt) internal pure returns (bytes32, address) {
-        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunHook).creationCode, abi.encode(PM)));
+        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunV2Hook).creationCode, abi.encode(PM)));
         return (salt, address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), CREATE2_FACTORY, salt, initHash))))));
     }
 
     function _mineHook(uint256 start) internal view returns (bytes32 salt, address hook) {
-        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunHook).creationCode, abi.encode(PM)));
+        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunV2Hook).creationCode, abi.encode(PM)));
         for (uint256 i = start; i < start + 2_000_000; ++i) {
             hook = address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), CREATE2_FACTORY, bytes32(i), initHash)))));
             if (uint160(hook) & 0x3FFF == HOOK_FLAGS && hook.code.length == 0) return (bytes32(i), hook);
@@ -350,7 +351,10 @@ contract DeployV2Testnet is Script {
         string memory o = "testnet";
         vm.serializeUint(o, "chainId", CHAIN_ID);
         vm.serializeBool(o, "broadcast", live);
-        vm.serializeString(o, "featureVersion", "v2-opening-tax-whitelist-v1");
+        vm.serializeString(o, "featureVersion", "v2-two-sided-stock-fees-v1");
+        // Launch requests remain bounded creator choices; these are the selected UI defaults, not immutable rates.
+        vm.serializeUint(o, "recommendedTaxBps", 300);
+        vm.serializeUint(o, "recommendedCreatorBps", 1000);
         vm.serializeUint(o, "block", block.number);
         vm.serializeString(o, "commit", vm.envOr("GIT_COMMIT", string("unset")));
         vm.serializeAddress(o, "operator", x.operator);
