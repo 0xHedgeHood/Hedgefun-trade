@@ -1,0 +1,146 @@
+name: contractV2
+on:
+  push:
+    paths: ['contractV2/**', '.github/workflows/contract-v2.yml']
+  pull_request:
+    paths: ['contractV2/**', '.github/workflows/contract-v2.yml']
+permissions:
+  contents: read
+env:
+  FOUNDRY_VERSION: v1.5.0
+defaults:
+  run:
+    working-directory: contractV2
+jobs:
+  unit:
+    name: V2 build, sizes and offline tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - run: forge build --sizes
+      - run: forge test
+      - name: Reject known-bug assertions
+        run: |
+          if grep -rnE 'function[[:space:]]+test(Fuzz|Fail)?_?BUG_' test/; then
+            echo "::error::Known-bug assertions are present"
+            exit 1
+          fi
+  fork:
+    name: fork suite (public RPC)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    # push and pull_request both run for an open PR. Share one RPC slot for that
+    # branch instead of doubling its load on the same public endpoint.
+    concurrency:
+      group: public-fork-rpc-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: ${{ env.FOUNDRY_VERSION }}
+
+      - name: forge build
+        run: forge build
+
+      # The pinned V2 suites require the allowlisted archive endpoint. Run serially to avoid its HTTP 429 bursts;
+      # neither publicnode nor the chain's official RPC can replace it for historical state reads.
+      # Keep bounded retries after full rate-limit resets in a separate job -- but NOT
+      # continue-on-error: this job holds test_fork_liquidityIsUnremovable_byAnyone, the permanence proof, and that
+      # regressing must fail the PR.
+      - name: fork tests (cached archive retries)
+        env:
+          RH_FORK: "1"
+          # Prefer a project archive provider with enough quota. Forked PRs do not receive secrets, so the fixed
+          # blockmachine alias remains a read-only fallback and the loop below accumulates Foundry's RPC cache.
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+          V2_LP_BPS: "5000"
+        run: |
+          set -o pipefail
+          run_suite() {
+            forge test --threads 1 --mc "V2LowFrequencyForkTest|StrategyForkTestV2LiveVenue|CoveredCallDeskFork" -vv 2>&1 | tee fork.log
+          }
+          passed=0
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if run_suite; then
+              passed=1
+              break
+            fi
+            if ! grep -Eq 'HTTP error 429|rate limit exceeded|retry_after_ms' fork.log; then
+              echo "::error::fork suite failed for a non-rate-limit reason; refusing to hide a test failure with retries"
+              exit 1
+            fi
+            if [ "$attempt" -lt 8 ]; then
+              echo "::warning::fork suite attempt $attempt failed; retrying in 65s with the accumulated RPC cache"
+              sleep 65
+            fi
+          done
+          if [ "$passed" -ne 1 ]; then exit 1; fi
+          # A skipped fork test in THIS job means the gate is off, which is FA-11 all over again.
+          if grep -q '\[SKIP' fork.log; then
+            echo "::error::fork tests were skipped in the fork job"
+            exit 1
+          fi
+          if ! grep -Eq 'test_fork_uptrendWaitsForMeanThenTakesProfit' fork.log; then
+            echo "::error::the V2 low-frequency fork replay did not run"
+            exit 1
+          fi
+          if ! grep -Eq 'test_fork_fullCycle_realTokens' fork.log; then
+            echo "::error::the CoveredCallDesk live-token lifecycle did not run"
+            exit 1
+          fi
+          if ! grep -Eq 'test_fork_curveUserBuySandwichedByBot' fork.log; then
+            echo "::error::the V2 sandwich fork replay did not run"
+            exit 1
+          fi
+          grep -Eq 'test_fork_curveUserTightMinOutRejectsSandwich' fork.log
+          grep -Eq 'test_fork_twoUsersLiveV3CurveGraduationV4FeesAndBuybackBurn' fork.log
+          grep -Eq 'test_fork_kindOneRegistersLaunchesGraduatesAndBuysBackOnLiveVenue' fork.log
+          grep -Eq 'V2 live venue LP bps: 5000' fork.log
+          grep -Eq 'V2 live venue frozen LP bps: 5000' fork.log
+
+      # The main suite above proves the default 50/50 LP/treasury split. Replay the
+      # real-venue lifecycle at 70/30 as a separate release gate so configuration,
+      # terms restatement and the value frozen in the treasury cannot drift unnoticed.
+      - name: V2 live venue 70/30 split (cached archive retries)
+        env:
+          RH_FORK: "1"
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+          V2_LP_BPS: "7000"
+        run: |
+          set -o pipefail
+          passed=0
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if forge test --threads 1 --mc StrategyForkTestV2LiveVenue -vv 2>&1 | tee fork-70-30.log; then
+              passed=1
+              break
+            fi
+            if ! grep -Eq 'HTTP error 429|rate limit exceeded|retry_after_ms' fork-70-30.log; then
+              echo "::error::70/30 replay failed for a non-rate-limit reason; refusing to retry a test failure"
+              exit 1
+            fi
+            if [ "$attempt" -lt 8 ]; then
+              echo "::warning::70/30 replay attempt $attempt failed; retrying in 65s with the accumulated RPC cache"
+              sleep 65
+            fi
+          done
+          if [ "$passed" -ne 1 ]; then exit 1; fi
+          if grep -q '\[SKIP' fork-70-30.log; then
+            echo "::error::the V2 70/30 replay was skipped"
+            exit 1
+          fi
+          grep -Eq 'test_fork_curveUserTightMinOutRejectsSandwich' fork-70-30.log
+          grep -Eq 'test_fork_twoUsersLiveV3CurveGraduationV4FeesAndBuybackBurn' fork-70-30.log
+          grep -Eq 'test_fork_kindOneRegistersLaunchesGraduatesAndBuysBackOnLiveVenue' fork-70-30.log
+          grep -Eq 'V2 live venue LP bps: 7000' fork-70-30.log
+          grep -Eq 'V2 live venue frozen LP bps: 7000' fork-70-30.log
