@@ -35,7 +35,7 @@ jobs:
   asset-percent-fork:
     name: V2 percentage Engine fork scenarios
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 45
     concurrency:
       group: percentage-fork-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
       cancel-in-progress: false
@@ -52,9 +52,27 @@ jobs:
           RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
         run: |
           set -o pipefail
+          python3 -m unittest discover -s tools -p 'test_fork_rpc_proxy.py'
+          # Serialize archive reads before they reach the provider; no signing or write methods are permitted.
+          archive_rpc="$RH_RPC"
+          if [ "$archive_rpc" = blockmachine ]; then archive_rpc=https://rpc-robinhood.blockmachine.io; fi
+          FORK_ARCHIVE_RPC="$archive_rpc" python3 tools/fork_rpc_proxy.py --port 18545 --interval-seconds 3 > percent-rpc.log 2>&1 &
+          proxy_pid=$!
+          trap 'kill "$proxy_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for check in $(seq 1 120); do
+            if ! kill -0 "$proxy_pid" 2>/dev/null; then
+              echo "::error::the read-only archive proxy failed to start"
+              exit 1
+            fi
+            if curl --fail --silent http://127.0.0.1:18545/healthz >/dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then echo "::error::archive proxy startup timed out"; exit 1; fi
+          export RH_RPC=http://127.0.0.1:18545
           for split in 5000 7000; do
             # Fail on every unsuccessful run, including RPC errors. Manual reruns preserve failed evidence.
-            V2_LP_BPS="$split" forge test --fork-url "$RH_RPC" --fork-block-number 70786980 --compute-units-per-second 10 --threads 1 --mc '^V2AssetPercentForkTest$' -vv 2>&1 | tee "percent-fork-$split.log"
+            V2_LP_BPS="$split" forge test --fork-url "$RH_RPC" --fork-block-number 70786980 --threads 1 --mc '^V2AssetPercentForkTest$' -vv 2>&1 | tee "percent-fork-$split.log"
             if grep -q '\[SKIP' "percent-fork-$split.log"; then
               echo "::error::percentage fork scenarios were skipped"
               exit 1
