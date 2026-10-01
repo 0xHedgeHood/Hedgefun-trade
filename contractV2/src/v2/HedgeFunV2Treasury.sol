@@ -26,7 +26,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
 
     /// @dev The first three values are the deployed V2 ABI. New engine actions append only,
     ///      so existing return values and indexers keep their meaning.
-    enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell }
+    enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell, BuyRecovery }
     error UseExecute();
     event LotsCoalesced(uint256 indexed kept, uint256 indexed removed, uint256 qty, uint256 cost);
 
@@ -93,6 +93,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
                 if (!valid) revert Unhealthy();
                 _stopLoss(stopId);
                 (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (p, block.timestamp, updatedAt);
+                _afterStop();
                 return (Action.Stop, stopId);
             }
         }
@@ -108,20 +109,33 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
         // During a scheduled closure the pool can supply a bounded price for TP, but not
         // prove that no stop is due. A stop-enabled treasury therefore cannot add risk.
         if (!live && _params.stopBps != 0) revert NotDue();
-        if (lastStopAt != 0) {
-            if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
-                || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) revert NotDue();
-            (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
-            if (!valid || updatedAt <= lastStopStockUpdatedAt) revert NotDue();
-        }
+        if (!_canBuyAfterStop(p, live)) revert NotDue();
         // Only after ruling out all sales do we compact exact-matching lots for a buy.
         // A fresh booking costs p and cannot itself be stop- or profit-due at p.
         _bookV2();
         if (lots.length == MAX_STRATEGY_LOTS && !_coalesceLots()) revert NotDue();
-        _buyDip();
+        Action buyAction = _executeBuy();
         _clearStopGate();
-        return (Action.BuyDip, lots.length - 1);
+        return (buyAction, lots.length - 1);
     }
+
+    /// @dev The default rule still requires a fresh, deeper print after a stop. A separately registered kind
+    ///      may provide another bounded re-entry, after this scheduler has ruled out every due sale.
+    function _canBuyAfterStop(uint256 p, bool live) internal view virtual returns (bool) {
+        if (lastStopAt == 0) return true;
+        if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
+            || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) return false;
+        (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
+        return valid && updatedAt > lastStopStockUpdatedAt;
+    }
+
+    function _executeBuy() internal virtual returns (Action) {
+        _buyDip();
+        return Action.BuyDip;
+    }
+
+    /// @dev Extensions may retain a stop observation independently of the default TP-to-dip gate.
+    function _afterStop() internal virtual {}
 
     /// @dev The post-stop gate guards the first re-entry after a stop only. Once the treasury has sold at a
     ///      profit or bought again, `lastSalePrice` is a newer reference than the stop and the gate is done.
