@@ -280,7 +280,8 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
         HedgeFunBondingCurve.Init memory p = HedgeFunBondingCurve.Init({
             factory: address(factory), token: token, stock: address(stock), treasury: treasury,
             protocol: protocol, creator: address(this), supply: S, virtualStock: V, saleBps: 6000,
-            taxBps: q.taxBps, protocolBps: 2000, creatorBps: q.creatorBps, snipeBps: 9900, snipeSeconds: 60
+            taxBps: q.taxBps, protocolBps: 2000, creatorBps: q.creatorBps, snipeBps: 9900, snipeSeconds: 60,
+            openingTaxExemptions: new address[](0)
         });
         bytes32 salt = keccak256(abi.encode(q.symbol, q.creator, q.nonce));
         bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunBondingCurve).creationCode, abi.encode(p)));

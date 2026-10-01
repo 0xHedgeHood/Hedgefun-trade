@@ -129,7 +129,7 @@ contract V2OpeningTaxDecayTest is Test {
     function _curve(uint16 snipeBps, uint8 secs, uint16 taxBps) private returns (Curve c) {
         HedgeFunToken token = new HedgeFunToken("Meme", "MEME", SUPPLY, address(this), creator);
         c = new Curve(Curve.Init(address(this), address(token), address(stock), treasury, protocol, creator,
-            SUPPLY, 100e18, 8000, taxBps, 2000, 1000, snipeBps, secs));
+            SUPPLY, 100e18, 8000, taxBps, 2000, 1000, snipeBps, secs, new address[](0)));
         token.transfer(address(c), SUPPLY);
         stock.approve(address(c), type(uint256).max);
     }

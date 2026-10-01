@@ -280,7 +280,7 @@ contract V2AdversarialCallbacksTest is V2FactoryFixture {
         V2RouterRegistry registry = new V2RouterRegistry(pm, v3f);
         HedgeFunToken t = new HedgeFunToken("Callback strategy", "CB", 1_000_000 ether, address(this), address(this));
         Curve c = new Curve(Curve.Init(address(registry), address(t), address(callbackStock), bob, protocol,
-            alice, 1_000_000 ether, 100 ether, 8000, 1000, 2000, 1000, 0, 0));
+            alice, 1_000_000 ether, 100 ether, 8000, 1000, 2000, 1000, 0, 0, new address[](0)));
         registry.set(address(t), address(callbackStock), address(0), address(c));
         t.transfer(address(c), 1_000_000 ether);
         callbackStock.mint(alice, 1_000 ether);

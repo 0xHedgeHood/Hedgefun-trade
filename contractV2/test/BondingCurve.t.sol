@@ -42,7 +42,7 @@ contract BondingCurveTest is Test {
     }
     function _init() internal view returns (Curve.Init memory) {
         return Curve.Init(address(this), address(token), address(stock), treasury, protocol, creator,
-            SUPPLY, 100e18, 8000, 1000, 2000, 1000, 0, 0);
+            SUPPLY, 100e18, 8000, 1000, 2000, 1000, 0, 0, new address[](0));
     }
     function testBuySellConservation() public {
         (uint256 spent, uint256 output, uint256 burned) = curve.quoteBuy(10e18);

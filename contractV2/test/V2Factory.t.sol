@@ -96,15 +96,17 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         assertEq(curve.snipeSeconds(), 3);
     }
 
-    function test_curveOpeningBuyTaxDecaysAndAppliesToCreator() public {
+    function test_curveOpeningBuyTaxDecaysAndCreatorPaysOnlyFlatTax() public {
         (, HedgeFunBondingCurve curve,) = _launchV2(true);
         uint256 start = block.timestamp;
         assertEq(curve.launchedAt(), start);
         assertEq(curve.buyRateBps(), 9900);
-        (uint256 spent, uint256 out, uint256 burned) = curve.quoteBuy(10e18);
-        assertEq(burned, (out + burned) * 9900 / 10000);
+        (uint256 spent, uint256 out, uint256 burned) = curve.quoteBuyFor(10e18, address(this));
+        assertEq(curve.buyRateBpsFor(address(this)), 1000);
+        assertEq(burned, (out + burned) * 1000 / 10000);
         uint256 supply = IERC20(curve.token()).totalSupply();
-        // The fixture's creator buys in the launch timestamp. V2 has no privileged recipient.
+        // The fixture's creator is the creator-fee recipient and is automatically exempt from
+        // only the opening surcharge; ordinary trading tax still burns tokens.
         (uint256 actualSpent, uint256 actualOut) = curve.buy(10e18, out, address(this), block.timestamp);
         assertEq(actualSpent, spent);
         assertEq(actualOut, out);
