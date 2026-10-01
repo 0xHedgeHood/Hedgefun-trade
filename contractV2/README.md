@@ -57,7 +57,7 @@ python3 tools/v2_launch_check.py --testnet
 python3 tools/v2_launch_check.py --testnet --sale-bps 9000
 ```
 
-The operator supplies a testnet-only signer and test ETH. Dry-run output and an intended broadcast are not evidence of deployment; verify receipts and live roles before sharing addresses. No keys, broadcast artifacts or completed deployment inventory are included here.
+The operator supplies a testnet-only signer and test ETH. Dry-run output and an intended broadcast are not evidence of deployment; verify receipts and live roles before sharing addresses. No keys or signing credentials are included. Some PR mirrors include already-published testnet deployment records and mined receipts; they are historical source evidence, not a new deployment.
 
 ## Build sizes
 
@@ -70,3 +70,7 @@ At this snapshot, `forge build --sizes` reports runtime sizes of 24,397 bytes fo
 The [X creator launch and settlement design](./docs/X_CREATOR_LAUNCH_DESIGN.md) describes a separate, unimplemented integration; X Money payouts are not part of this release.
 
 The scoped security review is in [`V2_TESTNET_REVIEW.md`](./docs/V2_TESTNET_REVIEW.md). It is an engineering review, not a claim of independent audit certification.
+
+## Source PR #105
+
+This branch mirrors [Add CoveredCallDesk: treasuries sell weekly covered calls to market makers via RFQ](https://github.com/keyuyuan/hedgefund/pull/105) at source commit `983542cf93442d7309abf8290f2427235fd2ab93`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/983542cf93442d7309abf8290f2427235fd2ab93/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.

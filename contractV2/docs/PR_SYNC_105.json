@@ -1,0 +1,150 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/105",
+  "sourceHead": "983542cf93442d7309abf8290f2427235fd2ab93",
+  "sourceMergeBase": "9b872a2e7467f5ec7970b91ef9dca8214f218fd8",
+  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBranch": "codex/sync-pr-105",
+  "parentSourcePullRequest": null,
+  "mirroredPaths": [
+    "contractV2/docs/COVERED_CALL_DESK.md",
+    "contractV2/docs/README.md",
+    "contractV2/src/options/CoveredCallDesk.sol",
+    "contractV2/src/options/IAggregatorV3Rounds.sol",
+    "contractV2/test/CoveredCallDesk.t.sol",
+    "contractV2/test/CoveredCallDeskAudit.t.sol",
+    "contractV2/test/CoveredCallDeskAudit2.t.sol",
+    "contractV2/test/CoveredCallDeskFork.t.sol",
+    "contractV2/tools/cc_round_at.py"
+  ],
+  "adaptations": [
+    {
+      "source": ".github/workflows/test.yml",
+      "target": ".github/workflows/contract-v2.yml",
+      "reason": "Run mirrored V2 and CoveredCallDeskFork suites; development-only V1/sandbox/emergency suites are absent."
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/ARCHITECTURE.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/V2_TREND_SCENARIOS.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/DEVELOPMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/SECURITY.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/REFERENCE.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/DEPLOYMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/OPERATIONS.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/ROADMAP.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/LAUNCH_KIT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "emergency/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/SECURITY.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "AUDIT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/STOCK_TOKEN_ASSESSMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "LISTING_CANDIDATES.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/rule-backtest/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "POOL_SELECTION.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/robinhood-chain/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/research/PONS_TAX_ELASTICITY.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/REFERENCE.md"
+    }
+  ],
+  "byteIdenticalChangedSolidity": [
+    "src/options/CoveredCallDesk.sol",
+    "src/options/IAggregatorV3Rounds.sol",
+    "test/CoveredCallDesk.t.sol",
+    "test/CoveredCallDeskAudit.t.sol",
+    "test/CoveredCallDeskAudit2.t.sol",
+    "test/CoveredCallDeskFork.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}
