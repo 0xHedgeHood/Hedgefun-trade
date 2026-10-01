@@ -1,0 +1,29 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/106",
+  "sourceHead": "01976f62c56831c176a0b85db568f9c120cc3504",
+  "sourceMergeBase": "174226425cc5db4f1293c05368007bce3173d830",
+  "targetBase": "codex/sync-pr-104",
+  "targetBranch": "codex/sync-pr-106",
+  "parentSourcePullRequest": 104,
+  "mirroredPaths": [
+    "contractV2/deploy/v2-budget32-40k.json",
+    "contractV2/deploy/v2-capital-simulation.json",
+    "contractV2/deploy/v2-original-supply-participation.json",
+    "contractV2/deploy/v2-wallet-targets.json",
+    "contractV2/docs/V2_CAPITAL_SIMULATION.md",
+    "contractV2/docs/V2_ORIGINAL_SUPPLY_PARTICIPATION.md",
+    "contractV2/docs/V2_WALLET_BUDGET.md",
+    "contractV2/test/V2Budget32Fork.t.sol",
+    "contractV2/test/V2CapitalSimulationFork.t.sol",
+    "contractV2/test/V2OriginalSupplyParticipationFork.t.sol",
+    "contractV2/tools/report_v2_capital_simulation.py"
+  ],
+  "adaptations": [],
+  "byteIdenticalChangedSolidity": [
+    "test/V2Budget32Fork.t.sol",
+    "test/V2CapitalSimulationFork.t.sol",
+    "test/V2OriginalSupplyParticipationFork.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}

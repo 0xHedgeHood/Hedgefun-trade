@@ -82,3 +82,7 @@ This branch mirrors [Deploy and verify V2 whitelist stack on Robinhood testnet](
 ## Source PR #104
 
 This branch mirrors [Audit TSLA V2 testnet stress journey](https://github.com/keyuyuan/hedgefund/pull/104) at source commit `64c0adc602bbcbb70c0b4511ac67ee2aa40fceca`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+## Source PR #106
+
+This branch mirrors [Measure V2 wallet budgets, FDV targets and original-supply ownership](https://github.com/keyuyuan/hedgefund/pull/106) at source commit `01976f62c56831c176a0b85db568f9c120cc3504`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/01976f62c56831c176a0b85db568f9c120cc3504/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
