@@ -5,6 +5,7 @@ fs_permissions = [
   { access = "read-write", path = "./deploy/testnet-v2.json" },
   { access = "read-write", path = "./deploy/testnet-v2.candidate.json" },
   { access = "read-write", path = "./deploy/testnet-v2.dryrun.json" },
+  { access = "read-write", path = "./deploy/testnet-v2.candidate.json" },
 ]
 src = "src"
 test = "test"

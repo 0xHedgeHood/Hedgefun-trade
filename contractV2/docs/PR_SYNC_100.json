@@ -1,0 +1,28 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/100",
+  "sourceHead": "0b886b3ff8f1785c90f8bac4d538d0d103240b64",
+  "sourceMergeBase": "9b872a2e7467f5ec7970b91ef9dca8214f218fd8",
+  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBranch": "codex/sync-pr-100",
+  "parentSourcePullRequest": null,
+  "mirroredPaths": [
+    "contractV2/.gitignore",
+    "contractV2/docs/TESTNET_V2.md",
+    "contractV2/docs/V2_RELEASE_REVIEW_2026_09_29.md",
+    "contractV2/docs/X_CREATOR_LAUNCH_DESIGN.md",
+    "contractV2/foundry.toml",
+    "contractV2/script/DeployV2Testnet.s.sol",
+    "contractV2/script/SeedTestnet.s.sol",
+    "contractV2/test/DeployV2Testnet.t.sol",
+    "contractV2/tests/test_verify_testnet_deployment.py",
+    "contractV2/tools/verify_testnet_deployment.py"
+  ],
+  "adaptations": [],
+  "byteIdenticalChangedSolidity": [
+    "script/DeployV2Testnet.s.sol",
+    "script/SeedTestnet.s.sol",
+    "test/DeployV2Testnet.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}
