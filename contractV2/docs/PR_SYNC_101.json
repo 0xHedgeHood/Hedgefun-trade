@@ -1,0 +1,27 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/101",
+  "sourceHead": "2f6ab0a62c3aaef8dc841eddb837547f5eb0502c",
+  "sourceMergeBase": "67726d649efa4f5879c6f9c6b4dfe70a74a8d965",
+  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBranch": "codex/sync-pr-101",
+  "parentSourcePullRequest": null,
+  "mirroredPaths": [
+    "contractV2/deploy/testnet-v2.json",
+    "contractV2/deploy/testnet-v2.legacy-verification.json",
+    "contractV2/docs/TESTNET_V2_JOURNEY.md",
+    "contractV2/docs/TESTNET_V2_LIVE_RUN.md",
+    "contractV2/script/TestnetV2Journey.s.sol",
+    "contractV2/test/TestnetV2JourneyFork.t.sol",
+    "contractV2/tests/test_report_testnet_v2_journey.py",
+    "contractV2/tests/test_verify_legacy_testnet_deployment.py",
+    "contractV2/tools/report_testnet_v2_journey.py",
+    "contractV2/tools/verify_legacy_testnet_deployment.py"
+  ],
+  "adaptations": [],
+  "byteIdenticalChangedSolidity": [
+    "script/TestnetV2Journey.s.sol",
+    "test/TestnetV2JourneyFork.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}

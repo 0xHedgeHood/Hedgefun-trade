@@ -1,0 +1,16 @@
+# V2 Robinhood testnet live run — 2026-09-29
+
+The deployment in [`deploy/testnet-v2.json`](../deploy/testnet-v2.json) was broadcast on chain 46630 by the operator. The independent legacy verifier checked all 72 deployment receipts against the canonical RPC, CREATE addresses, code and bindings. Its pinned report is [`deploy/testnet-v2.legacy-verification.json`](../deploy/testnet-v2.legacy-verification.json). This report describes a legacy deployment verified after broadcast; it is not the newer precommitted-candidate schema.
+
+The creator `0xD4f69D180a9bc36F27D307E90E365d1E012816d5` then launched strategy ID **0** from GME and tUSDG. Token: `0x11BeA94FA971962f998F79217D37c39555c13910`; curve: `0xA86FFBa69bF9f58CA5167d4C1bE65CF43aEDb616`. Every stage was simulated against the then-current RPC before broadcasting, and each receipt and live state was checked with `tools/report_testnet_v2_journey.py` before the next stage. All 12 journey transactions have status `0x1`.
+
+| Stage | Approval transaction | Action transaction | Observed curve status |
+| --- | --- | --- | --- |
+| Launch | [0x02f0…05e7](https://explorer.testnet.chain.robinhood.com/tx/0x02f0d43aa45f09ac598deaabb23dc935135f0cbfc6d8ac4f3f34707be6cf05e7) | [0x1a16…85](https://explorer.testnet.chain.robinhood.com/tx/0x1a16c6411e62149c30710e957111d39d0d3cc64359b43db559f0f73ae249ae85) | Active (0) |
+| Curve buy | [0xc40f…f800](https://explorer.testnet.chain.robinhood.com/tx/0xc40f083183f72de3a60e16585e2c57d48fc2c42a3fac03f961a283bb7070f800) | [0x43bd…00b](https://explorer.testnet.chain.robinhood.com/tx/0x43bd2bac1acf56b61a64d1709bc619219bd7f27fbe59f77366fcb0c1c22dc00b) | Active (0) |
+| Curve sell | [0x10b9…3a14](https://explorer.testnet.chain.robinhood.com/tx/0x10b9d323bd38c2364ff3816f60643c4919b0c89e6ceb4f4f1109c43df2513a14) | [0xcd60…8dad](https://explorer.testnet.chain.robinhood.com/tx/0xcd6066930edca4e452a96a3c6d36ea0bb1fb6b18e6a82f6459175e8c52248dad) | Active (0) |
+| Graduate | [0x4bff…162e](https://explorer.testnet.chain.robinhood.com/tx/0x4bfff62d6011adbb996276ab626b29964f344eabbbe76850c3ed47ca273e162e) | [0xe258…417](https://explorer.testnet.chain.robinhood.com/tx/0xe258c163e3b810bea60984b6b1188f470a6a4edad6dc4f8ff22994cca2e0c417) | Graduated (2) |
+| V4 buy | [0x90af…2089](https://explorer.testnet.chain.robinhood.com/tx/0x90af985e3361092cdfac6ff481d7ad925b12e0bb3224bce2003cff3d457b2089) | [0x601f…fb32](https://explorer.testnet.chain.robinhood.com/tx/0x601f080414b588e5fcea27380375640af32f2230354d243ccafbe0813dd3fb32) | Graduated (2) |
+| V4 sell | [0xb0fa…fd42](https://explorer.testnet.chain.robinhood.com/tx/0xb0fad985bfb6f9dba23c4bd82d46f60339ca051b43b104f0d65df69208ffd42f) | [0xb9b0…d310](https://explorer.testnet.chain.robinhood.com/tx/0xb9b0eb45dc25ab51ac4db84c477cfa817def565ef5e6f54dd407954fbc3dd310) | Graduated (2) |
+
+Final canonical readback: curve status **2**, creator tUSDG **79,817.643609**, creator GME **1,545.795328854462553599**, creator strategy tokens **428,681,985.915646004749256054**, and curve real stock reserve **0**. The 25 tUSDG launch fee and all trades used valueless testnet assets. The commands, fixed bounds and receipt verifier are in [`docs/TESTNET_V2_JOURNEY.md`](TESTNET_V2_JOURNEY.md).
