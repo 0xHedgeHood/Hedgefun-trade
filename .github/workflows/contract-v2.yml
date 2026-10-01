@@ -32,3 +32,34 @@ jobs:
             echo "::error::Known-bug assertions are present"
             exit 1
           fi
+  asset-percent-fork:
+    name: V2 percentage Engine fork scenarios
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    concurrency:
+      group: percentage-fork-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - name: Real V3/V4 fork scenarios (50/50 and 70/30 LP)
+        env:
+          RH_FORK: "1"
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+        run: |
+          set -o pipefail
+          for split in 5000 7000; do
+            # Fail on every unsuccessful run, including RPC errors. Manual reruns preserve failed evidence.
+            V2_LP_BPS="$split" forge test --fork-url "$RH_RPC" --fork-block-number 70786980 --compute-units-per-second 10 --threads 1 --mc '^V2AssetPercentForkTest$' -vv 2>&1 | tee "percent-fork-$split.log"
+            if grep -q '\[SKIP' "percent-fork-$split.log"; then
+              echo "::error::percentage fork scenarios were skipped"
+              exit 1
+            fi
+            for scenario in test_forkSellUsesFullNavAndPaysActualOutputReward test_forkBuyBandAndCooldownWaitWithoutConsumingState test_forkOwnLpFeesCollectIntoBuybackWithoutDoubleCounting test_forkChunkAndDynamicDailyBudgetKeepAbsoluteUsed; do
+              grep -Fq "[PASS] $scenario()" "percent-fork-$split.log"
+            done
+          done

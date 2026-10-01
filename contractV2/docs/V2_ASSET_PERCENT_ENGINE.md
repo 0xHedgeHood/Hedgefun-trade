@@ -171,10 +171,15 @@ real winter/summer/DST trading sessions. Stateful invariants use the authoritati
 read the owned V4 position/balances independently of the production reader, and derive turnover from balance
 deltas and buyback allocation; they check caps against each action's pre-trade NAV.
 
-Local final verification: **1,667 passed, zero failed, 58 skipped** across the repository. The eight new suites
+Local final verification: **1,667 passed, zero failed, 62 skipped** across the repository. The eight offline suites
 contribute **48 passing tests**, including four 256-case fuzz tests and two stateful invariants, each run for
 256 sequences of 500 calls (128,000 calls per invariant). The skipped optional fork/integration cases are not
 live deployment evidence. `forge build --sizes` and the subsequent final build passed.
+
+The separate enabled mainnet-state fork suite adds four execution/accounting scenarios, each passing at both
+50% and 70% LP shares with no failures or skips. It uses genuine GME/USDG and deployed V3/V4 venues at block
+70,786,980, with local fund deployment and explicit oracle-timestamp/calendar test conditions. See the
+[fork and scenario report](V2_ASSET_PERCENT_FORK_REPORT.md) for scope, actual amounts, reproduction and CI gates.
 
 Build commitments (creation code excludes constructor arguments):
 
