@@ -55,15 +55,14 @@ jobs:
 
       # The pinned V2 suites require the allowlisted archive endpoint. Run serially to avoid its HTTP 429 bursts;
       # neither publicnode nor the chain's official RPC can replace it for historical state reads.
-      # Keep bounded retries after full rate-limit resets in a separate job -- but NOT
-      # continue-on-error: this job holds test_fork_liquidityIsUnremovable_byAnyone, the permanence proof, and that
-      # regressing must fail the PR.
+      # Run the V2 and CoveredCallDesk fork suites present in this mirror.
+      # Retry quota errors only; contract assertion failures still fail the job.
       - name: fork tests (cached archive retries)
         env:
           RH_FORK: "1"
           # Prefer a project archive provider with enough quota. Forked PRs do not receive secrets, so the fixed
-          # blockmachine alias remains a read-only fallback and the loop below accumulates Foundry's RPC cache.
-          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+          # public archive URL remains a read-only fallback and the loop accumulates Foundry's RPC cache.
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'https://rpc-robinhood.blockmachine.io' }}
           V2_LP_BPS: "5000"
         run: |
           set -o pipefail
@@ -115,7 +114,7 @@ jobs:
       - name: V2 live venue 70/30 split (cached archive retries)
         env:
           RH_FORK: "1"
-          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'https://rpc-robinhood.blockmachine.io' }}
           V2_LP_BPS: "7000"
         run: |
           set -o pipefail
