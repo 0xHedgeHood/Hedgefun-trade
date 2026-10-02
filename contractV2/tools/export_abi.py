@@ -12,7 +12,8 @@ import json, os, subprocess, sys
 
 CONTRACTS = ['HedgeFunFactory', 'HedgeFunHook', 'HedgeFunV2Hook', 'HedgeFunTreasury', 'HedgeFunToken', 'HedgeFunTradeRouter', 'HedgeFunLaunchRouter', 'PriceOracle', 'TradingCalendar',
              'HedgeFunV2Factory', 'CurveDeployer', 'HedgeFunBondingCurve', 'HedgeFunV2Treasury', 'HedgeFunV2AllInTreasury', 'HedgeFunV2EngineTreasury', 'V2RebalancePolicy', 'V2TreasuryDeployer',
-             'V2LiquidityVault', 'HedgeFunV2TradeRouter', 'HedgeFunV2NativeRouter', 'HedgeFunV2LaunchNativeRouter']
+             'V2LiquidityVault', 'HedgeFunV2TradeRouter', 'HedgeFunV2NativeRouter', 'HedgeFunV2LaunchNativeRouter',
+             'HedgeFunV2AssetPercentEngineTreasury', 'V2FundAssetReader', 'V2AssetPercentRebalancePolicy']
 PLUMBING = {'unlockCallback', 'uniswapV3SwapCallback', 'afterSwap', 'beforeSwap', 'beforeInitialize', 'afterInitialize', 'beforeAddLiquidity', 'afterAddLiquidity',
             'beforeRemoveLiquidity', 'afterRemoveLiquidity', 'beforeDonate', 'afterDonate', 'payStock', 'settleStock', 'settleToken', 'bind', 'register', 'registerGraduated', 'graduateCurve', 'release', 'wire'}
 
