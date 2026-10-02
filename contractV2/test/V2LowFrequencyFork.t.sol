@@ -66,6 +66,8 @@ contract V3ScenarioMover {
 
 /// @notice Synthetic market paths on one pinned Robinhood Chain state. The USDG/GME V3 pool and V4 manager
 /// are real forked contracts; the new V2 contracts, market actor, feed reports and time steps exist only here.
+/// The 1.5% paths explicitly select the legacy V2 treasury, preserving existing immutable strategy behavior.
+/// The new all-in trigger wrapper is covered separately by V2AllInTriggerFloor and its testnet append replay.
 /// No historical stock path or strategy return is claimed. No transaction is broadcast.
 /// Run: RH_FORK=1 RH_RPC=https://rpc-robinhood.blockmachine.io forge test --threads 1 --mc V2LowFrequencyForkTest -vv
 contract V2LowFrequencyForkTest is Test, HookMiner {
@@ -198,10 +200,24 @@ contract V2LowFrequencyForkTest is Test, HookMiner {
 
     function _setupGraduated(uint16 dipLotBps) private { _setupGraduatedConfig(_defaultRule(dipLotBps)); }
 
-    function _newFactory(ForkRuleConfig memory c) private returns (HedgeFunV2Factory) {
-        return new HedgeFunV2Factory(OWNER, address(PM), V3_FACTORY, USDG, PROTOCOL,
-            address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(_deployV2Hook(PM)),
+    function _newFactory(ForkRuleConfig memory c) private returns (HedgeFunV2Factory factory) {
+        V2TreasuryDeployer deployer = new V2TreasuryDeployer();
+        factory = new HedgeFunV2Factory(OWNER, address(PM), V3_FACTORY, USDG, PROTOCOL,
+            address(deployer), address(new TokenDeployer()), address(_deployV2Hook(PM)),
             address(new CurveDeployer()), _defaults(c));
+        // A fresh registry now defaults to the stricter wrapper. These historical
+        // price paths remain compatibility tests of the original immutable core.
+        bytes memory legacyCode = type(HedgeFunV2Treasury).creationCode;
+        (address a, address b) = deployer.makeChunks(legacyCode);
+        vm.prank(OWNER);
+        assertEq(deployer.registerKind(a, b), 1, "explicit legacy treasury kind");
+        (uint32 version, uint32 schema, bytes32 creationHash, uint256 capabilities) = deployer.kindManifest(1);
+        assertEq(creationHash, keccak256(legacyCode), "legacy creation code is pinned");
+        assertEq(keccak256(bytes.concat(a.code, b.code)), creationHash, "legacy chunks match the selected core");
+        assertEq(version, 0);
+        assertEq(schema, 0);
+        assertEq(capabilities, 0);
+        assertTrue(creationHash != deployer.allInTriggerCodeHash(), "legacy tests must not select the new wrapper");
     }
 
     function _setupGraduatedConfig(ForkRuleConfig memory c) private {
@@ -244,6 +260,11 @@ contract V2LowFrequencyForkTest is Test, HookMiner {
         request.expectedOpenPriceE18 = initialPrice;
         // The creator chooses the raise: the scenarios' lot sizes were measured on an 80% sale (Rg ~ 100 USDG).
         CurveDeployer curveDeployer = factory.curveDeployer();
+        V2TreasuryDeployer treasuryDeployer = V2TreasuryDeployer(address(factory.treasuryDeployer()));
+        vm.prank(CREATOR);
+        treasuryDeployer.setStrategyKind(request.symbol, request.nonce, 1);
+        assertEq(treasuryDeployer.strategyKindOf(keccak256(abi.encode(request.symbol, CREATOR, request.nonce))), 1,
+            "select the legacy core before predicting terms");
         vm.prank(CREATOR);
         curveDeployer.setCurveConfig(request.symbol, request.nonce, 8000, 3);
         (,, bytes32 terms) = factory.predict(request);

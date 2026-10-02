@@ -1,0 +1,1561 @@
+{
+  "engineKind": 2,
+  "operator": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+  "owner": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+  "protocol": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+  "poolManager": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+  "weth": "0x7943e237c7F95DA44E0301572D358911207852Fa",
+  "usdg": "0x539574139BB4Ac74Fd2183ba0E38ed777E30B58d",
+  "usdgFeed": "0x6beF5980dDa88F8B925f814C5033959A13ae535A",
+  "calendar": "0xB8661bAd51e504862107CF4eBAdB1c8c2ABFA6CD",
+  "v3Factory": "0x0b0a96D7EB396E7471998889C4803dD0F529Eb01",
+  "market": "0xc1AF2f52980F8A7AA4E90A8E30D5c3FaF0375f21",
+  "factory": "0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A",
+  "tradeRouter": "0xB291B34CD2D32C4a2DeFCe074107824654D427eF",
+  "nativeRouter": "0xf42cB1CEa83D26aefd538A3F1758c1269f85D89a",
+  "hook": "0xF1b4C95B63091AE2eb68E640F6D9485982146844",
+  "treasuryDeployer": "0xe874fE425e14f3CBa3aDBA2Dd10B50E153Ac6064",
+  "tokenDeployer": "0xccE8CDB3C6f9E292e6f96935364598e55c276fB6",
+  "curveDeployer": "0x0D73f6bd43D3937e4b07c70bfFC53A8c25d3C1CA",
+  "rebalancePolicy": "0xdc50b270563e59bf419A8114f8bDD41d91002FD7",
+  "hookSalt": "0x000000000000000000000000000000000000000000000000000000000000734f",
+  "rebalancePolicyKey": "0x6df0736dd5b12a748f565df86c35d2a8f8be75af863d1fec939d39e68b4dc083",
+  "recommendedTaxBps": 300,
+  "recommendedCreatorBps": 1000,
+  "chainId": 46630,
+  "featureVersion": "v2-two-sided-stock-fees-v1",
+  "commit": "698e577048fde8681d9263f32a653d5176f888e5",
+  "block": 126870872,
+  "broadcast": true,
+  "stocks": {
+    "AAPL": {
+      "token": "0x7efCa82CE9f4596230743b767260f55B9673AffE",
+      "feed": "0x44280A33Df11EE67B8B75B0E9055d0D2dF6c182e",
+      "oracle": "0x800180c0097e25CfB6313af08289e2C8cd1411a5",
+      "pool": "0xcd596f59D8ea2c3577d5a7cB7aAFC6B46Bb8Fd06",
+      "fee": 500,
+      "decimals": 18,
+      "priceE18": "339000000000000000000",
+      "openPriceE18": "29800000000",
+      "tickLower": 211100,
+      "tickUpper": 225020,
+      "liquidity": "5544933648818501111"
+    },
+    "GME": {
+      "token": "0xDD301669340232F283b1e91a7c4571591d86bd85",
+      "feed": "0x3B73e842567da49905468368222D03078aD84417",
+      "oracle": "0xe9858C468FC2B17840cFed7379d0C25737B1E4b0",
+      "pool": "0x9f978fa32e3dc5D61D92Be85644c867DCee692c0",
+      "fee": 500,
+      "decimals": 18,
+      "priceE18": "24000000000000000000",
+      "openPriceE18": "423000000000",
+      "tickLower": 237580,
+      "tickUpper": 251500,
+      "liquidity": "20841627805058302912"
+    },
+    "NVDA": {
+      "token": "0x7b6a95E6c97a212d5307e8B50290DC1ac2715B84",
+      "feed": "0xe669024986027d0b458D7a41Cedd368587334a58",
+      "oracle": "0x878DaF3a1565Ecb16C50904Ddaf2476a17E54296",
+      "pool": "0x52e6b4d22c7e1cDFf8329Dab4017A73f607B487E",
+      "fee": 500,
+      "decimals": 18,
+      "priceE18": "228000000000000000000",
+      "openPriceE18": "44200000000",
+      "tickLower": 215060,
+      "tickUpper": 228980,
+      "liquidity": "6766760994443365622"
+    },
+    "TSLA": {
+      "token": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+      "feed": "0x91B711c49Cc10098BFcCDD7d935AbA576BD4bffb",
+      "oracle": "0x5001C9C8b278425129C36C8099520aBAA70aa4ae",
+      "pool": "0x04083643FF9E8c27f66C9dD99947743A9B777244",
+      "fee": 3000,
+      "decimals": 18,
+      "priceE18": "358000000000000000000",
+      "openPriceE18": "26500000000",
+      "tickLower": 210540,
+      "tickUpper": 224460,
+      "liquidity": "5405299530135571866"
+    },
+    "MSFT": {
+      "token": "0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce",
+      "feed": "0x4708D200c1A043Ce4d273F53eA1c245A17e2b5F6",
+      "oracle": "0xcD81F9041f6e56CB734F580676e3A3B0BffD9d34",
+      "pool": "0xf94Fda49fD23F11116644Ff5880522EF04097699",
+      "fee": 3000,
+      "decimals": 18,
+      "priceE18": "500000000000000000000",
+      "openPriceE18": "20000000000",
+      "tickLower": 207180,
+      "tickUpper": 221100,
+      "liquidity": "4584332199940353334"
+    },
+    "AMZN": {
+      "token": "0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88",
+      "feed": "0xC69FaDbFEc1213ab7eE20f0Cc883F5728FD12975",
+      "oracle": "0xA81F110FA29c9335ce7B4a289CcE98ED1a44A1bB",
+      "pool": "0x86fd810f5b4c769E9FBad9A38E1e92bed8909652",
+      "fee": 3000,
+      "decimals": 18,
+      "priceE18": "200000000000000000000",
+      "openPriceE18": "50000000000",
+      "tickLower": 216360,
+      "tickUpper": 230280,
+      "liquidity": "7233930408619105019"
+    },
+    "GOOGL": {
+      "token": "0x3027527030CFaE82e93119EAE3B1372D07064Dfe",
+      "feed": "0x1E7f20E9Ee11C23B9D8D1Ee021b32723dc24546d",
+      "oracle": "0x79847509969fB5ca678836563a49C770DEFCD585",
+      "pool": "0x87f94AC256B0108c09e7281402b127fd1b932481",
+      "fee": 500,
+      "decimals": 18,
+      "priceE18": "200000000000000000000",
+      "openPriceE18": "50000000000",
+      "tickLower": -230290,
+      "tickUpper": -216370,
+      "liquidity": "7225226234085865780"
+    },
+    "META": {
+      "token": "0xEa3de3A8064278227760760e72e9A1c215F89903",
+      "feed": "0x34781f5Ab7A9b44B7616984B49d9DAFb39F4732D",
+      "oracle": "0x14f9867471039f91A106276C9736Df66c92BDa80",
+      "pool": "0xD638256044b6EB3CC0a4617F704C6df8BF1a6856",
+      "fee": 3000,
+      "decimals": 18,
+      "priceE18": "600000000000000000000",
+      "openPriceE18": "16666666667",
+      "tickLower": 205380,
+      "tickUpper": 219300,
+      "liquidity": "4173157035921873558"
+    }
+  },
+  "verification": {
+    "schema": "two-sided-fee-upgrade-readback-v1",
+    "chainId": 46630,
+    "sourceCommit": "698e577048fde8681d9263f32a653d5176f888e5",
+    "sourceBookSha256": "131526aee6264d2a0de44f5c59650cc3b6df2c72e3cec0dd2a5efb4c907651ed",
+    "blockNumber": 126871740,
+    "blockHash": "0xc9f2cddcbfae425d8ecbf4ab1603b51f71c0c3c2f810fd8c82a994dbb127941c",
+    "verifiedAt": "2026-09-30T22:44:18.531Z",
+    "transactionHashes": [
+      "0xd6fb6344ea7eddbf16f1bdbcb7c5aba52c7c09d4f94a569126925c21c6d3f739",
+      "0xfbc9c086f862be52d7a09c9e3d4b6b49b6ee4b80d7b099f6573e9a0cbc02a4cf",
+      "0x5a2d243fe4d081c2c1df0af1be4cfaf0b68a2da1b8ed3ee437b206714cdb75c3",
+      "0x7dfb1878aae9ed0ef7755b2e258dbf7167102295d147cded1f044938f2f67e9f",
+      "0xa7925acab1a107e9f540bb189deaebbbca39223dcd18e104585eba870c38e8a9",
+      "0x610a7b10fa6c9c08c12d55520b466cea46cc54abb133691dbc6ca1d38ba83533",
+      "0x81b755f9de5870377c7d5d8c4d324e5be3eb776446e40436acdd464a5db1dddf",
+      "0xc3ed40583a8fb867a2078a4d56d5f839973f8b6e8b4dae30a9737f524a5ef3f1",
+      "0x4cbf0fcef847079bb1bcae6a1f317635d9c331b2fbc73d039e2ed91aee676b94",
+      "0x65b1b388ec8c04b66dd408f53ae2178f38a8ab641337c7a329b1c320185bf9aa",
+      "0x05eca36c96fae8b822d6d2a1270f908648810d2c2081dbe68c9697cadd176c53",
+      "0x7429ecded63e9d81fc42e9e1d81ded62afca588193c163d9def0cf5a9c46d2e5",
+      "0x31f4792f974420d1546b01f9724b5a5dbaa2ad0e319f40eb5a2a2e7a395755a8",
+      "0x2aea6b7fa2a021b1ee9e542065736d62f8a0477106c70262e407401ca34bbcd3",
+      "0x00d1191fae3133fb5a71ef8afa4f88e17e5ffff249ddbe633b321c18df30d59f",
+      "0xd11bf4995ba51500369fb46541b0d5a6307d019525297c58cf1d0c835dada939",
+      "0x9fd461363619450b113a9e559ba0076076b1f21ea119396d930d8352c8b824e2",
+      "0x672c98a9e69e03f87ca2e70ef0d30f37e55b9983faca20350cd20f9502bd71bf",
+      "0xcde41a55196603c22217880cc8464a623875bf4bf27746aa2665cd8e0aa567bc",
+      "0x41951f5fa28b5e47bda5bd09fd161131758ed2106bf00472000d8afe0ff18f11",
+      "0x2e51b972faba84e10cbd3bee5c9ed6064d92f0ee2016be9a01535944e3db1850",
+      "0xbb6fd779aadc5eddff47a9ea37e6d5777dd3e840df5d4a3db8998ff397af37d1",
+      "0xd1bd4068b7da3a01037420ee1ab837b72e907c83e525bd6a8acefa3232accfd4",
+      "0x714cc0c4c86af722b5d8675b11d18a4fb7f7ef9084c34bf0301743ca755d2a88",
+      "0xd0dbc6aee4aae8e5daceee577be8c76a807506e3e492bcd150e354113ca6d8d9",
+      "0x4d0379219110a303dee6c7490c4970736fbe477e55f2bd60fe681240b9327497",
+      "0x237d5168d91a2769f241b64793e6ce45adf0367825adceb0a4a608e3e55c4540",
+      "0x5d07422ae999e271ac5c9b6ca19dfac75b3d41c03bd0fdf416349e71b1022431",
+      "0x79864ee42257f8ab8d90d572836f594c25127f74fa1e9f54e3afda3f0beba00d",
+      "0x2fccb8e83a95a349e654d7db79dcbc99b13858eade32de892d7c99e704b752e6",
+      "0x7a10fcd1fce556b9e4b367741af7671f062a646155e3e3a1ba057ab6d8870cc5",
+      "0x0672e48c406702845ea33798c8440a45034fe107d37c56332cd67207197ae800",
+      "0x057038e6031a0e10a58b2fd2409706b5e1747c35d3e6d58bbed6653cc0a91d79",
+      "0x32734f5552a20584abd1012bebb34647ee9c5eae655f11375d492eed6f62504a",
+      "0x27f770b7a21c6635740f098393895b68afa94e879ffa6b0e8832a8afe8586238",
+      "0x109618dfcb1309414e30b0a6da6f360584e24f1431d64f0b6a9e5301e9fdcbc9",
+      "0x1e0b1622e3a06e185dd129679abd769e51d699f7ecbf26443d1ed9c34a297a85",
+      "0x5512db2afc3a83430d8b2bc7769f286f7ea78779d712d987e098a7bc8425d915"
+    ],
+    "upgradeProof": {
+      "schema": "two-sided-fee-upgrade-readback-v1",
+      "chainId": 46630,
+      "sourceCommit": "698e577048fde8681d9263f32a653d5176f888e5",
+      "factory": "0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A",
+      "operator": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+      "baseBookSha256": "1b0d19f7e5e36ec19df5c3d8b879d95510dbe70527724602686d95411d04b67e",
+      "deployLogSha256": "dc4ee8e3c017d0401179204ea4dda58814200fcb3c75043dabe3fd3df62c6226",
+      "candidateSha256": "131526aee6264d2a0de44f5c59650cc3b6df2c72e3cec0dd2a5efb4c907651ed",
+      "blockNumber": 126871740,
+      "blockHash": "0xc9f2cddcbfae425d8ecbf4ab1603b51f71c0c3c2f810fd8c82a994dbb127941c",
+      "verifiedAt": "2026-09-30T22:44:18.531Z",
+      "transactionCount": 38,
+      "core": {
+        "engineKind": 2,
+        "operator": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+        "owner": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+        "protocol": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+        "poolManager": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+        "weth": "0x7943e237c7F95DA44E0301572D358911207852Fa",
+        "usdg": "0x539574139BB4Ac74Fd2183ba0E38ed777E30B58d",
+        "usdgFeed": "0x6beF5980dDa88F8B925f814C5033959A13ae535A",
+        "calendar": "0xB8661bAd51e504862107CF4eBAdB1c8c2ABFA6CD",
+        "v3Factory": "0x0b0a96D7EB396E7471998889C4803dD0F529Eb01",
+        "market": "0xc1AF2f52980F8A7AA4E90A8E30D5c3FaF0375f21",
+        "factory": "0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A",
+        "tradeRouter": "0xB291B34CD2D32C4a2DeFCe074107824654D427eF",
+        "nativeRouter": "0xf42cB1CEa83D26aefd538A3F1758c1269f85D89a",
+        "hook": "0xF1b4C95B63091AE2eb68E640F6D9485982146844",
+        "treasuryDeployer": "0xe874fE425e14f3CBa3aDBA2Dd10B50E153Ac6064",
+        "tokenDeployer": "0xccE8CDB3C6f9E292e6f96935364598e55c276fB6",
+        "curveDeployer": "0x0D73f6bd43D3937e4b07c70bfFC53A8c25d3C1CA",
+        "rebalancePolicy": "0xdc50b270563e59bf419A8114f8bDD41d91002FD7",
+        "hookSalt": "0x000000000000000000000000000000000000000000000000000000000000734f",
+        "rebalancePolicyKey": "0x6df0736dd5b12a748f565df86c35d2a8f8be75af863d1fec939d39e68b4dc083",
+        "recommendedTaxBps": 300,
+        "recommendedCreatorBps": 1000
+      },
+      "stocks": {
+        "AAPL": {
+          "token": "0x7efCa82CE9f4596230743b767260f55B9673AffE",
+          "feed": "0x44280A33Df11EE67B8B75B0E9055d0D2dF6c182e",
+          "oracle": "0x800180c0097e25CfB6313af08289e2C8cd1411a5",
+          "pool": "0xcd596f59D8ea2c3577d5a7cB7aAFC6B46Bb8Fd06",
+          "fee": 500,
+          "decimals": 18,
+          "priceE18": "339000000000000000000",
+          "openPriceE18": "29800000000",
+          "tickLower": 211100,
+          "tickUpper": 225020,
+          "liquidity": "5544933648818501111"
+        },
+        "GME": {
+          "token": "0xDD301669340232F283b1e91a7c4571591d86bd85",
+          "feed": "0x3B73e842567da49905468368222D03078aD84417",
+          "oracle": "0xe9858C468FC2B17840cFed7379d0C25737B1E4b0",
+          "pool": "0x9f978fa32e3dc5D61D92Be85644c867DCee692c0",
+          "fee": 500,
+          "decimals": 18,
+          "priceE18": "24000000000000000000",
+          "openPriceE18": "423000000000",
+          "tickLower": 237580,
+          "tickUpper": 251500,
+          "liquidity": "20841627805058302912"
+        },
+        "NVDA": {
+          "token": "0x7b6a95E6c97a212d5307e8B50290DC1ac2715B84",
+          "feed": "0xe669024986027d0b458D7a41Cedd368587334a58",
+          "oracle": "0x878DaF3a1565Ecb16C50904Ddaf2476a17E54296",
+          "pool": "0x52e6b4d22c7e1cDFf8329Dab4017A73f607B487E",
+          "fee": 500,
+          "decimals": 18,
+          "priceE18": "228000000000000000000",
+          "openPriceE18": "44200000000",
+          "tickLower": 215060,
+          "tickUpper": 228980,
+          "liquidity": "6766760994443365622"
+        },
+        "TSLA": {
+          "token": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+          "feed": "0x91B711c49Cc10098BFcCDD7d935AbA576BD4bffb",
+          "oracle": "0x5001C9C8b278425129C36C8099520aBAA70aa4ae",
+          "pool": "0x04083643FF9E8c27f66C9dD99947743A9B777244",
+          "fee": 3000,
+          "decimals": 18,
+          "priceE18": "358000000000000000000",
+          "openPriceE18": "26500000000",
+          "tickLower": 210540,
+          "tickUpper": 224460,
+          "liquidity": "5405299530135571866"
+        },
+        "MSFT": {
+          "token": "0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce",
+          "feed": "0x4708D200c1A043Ce4d273F53eA1c245A17e2b5F6",
+          "oracle": "0xcD81F9041f6e56CB734F580676e3A3B0BffD9d34",
+          "pool": "0xf94Fda49fD23F11116644Ff5880522EF04097699",
+          "fee": 3000,
+          "decimals": 18,
+          "priceE18": "500000000000000000000",
+          "openPriceE18": "20000000000",
+          "tickLower": 207180,
+          "tickUpper": 221100,
+          "liquidity": "4584332199940353334"
+        },
+        "AMZN": {
+          "token": "0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88",
+          "feed": "0xC69FaDbFEc1213ab7eE20f0Cc883F5728FD12975",
+          "oracle": "0xA81F110FA29c9335ce7B4a289CcE98ED1a44A1bB",
+          "pool": "0x86fd810f5b4c769E9FBad9A38E1e92bed8909652",
+          "fee": 3000,
+          "decimals": 18,
+          "priceE18": "200000000000000000000",
+          "openPriceE18": "50000000000",
+          "tickLower": 216360,
+          "tickUpper": 230280,
+          "liquidity": "7233930408619105019"
+        },
+        "GOOGL": {
+          "token": "0x3027527030CFaE82e93119EAE3B1372D07064Dfe",
+          "feed": "0x1E7f20E9Ee11C23B9D8D1Ee021b32723dc24546d",
+          "oracle": "0x79847509969fB5ca678836563a49C770DEFCD585",
+          "pool": "0x87f94AC256B0108c09e7281402b127fd1b932481",
+          "fee": 500,
+          "decimals": 18,
+          "priceE18": "200000000000000000000",
+          "openPriceE18": "50000000000",
+          "tickLower": -230290,
+          "tickUpper": -216370,
+          "liquidity": "7225226234085865780"
+        },
+        "META": {
+          "token": "0xEa3de3A8064278227760760e72e9A1c215F89903",
+          "feed": "0x34781f5Ab7A9b44B7616984B49d9DAFb39F4732D",
+          "oracle": "0x14f9867471039f91A106276C9736Df66c92BDa80",
+          "pool": "0xD638256044b6EB3CC0a4617F704C6df8BF1a6856",
+          "fee": 3000,
+          "decimals": 18,
+          "priceE18": "600000000000000000000",
+          "openPriceE18": "16666666667",
+          "tickLower": 205380,
+          "tickUpper": 219300,
+          "liquidity": "4173157035921873558"
+        }
+      },
+      "transactions": [
+        {
+          "hash": "0xd6fb6344ea7eddbf16f1bdbcb7c5aba52c7c09d4f94a569126925c21c6d3f739",
+          "blockNumber": 126871020,
+          "blockHash": "0x679b63e8e30570818a80a13b80230e2cc6e415b5a5c090332f50b55fc2c10598",
+          "to": null,
+          "inputSha256": "f4c7a978e4a012072fe4f1a4b9a352e8507f258b0d9a800a1780c3938fb9f17a",
+          "gasUsed": "9372171"
+        },
+        {
+          "hash": "0xfbc9c086f862be52d7a09c9e3d4b6b49b6ee4b80d7b099f6573e9a0cbc02a4cf",
+          "blockNumber": 126871028,
+          "blockHash": "0x416bdd5a74f3462f70ab9fe912f5dfe7b01eebdbac063fe003bba15520d137b8",
+          "to": null,
+          "inputSha256": "e419e38c75163d735afbfe4dd1fda9b2a1283820ad0133fb231e73dc013a3168",
+          "gasUsed": "2278192"
+        },
+        {
+          "hash": "0x5a2d243fe4d081c2c1df0af1be4cfaf0b68a2da1b8ed3ee437b206714cdb75c3",
+          "blockNumber": 126871040,
+          "blockHash": "0x3a46f534672dc78e6e2a7b32d081270ce45134f81185a531a3a49b528e1d42ff",
+          "to": null,
+          "inputSha256": "6ee9af061ca16e88093f92efff838a4288c40de85dea606803b46c08ff84cfff",
+          "gasUsed": "7254230"
+        },
+        {
+          "hash": "0x7dfb1878aae9ed0ef7755b2e258dbf7167102295d147cded1f044938f2f67e9f",
+          "blockNumber": 126871053,
+          "blockHash": "0xf1e73dba66a383d6fd6e04c34cc6f756e2a06f63d2c552da225211e255ffc6d8",
+          "to": "0x4e59b44847b379578588920ca78fbf26c0b4956c",
+          "inputSha256": "bbb203c5820a1c9f358b49e45f892ea89d6fddacf20d5da6d7d8373f977f9838",
+          "gasUsed": "5560693"
+        },
+        {
+          "hash": "0xa7925acab1a107e9f540bb189deaebbbca39223dcd18e104585eba870c38e8a9",
+          "blockNumber": 126871065,
+          "blockHash": "0x1e98a0442be05874dd1062e05d403bdfced5889c0b2c1e33442b5dd446f5a700",
+          "to": null,
+          "inputSha256": "b71dff13e555eb3fae8a7c8f94b0d2187677ca86f74f02e76807733bfc20569e",
+          "gasUsed": "6461273"
+        },
+        {
+          "hash": "0x610a7b10fa6c9c08c12d55520b466cea46cc54abb133691dbc6ca1d38ba83533",
+          "blockNumber": 126871075,
+          "blockHash": "0x1b3308fbcf60250944c8aa569b778d8fc0be1de1151bf532b346fdb46a35edf3",
+          "to": null,
+          "inputSha256": "6c0efdfc5cb576a5c03816f1e07f7998deaa588f319855d467ec9d423ce161ad",
+          "gasUsed": "2961989"
+        },
+        {
+          "hash": "0x81b755f9de5870377c7d5d8c4d324e5be3eb776446e40436acdd464a5db1dddf",
+          "blockNumber": 126871086,
+          "blockHash": "0x67b431192b18fad772eb7482c2879042668cdbf290a3beb2332ad773d20e19a0",
+          "to": null,
+          "inputSha256": "aa67ddf31d7a7d91b23b99e2880058f09ae9a1270cab2d7e14e370d45d2674c7",
+          "gasUsed": "1467581"
+        },
+        {
+          "hash": "0xc3ed40583a8fb867a2078a4d56d5f839973f8b6e8b4dae30a9737f524a5ef3f1",
+          "blockNumber": 126871098,
+          "blockHash": "0x1080c3cb62597080f50df571f9b401d3f0cd6bfaf012b694ba97df9347a7db83",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "b0ccaeb543a4371c756682b1f4163042e9759b2d34fb136f663ada2103f97267",
+          "gasUsed": "4770806"
+        },
+        {
+          "hash": "0x4cbf0fcef847079bb1bcae6a1f317635d9c331b2fbc73d039e2ed91aee676b94",
+          "blockNumber": 126871108,
+          "blockHash": "0xfbdfbb4f2bb3331fca86d169f21cd3ebc0fa2f87d9de39c039c964c7e951a09f",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "d473d2a06676b3f164d9ab613e831384b64fcaa2fc760b5293caa75e702a4deb",
+          "gasUsed": "136090"
+        },
+        {
+          "hash": "0x65b1b388ec8c04b66dd408f53ae2178f38a8ab641337c7a329b1c320185bf9aa",
+          "blockNumber": 126871120,
+          "blockHash": "0x2d5bd264044fbad8463e81a975863d093fe744dfbdfe25bf7ee2dfb9a6fa99bd",
+          "to": null,
+          "inputSha256": "270705df095568d2df8e0188b76c9fea3a843ea5568a9ea678bb8d9c66a6c79c",
+          "gasUsed": "509108"
+        },
+        {
+          "hash": "0x05eca36c96fae8b822d6d2a1270f908648810d2c2081dbe68c9697cadd176c53",
+          "blockNumber": 126871131,
+          "blockHash": "0x391b6dbea8c39e10d9cc948d59944ef8fc72e8b21fc72cb6a7e23369fd612c24",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "b23104fa95fed701f4cb38d1833c0790cd60ec629b6f111a68703231dc79e7a8",
+          "gasUsed": "210183"
+        },
+        {
+          "hash": "0x7429ecded63e9d81fc42e9e1d81ded62afca588193c163d9def0cf5a9c46d2e5",
+          "blockNumber": 126871144,
+          "blockHash": "0xf8d0c590244f676e126fef64e429302b5e0eb1f75be77846da82f43ed1042fe2",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "5f71e0923d5b3f3be5e3bf95c17b19e63fb7cdaf65413d1e33d1909c11f2bf23",
+          "gasUsed": "7093174"
+        },
+        {
+          "hash": "0x31f4792f974420d1546b01f9724b5a5dbaa2ad0e319f40eb5a2a2e7a395755a8",
+          "blockNumber": 126871153,
+          "blockHash": "0x92a9a1054366d624cb8caa0275e6ab8e3004f8f0e13d5fefda9210162e74d453",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "082862fce2f0440ea485f574a94acfe8022dd18e2e4385de8ab3e4e119ad8a21",
+          "gasUsed": "172606"
+        },
+        {
+          "hash": "0x2aea6b7fa2a021b1ee9e542065736d62f8a0477106c70262e407401ca34bbcd3",
+          "blockNumber": 126871164,
+          "blockHash": "0x4491c1df5f391987ca8dd144e12ee9c52556d9599e311c618dd5b8f9ded4fd67",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "87a2e8405785b94226c7b4241cf72d88c2a90401033e0fe46ded80c3c3a68e1d",
+          "gasUsed": "143477"
+        },
+        {
+          "hash": "0x00d1191fae3133fb5a71ef8afa4f88e17e5ffff249ddbe633b321c18df30d59f",
+          "blockNumber": 126871175,
+          "blockHash": "0xaad782ba8067859267029723a87d25e60c03908250e80ec8bce1e33a835b1024",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "8068708b1db63c430b9984e93f6856ffcf17bd037c101b7a49c8f80750074320",
+          "gasUsed": "64556"
+        },
+        {
+          "hash": "0xd11bf4995ba51500369fb46541b0d5a6307d019525297c58cf1d0c835dada939",
+          "blockNumber": 126871186,
+          "blockHash": "0xd1a022d779cb1033a16839cf10eec3de71f9f69ad7919fe857baf839db7067dd",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "8187836ad6869cfc047e5bbce1ffe825d52f46e71498fbbcc8bff47fa4922e39",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x9fd461363619450b113a9e559ba0076076b1f21ea119396d930d8352c8b824e2",
+          "blockNumber": 126871197,
+          "blockHash": "0x3fb8a88c86602fc9e5a0179ede209fdc27ef1abd5096e1e4b4a1d74729ec737a",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "1e7db60f3a9983fce2853a7f35f733c58a166a08edde663f9508159d86a80a1e",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x672c98a9e69e03f87ca2e70ef0d30f37e55b9983faca20350cd20f9502bd71bf",
+          "blockNumber": 126871206,
+          "blockHash": "0x8884bc95f167cb8b41126736c8e51aeaaae8d0ce7504a69256e77de3cbb957fb",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "8eac5ff4c1261a35213a314d4bafecacea000b85291c1ca2c84251b5cd675247",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0xcde41a55196603c22217880cc8464a623875bf4bf27746aa2665cd8e0aa567bc",
+          "blockNumber": 126871219,
+          "blockHash": "0x886dce81753f4d37b0d41f94c989c21060747761c87d7a1020d0149de70dfd57",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "49de1f6c07aaa6aa2c4af562cd4dbaa86b1f340c62f76dc443bab7b93c8f8004",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x41951f5fa28b5e47bda5bd09fd161131758ed2106bf00472000d8afe0ff18f11",
+          "blockNumber": 126871225,
+          "blockHash": "0x5bf42101ce1bacfcd4ddc23cd751ae6e59762ecf0a8c0988f26415fd790b529c",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "5ecb571a93a73dea07e3adfb8503506c5519b53715fd754d68d75cade0c7a5c9",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x2e51b972faba84e10cbd3bee5c9ed6064d92f0ee2016be9a01535944e3db1850",
+          "blockNumber": 126871234,
+          "blockHash": "0xec778d871373148698d8306fbbd98b7ca2804e1e281241adaa82b9e5ae305b49",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "3c5201d7814c9c4496c42bc58e4dd4141f4538aa91107040f5ca9129dea6e118",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0xbb6fd779aadc5eddff47a9ea37e6d5777dd3e840df5d4a3db8998ff397af37d1",
+          "blockNumber": 126871245,
+          "blockHash": "0xb990ec63db5da9c15d06e1e3b6b2d9035a5aa34e51e15e4a8d49d28ec259c97a",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "9562f76287eda08c48a9138d1fd8ae83ce91379259e3b0f7437536790f930677",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0xd1bd4068b7da3a01037420ee1ab837b72e907c83e525bd6a8acefa3232accfd4",
+          "blockNumber": 126871259,
+          "blockHash": "0x6ca9ac217aa6bb32f49187626bc904f56314ee78f572bb22ea3c735430cc6c8f",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "c2fc04730cb7946cea164f170298b9581e54a4cb6346083bb9c6f8f900b8a536",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x714cc0c4c86af722b5d8675b11d18a4fb7f7ef9084c34bf0301743ca755d2a88",
+          "blockNumber": 126871268,
+          "blockHash": "0x2329add9aa9430a41d0e3927cbb45ab2a983ff09f8653d4c10e85195a8099db2",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "e85661b7f3e2d6eacbefd1ec217632711c8d64df679fe5822b1ca95c1be6b060",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0xd0dbc6aee4aae8e5daceee577be8c76a807506e3e492bcd150e354113ca6d8d9",
+          "blockNumber": 126871275,
+          "blockHash": "0x88ce1a166982dd20c1f9528ba47468ea6a73468812b1c335a1474f5f6fdd1be3",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "e08d031a61171973f0e591a57042d0f55f0b3976ad2560ee30604e2fcb2c9ac0",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x4d0379219110a303dee6c7490c4970736fbe477e55f2bd60fe681240b9327497",
+          "blockNumber": 126871283,
+          "blockHash": "0x069eac528f515731be092d6766979ff6a4a7834d15ee3316753f668ddbaca00c",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "ee206ee9e03f506138901cfe73565145a4f865521c1c648564fc5a0c0de4eeef",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x237d5168d91a2769f241b64793e6ce45adf0367825adceb0a4a608e3e55c4540",
+          "blockNumber": 126871290,
+          "blockHash": "0x585fb6878a5bfa03e18da91046804558ef791eecb87dde4703449738aaff3b5d",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "0a2dc93eeb26b71192f2e8cc8bd67cae1f28bbc0bfaba8728bc86d572c7645c8",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0x5d07422ae999e271ac5c9b6ca19dfac75b3d41c03bd0fdf416349e71b1022431",
+          "blockNumber": 126871299,
+          "blockHash": "0xa606f314ecbaf03f08e6d85065f95468c13f58bfe68dc2ebeed1cc929cd0bcd4",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "45557e4f58fb57dfdb0cfab1ea521868dda672da837c8b1bf16c43bbe9795806",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x79864ee42257f8ab8d90d572836f594c25127f74fa1e9f54e3afda3f0beba00d",
+          "blockNumber": 126871304,
+          "blockHash": "0xffc6cd4d0500b9947dee86206d7dd21a15837ddf2d42ebefa504c22166e8539c",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "121067ecc56d2d270ecd9db8a99f8132782d91d5f7cae6363edc0871aea948cf",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x2fccb8e83a95a349e654d7db79dcbc99b13858eade32de892d7c99e704b752e6",
+          "blockNumber": 126871311,
+          "blockHash": "0x7c8d28f5f478dbbaf3f26d5ce9eb42ab8b0a8718a0116b3a4089fa8d7b3cce4f",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "add563eaa804576cb6964e5bc12b99dbe7a9d4cb748a2c37e83ad0a9b50beada",
+          "gasUsed": "64505"
+        },
+        {
+          "hash": "0x7a10fcd1fce556b9e4b367741af7671f062a646155e3e3a1ba057ab6d8870cc5",
+          "blockNumber": 126871320,
+          "blockHash": "0x93e657169dd097a0c75d521b1e43a4f0c92a6c0ffdfdf97e170c97e9df7488d0",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "501386eabcaf9d819c2c8424489261303a4b77bb71b34cdc663d0cbb3fd6a53e",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x0672e48c406702845ea33798c8440a45034fe107d37c56332cd67207197ae800",
+          "blockNumber": 126871324,
+          "blockHash": "0x33df3763807d092e70b2069517027bf35f366a81beb179f80bb5f66f007c9e53",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "304b8aed082f30b751a95257cdeec8af8fdc8adf13204746a1d629a9e390a65e",
+          "gasUsed": "143527"
+        },
+        {
+          "hash": "0x057038e6031a0e10a58b2fd2409706b5e1747c35d3e6d58bbed6653cc0a91d79",
+          "blockNumber": 126871333,
+          "blockHash": "0x3811198266d7108fb083d27d2c2f014b8759ae0a6bba4ad004e8d79bda924b62",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "64dac58404b508208729ec46f529a116f249174c0b094931323d1cbcebabc18f",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0x32734f5552a20584abd1012bebb34647ee9c5eae655f11375d492eed6f62504a",
+          "blockNumber": 126871340,
+          "blockHash": "0xa7e1d89349f73a5c66490034e3edabba5f753990e599d0d1851c47a28e33f1b3",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "df5a8b0d84b0fd3883f3cd50591b220f39d436e4ad99d5aa001080f0ac9134bc",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x27f770b7a21c6635740f098393895b68afa94e879ffa6b0e8832a8afe8586238",
+          "blockNumber": 126871347,
+          "blockHash": "0x051b3841ec0d1268d72bd9f4718c510126f91a1f755fbedc90d8396759c2e68e",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "39f94456365ef049bce63f4d6ceaa02e5a853bc668d7c7a39bac191d9ad496fe",
+          "gasUsed": "143539"
+        },
+        {
+          "hash": "0x109618dfcb1309414e30b0a6da6f360584e24f1431d64f0b6a9e5301e9fdcbc9",
+          "blockNumber": 126871352,
+          "blockHash": "0x0ae8292b06bb3041329114ccc5c591175ef09d90550d810e5351b8751d326d02",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "064086f38a9ce7c32b89c4a1d8f349851ba473896aa62e3b6cd6cdbedf6dfb79",
+          "gasUsed": "64606"
+        },
+        {
+          "hash": "0x1e0b1622e3a06e185dd129679abd769e51d699f7ecbf26443d1ed9c34a297a85",
+          "blockNumber": 126871358,
+          "blockHash": "0xac4f503d09f8a7fd335fb1839ab459f9738241c34a98bfe93eea9af87178e013",
+          "to": "0xe874fe425e14f3cba3adba2dd10b50e153ac6064",
+          "inputSha256": "439fcc2db876d1f49fea623479c8cecc0d5c697cc305520a5e4e7141d45a91e6",
+          "gasUsed": "63439"
+        },
+        {
+          "hash": "0x5512db2afc3a83430d8b2bc7769f286f7ea78779d712d987e098a7bc8425d915",
+          "blockNumber": 126871367,
+          "blockHash": "0x5a7f92e78d880166914cc9cd2e4eb4c0a3e80faef8bc623d62341e325e6e8552",
+          "to": "0xaceb03aaee5494aa54929ec840630ae32a9ade0a",
+          "inputSha256": "c7bc8b336dab4633f93e6cea07ff759dcbf25bdf5cc91c345eddd782953e2729",
+          "gasUsed": "54616"
+        }
+      ],
+      "codeHashes": {
+        "core": {
+          "poolManager": "0xbd3881180b547f5fe817545743cfb4343e96b1bc6640dcd70c106b0066e95626",
+          "weth": "0x5706be52f64875fee65a2cec0d80e47a23d8793cbe85d214b48445e2d05f5353",
+          "usdg": "0x61a1d0743bcce1abf283f273e276539718421363b15e3f6f9c72d7f7431f4c56",
+          "usdgFeed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+          "calendar": "0xec4f122c1c268b54977139e930f0fb0fe9ea765bbe87cba50e0c9caf2324f5b4",
+          "v3Factory": "0x5ec73233ba8cc40aa6473c169a39f83f227d9a1d25ecf777bbdb0918e4c541e4",
+          "market": "0x8e70caa17be285333f675a1544fe5c888c6f0ffc1c0ce8b131980860738a6c08",
+          "factory": "0xfcd24dc65ea80198523d9b598a03f674f6827376764ee4752dd305cabfaff3c9",
+          "tradeRouter": "0x06faf9b474337c3e57557d6d1d1e6254349a4667c68909f5a72387713e741e12",
+          "nativeRouter": "0x64cb034cd442480cccea300b626e8f1f20e0b34ec00261d244eaecf0332ce4fc",
+          "hook": "0x8652526ce215d12e16ff5e523ec2fcb45a295b3cb2ce3fbbe7d4cc30c039e6c1",
+          "treasuryDeployer": "0xeee8d529ac295493cb7b872513cb84f7edfdbfb71f69a364a9ed921a93f52b56",
+          "tokenDeployer": "0x77049323132dd82c8d73425f988fa88e7cdd9a6cb8a88da73800d7670098d963",
+          "curveDeployer": "0x4b359a6e47faa6e674c4dd691e327ebec10d34d874036be4fdd32c179a2bd74b",
+          "rebalancePolicy": "0x703c92e4d169643e9b20eadf00cd53470b95699186a5ce9131feee42299c0b74"
+        },
+        "stocks": {
+          "AAPL": {
+            "token": "0x6ec9a98e717620c26b4da09bfaf5c7d9844d926b49eb3344d51c0af36c68b038",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0x06a1cc6edf8ee635d9d34bdf2b4e56ddf7f21334b8c293d0af2455bf7092fa87",
+            "pool": "0x15a09d6092bf18ed6f9be9dd683f178000c73668e3cf8b7922ce3c3a8a552156"
+          },
+          "GME": {
+            "token": "0x93f66279aae9069c32fa855b250d40faa74ce405545f5789fff92e89f92aa9dc",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0xc117c898dcc33c16f3bd67f1dfa69eda0b564d73a88f37684f566dc47bf89ffb",
+            "pool": "0x82e8a2f3a5ccddb7ae4864c6cf2d2d00d881698c27151ad992a368366c4a49ec"
+          },
+          "NVDA": {
+            "token": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0x7981f954634cee057406a25161dcf0b1ff439923230933ccf9332d6b1abde428",
+            "pool": "0xb60c075b9e73b215d9eacda01357d01e64287d64da5177210e546ce3d45a3098"
+          },
+          "TSLA": {
+            "token": "0x6ec9a98e717620c26b4da09bfaf5c7d9844d926b49eb3344d51c0af36c68b038",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0x56c31c214fa65125744289380eb52e65687e9abf801fbf9307e845b5f8effdca",
+            "pool": "0x5de079198a876806e1472ae96823181da903727a4fefbb97fae604d5645b965d"
+          },
+          "MSFT": {
+            "token": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0xafcbeec5e485a8d51521d022016ac1d673aba95a6965f388fb6d1f43f29805b0",
+            "pool": "0x3eddbb1ac56717a631ad0774643e683462f45e5644e4a4ec486a4b340b118438"
+          },
+          "AMZN": {
+            "token": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0x1249a47229e1b2c0e95333bb46eff17e07ce58ccc8ad1f931c37dd284aff4d57",
+            "pool": "0x0290c9ed31af461734e0538d812e2ebac46de44bf74e17735385b553f188917c"
+          },
+          "GOOGL": {
+            "token": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0x3eb1248daa84cbd2cd51dc4431eda9032f88ac76f0f30eb1ff86f7462763d679",
+            "pool": "0xe87344a7494f0780c51ff3583cca74a4a954806d70e28eeb3c0697a88ddbd16f"
+          },
+          "META": {
+            "token": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48",
+            "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+            "oracle": "0xdf10fe5c6560c409a4b449794b73b24b114a2a74003858faf40282eea41dcc2e",
+            "pool": "0x06cf219fb71d29e6ce6770a4f9315eafd074c116e08670fd92784928511ebb9f"
+          }
+        }
+      },
+      "readback": {
+        "core": {
+          "hookVersion": 2,
+          "defaults": {
+            "supply": "1000000000000000000000000000",
+            "lpFee": 3000,
+            "tickSpacing": 60,
+            "minTaxBps": 100,
+            "maxTaxBps": 1500,
+            "protocolBps": 2000,
+            "maxCreatorBps": 3000,
+            "spikeBps": 0,
+            "spikeSeconds": 0,
+            "sweepTipBps": 0,
+            "snipeBps": 9900,
+            "snipeSeconds": 3,
+            "bountyBps": 50,
+            "maxSlippageBps": 100,
+            "maxDeviationBps": 50,
+            "maxBuybackImpactBps": 300,
+            "buybackCooldown": 60,
+            "minLotUsdg": "5000000",
+            "buybackChunkUsdg": "500000000",
+            "sellChunkUsdg": "2000000000",
+            "launchFeeCurrency": 2,
+            "launchFeeAmount": "25000000"
+          }
+        },
+        "stocks": {
+          "AAPL": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "5544933648818501111",
+            "usdgBalance": "30000000000000",
+            "oraclePriceE18": "339000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "GME": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "20841627805058302912",
+            "usdgBalance": "30020356961589",
+            "oraclePriceE18": "24000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "NVDA": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "6766760994443365622",
+            "usdgBalance": "30000000000000",
+            "oraclePriceE18": "228000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "TSLA": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "5405299530135571866",
+            "usdgBalance": "30000000000000",
+            "oraclePriceE18": "358000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "MSFT": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "4584332199940353334",
+            "usdgBalance": "30000002495193",
+            "oraclePriceE18": "500000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "AMZN": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "7233930408619105019",
+            "usdgBalance": "30000012256145",
+            "oraclePriceE18": "200000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "GOOGL": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "7225226234085865780",
+            "usdgBalance": "30000000520487",
+            "oraclePriceE18": "200000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          },
+          "META": {
+            "twapSeconds": 600,
+            "observationCardinality": 720,
+            "observationCardinalityNext": 720,
+            "liquidity": "4173157035921873558",
+            "usdgBalance": "30000007205127",
+            "oraclePriceE18": "600000000000000000000",
+            "gates": [
+              "50",
+              "100",
+              "2000000000"
+            ],
+            "lpBps": 5000
+          }
+        }
+      },
+      "venueProvenance": {
+        "baseVerification": {
+          "schema": "whitelist-testnet-readback-v1",
+          "chainId": 46630,
+          "blockNumber": 126423687,
+          "blockHash": "0x83dd7768ff00210f915b7c297cae2835d291c11968ea0c6ab47dafa9fe3e9248",
+          "transactionHashes": [
+            "0x47d3b97c61af8eb02c6ca3b6d6f256c98624bce655a1470fd1296d03417d26a8",
+            "0x88b018f6aeda6fcfad3f7d622b8309f7650b726f0f1a842fae7ff0bb7d240288",
+            "0xa2091c67985f7008008015effadbfbce2eb5b01d83da7e9850f37ed306077abc",
+            "0x5dee7a1c0a47886e604d48eee721f88260d1d52892c40f6b0e3b015f5206d9a4",
+            "0xd61b4808887316a961e4935f1d9d777022ad07c2be2bf4b1fd27fdc2b867330a",
+            "0xb596f8926621173e293214742eb2cfcebb00fc788094d43cfdddd75d254249cb",
+            "0xc974b9c65f8ec9394980ac63806f98cf2f8f15311bc1c83d27eaa1563e85d8a4",
+            "0x676c41f2f350e1d6d5e55531960e0a92112c0878780515e463b11f6ec445dc5b",
+            "0xb1f23e181b4e74b68cfd0372d25573c01cff8023fe8f2b090b9745c943173cdb",
+            "0x5c114d844305ddd0a31df2d27be4c842378cfd89fea84903be734de280d006ca",
+            "0x04cd0425e5a362729fb5e512d1846ac07be6dd92806cf51be6074b393f7987b1",
+            "0xd11db477a1293c55cae0aade17a9ce583b0278838135aef084ee61dc3a7ad517",
+            "0x71900fff8887a3ff917c549ed4dc22a2464e3b7b8989eb7974bf687f5e375bf1",
+            "0xa7bdaed1770dc93d7b33805642e55ad5283121ace0cadbd37611fcdc3d8f8f14",
+            "0xab5843215935e44a6184fff89af44403ef0dec0a729b930e82b43640a96d32cc",
+            "0x7fe75be528e447696c2ea86e2a71c64c4aa121b44cd25d35ece7418f4594687d",
+            "0x5540e53b9ac5d0b21e7d8882c4dce88c4374f2e03d91a4225ada29192f908928",
+            "0x5af671c02799402cb4609fcc1741ba1510a9d384b59342ed5812b023ed58fc2c",
+            "0x5f7bbc983f99798063a31845c71790d4578d4164d3639dd71e9b981ab581c138",
+            "0xb4c915367fba093e5a2ca1fa129b739f6b0da94d4c5d94a8695202ff7ef01b3e",
+            "0xb7019a3b32fc22cd6a5401f3b1d37076b89c1edcf52ea49cef4571356f0a5a25",
+            "0x253665e449581a51072e5373d1d253113cb3c1a9542aacbf8dd1ff983ff9c945",
+            "0x636301dc8480a49536ff8e13fc880e78efa0d5aa24c927ed9a90db632e73f838",
+            "0x1cb038e4519d95f4f3ffe1e971878543e854bc0b77852f63173f93f78d03e605",
+            "0x245037f5bb1812c5698504e950bdad4c0cdde6cf6e66a54aaa4b3fe558353c5c",
+            "0x4ca6a0439782bf34dd12a42bc178d6cec1fbd9425d77f30c41ae99207df0d5e5",
+            "0xf5dce1316614fa05272b4067ce4bc4711bb9589430400ee169316e7791c5e9a3",
+            "0xb78aea00e831291547164b4eae0a2838d4c98d8684e1b573a7ac5fd2cd2b79bb",
+            "0xf6f11e6c47efe763647d2055e104a6870e565e8fbb15613139c3b8dc32bbc44a",
+            "0xe2cd228581c7aade8c2fe7c2d1ef584affff7b45db6419d29e1fb257ff5e6bc8",
+            "0x9f03353fb1c79488e9c52dbb5e35f219d3864b81b09df033a1bee6f150a2745f",
+            "0xcae6931ea2f1f1c3695c50b29d8aa6a60d1f8f173fbde79acca6dd748cb38edf",
+            "0xcf3fddd53acb2324403cabc8dd4f698c3481403affe0d2ca0d6b1a49ed88eea1",
+            "0xebca6c3264fb27fe9a7232b8cc03aa51310d2b9ec4aae7bfac967bd386d8d736",
+            "0x49a7f3bd3ddc2795e91cedf6999037949599705fbb209d9ee9acfffef423b2e0",
+            "0xadbc42a88de3979951a4f11ff2eff2ae967d9ea1efb3b0700892b8da8a24e586",
+            "0xf126b0104c07aac6c0ae2e7cb6aeb3f5fe3675553f8725fc0d830c16d34a5bf9",
+            "0x69667fc487f5f85e1aba3bbe7fe8f1a05f8a91e67487074a8f5884b5ba9cde65",
+            "0x32955bfb5e102f6f0d695a773dc669d1ca502c9e38071a0354c63d6a57880e23",
+            "0x39f796d648eb3a0a02ce7b22954552e90d23b1266b1935867b20353b2eb6186b",
+            "0x71b08e73c5b36cc24c57a9ca73b13c336420adbc6eb6fe259b2d150832e34dbb",
+            "0x3dc7b53312ec4169b97754d8cdf043766b9cc3285c6789cfce726f34c559b03c",
+            "0xceae4554776d1d004bf9fe4a2cec34307e14f6eef8182e608b0474a68c31d28b",
+            "0x1bc36da87322ada250b392ffc949ede78555a9b51db028c314de8f29b7b865c0",
+            "0xa9eb38fc1f21fc65c7821db99973f805f8e9c8fd700963a87eb66c7df18f5839",
+            "0x42df06d948a986f89952902e5ad69013776ab09b58a1e78dd3160411b547a7d8",
+            "0x5e98711c4c445c2fb9b415a19d403c6da4aad8292b5cfe7677e3c72fc38f1689",
+            "0x03bb2f0e4dd023d1f2b0a9c9b41f30732e7233e9c16a30f32f1a58d5856f55b2",
+            "0x137385a88f9bcb4654276f7cac4e0ffd7d928419c9c6b6f5533d2c668a47f8ee",
+            "0x7b50e2cbc3993ed6e389acfb8ed8c68d0b35e85399824f885c5d02f3d2df1a8d",
+            "0x8449f8c3ea36f2376686474e2af5bd485ee704103e30002aaa52d9d906e2c816",
+            "0x80013b684ec7ab94523e93518d8e5f8430f4f626e8b1b93b02c807471f9aa349",
+            "0x8fe123e3c0a1b82af675b9839f346f24ab5063ff6db79df045315c5c70450d57",
+            "0x7a823cccad75889c188610b17d452c0ba68d8f3936e320942149509491dc9055",
+            "0x644bd7ee42e41e1b8d6b2157a94982d02eb3e44f7484e4b032e6ee901ea11e00",
+            "0xb70ea00e575c5ba70ba1556480d610ce6928cd1b5ddd35338b8f4c1295db548c",
+            "0xbdb1f20023a9d280f2b8796005a7576b42b591e112fd3ed9d2a19ac765c70f28",
+            "0xe5a1b4cfb44d8a7d8c5c4a2e5406fdcdd32b49fedf51ac1dd16ef5c38410372e",
+            "0x2a9940fd6d9e1020eaf9d52dad560a5ec0e34ea7a1875be160f4bae51fe02824",
+            "0x8617790ba91999bd4b105acbf2b7d78dc2916fe37918bf9e0d1b7146f59b5ee8",
+            "0xa417ed44d939c49a50ce0911c331869febe3991dc324ce474a9d8f7ce0d2f860",
+            "0x69ab9084f6f5e2495c962b3b1aba5aa8b3e5eb5bf7b351cbde73f36752f8e43f",
+            "0x2550cc196ad2cba1f176d9fe1f581b92acedb1c92b7557b5ac2e9112d8e013dd",
+            "0x0bcea99e15311f2723bcdf4f37e41cedd864b932b695fd1b1171aabc83fad949",
+            "0xcbe74851c64e5f3266dfeebfe7bc8dbb245b2ad92f64beda3852f71bdecf8ac1",
+            "0x36cfb806533728d373ab0311036878f14e39066db806e286ba6ae06643a157c3",
+            "0x8f15c28ea29f79708d3cbb5ab083a20bbfe7712da974f1a41d80939c6752feea",
+            "0xae90c112c394fcb49eb129abfa62d9da68b78db5f34c0fad85b697601ce146aa",
+            "0x59356cf67d2b5056b409003106f1266ffe5b91a9bc162bd2b1eb634286b5f95f",
+            "0x62ada30cc35651f3ee92a8b6a12d0e99e8ec56597ceabd4bc6d3d4aca942d877",
+            "0xfe7a13ba9ccf5eb58919de3a879bd4655d93ef4f5201abe80bbee675bc8facc1",
+            "0xf67e9c357279bc879c7994274c02e35ab34ca160685b5a9239bc8ce9f909fb5f"
+          ],
+          "verifiedAt": "2026-09-29T23:53:42.959681+00:00",
+          "sourceCommit": "67adedfb897c20d8814295597fb8ee58162f0d86",
+          "sourceBookSha256": "7e1aa5d8a4c635d9ff1cf1c79f098804bbce05003b649d9fd0a5a7bdb1bf0c02"
+        },
+        "stockExtensions": [
+          {
+            "schema": "v2-testnet-stock-extension-readback-v1",
+            "chainId": 46630,
+            "sourceCommit": "4ff128573152c6a6589a64c6636d6f6de1919580",
+            "factory": "0x3E95976E2425e63cb2A8d48BBce8976F55627019",
+            "operator": "0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D",
+            "baseBookSha256": "bc080d8b2f9d93aec94e2ee337233e333a599f2be73a626a8bb4f2666120e32b",
+            "candidateSha256": "8e9b2a5ca307afbf0a385b0dd95d755adde0b7a3759b40254025086a8f10c8e7",
+            "deployLogSha256": "d0189f025407b682c3171943eaad18e1122dbd8f06ff153acda51c142a3dd7ba",
+            "pokeLogSha256": "650933bd0742ed825a2876f43f5dba6d89ec57c9640cfbb5e06e681d35ebf382",
+            "blockNumber": 126858969,
+            "blockHash": "0x446f9373e5ffd2c15151c5693c08cdcb2f2a15a56d3709d800df77fe2bf45dc6",
+            "verifiedAt": "2026-09-30T21:43:09.163Z",
+            "symbols": [
+              "MSFT",
+              "AMZN",
+              "GOOGL",
+              "META"
+            ],
+            "stocks": {
+              "AMZN": {
+                "cardinalityNext": 720,
+                "decimals": 18,
+                "dripAmount": "50000000000000000000",
+                "fee": 3000,
+                "feed": "0xC69FaDbFEc1213ab7eE20f0Cc883F5728FD12975",
+                "feedCodeHash": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                "liquidity": "7233930408619105019",
+                "lpBps": 5000,
+                "maxDeviationBps": 50,
+                "maxSlippageBps": 100,
+                "name": "Amazon test stock (testnet, no value)",
+                "openPriceE18": "50000000000",
+                "oracle": "0xA81F110FA29c9335ce7B4a289CcE98ED1a44A1bB",
+                "oracleCodeHash": "0x1249a47229e1b2c0e95333bb46eff17e07ce58ccc8ad1f931c37dd284aff4d57",
+                "pool": "0x86fd810f5b4c769E9FBad9A38E1e92bed8909652",
+                "poolCodeHash": "0x0290c9ed31af461734e0538d812e2ebac46de44bf74e17735385b553f188917c",
+                "priceE18": "200000000000000000000",
+                "sellChunkUsdg": 2000000000,
+                "tickLower": 216360,
+                "tickUpper": 230280,
+                "token": "0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88",
+                "tokenCodeHash": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589"
+              },
+              "GOOGL": {
+                "cardinalityNext": 720,
+                "decimals": 18,
+                "dripAmount": "50000000000000000000",
+                "fee": 500,
+                "feed": "0x1E7f20E9Ee11C23B9D8D1Ee021b32723dc24546d",
+                "feedCodeHash": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                "liquidity": "7225226234085865780",
+                "lpBps": 5000,
+                "maxDeviationBps": 50,
+                "maxSlippageBps": 100,
+                "name": "Alphabet test stock (testnet, no value)",
+                "openPriceE18": "50000000000",
+                "oracle": "0x79847509969fB5ca678836563a49C770DEFCD585",
+                "oracleCodeHash": "0x3eb1248daa84cbd2cd51dc4431eda9032f88ac76f0f30eb1ff86f7462763d679",
+                "pool": "0x87f94AC256B0108c09e7281402b127fd1b932481",
+                "poolCodeHash": "0xe87344a7494f0780c51ff3583cca74a4a954806d70e28eeb3c0697a88ddbd16f",
+                "priceE18": "200000000000000000000",
+                "sellChunkUsdg": 2000000000,
+                "tickLower": -230290,
+                "tickUpper": -216370,
+                "token": "0x3027527030CFaE82e93119EAE3B1372D07064Dfe",
+                "tokenCodeHash": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589"
+              },
+              "META": {
+                "cardinalityNext": 720,
+                "decimals": 18,
+                "dripAmount": "20000000000000000000",
+                "fee": 3000,
+                "feed": "0x34781f5Ab7A9b44B7616984B49d9DAFb39F4732D",
+                "feedCodeHash": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                "liquidity": "4173157035921873558",
+                "lpBps": 5000,
+                "maxDeviationBps": 50,
+                "maxSlippageBps": 100,
+                "name": "Meta test stock (testnet, no value)",
+                "openPriceE18": "16666666667",
+                "oracle": "0x14f9867471039f91A106276C9736Df66c92BDa80",
+                "oracleCodeHash": "0xdf10fe5c6560c409a4b449794b73b24b114a2a74003858faf40282eea41dcc2e",
+                "pool": "0xD638256044b6EB3CC0a4617F704C6df8BF1a6856",
+                "poolCodeHash": "0x06cf219fb71d29e6ce6770a4f9315eafd074c116e08670fd92784928511ebb9f",
+                "priceE18": "600000000000000000000",
+                "sellChunkUsdg": 2000000000,
+                "tickLower": 205380,
+                "tickUpper": 219300,
+                "token": "0xEa3de3A8064278227760760e72e9A1c215F89903",
+                "tokenCodeHash": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48"
+              },
+              "MSFT": {
+                "cardinalityNext": 720,
+                "decimals": 18,
+                "dripAmount": "20000000000000000000",
+                "fee": 3000,
+                "feed": "0x4708D200c1A043Ce4d273F53eA1c245A17e2b5F6",
+                "feedCodeHash": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                "liquidity": "4584332199940353334",
+                "lpBps": 5000,
+                "maxDeviationBps": 50,
+                "maxSlippageBps": 100,
+                "name": "Microsoft test stock (testnet, no value)",
+                "openPriceE18": "20000000000",
+                "oracle": "0xcD81F9041f6e56CB734F580676e3A3B0BffD9d34",
+                "oracleCodeHash": "0xafcbeec5e485a8d51521d022016ac1d673aba95a6965f388fb6d1f43f29805b0",
+                "pool": "0xf94Fda49fD23F11116644Ff5880522EF04097699",
+                "poolCodeHash": "0x3eddbb1ac56717a631ad0774643e683462f45e5644e4a4ec486a4b340b118438",
+                "priceE18": "500000000000000000000",
+                "sellChunkUsdg": 2000000000,
+                "tickLower": 207180,
+                "tickUpper": 221100,
+                "token": "0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce",
+                "tokenCodeHash": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48"
+              }
+            },
+            "transactions": [
+              {
+                "hash": "0xc7673402a6792b40b7607c7b5e2a7cfb43fdd5b5f20d652c8cc0234999337465",
+                "blockNumber": 126856505,
+                "blockHash": "0x84ad29a0c60a92d1d1d8aa967ce3e8f14d506f5223dd8b44b1be8de4a1bfaa2b",
+                "to": null,
+                "inputSha256": "0b02d84cbf252ef7aeac37878b0b8039bf3dfb0b73ae77c0b39f5842198804d1",
+                "gasUsed": "1008425"
+              },
+              {
+                "hash": "0xe4d2bd7755d82d1675ea60cbf929c1c12115c0c1668e43541e7f260f009d454d",
+                "blockNumber": 126856518,
+                "blockHash": "0xdedd76e0b438dd8be34a11c52a59600176789cfd92a0b1acdfc40bbe7ea372f0",
+                "to": null,
+                "inputSha256": "986949fa6356a7349856277cbf9ff9943de3e189e9cf708b716da604a46f3a8a",
+                "gasUsed": "754976"
+              },
+              {
+                "hash": "0xe49294084a64d3a224a05e8186c26ae7c9e49af8aa66f0e6dfc4c54ae08aeecd",
+                "blockNumber": 126856526,
+                "blockHash": "0x16cbd95b40be5956d41be20d73194e01dd91f41991f41423534844d13160f376",
+                "to": "0x8abbdc97c8d4c8b950cb80488606d27b09a3e9ce",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55592"
+              },
+              {
+                "hash": "0x9a4f85a52313c26084b51e9bc8b1091c17e3749df624b26a5974a34df3dc8f55",
+                "blockNumber": 126856537,
+                "blockHash": "0xa4e3eb02186dc7cc4272d7910b5667bffc3d416f05bfbb386a0a429f8e6d6e7d",
+                "to": "0x4708d200c1a043ce4d273f53ea1c245a17e2b5f6",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55460"
+              },
+              {
+                "hash": "0x5ec0bbdd7cfbd81bf2d9b854c10f467946a0c9111e10147818a1431948df4a9e",
+                "blockNumber": 126856546,
+                "blockHash": "0xc8e57b052e601a334093d8442a4018e414abf476b56b1a1894c095c2352e7259",
+                "to": null,
+                "inputSha256": "f3eda4e0be3e532c9690d8b3424da6c5d3ce0679970c9c2d84b905b02f957e21",
+                "gasUsed": "627714"
+              },
+              {
+                "hash": "0x729b20283d959a08023e61bf1914d9fc714823e0a558ec8bf0e109183fe53d9b",
+                "blockNumber": 126856554,
+                "blockHash": "0x9f6a665419aa18cf7085e5bec2a9308431c68c95ee5e010eaa7bb2622a140c91",
+                "to": "0x0b0a96d7eb396e7471998889c4803dd0f529eb01",
+                "inputSha256": "3abf147e050b76a3ba2293113857e4491cccaff66773eb7edde7d49f2440860b",
+                "gasUsed": "4567884"
+              },
+              {
+                "hash": "0x49d48fa1a88eadfc5f61e54b806a38457a50b37724cac5589b10e68d2e1348e1",
+                "blockNumber": 126856561,
+                "blockHash": "0x16fd2414de5cb73e8831d78e3cccf44f1107bda1310eaf18c3e506a9f1f2cb0b",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "2aae6d22681372dbc9e804e1cdec99da3f716b7f542ce4d993d123958543ce11",
+                "gasUsed": "164493"
+              },
+              {
+                "hash": "0xe1f4a338130b86bdc18ad94b2c6ba2465fd7d93b0ab158ccb99a6dfb07b71e0c",
+                "blockNumber": 126856570,
+                "blockHash": "0x99cffe3ce5b9b205e52fbd213e5548f7e7f61de85fd5f6f34b8b236b6902ee4e",
+                "to": "0xf94fda49fd23f11116644ff5880522ef04097699",
+                "inputSha256": "edb3165c9018abc026fd54acc3035b605d5881f0602fb33262ce0a321541ac48",
+                "gasUsed": "76639"
+              },
+              {
+                "hash": "0xa264fc2b0d335ac55713e7aea494f56098d71a7c946fe430b798104f56e2309e",
+                "blockNumber": 126856580,
+                "blockHash": "0x57d19336f7458eaa2fae2eea89ef48eba1013cf74082b8607c33fa0248590144",
+                "to": "0xf94fda49fd23f11116644ff5880522ef04097699",
+                "inputSha256": "18422cd2a622b35d495c0779e910a86ee0ba883d3b6bcc8c37e98b3e4aa6838f",
+                "gasUsed": "16024241"
+              },
+              {
+                "hash": "0x21d9e524cf8835e4124bb2a86ca6a52be7ffc0427cc6d97fddef2012b4852b2e",
+                "blockNumber": 126856588,
+                "blockHash": "0xf5443bd09dabba87e5df0b0db4d840634acb492aa78fc2cd18fb87805f9339f5",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "b2d7369d71a3c34a4b9007e8855e7e5a9d1189756eb64c740d4acecfe264fd23",
+                "gasUsed": "389797"
+              },
+              {
+                "hash": "0xd8b7e1f2778120ec53c87c9d863028402a027d03c97977cb580fc777926d0af9",
+                "blockNumber": 126856593,
+                "blockHash": "0x08ea0612df20d33bfd41bbf0839d5285b9966995aff903a640039360421404f9",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "ee206ee9e03f506138901cfe73565145a4f865521c1c648564fc5a0c0de4eeef",
+                "gasUsed": "141005"
+              },
+              {
+                "hash": "0x901436c0246dc62941afaf818d51ea3cf97a8fad6a8324c5e6bb0ac175ee743a",
+                "blockNumber": 126856601,
+                "blockHash": "0x662dae0d63f1976672a35d88cda0665c8edc1cca270216486de041a224c0cd4a",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "0a2dc93eeb26b71192f2e8cc8bd67cae1f28bbc0bfaba8728bc86d572c7645c8",
+                "gasUsed": "62361"
+              },
+              {
+                "hash": "0xf8777992fdbf554aa2d06aa67055724c95cc2e401a0b5c203b2db4eaab33ed48",
+                "blockNumber": 126856610,
+                "blockHash": "0x4410fc5ff866fc9e3a85bfc38558a975c292603bff3aaf5fa6913fab2b0fffa0",
+                "to": "0xb15d34fc30292dedb070875074e7b56fd34a1da2",
+                "inputSha256": "45557e4f58fb57dfdb0cfab1ea521868dda672da837c8b1bf16c43bbe9795806",
+                "gasUsed": "61732"
+              },
+              {
+                "hash": "0xf78f28b7670d9dda14da817519c1b5967a403550f157bc958aad2d8d69a30125",
+                "blockNumber": 126856619,
+                "blockHash": "0x18dc7531653d8424b0c0ce3ea9edc41e60403dd2847b7c183e4feda7aafe8e53",
+                "to": null,
+                "inputSha256": "70cd904de96c2172d26043d07ed3240afbf3ae4a6926cf4d7aeba4d0a50e5159",
+                "gasUsed": "1008262"
+              },
+              {
+                "hash": "0x5c58d0b5887a655529b7e2ad7403409db84c139772fc1ae68a0e969c046e0739",
+                "blockNumber": 126856628,
+                "blockHash": "0x031d31e3d662992eaba4dbf61b4610af293dea01c57fbb7fa2f5d7241a60d77e",
+                "to": null,
+                "inputSha256": "ecd92f5052832e407a12152cb6842fd9d02e32eb9338db5ba30278be31ca339c",
+                "gasUsed": "754976"
+              },
+              {
+                "hash": "0x369df5cf9e1d94639417689f63c2c43791c7e0671257bf6d934747c5dc23cb19",
+                "blockNumber": 126856638,
+                "blockHash": "0xc5361d286973d5ff6accc857d5d26cc24dd76a216e695d3396b575124ecd1152",
+                "to": "0xebecc6d4ee7ad6d58870c82770389f7cf2eedd88",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55592"
+              },
+              {
+                "hash": "0x533163d10eece47bbd1a8030d2f2fb1d1474d92080100ff65087ebc84657e540",
+                "blockNumber": 126856645,
+                "blockHash": "0x83d51b82ef07d50da0118daa05858b4c7438c8e4c53046c1a86f37a48505e39f",
+                "to": "0xc69fadbfec1213ab7ee20f0cc883f5728fd12975",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55460"
+              },
+              {
+                "hash": "0x2555d3e9d7e6662ae2be1015e4c5b26a5d46cd050db870b23c76e4f28cc8ce63",
+                "blockNumber": 126856650,
+                "blockHash": "0x2f6cb75c2dd894383ae9d67f91809fc2a0690220b6c694af24a9849891fff111",
+                "to": null,
+                "inputSha256": "5c0f58529bfa2e509f822862eab6fd8a8e8b942ad71a2629c63c8d4de286b152",
+                "gasUsed": "627980"
+              },
+              {
+                "hash": "0xeab3a10f8c1c199cc63d4b0bd4a86cafa4ae0d52974bd18df47b251ddd32800c",
+                "blockNumber": 126856663,
+                "blockHash": "0x21e81e7d064c31c22dae1c607339631061633f6495b96a9423a784fe5bcf9a23",
+                "to": "0x0b0a96d7eb396e7471998889c4803dd0f529eb01",
+                "inputSha256": "bea9536f7947fbb0f96fa2a6027f71dfeb7212aaf2c5207efcaeb6d4d5ac38d2",
+                "gasUsed": "4567884"
+              },
+              {
+                "hash": "0x671252aa6cc47708ea84390e1f1742becedd33e7e2ac3091bae01faf0e061a17",
+                "blockNumber": 126856673,
+                "blockHash": "0x5aae984cfce36b15cbd683c40fdbe7dd23be3d224983225ec87fd81adf65c848",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "93139b28ef70c6189335c4bc4bba06829877e2381d8e0849d652b2bfe6915ac9",
+                "gasUsed": "164505"
+              },
+              {
+                "hash": "0x7c30d28194f79c8c1ac9a18b5094b56b34c66d534bd6e6c336e6945c4237dc87",
+                "blockNumber": 126856678,
+                "blockHash": "0xc23620460304b6f7f9fdaabada5f34ac8114605c165ea74be043ef851a3f28d7",
+                "to": "0x86fd810f5b4c769e9fbad9a38e1e92bed8909652",
+                "inputSha256": "3fada7d224583034abb8df2400782fe0c7cca95656a569c042e143ca6d7db6bd",
+                "gasUsed": "76657"
+              },
+              {
+                "hash": "0x0e36e9d036b7596e98e9ac2772cbd73bddf20372cede753e56a879950debbd7e",
+                "blockNumber": 126856688,
+                "blockHash": "0xb54460f0e15e77e5c687a013e50ecba391b0af49381a80470e173615d835412c",
+                "to": "0x86fd810f5b4c769e9fbad9a38e1e92bed8909652",
+                "inputSha256": "18422cd2a622b35d495c0779e910a86ee0ba883d3b6bcc8c37e98b3e4aa6838f",
+                "gasUsed": "16024241"
+              },
+              {
+                "hash": "0xf1e27d4a5d9ce7ffc1b0a6faf3b87b4ce8dc4042e36e583c0e0fb715b16cdd82",
+                "blockNumber": 126856691,
+                "blockHash": "0x31f91dceb9c53096b813e73e9821384c4a63bbc32611ac154c7d2318bed75935",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "6f0c7567d5b8a2de3ace5e1157e93590097f334d57fc51d4f251810997facc88",
+                "gasUsed": "367827"
+              },
+              {
+                "hash": "0x840b8022555c50aefffb212a6050d80faa3089cd26d267315a58d0c40288d8f3",
+                "blockNumber": 126856701,
+                "blockHash": "0xc3a435ea841947719f20d6ccc3986389289aa7f22671019ff7aec5c55153467e",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "121067ecc56d2d270ecd9db8a99f8132782d91d5f7cae6363edc0871aea948cf",
+                "gasUsed": "141005"
+              },
+              {
+                "hash": "0x495cf160f86de0b27ec159d6eac0044090225e0912d68922bf7852d314385af7",
+                "blockNumber": 126856710,
+                "blockHash": "0xa23dc1b25a99c198e3b9f79c090107e54175c2e46e80f8bc43777af746c2e84a",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "add563eaa804576cb6964e5bc12b99dbe7a9d4cb748a2c37e83ad0a9b50beada",
+                "gasUsed": "62361"
+              },
+              {
+                "hash": "0x3846ff149ce22dbcd9d3324d2dd61b5c1349560e7f8d368216e487e1792c6dfb",
+                "blockNumber": 126856722,
+                "blockHash": "0xc6754a5a37a59295b636e1d6acf6a9bbff1281a1664bd2450dfff0fc2492d8b8",
+                "to": "0xb15d34fc30292dedb070875074e7b56fd34a1da2",
+                "inputSha256": "501386eabcaf9d819c2c8424489261303a4b77bb71b34cdc663d0cbb3fd6a53e",
+                "gasUsed": "61732"
+              },
+              {
+                "hash": "0x1941a46d0f37eb3e728847eba8074fcef74b88ad687339163e0b49a57bd7d849",
+                "blockNumber": 126856731,
+                "blockHash": "0xa1f296f17d8e4ba0e2d35d1b8918c9a5d419de3018a1318f29e5c850e92af876",
+                "to": null,
+                "inputSha256": "9a1d05848d3b209a4c4ea5e81d32173014777cfe679c471f833c90df08d4b391",
+                "gasUsed": "1008341"
+              },
+              {
+                "hash": "0x10f545af5e8ff0b86a3214b90d9eea52bc5fc649f7587aadc2e59ae5010d69d2",
+                "blockNumber": 126856742,
+                "blockHash": "0x531e3cf12c8496b948aaa229165ba0c6081a2e7b9b4c4968d210f14b864b2f52",
+                "to": null,
+                "inputSha256": "7620d21e1ecd18ed62dbaae46114b048d8500d48847686acf045e5a4669fb8a3",
+                "gasUsed": "755030"
+              },
+              {
+                "hash": "0xe97db2ae9e1bd75bb39b9c9510f57f7a31b34b89ca2d7feb5a959f2c5929723a",
+                "blockNumber": 126856752,
+                "blockHash": "0x358198969c9446eb30f38c6b7e8f6c206bd7dd901430dcb443f00c9d33080954",
+                "to": "0x3027527030cfae82e93119eae3b1372d07064dfe",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55592"
+              },
+              {
+                "hash": "0xf0b9f04f7600f855ff5fbb0f83d243fb1726a3a7d101f2a86f47416ae6049623",
+                "blockNumber": 126856760,
+                "blockHash": "0x3fb384f25cd75fd8d26a2c37ca906a536b8eea56e573ea7e69cac18fcc92a264",
+                "to": "0x1e7f20e9ee11c23b9d8d1ee021b32723dc24546d",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55460"
+              },
+              {
+                "hash": "0x2130408e958b5f1d977a238f9753b6f5d96c83528ad7d12f8488b0a749c9a948",
+                "blockNumber": 126856772,
+                "blockHash": "0x6ae84b6a1e2a279fda85d19f2860f9a87b17c806dca5baddcefce1c0da757502",
+                "to": null,
+                "inputSha256": "6a192546ba3dde2b748b0e0d3ce922747779615c717a73c657677beefb38418a",
+                "gasUsed": "627853"
+              },
+              {
+                "hash": "0xa7f6eecc5a3bc92c95adedc116d236b0be64698dbd79b1640cd194eaa9be0a02",
+                "blockNumber": 126856785,
+                "blockHash": "0x129eef96dfa3ff1a7bc7edebc095089a5c1ca2d90f6975188a1746dcd3057f2e",
+                "to": "0x0b0a96d7eb396e7471998889c4803dd0f529eb01",
+                "inputSha256": "d230dc71b6b2ab83fb0a815bfc0140f5bfbf527ef701c518f2bf536954508b4e",
+                "gasUsed": "4567874"
+              },
+              {
+                "hash": "0x5c01007011d3fab9ce58a982e1a55078ef95d227725a1b13293341deb836a744",
+                "blockNumber": 126856791,
+                "blockHash": "0x5573ca5ff6c86f210b11f72c325e16409af77f466f6c4f3090d90ffa3d654fd1",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "ea2bf20138321c9ac7a30380f9d86d3c0a8d82d6756b885f034b15cac100213a",
+                "gasUsed": "164313"
+              },
+              {
+                "hash": "0x186f5a77fc92797f0092b7c3b1092efc92a3b97c30a5aa9ed0ff2a1e3c8d5924",
+                "blockNumber": 126856797,
+                "blockHash": "0x43932322b87d1e86903a463788378249210827de006a61b5ab8a683096cb84b0",
+                "to": "0x87f94ac256b0108c09e7281402b127fd1b932481",
+                "inputSha256": "6310967b6767597d7ca4e74fc097fd67c339d13a256c2144e4444b7ea0a9883e",
+                "gasUsed": "76557"
+              },
+              {
+                "hash": "0xef8376db4cbc521b0199d3e0b7a37ad4bb26b8e3b15f37c82d1cc41999dd98f8",
+                "blockNumber": 126856801,
+                "blockHash": "0x8413efed3dffb8cfa6b2ef15553901274d2f347ac527f1e1d5fa273b25e10b34",
+                "to": "0x87f94ac256b0108c09e7281402b127fd1b932481",
+                "inputSha256": "18422cd2a622b35d495c0779e910a86ee0ba883d3b6bcc8c37e98b3e4aa6838f",
+                "gasUsed": "16024241"
+              },
+              {
+                "hash": "0x8dc3aab7f6c234b9b377b72444c0b668a95a0b085a8980bc6fc64f3101162672",
+                "blockNumber": 126856810,
+                "blockHash": "0x44fe8583738753230ff0e37de6d4bc143561f6fe3d265780dc84c3da9a41986e",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "73b38e839aeee9dd8ddeded023f248cca67ed0978f520f84f5f719fb644beb83",
+                "gasUsed": "389373"
+              },
+              {
+                "hash": "0xb632d9c1d8eb9ffc7a0e98413a42781ad3d9a9c25b6d92cd9db8a10f370af764",
+                "blockNumber": 126856818,
+                "blockHash": "0xdb661022dd24f0ec5c63e221ccdb04836d299db854590470215524d6b9d15689",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "304b8aed082f30b751a95257cdeec8af8fdc8adf13204746a1d629a9e390a65e",
+                "gasUsed": "141005"
+              },
+              {
+                "hash": "0xe3706bfee2cffa09a7ccae84d08bf8d846862bdd5fc1c7985ec91e03ae0e6519",
+                "blockNumber": 126856823,
+                "blockHash": "0x6daaac0b4f8ce73e209510962af0403f563c7defee72b9bcd751b693a0381f89",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "64dac58404b508208729ec46f529a116f249174c0b094931323d1cbcebabc18f",
+                "gasUsed": "62403"
+              },
+              {
+                "hash": "0x5d95a4ecc914f6e83bab8bd6165db2838fae816568306d7e9322871906861d72",
+                "blockNumber": 126856828,
+                "blockHash": "0x9bcf79384b506c1d3ae2410062f549558fbd46bff007f776c7ea63e3130b277c",
+                "to": "0xb15d34fc30292dedb070875074e7b56fd34a1da2",
+                "inputSha256": "df5a8b0d84b0fd3883f3cd50591b220f39d436e4ad99d5aa001080f0ac9134bc",
+                "gasUsed": "61732"
+              },
+              {
+                "hash": "0xa7d0c33abe7d614193a28bb78bd81fb21a863e9665fcd653d635524693505457",
+                "blockNumber": 126856833,
+                "blockHash": "0x6bca5f58cf34a8a947e66039d404a98006e9876125ee55acecaf2f5ede47ed3e",
+                "to": null,
+                "inputSha256": "5fc56833c74c5ac46e31539169d490c5091809f3ac97551d7967731909f00bf2",
+                "gasUsed": "1008027"
+              },
+              {
+                "hash": "0xe4ac4a648f9851bb4a2e23b4d6ad13144fa771abb955e1be7d15dc464f87544d",
+                "blockNumber": 126856843,
+                "blockHash": "0xc4ede4ff2a63e89a93e6ab71f5600688b79b0d5a619bcbe29a33cebd083c6a98",
+                "to": null,
+                "inputSha256": "20aff09f423833643ffd5ad9c603f2236063b64f515df4f542efad5c4811c88d",
+                "gasUsed": "755018"
+              },
+              {
+                "hash": "0x5d6deb064086ce7e35d1d8a95bdba7f0e204f15a485a5231ba73cb5829507a91",
+                "blockNumber": 126856850,
+                "blockHash": "0x6216eca545989a9d748f0b055bdacd20b54d46184838bd6bedf5da0e1ec7ee13",
+                "to": "0xea3de3a8064278227760760e72e9a1c215f89903",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55592"
+              },
+              {
+                "hash": "0xf6ff741d71e7e84fc987f42d15dcb118992ca139d1ce79770311961dba0bbf1d",
+                "blockNumber": 126856861,
+                "blockHash": "0xf917854f1456d8e368cd41ea420aa7816a2879c06fb46b9e43232be727b13f79",
+                "to": "0x34781f5ab7a9b44b7616984b49d9dafb39f4732d",
+                "inputSha256": "307bc1f2851d770d1e62039ea685e055cd89197bbb811e19fb8c25e5fb932e00",
+                "gasUsed": "55460"
+              },
+              {
+                "hash": "0x60dbf560e0882377f2ee9b4f6e1a893872764ab583a33d06e68e4e88e41d83f9",
+                "blockNumber": 126856870,
+                "blockHash": "0x6441bb1dc541cf3e4454190e036cff1d71810c2b00b4ed1cb06387cb883accba",
+                "to": null,
+                "inputSha256": "3f1577d946fe6679ee56cf70e93da5c52a9561b53836655728a4bd7eee4f3968",
+                "gasUsed": "627726"
+              },
+              {
+                "hash": "0xbbb442c92f46c358e0288664b8df4a6dcd385be2deb8e03deb342bd0bd2fb390",
+                "blockNumber": 126856878,
+                "blockHash": "0x29a529c6419c2c9631188dbf6bdb6419e07c7d3dd0b4ce6ecb62183a0b5bc46d",
+                "to": "0x0b0a96d7eb396e7471998889c4803dd0f529eb01",
+                "inputSha256": "8e19e9526f89c8106ac9698d89e6ae2d9117dae0176cb813682c5c9fc1c22474",
+                "gasUsed": "4567884"
+              },
+              {
+                "hash": "0x987665305bd9540247ae9e9529e30ed87e676fa151ae34fd00f808536ccc3079",
+                "blockNumber": 126856886,
+                "blockHash": "0x70e95aab0a49a0d658913bbdb72a9a934f59143566fb5d6f00806e08047718b7",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "a9d03c9e7cb513e87a4b3067d6a052557d8b915f3314fca8b19e476287ab4276",
+                "gasUsed": "164463"
+              },
+              {
+                "hash": "0x5d5d17492f4c2135ad3b7ab5809870dfcfd413c9b4705e1391a157d2451df072",
+                "blockNumber": 126856890,
+                "blockHash": "0x7d0bd92b6fa3fd73a70ecf5a0b613ba673485b104dcdbf3054261f324ac15b21",
+                "to": "0xd638256044b6eb3cc0a4617f704c6df8bf1a6856",
+                "inputSha256": "859938ac59cffce8cd134defdeb2d73d084f1dd03b64bb372afc29a681f85f45",
+                "gasUsed": "76641"
+              },
+              {
+                "hash": "0x70b769bb2cef9325d949c3b315007e88ed54166375bfea5a60a9c4ae08cdf082",
+                "blockNumber": 126856899,
+                "blockHash": "0x51891bb48f8eed36727f84b93af659a33cf4c766a0b29204cb1e0311402ca61c",
+                "to": "0xd638256044b6eb3cc0a4617f704c6df8bf1a6856",
+                "inputSha256": "18422cd2a622b35d495c0779e910a86ee0ba883d3b6bcc8c37e98b3e4aa6838f",
+                "gasUsed": "16024241"
+              },
+              {
+                "hash": "0xa76c05a74ec8b03125d1342983a03f3e4f752d2e3f068042c111f15e99163da4",
+                "blockNumber": 126856905,
+                "blockHash": "0x24141c2fd5d645aa6474dee3f2a9aa5ee231a513890bf22b2954d3e88d66a2bd",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "7222c0f7e9b49c78edbe2e1f73f3cc55fad59b5b7dc3a227a9dae8b9c5f3af80",
+                "gasUsed": "389713"
+              },
+              {
+                "hash": "0x06c8ec29c09ecedfc4bddc0c4ea2ce1a7d22bb78e16da2745350450c497b2ef8",
+                "blockNumber": 126856918,
+                "blockHash": "0x5fa04d6e1f29fa5fc26caf05e165d59708a4ccb47834ab5e772ed532639a4142",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "39f94456365ef049bce63f4d6ceaa02e5a853bc668d7c7a39bac191d9ad496fe",
+                "gasUsed": "141017"
+              },
+              {
+                "hash": "0x45f7686e0fcc051e71efe407d3132275b50a9c8f45198cf143ff52857b070a37",
+                "blockNumber": 126856928,
+                "blockHash": "0xd860abdf011daf28344d3d424c1bd7f4d69a923eb55f144fc1123a2c3037de21",
+                "to": "0x3e95976e2425e63cb2a8d48bbce8976f55627019",
+                "inputSha256": "064086f38a9ce7c32b89c4a1d8f349851ba473896aa62e3b6cd6cdbedf6dfb79",
+                "gasUsed": "62361"
+              },
+              {
+                "hash": "0x00ca2b8f1b43c95c4afc9a18735390b50fa9ec0d92aa44da34a13eb2223f2665",
+                "blockNumber": 126856932,
+                "blockHash": "0xc6127bd73fa3fdcdbbc71f8cd680b338b44ace2fccea14483a6e6166f1ca5e22",
+                "to": "0xb15d34fc30292dedb070875074e7b56fd34a1da2",
+                "inputSha256": "439fcc2db876d1f49fea623479c8cecc0d5c697cc305520a5e4e7141d45a91e6",
+                "gasUsed": "61732"
+              },
+              {
+                "hash": "0xbe9a62bbefdc57ca831c3258ee399fb5d8c97906b5dc5ec920af75b69e47a7d2",
+                "blockNumber": 126857067,
+                "blockHash": "0x5902f9a189653cc5910fbae266f0ca6f6df0ef8d7a8a1150016983f1c3de752a",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "596f9641a98b52542def955ea638e4bdfff54ac990be98db5261fd9b461f2fc5",
+                "gasUsed": "255537"
+              },
+              {
+                "hash": "0x83ca405c68171d81c0c1c97a98e95794e55814a5ea6b95e92b1ef9f8d6b098cf",
+                "blockNumber": 126857078,
+                "blockHash": "0x7a4c946c7d7fff13984f0e1588736f29e839da1762a926d876a7f3c7b79b0b01",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "d6ca43a64563d3ff6da8280c060c9acd9711cfc17b47cb9fdbda2bba0c62ecfc",
+                "gasUsed": "256296"
+              },
+              {
+                "hash": "0x3e16190f698a58486c8d6f7a18b4dda7f3ed921dcda1e835e188a3f719d3f5ab",
+                "blockNumber": 126857087,
+                "blockHash": "0x4be45fcbe088e866dd41cd7a5ba6dc5727dfc9fa743391bc9f7e7aef0d2a4dd2",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "d38e8abd97641c135104ff53c729bdaaaec53a2ee4507f7ac5e0e4e543194722",
+                "gasUsed": "255205"
+              },
+              {
+                "hash": "0x5b1dd2de4123a84f81a62c06808305885fd3c9a8d1c340eb9f8c2e51c2fe5582",
+                "blockNumber": 126857096,
+                "blockHash": "0xda28687431e3bac93dc2088a388a03aa80e8bfa56673791bfd846cf2f777fb66",
+                "to": "0xc1af2f52980f8a7aa4e90a8e30d5c3faf0375f21",
+                "inputSha256": "e7cbb1f0695ef6d01cc38472ccd332da87d3d5682087cdd35c7b87e6588c8cc7",
+                "gasUsed": "231546"
+              }
+            ],
+            "readback": {
+              "MSFT": {
+                "codeHashes": {
+                  "token": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48",
+                  "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                  "oracle": "0xafcbeec5e485a8d51521d022016ac1d673aba95a6965f388fb6d1f43f29805b0",
+                  "pool": "0x3eddbb1ac56717a631ad0774643e683462f45e5644e4a4ec486a4b340b118438"
+                },
+                "oraclePriceE18": "500000000000000000000",
+                "liquidity": "4584332199940353334",
+                "usdgBalance": "30000002495193",
+                "observationCardinality": 720,
+                "observationCardinalityNext": 720,
+                "twapSeconds": 600
+              },
+              "AMZN": {
+                "codeHashes": {
+                  "token": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589",
+                  "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                  "oracle": "0x1249a47229e1b2c0e95333bb46eff17e07ce58ccc8ad1f931c37dd284aff4d57",
+                  "pool": "0x0290c9ed31af461734e0538d812e2ebac46de44bf74e17735385b553f188917c"
+                },
+                "oraclePriceE18": "200000000000000000000",
+                "liquidity": "7233930408619105019",
+                "usdgBalance": "30000012256145",
+                "observationCardinality": 720,
+                "observationCardinalityNext": 720,
+                "twapSeconds": 600
+              },
+              "GOOGL": {
+                "codeHashes": {
+                  "token": "0xb4663613423fa2dd8520a54eb2ec1ba5fc4e1889044b90f2a59f39d8b7d25589",
+                  "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                  "oracle": "0x3eb1248daa84cbd2cd51dc4431eda9032f88ac76f0f30eb1ff86f7462763d679",
+                  "pool": "0xe87344a7494f0780c51ff3583cca74a4a954806d70e28eeb3c0697a88ddbd16f"
+                },
+                "oraclePriceE18": "200000000000000000000",
+                "liquidity": "7225226234085865780",
+                "usdgBalance": "30000000520487",
+                "observationCardinality": 720,
+                "observationCardinalityNext": 720,
+                "twapSeconds": 600
+              },
+              "META": {
+                "codeHashes": {
+                  "token": "0x1c60d38a4e5c37a47fab576989920c9a66700ef38a0ba9227a0a71515596bf48",
+                  "feed": "0x73a1133394e0dda209aa790d2d2b8cdc3f9a920d544cf04712b03d28f197c36b",
+                  "oracle": "0xdf10fe5c6560c409a4b449794b73b24b114a2a74003858faf40282eea41dcc2e",
+                  "pool": "0x06cf219fb71d29e6ce6770a4f9315eafd074c116e08670fd92784928511ebb9f"
+                },
+                "oraclePriceE18": "600000000000000000000",
+                "liquidity": "4173157035921873558",
+                "usdgBalance": "30000007205127",
+                "observationCardinality": 720,
+                "observationCardinalityNext": 720,
+                "twapSeconds": 600
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}
