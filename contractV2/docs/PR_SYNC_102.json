@@ -1,0 +1,54 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/102",
+  "sourceHead": "3244fbf6b3108798e4227c863b1cddf7c1ac1267",
+  "sourceMergeBase": "9b872a2e7467f5ec7970b91ef9dca8214f218fd8",
+  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBranch": "codex/sync-pr-102",
+  "parentSourcePullRequest": null,
+  "mirroredPaths": [
+    "contractV2/docs/V2_OPENING_TAX_WHITELIST.md",
+    "contractV2/script/CheckV2Listings.s.sol",
+    "contractV2/src/v2/CurveDeployer.sol",
+    "contractV2/src/v2/HedgeFunBondingCurve.sol",
+    "contractV2/src/v2/HedgeFunV2Factory.sol",
+    "contractV2/src/v2/HedgeFunV2NativeRouter.sol",
+    "contractV2/src/v2/HedgeFunV2TradeRouter.sol",
+    "contractV2/test/BondingCurve.t.sol",
+    "contractV2/test/V2AdversarialCallbacks.t.sol",
+    "contractV2/test/V2CreatorCurveConfig.t.sol",
+    "contractV2/test/V2CurveDeployer.t.sol",
+    "contractV2/test/V2CurveSecurity.t.sol",
+    "contractV2/test/V2Factory.t.sol",
+    "contractV2/test/V2NativeRouter.t.sol",
+    "contractV2/test/V2OpeningTaxDecay.t.sol",
+    "contractV2/test/V2OpeningTaxExemption.t.sol",
+    "contractV2/test/V2TradeRouter.t.sol"
+  ],
+  "adaptations": [
+    {
+      "source": "README.md",
+      "target": "contractV2/README.md",
+      "reason": "Retain curated mirror instructions and link the original source README."
+    }
+  ],
+  "byteIdenticalChangedSolidity": [
+    "script/CheckV2Listings.s.sol",
+    "src/v2/CurveDeployer.sol",
+    "src/v2/HedgeFunBondingCurve.sol",
+    "src/v2/HedgeFunV2Factory.sol",
+    "src/v2/HedgeFunV2NativeRouter.sol",
+    "src/v2/HedgeFunV2TradeRouter.sol",
+    "test/BondingCurve.t.sol",
+    "test/V2AdversarialCallbacks.t.sol",
+    "test/V2CreatorCurveConfig.t.sol",
+    "test/V2CurveDeployer.t.sol",
+    "test/V2CurveSecurity.t.sol",
+    "test/V2Factory.t.sol",
+    "test/V2NativeRouter.t.sol",
+    "test/V2OpeningTaxDecay.t.sol",
+    "test/V2OpeningTaxExemption.t.sol",
+    "test/V2TradeRouter.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}

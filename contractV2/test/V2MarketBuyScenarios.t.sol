@@ -113,8 +113,8 @@ contract V2MarketBuyScenariosTest is V2FactoryFixture {
         }
         result.endPrice = previousPrice;
         result.endReserve = curve.realStockReserve();
-        assertEq(result.endReserve, result.totalSpent, "all principal remains in curve");
-        assertEq(stock.balanceOf(address(curve)), result.totalSpent, "curve stock balance equals principal");
+        assertEq(result.endReserve + curve.totalFees(), result.totalSpent, "gross payments fund principal and fees");
+        assertEq(stock.balanceOf(address(curve)), result.totalSpent, "curve stock balance backs principal and fees");
         assertEq(startSupply - token.totalSupply(), result.totalBurned, "curve buy tax is burned");
         assertEq(
             curve.tokenReserve() + result.totalOut + result.totalBurned, curve.initialSupply(), "token conservation"

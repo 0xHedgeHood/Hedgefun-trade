@@ -134,6 +134,94 @@
  },
  {
   "type": "function",
+  "name": "buyFor",
+  "inputs": [
+   {
+    "name": "p",
+    "type": "tuple",
+    "internalType": "struct HedgeFunV2TradeRouter.TradeParams",
+    "components": [
+     {
+      "name": "id",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "asset",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "amountIn",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "minStockReceived",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "minFinalOut",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "deadline",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "expectedStage",
+      "type": "uint8",
+      "internalType": "uint8"
+     },
+     {
+      "name": "allowPartialFill",
+      "type": "bool",
+      "internalType": "bool"
+     }
+    ]
+   },
+   {
+    "name": "path",
+    "type": "tuple[]",
+    "internalType": "struct HedgeFunV2TradeRouter.Hop[]",
+    "components": [
+     {
+      "name": "pool",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "tokenOut",
+      "type": "address",
+      "internalType": "address"
+     }
+    ]
+   },
+   {
+    "name": "recipient",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "tokensOut",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "stockRefund",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
   "name": "factory",
   "inputs": [],
   "outputs": [
@@ -303,6 +391,12 @@
     "name": "paymentAsset",
     "type": "address",
     "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "recipient",
+    "type": "address",
+    "indexed": false,
     "internalType": "address"
    },
    {

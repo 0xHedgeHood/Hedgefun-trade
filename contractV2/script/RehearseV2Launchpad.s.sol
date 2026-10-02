@@ -5,7 +5,7 @@ import {Script, console2} from "forge-std/Script.sol";
 import {VmSafe} from "forge-std/Vm.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {HedgeFunFactory, TokenDeployer} from "../src/HedgeFunFactory.sol";
-import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../src/hooks/HedgeFunV2Hook.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
@@ -33,7 +33,7 @@ contract RehearseV2Launchpad is Script {
         V2TreasuryDeployer treasury;
         TokenDeployer token;
         CurveDeployer curve;
-        HedgeFunHook hook;
+        HedgeFunV2Hook hook;
         HedgeFunV2Factory factory;
         HedgeFunV2TradeRouter router;
         address kindOneChunkA;
@@ -99,7 +99,7 @@ contract RehearseV2Launchpad is Script {
         x.treasury = new V2TreasuryDeployer();
         x.token = new TokenDeployer();
         x.curve = new CurveDeployer();
-        x.hook = new HedgeFunHook{salt: salt}(IPoolManager(PM));
+        x.hook = new HedgeFunV2Hook{salt: salt}(IPoolManager(PM));
         if (address(x.hook) != mined || uint160(address(x.hook)) & 0x3FFF != HOOK_FLAGS) {
             revert BadHook(mined, address(x.hook));
         }
@@ -152,7 +152,7 @@ contract RehearseV2Launchpad is Script {
     }
 
     function _mineHook(uint256 start) internal view returns (bytes32 salt, address hook) {
-        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunHook).creationCode, abi.encode(PM)));
+        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunV2Hook).creationCode, abi.encode(PM)));
         for (uint256 i = start; i < start + 2_000_000; ++i) {
             hook = address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), CREATE2_FACTORY, bytes32(i), initHash)))));
             if (uint160(hook) & 0x3FFF == HOOK_FLAGS && hook.code.length == 0) return (bytes32(i), hook);
@@ -181,7 +181,7 @@ contract RehearseV2Launchpad is Script {
         d.maxCreatorBps = 3000;
         d.spikeBps = 0; // V2 LP fees can fund buybacks without strategy profit; no buyback-triggered sell spike.
         d.spikeSeconds = 0;
-        d.sweepTipBps = 50;
+        d.sweepTipBps = 0;
         d.snipeBps = 9900;
         d.snipeSeconds = 3;
         d.bountyBps = 50;

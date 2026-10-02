@@ -309,7 +309,8 @@ contract CheckV2Listings is Script {
         HedgeFunBondingCurve.Init memory p = HedgeFunBondingCurve.Init({
             factory: _dummy("factory"), token: _dummy("token"), stock: e.stock, treasury: _dummy("treasury"),
             protocol: _dummy("protocol"), creator: _dummy("creator"), supply: e.supply, virtualStock: r.virtualStock,
-            saleBps: e.saleBps, taxBps: 100, protocolBps: 2000, creatorBps: 0, snipeBps: 0, snipeSeconds: 0});
+            saleBps: e.saleBps, taxBps: 100, protocolBps: 2000, creatorBps: 0, snipeBps: 0, snipeSeconds: 0,
+            openingTaxExemptions: new address[](0)});
         try new HedgeFunBondingCurve(p) returns (HedgeFunBondingCurve c) {
             r.minTokenReserve = c.minTokenReserve();
             r.terminalStock = c.terminalStock();

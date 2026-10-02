@@ -7,7 +7,7 @@ import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IPoolManager} from "v4-core/src/interfaces/IPoolManager.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunFactory, TokenDeployer} from "../src/HedgeFunFactory.sol";
-import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../src/hooks/HedgeFunV2Hook.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
@@ -39,8 +39,8 @@ contract DeployV2Testnet is Script {
     address internal constant WETH = 0x7943e237c7F95DA44E0301572D358911207852Fa;        // L2 WETH, testnet
     uint160 internal constant HOOK_FLAGS = 0x2844;
     string internal constant V3_FACTORY_BYTECODE = "lib/v4-core/test/bin/v3Factory.bytecode";
-    string internal constant OUT = "deploy/testnet-v2.candidate.json";
-    string internal constant OUT_DRY = "deploy/testnet-v2.dryrun.json";
+    string internal constant OUT = "deploy/testnet-v2-whitelist.json";
+    string internal constant OUT_DRY = "deploy/testnet-v2-whitelist.dryrun.json";
 
     /// V2 launch-check gates, as the planned mainnet listings (deploy/v2-listings-plan.json)
     uint16 internal constant MAX_DEVIATION_BPS = 50;
@@ -98,7 +98,7 @@ contract DeployV2Testnet is Script {
         V2TreasuryDeployer treasury;
         TokenDeployer token;
         CurveDeployer curve;
-        HedgeFunHook hook;
+        HedgeFunV2Hook hook;
         HedgeFunV2Factory factory;
         HedgeFunV2TradeRouter router;
         HedgeFunV2NativeRouter nativeRouter;
@@ -220,7 +220,7 @@ contract DeployV2Testnet is Script {
         x.token = new TokenDeployer();
         x.curve = new CurveDeployer();
         (, address mined) = _hookAddress(x.hookSalt);
-        x.hook = new HedgeFunHook{salt: x.hookSalt}(IPoolManager(PM));
+        x.hook = new HedgeFunV2Hook{salt: x.hookSalt}(IPoolManager(PM));
         if (address(x.hook) != mined || uint160(address(x.hook)) & 0x3FFF != HOOK_FLAGS) revert BadHook(mined, address(x.hook));
         x.factory = new HedgeFunV2Factory(x.owner, PM, address(x.v3Factory), address(x.usdg), x.protocol,
             address(x.treasury), address(x.token), address(x.hook), address(x.curve), _defaults());
@@ -263,7 +263,7 @@ contract DeployV2Testnet is Script {
         d.maxCreatorBps = 3000;
         d.spikeBps = 0;
         d.spikeSeconds = 0;
-        d.sweepTipBps = 50;
+        d.sweepTipBps = 0; // V2 stock revenue is split exactly 20% protocol / creator share / treasury remainder.
         d.snipeBps = 9900;
         d.snipeSeconds = 3;
         d.bountyBps = 50;
@@ -287,6 +287,7 @@ contract DeployV2Testnet is Script {
         }
         if (x.treasury.factory() != address(f) || x.token.factory() != address(f) || x.curve.factory() != address(f)
             || x.hook.factory() != address(f) || address(x.router.factory()) != address(f)) revert ReadbackFailed("binding");
+        if (x.hook.version() != 2) revert ReadbackFailed("two-sided fee hook");
         if (x.treasury.kindCount() != 3 || x.engineKind != 2) revert ReadbackFailed("kinds");
         if (x.treasury.policy(x.policyKey).implementation != address(x.policy)) revert ReadbackFailed("policy");
         if (keccak256(abi.encode(f.getDefaults())) != keccak256(abi.encode(_defaults()))) revert ReadbackFailed("defaults");
@@ -307,12 +308,12 @@ contract DeployV2Testnet is Script {
     }
 
     function _hookAddress(bytes32 salt) internal pure returns (bytes32, address) {
-        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunHook).creationCode, abi.encode(PM)));
+        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunV2Hook).creationCode, abi.encode(PM)));
         return (salt, address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), CREATE2_FACTORY, salt, initHash))))));
     }
 
     function _mineHook(uint256 start) internal view returns (bytes32 salt, address hook) {
-        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunHook).creationCode, abi.encode(PM)));
+        bytes32 initHash = keccak256(abi.encodePacked(type(HedgeFunV2Hook).creationCode, abi.encode(PM)));
         for (uint256 i = start; i < start + 2_000_000; ++i) {
             hook = address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xff), CREATE2_FACTORY, bytes32(i), initHash)))));
             if (uint160(hook) & 0x3FFF == HOOK_FLAGS && hook.code.length == 0) return (bytes32(i), hook);
@@ -349,9 +350,11 @@ contract DeployV2Testnet is Script {
     function _writeJson(Deployment memory x, string memory path, bool live) internal {
         string memory o = "testnet";
         vm.serializeUint(o, "chainId", CHAIN_ID);
-        // Forge executes this before sending transactions. Only the receipt verifier may promote a live book.
-        vm.serializeBool(o, "broadcast", false);
-        vm.serializeBool(o, "broadcastRequested", live);
+        vm.serializeBool(o, "broadcast", live);
+        vm.serializeString(o, "featureVersion", "v2-two-sided-stock-fees-v1");
+        // Launch requests remain bounded creator choices; these are the selected UI defaults, not immutable rates.
+        vm.serializeUint(o, "recommendedTaxBps", 300);
+        vm.serializeUint(o, "recommendedCreatorBps", 1000);
         vm.serializeUint(o, "block", block.number);
         vm.serializeString(o, "commit", vm.envOr("GIT_COMMIT", string("unset")));
         vm.serializeAddress(o, "operator", x.operator);
@@ -375,8 +378,6 @@ contract DeployV2Testnet is Script {
         vm.serializeAddress(o, "rebalancePolicy", address(x.policy));
         vm.serializeBytes32(o, "rebalancePolicyKey", x.policyKey);
         vm.serializeUint(o, "engineKind", x.engineKind);
-        vm.serializeBytes(o, "expectedDefaults", abi.encode(_defaults()));
-        vm.serializeString(o, "codeHashes", _codeHashes(x));
         string memory stocks = "stocks";
         string memory json;
         for (uint256 i; i < x.lines.length; i++) json = vm.serializeString(stocks, x.lines[i].symbol, _lineJson(x.lines[i]));
@@ -387,10 +388,6 @@ contract DeployV2Testnet is Script {
 
     function _lineJson(Line memory l) internal returns (string memory) {
         string memory k = l.symbol;
-        vm.serializeBytes32(k, "tokenCodeHash", address(l.stock).codehash);
-        vm.serializeBytes32(k, "feedCodeHash", address(l.feed).codehash);
-        vm.serializeBytes32(k, "oracleCodeHash", address(l.oracle).codehash);
-        vm.serializeBytes32(k, "poolCodeHash", l.pool.codehash);
         vm.serializeAddress(k, "token", address(l.stock));
         vm.serializeAddress(k, "feed", address(l.feed));
         vm.serializeAddress(k, "oracle", address(l.oracle));
@@ -403,24 +400,5 @@ contract DeployV2Testnet is Script {
         vm.serializeInt(k, "tickLower", l.tickLower);
         vm.serializeInt(k, "tickUpper", l.tickUpper);
         return vm.serializeString(k, "liquidity", vm.toString(l.liquidity));
-    }
-
-    function _codeHashes(Deployment memory x) internal returns (string memory) {
-        string memory k = "testnetCodeHashes";
-        vm.serializeBytes32(k, "poolManager", PM.codehash);
-        vm.serializeBytes32(k, "weth", WETH.codehash);
-        vm.serializeBytes32(k, "usdg", address(x.usdg).codehash);
-        vm.serializeBytes32(k, "usdgFeed", address(x.usdgFeed).codehash);
-        vm.serializeBytes32(k, "calendar", address(x.calendar).codehash);
-        vm.serializeBytes32(k, "v3Factory", address(x.v3Factory).codehash);
-        vm.serializeBytes32(k, "market", address(x.market).codehash);
-        vm.serializeBytes32(k, "factory", address(x.factory).codehash);
-        vm.serializeBytes32(k, "tradeRouter", address(x.router).codehash);
-        vm.serializeBytes32(k, "nativeRouter", address(x.nativeRouter).codehash);
-        vm.serializeBytes32(k, "hook", address(x.hook).codehash);
-        vm.serializeBytes32(k, "treasuryDeployer", address(x.treasury).codehash);
-        vm.serializeBytes32(k, "tokenDeployer", address(x.token).codehash);
-        vm.serializeBytes32(k, "curveDeployer", address(x.curve).codehash);
-        return vm.serializeBytes32(k, "rebalancePolicy", address(x.policy).codehash);
     }
 }

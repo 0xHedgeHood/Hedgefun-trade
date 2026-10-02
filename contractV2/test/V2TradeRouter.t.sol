@@ -115,7 +115,7 @@ contract V2TradeRouterTest is Test {
         output = new V2RouterAsset("OUTPUT");
         token = new HedgeFunToken("Strategy", "STRAT", SUPPLY, address(this), address(this));
         curve = new Curve(Curve.Init(address(registry), address(token), address(stock), address(0x71),
-            address(0x72), address(0x73), SUPPLY, 100e18, 8000, 1000, 2000, 1000, 0, 0));
+            address(0x72), address(0x73), SUPPLY, 100e18, 8000, 1000, 2000, 1000, 0, 0, new address[](0)));
         token.transfer(address(curve), SUPPLY);
         registry.set(address(token), address(stock), address(0), address(curve));
         paymentBridge = _pool(payment, bridge);
@@ -159,6 +159,64 @@ contract V2TradeRouterTest is Test {
         assertEq(token.balanceOf(address(router)), 0);
         assertEq(stock.allowance(address(router), address(curve)), 0);
         assertEq(token.allowance(address(router), address(curve)), 0);
+    }
+
+    function _openingCurve(address exempt) private {
+        address[] memory list = new address[](1);
+        list[0] = exempt;
+        token = new HedgeFunToken("Opening strategy", "OPEN", SUPPLY, address(this), address(this));
+        curve = new Curve(Curve.Init(address(registry), address(token), address(stock), address(0x71),
+            address(0x72), address(0x73), SUPPLY, 100e18, 8000, 1000, 2000, 1000, 9900, 60, list));
+        token.transfer(address(curve), SUPPLY);
+        registry.set(address(token), address(stock), address(0), address(curve));
+        vm.prank(alice); token.approve(address(router), type(uint256).max);
+    }
+
+    function testOpeningTaxUsesFinalRoutedRecipientAndAbsoluteSlippage() public {
+        _openingCurve(alice);
+        uint256 stockGot = 10e18 * 997 * 997 / 1_000_000;
+        (, uint256 exemptOut,) = curve.quoteBuyFor(stockGot, alice);
+        (, uint256 normalOut,) = curve.quoteBuyFor(stockGot, address(0xB0B));
+        assertGt(exemptOut, normalOut);
+        Router.TradeParams memory p = _params(address(payment), 10e18, 0);
+        p.minFinalOut = exemptOut;
+        vm.prank(alice);
+        (uint256 got,) = router.buy(p, _buyPath());
+        uint256 firstGot = got;
+        assertEq(got, exemptOut);
+        assertEq(token.balanceOf(alice), got);
+        assertEq(token.balanceOf(address(router)), 0);
+
+        // The payer may designate a whitelisted recipient, but never receive that recipient's tokens.
+        address payer = address(0xB0B);
+        payment.mint(payer, 10e18);
+        vm.prank(payer); payment.approve(address(router), type(uint256).max);
+        (, exemptOut,) = curve.quoteBuyFor(stockGot, alice);
+        p.minFinalOut = exemptOut;
+        vm.prank(payer);
+        (got,) = router.buyFor(p, _buyPath(), alice);
+        assertEq(got, exemptOut);
+        assertEq(token.balanceOf(payer), 0);
+        assertEq(token.balanceOf(alice), firstGot + got);
+        _assertNoResidue();
+    }
+
+    function testWhitelistingRouterDoesNotExemptItsUsers() public {
+        _openingCurve(address(router));
+        uint256 stockGot = 10e18 * 997 * 997 / 1_000_000;
+        (, uint256 normalOut,) = curve.quoteBuyFor(stockGot, alice);
+        (, uint256 routerOut,) = curve.quoteBuyFor(stockGot, address(router));
+        assertGt(routerOut, normalOut);
+        Router.TradeParams memory p = _params(address(payment), 10e18, 0);
+        p.minFinalOut = routerOut;
+        vm.prank(alice); vm.expectPartialRevert(Router.TooLittle.selector);
+        router.buy(p, _buyPath());
+        assertEq(payment.balanceOf(alice), 10_000e18);
+        p.minFinalOut = normalOut;
+        vm.prank(alice); (uint256 got,) = router.buy(p, _buyPath());
+        assertEq(got, normalOut);
+        assertEq(token.balanceOf(address(router)), 0);
+        _assertNoResidue();
     }
 
     function testNonUsdgTwoHopBuyAndChosenOutputSell() public {
@@ -246,7 +304,7 @@ contract V2TradeRouterTest is Test {
     }
 
     function _assertCappedBuyStockFloor(uint8 stage) private {
-        Router.TradeParams memory p = _params(address(payment), 500e18, stage);
+        Router.TradeParams memory p = _params(address(payment), 600e18, stage);
         uint256 snapshot = vm.snapshotState();
         vm.prank(alice); (uint256 quotedTokens, uint256 quotedRefund) = router.buy(p, _buyPath());
         assertGt(quotedRefund, 0);
@@ -261,8 +319,8 @@ contract V2TradeRouterTest is Test {
         assertLt(actualRefund, quotedRefund);
         vm.revertToState(snapshot);
 
-        p.minStockReceived = 490e18; // original route produces 497.0045 stock, worsened route only 423.725
-        vm.prank(alice); vm.expectRevert(abi.encodeWithSelector(Router.TooLittleStock.selector, 423.725e18));
+        p.minStockReceived = 590e18; // original route produces596.4054 stock, worsened route only508.47
+        vm.prank(alice); vm.expectRevert(abi.encodeWithSelector(Router.TooLittleStock.selector, 508.47e18));
         router.buy(p, _buyPath());
         assertEq(payment.balanceOf(alice), 10000e18);
         assertEq(token.balanceOf(alice), 0);

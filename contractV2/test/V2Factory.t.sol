@@ -57,7 +57,9 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         assertLt(IERC20(curve.token()).totalSupply(), supplyBefore);
         assertEq(stock.balanceOf(address(factory)), 0);
         assertEq(IERC20(curve.token()).balanceOf(address(factory)), 0);
-        assertEq(stock.balanceOf(address(curve)), 0);
+        assertEq(stock.balanceOf(address(curve)), curve.totalFees(), "graduation retains segregated buy-fee claims");
+        assertEq(curve.totalFees(), curve.claimable(protocol) + curve.claimable(address(this))
+            + curve.claimable(curve.treasury()));
         assertEq(IERC20(curve.token()).balanceOf(address(curve)), 0);
         assertEq(hook.protocolOf(key.toId()), protocol);
         vm.expectRevert(HedgeFunV2Factory.NotReady.selector);
@@ -96,19 +98,28 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         assertEq(curve.snipeSeconds(), 3);
     }
 
-    function test_curveOpeningBuyTaxDecaysAndAppliesToCreator() public {
+    function test_curveOpeningBuyTaxDecaysAndCreatorPaysOnlyFlatTax() public {
         (, HedgeFunBondingCurve curve,) = _launchV2(true);
         uint256 start = block.timestamp;
         assertEq(curve.launchedAt(), start);
         assertEq(curve.buyRateBps(), 9900);
-        (uint256 spent, uint256 out, uint256 burned) = curve.quoteBuy(10e18);
-        assertEq(burned, (out + burned) * 9900 / 10000);
+        (uint256 spent, uint256 out, uint256 burned) = curve.quoteBuyFor(10e18, address(this));
+        assertEq(curve.buyRateBpsFor(address(this)), 1000);
+        assertEq(burned, 0, "an opening exemption leaves only the stock-denominated base fee");
+        uint256 baseFee = Math.mulDiv(spent, curve.taxBps(), 10000);
         uint256 supply = IERC20(curve.token()).totalSupply();
-        // The fixture's creator buys in the launch timestamp. V2 has no privileged recipient.
+        // The fixture's creator is the creator-fee recipient and is automatically exempt from
+        // only the opening surcharge; ordinary trading tax now accrues stock revenue.
         (uint256 actualSpent, uint256 actualOut) = curve.buy(10e18, out, address(this), block.timestamp);
         assertEq(actualSpent, spent);
         assertEq(actualOut, out);
         assertEq(supply - IERC20(curve.token()).totalSupply(), burned);
+        assertEq(curve.realStockReserve(), spent - baseFee);
+        assertEq(curve.totalFees(), baseFee);
+        assertEq(curve.claimable(protocol), Math.mulDiv(baseFee, 2000, 10000));
+        assertEq(curve.claimable(address(this)), Math.mulDiv(baseFee, 1000, 10000));
+        assertEq(curve.claimable(curve.treasury()),
+            baseFee - Math.mulDiv(baseFee, 2000, 10000) - Math.mulDiv(baseFee, 1000, 10000));
 
         HedgeFunFactory.Defaults memory d = _defaults();
         d.snipeBps = 5000;
@@ -132,8 +143,14 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         factory.launch(q, terms);
     }
 
-    function test_tinyStopIsRejectedAtQuoteAndLaunch() public {
+    function test_legacyKindTinyStopIsRejectedAtQuoteAndLaunch() public {
         HedgeFunFactory.Request memory q = _request();
+        // These are the immutable historical V2 bounds, not the new creator-selected ordinary kind.
+        V2TreasuryDeployer deployer = V2TreasuryDeployer(address(factory.treasuryDeployer()));
+        (address a, address b) = deployer.makeChunks(type(HedgeFunV2Treasury).creationCode);
+        vm.prank(owner);
+        uint8 kind = deployer.registerKind(a, b);
+        deployer.setStrategyKind(q.symbol, q.nonce, kind);
         q.stopBps = 1;
         vm.expectRevert(abi.encodeWithSelector(V2TreasuryDeployer.StopInsideExecutionFriction.selector, 1, 180));
         factory.predict(q);
@@ -179,21 +196,23 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         (, uint256 bought) = curve.buy(10e18, 1, address(this), block.timestamp);
         curve.sell(bought / 2, 1, address(this), block.timestamp);
         uint256 fees = curve.totalFees();
-        uint256 treasuryFee = curve.claimable(curve.treasury());
         assertGt(fees, 0);
         stock.transfer(address(curve), 7e18);
         stock.transfer(address(factory), 11e18);
         uint256 principal = curve.terminalStock() - curve.virtualStock();
+        (uint256 finalPayment,,) = curve.quoteBuyFor(type(uint256).max, address(this));
+        uint256 finalFee = Math.mulDiv(finalPayment, curve.taxBps(), 10000);
         _graduateV2(curve);
         assertApproxEqAbs(stock.balanceOf(address(pm)), principal / 2, 2);
         assertEq(stock.balanceOf(address(factory)), 11e18);
-        assertEq(stock.balanceOf(address(curve)), fees + 7e18);
-        assertEq(curve.totalFees(), fees);
+        assertEq(stock.balanceOf(address(curve)), fees + finalFee + 7e18);
+        assertEq(curve.totalFees(), fees + finalFee);
         assertGt(pm.getLiquidity(key.toId()), 0);
+        uint256 treasuryFee = curve.claimable(curve.treasury());
         uint256 beforeBalance = stock.balanceOf(curve.treasury());
         curve.claimFees(curve.treasury());
         assertEq(stock.balanceOf(curve.treasury()), beforeBalance + treasuryFee);
-        assertEq(stock.balanceOf(address(curve)), fees + 7e18 - treasuryFee);
+        assertEq(stock.balanceOf(address(curve)), fees + finalFee + 7e18 - treasuryFee);
     }
 
     function test_failedSeedRollsBackFinalBuyAndCurveRemainsSellable() public {

@@ -1,0 +1,104 @@
+{
+  "sourceCommit": "ba76659c274e1dbb540c7bae4fca15b5bb43c6bb",
+  "chainId": 46630,
+  "phases": [
+    {
+      "phase": "appendEngine",
+      "file": "phase-00-appendEngine.json",
+      "sha256": "40799cf80c525ee464071a0194eed9f5a7c531d003dfceccf07f60e40faa208e",
+      "sender": "0x75cee941b0ef3a83fea0397bbf903c12c1d7e96d",
+      "lastBlock": 126890065,
+      "hashes": [
+        "0xa258db0c7f453d048afadd300075f705d986f433f7a68cd3d8445032efde3af2",
+        "0x7977ff6dda0a022109a4d47b7d49920f074844fc022d4a1dcb1801de822ed770",
+        "0x4402692c0a4a2f86aaf1cc3dff247b44ef53687fe33662d685ae26688018eb6b"
+      ],
+      "dryRunPin": 126889959,
+      "estimatedGas": 16559539
+    },
+    {
+      "phase": "launchSell",
+      "file": "phase-01-launchSell.json",
+      "sha256": "d025c74147c0786456575f3af52672cf2dfb20eb74ab40dff25e6381ef419f91",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "lastBlock": 126891323,
+      "hashes": [
+        "0x5226cb461935a930aadee1bd2d213c7b800047e65183225f4d2d90b02db88794",
+        "0x38bc864c003f0527d64d9afe9f130c8561314b3097408020bb6e4ff5ae76a18b",
+        "0x617819e363ae8b50e9356c70c9853e5e10813b0cc4e5b605cb9885a647cbd165",
+        "0x572b926039d1d3d78adf823d2c7aa1cc378c480e0ce43a8cf25586f9fb953927"
+      ],
+      "dryRunPin": 126891199,
+      "estimatedGas": 25045747
+    },
+    {
+      "phase": "graduateSell",
+      "file": "phase-02-graduateSell.json",
+      "sha256": "f59354d0b9ab15405cc43f397b6a065dd983529d46ee1fc1a5a0b8e1d0babc3f",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "lastBlock": 126891898,
+      "hashes": [
+        "0xc6f55d1803915eb891d2cd49257cbd87304a48127fa826e3f1e474e9a39aa911",
+        "0x2718e4a8473cee0cee2b08aff539d6f2843aff252200763031f81ca95ab180ec"
+      ],
+      "dryRunPin": 126891743,
+      "estimatedGas": 7544897
+    },
+    {
+      "phase": "executeSell",
+      "file": "phase-03-executeSell.json",
+      "sha256": "efc39669bfc3b1bb1ffc780c6a71d678bd6732e3da52e59bb72facaf8914afc4",
+      "sender": "0xda1aee7018a3925aa06deeb8631fca09e1067614",
+      "lastBlock": 126892071,
+      "hashes": [
+        "0xa0232148619995693ff894337b7312b3f583d76002a3ff506c47b73ca6a8540f"
+      ],
+      "dryRunPin": 126891933,
+      "estimatedGas": 1090667
+    },
+    {
+      "phase": "launchBuy",
+      "file": "phase-04-launchBuy.json",
+      "sha256": "995e554abd79554e23c8ce7e0781a44abb4ab7556a9d98da7935a516f418358e",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "lastBlock": 126892265,
+      "hashes": [
+        "0xaa317e13f96d1c16ff1b44abf2ce5156090f80fe0f94570d5c04b12e25b378c7",
+        "0x0046f3dcfb6a0883f2a82b6c6503b41a723b1f00867fd0c6ab8f3e5b52b62a43",
+        "0x40237d4d3f0922867dbfcfb9dd71fc4c5b1d25fa0b12b632214e3295870ac952",
+        "0xeb8b5f2a485265ddd981f9029c5c54fc05d3cafb4680dd39981016beda4cb4f0",
+        "0xf336ad8809eab547eadb83e0e88a2f3397e272ed7773f85170ec695495b25385"
+      ],
+      "dryRunPin": 126892128,
+      "estimatedGas": 25161671
+    },
+    {
+      "phase": "graduateBuy",
+      "file": "phase-05-graduateBuy.json",
+      "sha256": "f2f0afaf19e3f2b1a070bb4d3a7f55cabf5b74e35ab162256b45dc5f2bf1e1f9",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "lastBlock": 126892425,
+      "hashes": [
+        "0xc929bf9eec7b8031b58008bef867bd6062268d414999e14a80d4b3781dd6c783",
+        "0x113fd27efa5f02cad42c441a216e1e0ff524fb5472b0bae3b81f1101d2124093"
+      ],
+      "dryRunPin": 126892280,
+      "estimatedGas": 7544897
+    },
+    {
+      "phase": "executeBuy",
+      "file": "phase-06-executeBuy.json",
+      "sha256": "7828a188151ff966b5b0ab45296601ee16e41d1cd3b379d3590a9ed2a2a30b6f",
+      "sender": "0x75cee941b0ef3a83fea0397bbf903c12c1d7e96d",
+      "lastBlock": 126892566,
+      "hashes": [
+        "0x759ee926f2daf7d447a607a1b9824828a8674794486c3c3c91c91e87571d1bd5"
+      ],
+      "dryRunPin": 126892450,
+      "estimatedGas": 1050747
+    }
+  ],
+  "fundingHashes": [
+    "0x7cec7371da7fef987e4b73e2103543619d7bff5ace3f8b8143336cf76c3908d2"
+  ]
+}
