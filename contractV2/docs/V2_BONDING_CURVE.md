@@ -313,14 +313,43 @@ The underlying router event names the native wrapper as caller: it is the same t
 to volume. Curve, router and hook events are also layers of one execution. In every case display graduation
 burns, opening-premium burns and strategy-profit buyback burns as distinct categories.
 
+### Create and buy with one ETH payment
+
+`HedgeFunV2LaunchNativeRouter(tradeRouter, wrappedNative)` gives a creator one payable `launchAndBuy` call.
+The V2 factory owner must authorize this router with `setLauncher(router, true)` and configure future launch
+defaults to `FeeCurrency.Native`. The creator pays exactly `launchFeeAmount + b.amountIn` in native ETH; the
+factory receives the configured ETH fee, and the router wraps the rest into WETH, routes it through canonical
+V3 pools to the selected stock, and buys directly for the creator on the newly opened curve. All steps,
+including metadata initialization, revert together on a stale quote, bad route, failed buy or fee transfer.
+The creator needs no USDG, stock token or ERC20 approval for this entry point; gas also uses native ETH.
+
+Quote the launch with `factory.predict(q)` and pass a positive `b.amountIn` plus meaningful
+`minStockReceived`, `minFinalOut` and `deadline` limits. The router uses the actual id assigned by the factory,
+the deployed wrapped-native token as payment and the curve's Active stage; a concurrent launch cannot stale a
+preselected global id. For a standard stock listing, the path is commonly
+WETH → USDG → stock; a canonical direct WETH → stock pool also works. The router delivers tokens directly to
+`q.creator`, so the creator's opening-surcharge exemption applies while the ordinary base buy tax still does.
+`b.allowPartialFill` has its existing meaning: if a buy reaches the curve cap, unused *stock* is returned to
+the creator (or unwrapped to ETH when the listed stock is WETH). Set it to false if a stock refund is
+unacceptable; a capped buy then reverts the whole launch.
+
+The factory still enforces its configured fixed launch fee on direct launches. A percentage of the first
+purchase is **not** the fee rule here; charging that only in the optional router would let direct
+`factory.launch` calls bypass it. The first curve buy also pays the launch's existing stock-denominated base
+tax. Show the native launch fee, V3 route cost, curve tax and any stock refund separately in the quote.
+
 ## Deployment and frontend boundaries
 
 Deploy fresh token/curve/V2-treasury deployers, mine a `HedgeFunV2Hook` address with the required permission bits, and create
 the V2 factory, which binds them. Then configure verified stock listings, safe opening/curve parameters, a trade
 router, and optionally the native wrapper. Use the matching generated [ABI surface](../abi/SURFACE.md).
 Do not enable the V1 `HedgeFunLaunchRouter` for V2: its optional first buy goes straight to V4 and its booking
-assumption is incompatible with the pre-graduation treasury. This version supports create, then buy through the
-V2 router; a combined create-plus-multi-asset-first-buy transaction is not part of this release.
+assumption is incompatible with the pre-graduation treasury. Deploy the separate V2 native launch router
+for atomic create-plus-buy. Existing USDG-fee V2 factories do not change just because this source is deployed;
+their owner must deliberately change the fee defaults and authorize the new router. A WETH-to-stock route
+must have enough live liquidity before offering ETH launch. The base testnet V2 venue contains only USDG/stock
+pools; the separate [ETH-market rollout](./TESTNET_V2_ETH_MARKET.md) supplies its WETH/USDG leg once verified.
+The [native launch guide](./V2_NATIVE_LAUNCH.md) records the single-payment call and operator activation checks.
 
 This change contains contracts and local integration tests, not a live deployment or frontend activation.
 Pool availability, route quoting/indexing, production curve economics and a deployment rehearsal must be

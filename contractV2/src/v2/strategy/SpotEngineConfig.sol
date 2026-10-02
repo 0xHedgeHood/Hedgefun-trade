@@ -18,8 +18,8 @@ pragma solidity ^0.8.24;
 /// The floors, and why each number (audit round 4, engine and economics lanes):
 ///  * `targetBps` in [`MIN_TARGET_BPS`, `MAX_TARGET_BPS`]: a treasury graduates 100% stock and sells straight down to
 ///    target, so under 20% the engine is "liquidate the lot at graduation"; over 90% the band has no room.
-///  * `deadbandBps >= DEADBAND_FRICTION_MULTIPLE * (maxSlippageBps + poolFeeBps)`, the rule V1 applies to `tp1Bps` and
-///    `dipBps`: a band inside its own execution friction acts on every Chainlink print, and each round trip returns
+///  * `deadbandBps >= DEADBAND_FRICTION_MULTIPLE * (maxSlippageBps + poolFeeBps + bountyBps)`, also used by the new V2
+///    ordinary lot strategy's TP/dip floor: a band inside its own execution friction acts on every Chainlink print, and each round trip returns
 ///    the treasury to the same price with less value. Also `deadband < target` and `target + deadband < BPS`, so
 ///    both bands are reachable and the arithmetic cannot underflow.
 ///  * `cooldown >= MIN_COOLDOWN`, one V3 TWAP window: two actions never share one pinned 600-second mean, and a day
@@ -42,8 +42,10 @@ library SpotEngineConfig {
     uint256 internal constant MAX_DAILY_TURNOVER_MULTIPLE = 24;
 
     /// @notice the deadband floor for a listing with these gates: twice its worst execution friction
-    function minDeadbandBps(uint256 maxSlippageBps, uint256 poolFeeBps) internal pure returns (uint256) {
-        return DEADBAND_FRICTION_MULTIPLE * (maxSlippageBps + poolFeeBps);
+    function minDeadbandBps(uint256 maxSlippageBps, uint256 poolFeeBps, uint256 bountyBps)
+        internal pure returns (uint256)
+    {
+        return DEADBAND_FRICTION_MULTIPLE * (maxSlippageBps + poolFeeBps + bountyBps);
     }
 
     /// @notice the share of a sale's gain over average cost that moves to the buy-back, from `words[0]`

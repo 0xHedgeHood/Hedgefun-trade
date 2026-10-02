@@ -25,7 +25,7 @@ contract GraduationStock is MockToken {
     constructor(uint8 decimals_) MockToken("STOCK", decimals_) {}
     function blockRecipient(address recipient) external { blockedRecipient = recipient; }
     function taxSender(address sender) external { taxedSender = sender; }
-    function _update(address from, address to, uint256 amount) internal override {
+    function _update(address from, address to, uint256 amount) internal virtual override {
         require(to != blockedRecipient || to == address(0), "blocked recipient");
         super._update(from, to, amount);
         if (from == taxedSender && from != address(0)) super._update(from, address(0), 1);
