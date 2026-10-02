@@ -86,6 +86,10 @@ This branch mirrors [Deploy and verify V2 whitelist stack on Robinhood testnet](
 
 This branch mirrors [Audit TSLA V2 testnet stress journey](https://github.com/keyuyuan/hedgefund/pull/104) at source commit `64c0adc602bbcbb70c0b4511ac67ee2aa40fceca`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
 
+## Source PR #106
+
+This branch mirrors the historical [V2 wallet-budget and ownership study](https://github.com/keyuyuan/hedgefund/pull/106) at source commit `01976f62c56831c176a0b85db568f9c120cc3504`. Its fork snapshots are pinned to **2026-09-30** on Robinhood testnet and include the old **25 tUSDG launch fee**. Read the [wallet budget](./docs/V2_WALLET_BUDGET.md), [capital simulation](./docs/V2_CAPITAL_SIMULATION.md), and [original-supply participation](./docs/V2_ORIGINAL_SUPPLY_PARTICIPATION.md) reports as archived measurements of those exact paths. They are not current native ETH launch quotes or deployment instructions. The evidence JSON, test and report-tool bytes remain those of the source PR; no on-chain action occurs in this mirror.
+
 ## Source PR #108
 
 This mirror adds the historical four-stock testnet extension from [source PR #108](https://github.com/keyuyuan/hedgefund/pull/108) at `4ff128573152c6a6589a64c6636d6f6de1919580`. It targets the earlier whitelist factory and synthetic market, with candidate and dry-run manifests. It does not add listings to the current native ETH deployment or prove a new testnet transaction. See the [extension runbook](./docs/TESTNET_STOCK_EXTENSION.md) for the pinned addresses and verification requirements.
