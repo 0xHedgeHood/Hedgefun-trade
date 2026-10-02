@@ -304,7 +304,7 @@ contract V2TradeRouterTest is Test {
     }
 
     function _assertCappedBuyStockFloor(uint8 stage) private {
-        Router.TradeParams memory p = _params(address(payment), 500e18, stage);
+        Router.TradeParams memory p = _params(address(payment), 600e18, stage);
         uint256 snapshot = vm.snapshotState();
         vm.prank(alice); (uint256 quotedTokens, uint256 quotedRefund) = router.buy(p, _buyPath());
         assertGt(quotedRefund, 0);
@@ -319,8 +319,8 @@ contract V2TradeRouterTest is Test {
         assertLt(actualRefund, quotedRefund);
         vm.revertToState(snapshot);
 
-        p.minStockReceived = 490e18; // original route produces 497.0045 stock, worsened route only 423.725
-        vm.prank(alice); vm.expectRevert(abi.encodeWithSelector(Router.TooLittleStock.selector, 423.725e18));
+        p.minStockReceived = 590e18; // original route produces596.4054 stock, worsened route only508.47
+        vm.prank(alice); vm.expectRevert(abi.encodeWithSelector(Router.TooLittleStock.selector, 508.47e18));
         router.buy(p, _buyPath());
         assertEq(payment.balanceOf(alice), 10000e18);
         assertEq(token.balanceOf(alice), 0);

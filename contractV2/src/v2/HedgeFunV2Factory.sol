@@ -9,6 +9,7 @@ import {Currency} from "v4-core/src/types/Currency.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunFactory} from "../HedgeFunFactory.sol";
 import {HedgeFunHook} from "../hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../hooks/HedgeFunV2Hook.sol";
 import {HedgeFunToken} from "../HedgeFunToken.sol";
 import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {CurveDeployer} from "./CurveDeployer.sol";
@@ -37,7 +38,8 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         address treasuryDeployer_, address tokenDeployer_, address hook_, address curveDeployer_, Defaults memory d)
         HedgeFunFactory(owner_, poolManager_, v3Factory_, usdg_, protocol_, treasuryDeployer_, tokenDeployer_, hook_, d)
     {
-        if (curveDeployer_.code.length == 0 || V2TreasuryDeployer(treasuryDeployer_).version() != 2) revert BadRequest();
+        if (curveDeployer_.code.length == 0 || V2TreasuryDeployer(treasuryDeployer_).version() != 2
+            || HedgeFunV2Hook(hook_).version() != 2) revert BadRequest();
         curveDeployer = CurveDeployer(curveDeployer_);
         curveDeployer.bind();
     }
@@ -103,6 +105,8 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         // The curve already provided price discovery; graduation is not another opening auction.
         rates.snipeBps = 0;
         rates.snipeSeconds = 0;
+        // Both phases split the entire base fee; no settlement tip dilutes the frozen shares.
+        rates.sweepTipBps = 0;
         // LP fees can fund permissionless buy-backs without any realised strategy profit.
         // They must not re-arm the sell spike for every new burst of trading volume.
         rates.spikeBps = 0;

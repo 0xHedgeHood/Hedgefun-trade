@@ -113,10 +113,12 @@ contract V2OpeningTaxDecayTest is Test {
         vm.warp(uint256(c.launchedAt()) + elapsed);
         assertEq(c.buyRateBps(), expectedRate);
         (uint256 spent, uint256 out, uint256 taxTokens) = c.quoteBuy(amount);
-        assertEq(taxTokens, Math.mulDiv(out + taxTokens, expectedRate, 10000), "quote uses the current rate");
+        assertEq(taxTokens, Math.mulDiv(out + taxTokens, expectedRate - c.taxBps(), 10000 - c.taxBps()),
+            "quote burns only the normalized opening excess");
         HedgeFunToken token = HedgeFunToken(c.token());
         uint256 supplyBefore = token.totalSupply();
         uint256 buyerBefore = token.balanceOf(buyer);
+        _expectBuyFee(c, spent);
         vm.expectEmit(true, true, false, true, address(c));
         emit Curve.Bought(address(this), buyer, spent, out, taxTokens);
         (uint256 actualSpent, uint256 actualOut) = c.buy(amount, out, buyer, block.timestamp);
@@ -124,6 +126,15 @@ contract V2OpeningTaxDecayTest is Test {
         assertEq(actualOut, out);
         assertEq(supplyBefore - token.totalSupply(), taxTokens, "burned exactly what was quoted");
         assertEq(token.balanceOf(buyer) - buyerBefore, out);
+        assertEq(c.realStockReserve(), spent - Math.mulDiv(spent, c.taxBps(), 10000));
+        assertEq(c.totalFees(), Math.mulDiv(spent, c.taxBps(), 10000));
+    }
+
+    function _expectBuyFee(Curve c, uint256 spent) private {
+        uint256 fee = Math.mulDiv(spent, c.taxBps(), 10000);
+        vm.expectEmit(true, false, false, true, address(c));
+        emit Curve.TradeFeesAccrued(true, fee, fee * 2000 / 10000, fee * 1000 / 10000,
+            fee - fee * 2000 / 10000 - fee * 1000 / 10000);
     }
 
     function _curve(uint16 snipeBps, uint8 secs, uint16 taxBps) private returns (Curve c) {

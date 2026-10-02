@@ -56,9 +56,17 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
             uint256 rg = curve.terminalStock() - curve.virtualStock();
             assertEq(rg, Math.ceilDiv(V * sale[i], 10_000 - sale[i]), "Rg = V * sale / (10000 - sale)");
             assertEq(rg, rgLiteral[i], "Rg literal");
-            // one buyer takes the whole sale: it costs exactly Rg and graduates the curve
+            // The immutable raise is net principal. The buyer additionally funds the base stock
+            // fee, and only that fee remains claimable after the net raise seeds the V4 pool.
+            uint256 beforeBalance = stock.balanceOf(address(this));
             (uint256 spent,) = curve.buy(type(uint256).max, 1, address(this), block.timestamp);
-            assertEq(spent, rg, "the whole raise");
+            uint256 fee = spent * _request().taxBps / 10_000;
+            assertEq(beforeBalance - stock.balanceOf(address(this)), spent, "actual gross payment");
+            assertEq(spent - fee, rg, "gross payment less base fee funds the whole net raise");
+            assertLt((spent - 1) - (spent - 1) * _request().taxBps / 10_000, rg,
+                "no smaller gross payment funds the cap");
+            assertEq(curve.totalFees(), fee);
+            assertEq(stock.balanceOf(address(curve)), fee, "only fee liabilities remain after graduation");
             assertEq(uint256(curve.status()), uint256(HedgeFunBondingCurve.Status.Graduated));
         }
     }

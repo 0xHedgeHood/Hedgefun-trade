@@ -57,6 +57,7 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     error GraduationFailed();
     event Bought(address indexed caller, address indexed recipient, uint256 stockSpent, uint256 tokensOut, uint256 burned);
     event Sold(address indexed caller, address indexed recipient, uint256 tokenIn, uint256 stockOut, uint256 fee);
+    event TradeFeesAccrued(bool indexed buying, uint256 fee, uint256 protocolFee, uint256 creatorFee, uint256 treasuryFee);
     event FeesClaimed(address indexed recipient, uint256 amount);
     event Ready();
     event Released(uint256 stockAmount, uint256 tokenAmount);
@@ -91,7 +92,7 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         emit OpeningTaxExemptionsFixed(p.openingTaxExemptions);
     }
 
-    /// @notice Current buy-side burn rate for a recipient without an opening-tax exemption.
+    /// @notice Combined nominal base fee and opening rate for a recipient without an exemption.
     /// @dev Falls linearly from `snipeBps` at launch to `taxBps` at `snipeSeconds`, rounded up, so every second inside
     ///      the window pays strictly more than the flat tax: `taxBps + ceil((snipeBps - taxBps) * (seconds - elapsed) / seconds)`.
     ///      A `snipeBps` at or below `taxBps` (0 is "off") is the flat tax throughout, never an underflow.
@@ -109,7 +110,8 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         return isOpeningTaxExempt[recipient] ? taxBps : buyRateBps();
     }
 
-    /// @notice Quote for a recipient without a whitelist exemption. Use quoteBuyFor for a specific destination.
+    /// @notice Total stock payment, net tokens and opening-only token burn. The base fee is in stock.
+    /// @dev Quote for a recipient without an exemption. Use quoteBuyFor for a specific destination.
     function quoteBuy(uint256 maxStockIn) public view returns (uint256 stockSpent, uint256 tokensOut, uint256 taxTokens) {
         return _quoteBuy(maxStockIn, buyRateBps());
     }
@@ -128,16 +130,28 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (maxStockIn == 0) return (0, 0, 0);
         uint256 x = tokenReserve;
         uint256 y = virtualStock + realStockReserve;
-        // Test the terminal cost first, so even an unlimited max input cannot overflow y + input.
+        // Only net principal prices the curve. Cap the actual total payment before charging a fee,
+        // so an unlimited offer cannot overflow and refunded stock never earns a fee.
         uint256 capCost = terminalStock - y;
-        uint256 budget = maxStockIn < capCost ? maxStockIn : capCost;
+        uint256 capPayment = _grossStock(capCost);
+        uint256 payment = maxStockIn < capPayment ? maxStockIn : capPayment;
+        uint256 budget = payment - Math.mulDiv(payment, taxBps, 10000);
         uint256 newReserve = budget == capCost ? minTokenReserve : Math.ceilDiv(invariant, y + budget);
         uint256 gross = x - newReserve;
-        // Canonicalize both sides to ceil(k/x). Charging only this cost refunds raw-unit rounding
-        // on every buy and prevents a later trader from extracting an earlier buyer's rounding.
-        stockSpent = Math.ceilDiv(invariant, newReserve) - y;
-        taxTokens = Math.mulDiv(gross, rate, 10000);
+        // Canonicalize net principal to ceil(k/x), then invert the rounded base fee exactly.
+        // Charging the smallest payment for that principal refunds token-quantization rounding.
+        stockSpent = _grossStock(Math.ceilDiv(invariant, newReserve) - y);
+        // Base fee is already paid in stock. Normalize only the excess rate against the remaining
+        // 1-base fraction: (1-base) * (1-excess/(1-base)) = 1-rate before price impact/rounding.
+        // Floor the burn once, so an exempt or expired-window buy burns no base-fee tokens.
+        taxTokens = Math.mulDiv(gross, rate - taxBps, 10000 - taxBps);
         tokensOut = gross - taxTokens;
+    }
+
+    /// Smallest gross stock whose principal gross-floor(gross*tax/10000) equals `net`.
+    /// The principal is ceil(gross*(10000-tax)/10000), so ceil(net/(1-tax)) would overpay.
+    function _grossStock(uint256 net) private view returns (uint256) {
+        return net == 0 ? 0 : Math.mulDiv(net - 1, 10000, 10000 - taxBps) + 1;
     }
 
     function buy(uint256 maxStockIn, uint256 minTokensOut, address recipient, uint256 deadline)
@@ -161,7 +175,9 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (stockSpent == 0 || tokensOut == 0) revert BadTrade();
         if (tokensOut < minTokensOut) revert Slippage();
         tokenReserve -= tokensOut + tax;
-        realStockReserve += stockSpent;
+        uint256 stockFee = Math.mulDiv(stockSpent, taxBps, 10000);
+        realStockReserve += stockSpent - stockFee;
+        _accrueFees(stockFee, true);
         if (tokenReserve == minTokenReserve) { status = Status.Ready; emit Ready(); }
         _receive(stock, stockSpent);
         if (tax != 0) ICurveBurnable(token).burn(tax);
@@ -191,16 +207,22 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (stockOut < minStockOut) revert Slippage();
         tokenReserve += tokenIn;
         realStockReserve -= stockOut + tax;
-        uint256 protocolFee = Math.mulDiv(tax, protocolBps, 10000);
-        uint256 creatorFee = Math.mulDiv(tax, creatorBps, 10000);
-        claimable[protocol] += protocolFee;
-        claimable[creator] += creatorFee;
-        claimable[treasury] += tax - protocolFee - creatorFee;
-        totalFees += tax;
+        _accrueFees(tax, false);
         _receive(token, tokenIn);
         _sendStock(recipient, stockOut);
         _solvent();
         emit Sold(msg.sender, recipient, tokenIn, stockOut, tax);
+    }
+
+    function _accrueFees(uint256 fee, bool buying) private {
+        uint256 protocolFee = Math.mulDiv(fee, protocolBps, 10000);
+        uint256 creatorFee = Math.mulDiv(fee, creatorBps, 10000);
+        uint256 treasuryFee = fee - protocolFee - creatorFee;
+        claimable[protocol] += protocolFee;
+        claimable[creator] += creatorFee;
+        claimable[treasury] += treasuryFee;
+        totalFees += fee;
+        emit TradeFeesAccrued(buying, fee, protocolFee, creatorFee, treasuryFee);
     }
 
     /// @notice Anyone may deliver a recipient's fees, but never redirect them. A rejected transfer rolls back only this claim.

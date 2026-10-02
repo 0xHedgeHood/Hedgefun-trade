@@ -33,7 +33,7 @@ and `words[2]` `maxDailyTurnoverUsdg`. A launchable config clears every row belo
 | word | bound | why |
 |---|---|---|
 | `targetBps` | 2,000 to 9,000 | a treasury graduates 100% stock and sells straight down to target: under 20% that is "liquidate the lot at graduation"; over 90% the band has no room |
-| `deadbandBps` | at least `2 x (maxSlippageBps + poolFeeBps)`, below `targetBps`, and `targetBps + deadbandBps < 10,000` | V1's `tp1Bps`/`dipBps` rule: a band inside its own execution friction acts on every Chainlink print and each round trip returns to the same price with less value. 260 bps at 100 bps slippage on a 0.30% pool |
+| `deadbandBps` | at least `2 x (maxSlippageBps + poolFeeBps + bountyBps)`, below `targetBps`, and `targetBps + deadbandBps < 10,000` | A band must clear execution friction including the caller reward. 360 bps at 100 bps slippage, a 0.30% pool and 50 bps reward |
 | `cooldown` | at least 600 s | one V3 TWAP window: two actions never share one pinned mean, and a day holds at most 144 actions whatever the daily cap says |
 | `maxTradeUsdg` | from the listing's `minLotUsdg` to its `sellChunkUsdg` | an action under the minimum lot can never execute, so the treasury would be inert for life; one over the chunk exceeds the owner's per-call sizing |
 | `maxDailyTurnoverUsdg` | from `maxTradeUsdg` to `24 x maxTradeUsdg` | a cap under one action is a cap of zero; one over 24 actions no longer bounds a day |
@@ -41,7 +41,7 @@ and `words[2]` `maxDailyTurnoverUsdg`. A launchable config clears every row belo
 
 The creator chooses every word; the owner chooses only the listing's lot, chunk, slippage and pool. The floors are
 structural, not tuned: they stop a config that cannot work, not one that is merely poor. Where to sit above them
-(the economics lane recommends a deadband of 100 bps or more and a cooldown of an hour) is the creator's choice,
+(for example, a wider band and a cooldown of an hour) is the creator's choice,
 visible in the frozen config before anyone buys.
 
 The check is one function, `SpotEngineConfig.valid`, run in two places on the same inputs:
@@ -71,7 +71,7 @@ The engine does the same with one number, `payoutBps`, chosen by the creator and
 The inventory carries one average cost, `avgCost`, in the oracle's price units. Stock that is booked (the
 graduation share, sell tax, anything donated) enters at the live oracle price, the price kind 0 books a lot at; out
 of hours there is no such price, so it waits and `execute()` books it first. Stock that is bought enters at its
-fill price, the USDG spent over the stock received. Both are weighted by quantity and rounded up, so rounding never
+fill price including the keeper reward, the complete USDG spent over the **net stock retained**. Both are weighted by quantity and rounded up, so rounding never
 creates a gain. A sale leaves the average unchanged.
 
 A sale of `q` at a price `p` above `avgCost` has a gain of `q x (1 - avgCost / p)`. `payoutBps` of that gain stays
@@ -84,6 +84,30 @@ alone.
 
 Each such sale emits `GainToBuyback(gain, toBuyback, avgCost, price)`, so an indexer can show what share of the
 strategy's gains has gone to the burn. The policy is handed the config but ignores `payoutBps`; the treasury applies it.
+
+## Keeper rewards
+
+`execute()` pays its successful caller `bountyBps` of the action's actual gross swap output:
+USDG on sells, stock on buys. The standard factory default is 50 bps (0.50%), with
+the existing 200 bps ceiling. Zero and rounded-down rewards transfer nothing.
+Partial fills pay only on what the pool actually returned; Hold, rejected dust,
+cooldown and failed calls pay nothing. All inventory, cost, turnover, nonce and
+policy effects are written before the non-reentrant reward transfer. A failed
+transfer reverts the whole action and swap, with no deferred claim liability.
+
+`StrategyExecuted.actualOutput` remains gross output. `KeeperRewardPaid` identifies
+the execution nonce, caller, asset and amount; retained output is gross minus that
+reward. Bought inventory and its average cost use retained stock and the whole
+actual USDG input, so the reward cannot become phantom inventory or later profit.
+Sale rewards come from actual USDG proceeds and do not take the separate stock
+buy-back budget. Rewards are execution revenue for whoever actually calls; operating
+a protocol-owned keeper does not create an additional protocol fee or guarantee
+profit after gas, RPC and failed attempts.
+
+This source fix does not modify immutable deployed Engines. Existing V1 keeper
+services do not automatically gain support for the Engine's `execute()` selector
+and 64-byte return. A new deployment or separately proven appended Engine kind,
+and an explicitly compatible keeper, are required for live use.
 
 ## Policy admission
 

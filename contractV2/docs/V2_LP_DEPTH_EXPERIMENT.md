@@ -1,5 +1,8 @@
 # V2 graduation depth: LP share and sale share — 2026-09-25
 
+This records the earlier fee model. [Two-sided fee income](./V2_TWO_SIDED_FEES.md) replaces ordinary
+buy-fee burns and changes gross funding and supply; the historical figures below are not new-release measurements.
+
 What share of a curve's raised stock should seed the V4 pool, and what share should fund the strategy treasury?
 Two instruments: the continuous model in `lab/model.py` (a sweep, below) and `test/V2LpDepthExperiment.t.sol`,
 which runs the production curve, factory, hook, vault and router on a local V4 PoolManager and logs what the model

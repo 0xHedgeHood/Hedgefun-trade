@@ -13,6 +13,7 @@ import {CurveDeployer} from "../../src/v2/CurveDeployer.sol";
 import {V2TreasuryDeployer} from "../../src/v2/V2TreasuryDeployer.sol";
 import {HedgeFunBondingCurve} from "../../src/v2/HedgeFunBondingCurve.sol";
 import {HedgeFunHook} from "../../src/hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../../src/hooks/HedgeFunV2Hook.sol";
 import {PriceOracle} from "../../src/PriceOracle.sol";
 import {HedgeFunTreasuryBase} from "../../src/HedgeFunTreasuryBase.sol";
 import {MockToken, MockFeed, MockV3Factory, MockLpPool, AlwaysOpen} from "../mocks/Mocks.sol";
@@ -24,7 +25,7 @@ contract GraduationStock is MockToken {
     constructor(uint8 decimals_) MockToken("STOCK", decimals_) {}
     function blockRecipient(address recipient) external { blockedRecipient = recipient; }
     function taxSender(address sender) external { taxedSender = sender; }
-    function _update(address from, address to, uint256 amount) internal override {
+    function _update(address from, address to, uint256 amount) internal virtual override {
         require(to != blockedRecipient || to == address(0), "blocked recipient");
         super._update(from, to, amount);
         if (from == taxedSender && from != address(0)) super._update(from, address(0), 1);
@@ -41,7 +42,7 @@ abstract contract V2FactoryFixture is Test, HookMiner {
     MockFeed internal stockFeed;
     MockFeed internal usdgFeed;
     PriceOracle internal oracle;
-    HedgeFunHook internal hook;
+    HedgeFunV2Hook internal hook;
     HedgeFunV2Factory internal factory;
     address internal owner = address(0xA11CE);
     address internal protocol = address(0x5AFE);
@@ -70,7 +71,7 @@ abstract contract V2FactoryFixture is Test, HookMiner {
         uint256 scale = 1e18 * 10 ** decimals_ / 1e6;
         stockPool.setSqrt(uint160(Math.sqrt(Math.mulDiv(100e18, 1 << 192, scale))));
         v3f.set(address(stock), address(usdg), 3000, address(stockPool));
-        hook = _deployHook(pm);
+        hook = _deployV2Hook(pm);
         factory = new HedgeFunV2Factory(owner, address(pm), address(v3f), address(usdg), protocol,
             address(new V2TreasuryDeployer()), address(new TokenDeployer()), address(hook), address(new CurveDeployer()), _defaults());
         // CurveDeployer creates its curve-code chunk in its own constructor: every curve address below hashes these bytes.
@@ -95,7 +96,7 @@ abstract contract V2FactoryFixture is Test, HookMiner {
         d.spikeSeconds = 120;
         d.snipeBps = 9900;
         d.snipeSeconds = 3;
-        d.sweepTipBps = 50;
+        d.sweepTipBps = 0;
         d.bountyBps = 50;
         d.maxSlippageBps = 100;
         d.maxDeviationBps = 50;
@@ -106,7 +107,7 @@ abstract contract V2FactoryFixture is Test, HookMiner {
         d.sellChunkUsdg = type(uint128).max;
     }
 
-    function _request() internal view returns (HedgeFunFactory.Request memory q) {
+    function _request() internal view virtual returns (HedgeFunFactory.Request memory q) {
         q.name = "V2 strategy";
         q.symbol = "V2";
         q.stock = address(stock);
