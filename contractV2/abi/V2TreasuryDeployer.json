@@ -1,0 +1,1041 @@
+[
+ {
+  "type": "constructor",
+  "inputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "DEFAULT_LP_BPS",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "MAX_INITCODE_SIZE",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "MAX_POLICY_GAS",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint32",
+    "internalType": "uint32"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "MAX_RUNTIME_CODE_SIZE",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "MIN_LP_BPS",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "POLICY_RETURN_BYTES",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "allInTriggerCodeHash",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "bind",
+  "inputs": [],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "chunkA",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "chunkB",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "deploy",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "args",
+    "type": "bytes",
+    "internalType": "bytes"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "a",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "disablePolicy",
+  "inputs": [
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "engineConfigOf",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "tuple",
+    "internalType": "struct EngineConfig",
+    "components": [
+     {
+      "name": "schema",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "engineVersion",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "policyKey",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "words",
+      "type": "bytes32[3]",
+      "internalType": "bytes32[3]"
+     }
+    ]
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "factory",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "kindCount",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "kindManifest",
+  "inputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "engineVersion",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "configSchema",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "creationCodeHash",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "capabilities",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "kinds",
+  "inputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "chunkA_",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "chunkB_",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "lpBps",
+  "inputs": [
+   {
+    "name": "stock",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "lpBpsOfTreasury",
+  "inputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "makeChunks",
+  "inputs": [
+   {
+    "name": "code",
+    "type": "bytes",
+    "internalType": "bytes"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "a",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "b",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "policy",
+  "inputs": [
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "tuple",
+    "internalType": "struct PolicyManifest",
+    "components": [
+     {
+      "name": "implementation",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "runtimeCodeHash",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "engineVersion",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "configSchema",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "maxGas",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "maxReturnBytes",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "capabilities",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "enabledForNewLaunches",
+      "type": "bool",
+      "internalType": "bool"
+     }
+    ]
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "policyAuditManifestHash",
+  "inputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "policyDependencyManifestHash",
+  "inputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "predict",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "args",
+    "type": "bytes",
+    "internalType": "bytes"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "registerEngineKind",
+  "inputs": [
+   {
+    "name": "a",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "b",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "engineVersion",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "configSchema",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "capabilities",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "registerKind",
+  "inputs": [
+   {
+    "name": "a",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "b",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "registerPolicy",
+  "inputs": [
+   {
+    "name": "implementation",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "maxGas",
+    "type": "uint32",
+    "internalType": "uint32"
+   },
+   {
+    "name": "maxReturnBytes",
+    "type": "uint16",
+    "internalType": "uint16"
+   },
+   {
+    "name": "dependencyManifestHash",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "auditManifestHash",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "setEngineConfig",
+  "inputs": [
+   {
+    "name": "symbol",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "internalType": "uint96"
+   },
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   },
+   {
+    "name": "config",
+    "type": "tuple",
+    "internalType": "struct EngineConfig",
+    "components": [
+     {
+      "name": "schema",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "engineVersion",
+      "type": "uint32",
+      "internalType": "uint32"
+     },
+     {
+      "name": "policyKey",
+      "type": "bytes32",
+      "internalType": "bytes32"
+     },
+     {
+      "name": "words",
+      "type": "bytes32[3]",
+      "internalType": "bytes32[3]"
+     }
+    ]
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "setLpBps",
+  "inputs": [
+   {
+    "name": "stock",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint16",
+    "internalType": "uint16"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "setStrategyKind",
+  "inputs": [
+   {
+    "name": "symbol",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "internalType": "uint96"
+   },
+   {
+    "name": "kind",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "strategyKindOf",
+  "inputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "version",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "pure"
+ },
+ {
+  "type": "event",
+  "name": "EngineConfigSet",
+  "inputs": [
+   {
+    "name": "creator",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "symbol",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "indexed": false,
+    "internalType": "uint96"
+   },
+   {
+    "name": "kind",
+    "type": "uint8",
+    "indexed": true,
+    "internalType": "uint8"
+   },
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "indexed": true,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "rawConfigHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "EngineKindRegistered",
+  "inputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "indexed": true,
+    "internalType": "uint8"
+   },
+   {
+    "name": "engineVersion",
+    "type": "uint32",
+    "indexed": true,
+    "internalType": "uint32"
+   },
+   {
+    "name": "configSchema",
+    "type": "uint32",
+    "indexed": true,
+    "internalType": "uint32"
+   },
+   {
+    "name": "creationCodeHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "capabilities",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "KindRegistered",
+  "inputs": [
+   {
+    "name": "kind",
+    "type": "uint8",
+    "indexed": true,
+    "internalType": "uint8"
+   },
+   {
+    "name": "chunkA",
+    "type": "address",
+    "indexed": false,
+    "internalType": "address"
+   },
+   {
+    "name": "chunkB",
+    "type": "address",
+    "indexed": false,
+    "internalType": "address"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "LpBpsSet",
+  "inputs": [
+   {
+    "name": "stock",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "lpBps",
+    "type": "uint16",
+    "indexed": false,
+    "internalType": "uint16"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "PolicyDisabled",
+  "inputs": [
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "indexed": true,
+    "internalType": "bytes32"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "PolicyRegistered",
+  "inputs": [
+   {
+    "name": "policyKey",
+    "type": "bytes32",
+    "indexed": true,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "implementation",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "runtimeCodeHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "engineVersion",
+    "type": "uint32",
+    "indexed": false,
+    "internalType": "uint32"
+   },
+   {
+    "name": "configSchema",
+    "type": "uint32",
+    "indexed": false,
+    "internalType": "uint32"
+   },
+   {
+    "name": "capabilities",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   },
+   {
+    "name": "maxGas",
+    "type": "uint32",
+    "indexed": false,
+    "internalType": "uint32"
+   },
+   {
+    "name": "maxReturnBytes",
+    "type": "uint16",
+    "indexed": false,
+    "internalType": "uint16"
+   },
+   {
+    "name": "dependencyManifestHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "auditManifestHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "StrategyKindSet",
+  "inputs": [
+   {
+    "name": "creator",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "symbol",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "indexed": false,
+    "internalType": "uint96"
+   },
+   {
+    "name": "kind",
+    "type": "uint8",
+    "indexed": false,
+    "internalType": "uint8"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "TreasuryCodeBound",
+  "inputs": [
+   {
+    "name": "treasury",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "kind",
+    "type": "uint8",
+    "indexed": true,
+    "internalType": "uint8"
+   },
+   {
+    "name": "initCodeHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "runtimeCodeHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   },
+   {
+    "name": "configHash",
+    "type": "bytes32",
+    "indexed": false,
+    "internalType": "bytes32"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "error",
+  "name": "AlreadyBound",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadConfig",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadEngineConfig",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadKind",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadLpBps",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadPolicy",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "InitCodeTooLarge",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "NotFactory",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "NotOwner",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "StopInsideExecutionFriction",
+  "inputs": [
+   {
+    "name": "stopBps",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "minimumExclusiveBps",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "TreasuryDeployFailed",
+  "inputs": []
+ }
+]

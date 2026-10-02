@@ -1,0 +1,144 @@
+{
+  "chainId": 46630,
+  "curve": "0x02D953A261306F393A07f03af1eb060b889DFF0b",
+  "factory": "0x3E95976E2425e63cb2A8d48BBce8976F55627019",
+  "featureVersion": "v2-opening-tax-whitelist-v1",
+  "finalCurveStatus": 2,
+  "fixedExemptionsAtLaunch": {
+    "creator": true,
+    "operator": false,
+    "router": false,
+    "whitelisted": true
+  },
+  "gasPaidWei": 143982530000000,
+  "openingTaxResult": "ordinary pays surcharge; whitelisted and creator pay only 300 bps base tax",
+  "phases": [
+    {
+      "actionBlock": 126426579,
+      "actionHash": "0xed1d8fb55775aea1106000c25e22d551779351dd7e1dc73c5cf0423f6b77d812",
+      "actionTimestamp": 1790726554,
+      "curve": "0x02D953A261306F393A07f03af1eb060b889DFF0b",
+      "gasPaidWei": 84525880000000,
+      "phase": "launch",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "token": "0x708B9EcBbA100B0dbf9CB48c28412e8B0c9661Db",
+      "transactionHashes": [
+        "0xb7364ea20c427e45e1203304e493ed3a11494fd3e06a7472e5e13714f93a3bb5",
+        "0xce6a5976f606b1b7f4feb7617644373250faa7c900b03f308a9ad40508705178",
+        "0x948a8dd88145e8d0cc5c5a3cbee9b730284f9b76a96868d61560c679de027da3",
+        "0xed1d8fb55775aea1106000c25e22d551779351dd7e1dc73c5cf0423f6b77d812"
+      ]
+    },
+    {
+      "actionBlock": 126426650,
+      "actionHash": "0xc39e1a043710b4721ade0dc340ba153cea8d7923e8e26ba3c49c113d068873c7",
+      "actionTimestamp": 1790726576,
+      "burnedRaw": 8508262374011488584633154,
+      "effectiveBuyTaxBpsFloor": 8726,
+      "gasPaidWei": 4687950000000,
+      "phase": "ordinaryBuy",
+      "routerEvent": "0x7d17b35a27eccb1049c702a9e9818fa7f6fbf283747fe467fcde0ba7b10fe7eb",
+      "sender": "0x75cee941b0ef3a83fea0397bbf903c12c1d7e96d",
+      "stockSpentRaw": 4164579256558988485,
+      "tokensOutRaw": 1241092930229932963015700,
+      "transactionHashes": [
+        "0x6c38564984ac266acd99ec602473a759407b3edf45b78e91070b66abf1016229",
+        "0xc39e1a043710b4721ade0dc340ba153cea8d7923e8e26ba3c49c113d068873c7"
+      ]
+    },
+    {
+      "actionBlock": 126426723,
+      "actionHash": "0x52169f91c1930f0bc8c3788cda9a8d0175348794f5c396e7717a6595479421fe",
+      "actionTimestamp": 1790726597,
+      "burnedRaw": 286832170945209370029176,
+      "effectiveBuyTaxBpsFloor": 299,
+      "gasPaidWei": 4269940000000,
+      "phase": "whitelistBuy",
+      "routerEvent": "0x7d17b35a27eccb1049c702a9e9818fa7f6fbf283747fe467fcde0ba7b10fe7eb",
+      "sender": "0xda1aee7018a3925aa06deeb8631fca09e1067614",
+      "stockSpentRaw": 4164571103026262042,
+      "tokensOutRaw": 9274240193895102964276695,
+      "transactionHashes": [
+        "0x9f065d28128b20e6e397e65d804fee282446e739635248930aed2b8da75d94d6",
+        "0x52169f91c1930f0bc8c3788cda9a8d0175348794f5c396e7717a6595479421fe"
+      ]
+    },
+    {
+      "actionBlock": 126426824,
+      "actionHash": "0xd8b1d9a5b3b80a064773b9eb3de3101899837464e753932ac6124dd91611c3d6",
+      "actionTimestamp": 1790726625,
+      "burnedRaw": 281345746201988968717011,
+      "effectiveBuyTaxBpsFloor": 299,
+      "gasPaidWei": 4272710000000,
+      "phase": "curveBuy",
+      "routerEvent": "0x7d17b35a27eccb1049c702a9e9818fa7f6fbf283747fe467fcde0ba7b10fe7eb",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "stockSpentRaw": 4164562949517480405,
+      "tokensOutRaw": 9096845793864309988516711,
+      "transactionHashes": [
+        "0xb7d08702f050859fb8a067d42a1a537b6e1690e05d07a7d6a3b8ccb625039949",
+        "0xd8b1d9a5b3b80a064773b9eb3de3101899837464e753932ac6124dd91611c3d6"
+      ]
+    },
+    {
+      "actionBlock": 126426894,
+      "actionHash": "0x01e18f89e422170f9c43056d6f76a57c3d568209ffc7fd4f416086f0a8148f20",
+      "actionTimestamp": 1790726644,
+      "gasPaidWei": 4946470000000,
+      "phase": "curveSell",
+      "routerEvent": "0x2938a0a3a4a7c19c3a1fe6ef25340b7acd26dfac11de87836084d42fccc18656",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "transactionHashes": [
+        "0x7c8edf051f1dd44a4118f8a3274628775104c286a9db9c684bec52920bcaa0c0",
+        "0x01e18f89e422170f9c43056d6f76a57c3d568209ffc7fd4f416086f0a8148f20"
+      ]
+    },
+    {
+      "actionBlock": 126427107,
+      "actionHash": "0x7dea1d21b8c31943443d9b8b8d64d84a03650f53876cb695665d97b60bbd0d8a",
+      "actionTimestamp": 1790726700,
+      "burnedRaw": 12369341423725559014824346,
+      "effectiveBuyTaxBpsFloor": 299,
+      "gasPaidWei": 30787720000000,
+      "phase": "graduate",
+      "routerEvent": "0x7d17b35a27eccb1049c702a9e9818fa7f6fbf283747fe467fcde0ba7b10fe7eb",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "stockSpentRaw": 320311324864204052873,
+      "tokensOutRaw": 399942039367126408145987207,
+      "transactionHashes": [
+        "0x1dacfb9061c58109ce8c43b1edfa58d17f5d2637722d293cccd039e396a77ea0",
+        "0x7dea1d21b8c31943443d9b8b8d64d84a03650f53876cb695665d97b60bbd0d8a"
+      ]
+    },
+    {
+      "actionBlock": 126427217,
+      "actionHash": "0xd9f3b0f677f59f983433962995d119b0889b10e14e2bdd0f45bbb220ae6c0efa",
+      "actionTimestamp": 1790726727,
+      "gasPaidWei": 5461800000000,
+      "phase": "v4Buy",
+      "routerEvent": "0x7d17b35a27eccb1049c702a9e9818fa7f6fbf283747fe467fcde0ba7b10fe7eb",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "transactionHashes": [
+        "0x6ea64278143767541f694b2e054d646dad099646fe807e2449c6acddd7ebc9a5",
+        "0xd9f3b0f677f59f983433962995d119b0889b10e14e2bdd0f45bbb220ae6c0efa"
+      ]
+    },
+    {
+      "actionBlock": 126427297,
+      "actionHash": "0x1b2af09d792798ef47aaac395742345c3167c2dea3c473db4132eb04e58738fb",
+      "actionTimestamp": 1790726747,
+      "gasPaidWei": 5030060000000,
+      "phase": "v4Sell",
+      "routerEvent": "0x2938a0a3a4a7c19c3a1fe6ef25340b7acd26dfac11de87836084d42fccc18656",
+      "sender": "0xd4f69d180a9bc36f27d307e90e365d1e012816d5",
+      "transactionHashes": [
+        "0x0377b9830c64726ffc58ee330995a2f2228f8a430cc65ad0d8e7d898f3395719",
+        "0x1b2af09d792798ef47aaac395742345c3167c2dea3c473db4132eb04e58738fb"
+      ]
+    }
+  ],
+  "schema": "v2-whitelist-journey-v1",
+  "strategyId": 0,
+  "token": "0x708B9EcBbA100B0dbf9CB48c28412e8B0c9661Db",
+  "transactionCount": 18
+}

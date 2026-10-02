@@ -1,0 +1,139 @@
+name: contractV2
+on:
+  push:
+    paths: ['contractV2/**', '.github/workflows/contract-v2.yml']
+  pull_request:
+    paths: ['contractV2/**', '.github/workflows/contract-v2.yml']
+permissions:
+  contents: read
+env:
+  FOUNDRY_VERSION: v1.5.0
+defaults:
+  run:
+    working-directory: contractV2
+jobs:
+  unit:
+    name: V2 build, sizes and offline tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - run: python3 -m unittest discover -s tools/tests -p 'test_*.py'
+      - run: forge build --sizes
+      - run: forge test
+      - name: Reject known-bug assertions
+        run: |
+          if grep -rnE 'function[[:space:]]+test(Fuzz|Fail)?_?BUG_' test/; then
+            echo "::error::Known-bug assertions are present"
+            exit 1
+          fi
+  asset-percent-fork:
+    name: V2 percentage Engine fork scenarios
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    concurrency:
+      group: percentage-fork-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - name: Real V3/V4 fork scenarios (50/50 and 70/30 LP)
+        env:
+          RH_FORK: "1"
+          RH_RPC: ${{ secrets.RH_ARCHIVE_RPC_URL || 'blockmachine' }}
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s tools -p 'test_fork_rpc_proxy.py'
+          # Serialize archive reads before they reach the provider; no signing or write methods are permitted.
+          archive_rpc="$RH_RPC"
+          if [ "$archive_rpc" = blockmachine ]; then archive_rpc=https://rpc-robinhood.blockmachine.io; fi
+          FORK_ARCHIVE_RPC="$archive_rpc" python3 tools/fork_rpc_proxy.py --port 18545 --interval-seconds 3 > percent-rpc.log 2>&1 &
+          proxy_pid=$!
+          trap 'kill "$proxy_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for check in $(seq 1 120); do
+            if ! kill -0 "$proxy_pid" 2>/dev/null; then
+              echo "::error::the read-only archive proxy failed to start"
+              exit 1
+            fi
+            if curl --fail --silent http://127.0.0.1:18545/healthz >/dev/null; then ready=1; break; fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then echo "::error::archive proxy startup timed out"; exit 1; fi
+          export RH_RPC=http://127.0.0.1:18545
+          for split in 5000 7000; do
+            # Fail on every unsuccessful run, including RPC errors. Manual reruns preserve failed evidence.
+            V2_LP_BPS="$split" forge test --fork-url "$RH_RPC" --fork-block-number 70786980 --threads 1 --mc '^V2AssetPercentForkTest$' -vv 2>&1 | tee "percent-fork-$split.log"
+            if grep -q '\[SKIP' "percent-fork-$split.log"; then
+              echo "::error::percentage fork scenarios were skipped"
+              exit 1
+            fi
+            for scenario in test_forkSellUsesFullNavAndPaysActualOutputReward test_forkBuyBandAndCooldownWaitWithoutConsumingState test_forkOwnLpFeesCollectIntoBuybackWithoutDoubleCounting test_forkChunkAndDynamicDailyBudgetKeepAbsoluteUsed; do
+              grep -Fq "[PASS] $scenario()" "percent-fork-$split.log"
+            done
+          done
+          RH_FORK=1 forge test --threads 1 --mc '^V2LaunchNativeRouterMainnetForkTest$' -vv 2>&1 | tee native-mainnet-fork.log
+          if grep -q '\[SKIP' native-mainnet-fork.log; then
+            echo "::error::native mainnet-state fork was skipped"
+            exit 1
+          fi
+          grep -Fq '[PASS] test_fork_nativeLaunchAndFirstBuy_realWethUsdgGmePools_andAtomicRollback()' native-mainnet-fork.log
+
+  native-launch-testnet-fork:
+    name: V2 native launch testnet fork
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    concurrency:
+      group: native-launch-testnet-fork-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - name: Fork deployed V2 core and exercise ETH venue, bridge, activation and buy
+        env:
+          V2_NATIVE_LAUNCH_FORK: "true"
+          ETH_MARKET_FORK: "true"
+          ETH_BRIDGE_FORK: "true"
+          ETH_BASE_BOOK: deploy/testnet-v2-fees.json
+        run: |
+          set -o pipefail
+          cp deploy/testnet-v2-keeper-reward-proof/fee-core-book.json deploy/testnet-v2-fees.json
+          native_config=$(python3 tools/native_testnet_config.py)
+          native_root=$(dirname "$native_config")
+          rpc=https://rpc.testnet.chain.robinhood.com
+          passed=0
+          for attempt in 1 2 3; do
+            block=$(cast block-number --rpc-url "$rpc")
+            export V2_NATIVE_LAUNCH_FORK_BLOCK="$block" ETH_MARKET_FORK_BLOCK="$block" ETH_BRIDGE_FORK_BLOCK="$block"
+            if forge test --config-path "$native_config" --root "$native_root" --threads 1 --mc 'TestnetV2EthMarketForkTest|V2LaunchNativeRouterForkTest|TestnetV2EthBridgeForkTest' -vv 2>&1 | tee native-launch-fork.log; then
+              passed=1
+              break
+            fi
+            if ! grep -Eq 'HTTP error 429|rate limit exceeded|retry_after_ms' native-launch-fork.log; then
+              echo "::error::native launch fork failed for a non-rate-limit reason"
+              exit 1
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 65; fi
+          done
+          if [ "$passed" -ne 1 ]; then exit 1; fi
+          if grep -q '\[SKIP' native-launch-fork.log; then
+            echo "::error::native launch fork tests were skipped"
+            exit 1
+          fi
+          grep -Fq '[PASS] test_fork_nativeLaunchActivatesAndBuysThroughCanonicalTwoHopV3()' native-launch-fork.log
+          grep -Fq '[PASS] test_realWrappedNativeVenueSupportsStockPaymentAndEthUnderlyingGraduationWithoutChangingEightListings()' native-launch-fork.log
+          grep -Fq '[PASS] test_nativeOnlyWalletLaunchesAndBuysStockThroughRecoverableBridge()' native-launch-fork.log

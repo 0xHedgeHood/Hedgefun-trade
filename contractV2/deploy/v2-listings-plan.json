@@ -1,0 +1,408 @@
+{
+ "_": "Planned V2 listing set: the eighteen stocks listed on the V1 factory, with the V2 parameters of script/RehearseV2Launchpad.s.sol and the gates and sell chunks those V1 listings use today. The default input of tools/v2_launch_check.py until a V2 factory exists; once it does, run the check with --factory and this file supplies only the list of stocks. Every per-stock field carries a source tag, defined in `sources`. `fee` is informational: the check reads the fee tier from the pool itself.",
+ "chainId": 4663,
+ "v1Factory": "0x58F6Ced8d02cD2567f1458801440Bc4eb67fA961",
+ "readAt": {
+  "block": 75032755,
+  "date": "2026-09-28",
+  "rpc": "https://rpc.mainnet.chain.robinhood.com"
+ },
+ "sources": {
+  "v1.listings": "HedgeFunFactory(v1Factory).listings(stock) -> (oracle, v3Pool, openPriceE18, enabled) at readAt.block; matches docs/ADDRESSES.md. openPriceE18 is the V1 '$10k opening FDV' at 2026-09-22/24 prices, fixed in stock units; V2 reuses it (round 3's probes did the same).",
+  "v1.listingGates": "HedgeFunFactory(v1Factory).listingGates(stock) at readAt.block, a non-zero value the listing set itself.",
+  "v1.defaults": "HedgeFunFactory(v1Factory).getDefaults() at readAt.block, applied as HedgeFunFactory._gates does: the (maxDeviationBps, maxSlippageBps) pair falls back as a pair when the listing's maxSlippageBps is 0 (50 / 100); the chunk falls back on its own when 0 (2,000 USDG). The rehearsal's candidate defaults are the same numbers.",
+  "rehearsal": "script/RehearseV2Launchpad.s.sol _defaults(): supply = 1_000_000_000e18.",
+  "v2.default": "CurveDeployer.DEFAULT_SALE_BPS = 4400: the raise every V2 launch gets when its creator registers no saleBps (CurveDeployer.setCurveConfig). The owner sets no per-stock value. At 4400 the live launch check passed 15 of 18 stocks at block 75,085,620 (docs/V2_DEPLOYMENT_REHEARSAL.md). Until 2026-09-28 the source default was HedgeFunV2Factory.DEFAULT_SALE_BPS = 8000.",
+  "creator": "A creator's proposed saleBps for one launch (1000..9000, CurveDeployer.setCurveConfig), put on a stock's own entry or given as --sale-bps. The verdict for it is advisory: shown to the creator as a warning, never refused on chain."
+ },
+ "defaults": {
+  "supply": {
+   "value": "1000000000000000000000000000",
+   "source": "rehearsal"
+  },
+  "saleBps": {
+   "value": 4400,
+   "source": "v2.default"
+  }
+ },
+ "stocks": {
+  "NVDA": {
+   "token": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+   "oracle": "0x03c77f527Aa1B0B304602e3fB9Ac994dd1c157f8",
+   "pool": "0xd4EB21209C4D6093f80B5b84f5C45cc093EA14a3",
+   "fee": 500,
+   "openPriceE18": "44200000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "SPCX": {
+   "token": "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa",
+   "oracle": "0xC109426706b9D01719ED82e8cd027fA91fBcdC0b",
+   "pool": "0xc61284332117c3FB23A2A56cceFFD07F7aF60029",
+   "fee": 500,
+   "openPriceE18": "65600000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "CRCL": {
+   "token": "0xdF0992E440dD0be65BD8439b609d6D4366bf1CB5",
+   "oracle": "0x3bd2c093948D38A5eC2D945C5b065e5Db89aaB36",
+   "pool": "0x654E4143e82a5824445Ade0824351C2A9ACD95a8",
+   "fee": 3000,
+   "openPriceE18": "109000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "GOOGL": {
+   "token": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+   "oracle": "0x15400359B0D14B4151FAe80b837abF3fA1977256",
+   "pool": "0x34D0dC122CF9A8Eb296fC5e0D3A233625D7d19b7",
+   "fee": 500,
+   "openPriceE18": "28000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "AMZN": {
+   "token": "0x12f190a9F9d7D37a250758b26824B97CE941bF54",
+   "oracle": "0xb34d278D2c792B7C48252C5eB8130Db45e35294e",
+   "pool": "0x8AC92DA74AB5F3b1d024Dc1943Ad7e15Dc4179Ef",
+   "fee": 3000,
+   "openPriceE18": "38500000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "GME": {
+   "token": "0x1b0E319c6A659F002271B69dB8A7df2F911c153E",
+   "oracle": "0x7548A343D06E45507Dd8F546D9d9Fdf684575ecE",
+   "pool": "0xE2b46c905E12Ab8E2f864e4821a4325884C1B126",
+   "fee": 500,
+   "openPriceE18": "423000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "META": {
+   "token": "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35",
+   "oracle": "0x699E34068b8975bE113eD5fF12e429c69BCf1011",
+   "pool": "0x107a7Cb40d8665360ba10E59471Af06150A50922",
+   "fee": 3000,
+   "openPriceE18": "13400000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "USAR": {
+   "token": "0xd917B029C761D264c6A312BBbcDA868658eF86a6",
+   "oracle": "0x02dE419166CED89fc9FCe2687CdBcBbc9eDe2612",
+   "pool": "0x04391780F519B7d3ba59c9590459D76e23d225C4",
+   "fee": 3000,
+   "openPriceE18": "596000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 1000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.listingGates"
+   }
+  },
+  "MSTR": {
+   "token": "0xec262a75e413fAfD0dF80480274532C79D42da09",
+   "oracle": "0x19d0328F3152d1361db7B3Dd7708Cc36A779d612",
+   "pool": "0x17578C0e0D15da44f31677263114F71aE76653EA",
+   "fee": 10000,
+   "openPriceE18": "61100000000",
+   "maxDeviationBps": 125,
+   "maxSlippageBps": 175,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.listingGates",
+    "maxSlippageBps": "v1.listingGates",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "AMD": {
+   "token": "0x86923f96303D656E4aa86D9d42D1e57ad2023fdC",
+   "oracle": "0xc809bDf7E31E4830de2b03e6f809869Fb99f2246",
+   "pool": "0x48D284A2A4d3DC1b3Da08231Fe44317e7e7Aa51f",
+   "fee": 3000,
+   "openPriceE18": "16300000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 1000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.listingGates"
+   }
+  },
+  "MU": {
+   "token": "0xfF080c8ce2E5feadaCa0Da81314Ae59D232d4afD",
+   "oracle": "0x4D15A4A1028f001800774A3d2DC31d77945399a4",
+   "pool": "0xd057B1Bc54917855BBee58eAd58647f47caB35E5",
+   "fee": 3000,
+   "openPriceE18": "9620000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "INTC": {
+   "token": "0xc72b96e0E48ecd4DC75E1e45396e26300BC39681",
+   "oracle": "0xd399113f3196044A001614Ca9dda9cD8c9424264",
+   "pool": "0x2e5a92f5013a64661A49312111be2e8aBd33F56a",
+   "fee": 3000,
+   "openPriceE18": "82700000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 1000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.listingGates"
+   }
+  },
+  "AAPL": {
+   "token": "0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9",
+   "oracle": "0x8fe64bCD251f35750a98d3f1E089a383399e10d4",
+   "pool": "0xAae0d815EE56e4092a5E5C2911E676Fea50B2d6D",
+   "fee": 500,
+   "openPriceE18": "29800000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "QQQ": {
+   "token": "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68",
+   "oracle": "0x8d4bE55bD1B4ded24065c3891239D9084B659055",
+   "pool": "0xD60A5d14dB690B7Afad71F76B108071D7175597d",
+   "fee": 500,
+   "openPriceE18": "13500000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "MSFT": {
+   "token": "0xe93237C50D904957Cf27E7B1133b510C669c2e74",
+   "oracle": "0xB7634eE6ac2eeD7Ed85D2f927eB483eFC9e9215b",
+   "pool": "0xeb60bCD1D920ad6E102690CCFC6fB488899E1510",
+   "fee": 3000,
+   "openPriceE18": "20000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "TSLA": {
+   "token": "0x322F0929c4625eD5bAd873c95208D54E1c003b2d",
+   "oracle": "0xe7bca6Aa83560CFD8f1aC3b8e27Eb4Ba9661F62C",
+   "pool": "0xf4ACdAEEB7022862A763C9B1B885e11191c889E3",
+   "fee": 3000,
+   "openPriceE18": "26500000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "USO": {
+   "token": "0xa30FA36Db767ad9eD3f7a60fC79526fB4d56D344",
+   "oracle": "0xBD130A4A18dBedFc69592FC3bfd474094354db32",
+   "pool": "0x02175608F1b5E6b5ed221cCFdC7Be197D111D915",
+   "fee": 3000,
+   "openPriceE18": "68000000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  },
+  "GLD": {
+   "token": "0xC9a981FEE1F9DEc688bb123ccDeCc63D0deBFC4e",
+   "oracle": "0x32a2E01E7DffDDdE29112531aE20340100f9DBe5",
+   "pool": "0xBA2f1ed4cEB2169D538d1e614D847E83C5A55913",
+   "fee": 500,
+   "openPriceE18": "25400000000",
+   "maxDeviationBps": 50,
+   "maxSlippageBps": 100,
+   "sellChunkUsdg": 2000000000,
+   "source": {
+    "token": "v1.listings",
+    "oracle": "v1.listings",
+    "pool": "v1.listings",
+    "openPriceE18": "v1.listings",
+    "supply": "rehearsal",
+    "saleBps": "v2.default",
+    "maxDeviationBps": "v1.defaults",
+    "maxSlippageBps": "v1.defaults",
+    "sellChunkUsdg": "v1.defaults"
+   }
+  }
+ }
+}

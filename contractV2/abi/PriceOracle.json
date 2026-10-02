@@ -1,0 +1,175 @@
+[
+ {
+  "type": "constructor",
+  "inputs": [
+   {
+    "name": "stock_",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "stockFeed_",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "usdgFeed_",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "calendar_",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "maxStockAge_",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "maxUsdgAge_",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "calendar",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract ITradingCalendar"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "lastPriceAt",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "ok",
+    "type": "bool",
+    "internalType": "bool"
+   },
+   {
+    "name": "p",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "stockUpdatedAt",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "maxStockAge",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "maxUsdgAge",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "price",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "p",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "stock",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "stockFeed",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract IAggregatorV3"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "tryPrice",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "ok",
+    "type": "bool",
+    "internalType": "bool"
+   },
+   {
+    "name": "p",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "usdgFeed",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "contract IAggregatorV3"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "error",
+  "name": "Unhealthy",
+  "inputs": []
+ }
+]

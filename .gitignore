@@ -1,9 +1,17 @@
 contractV1/out/
 contractV1/cache/
 contractV1/broadcast/
+contractV2/out/
+contractV2/cache/
+contractV2/broadcast/
 **/.env
 **/.env.*
 **/*.key
 **/*.keystore
 **/*wk.txt
 .DS_Store
+
+# Generated testnet plans and local Python caches are not release evidence.
+contractV2/deploy/testnet-v2.dryrun.json
+**/__pycache__/
+contractV2/deploy/testnet-v2.candidate.json

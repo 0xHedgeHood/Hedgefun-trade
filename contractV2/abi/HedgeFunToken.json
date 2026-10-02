@@ -1,0 +1,807 @@
+[
+ {
+  "type": "constructor",
+  "inputs": [
+   {
+    "name": "name_",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "symbol_",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "supply",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "mintTo",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "creator",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "MAX_DESCRIPTION_BYTES",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "MAX_LINK_BYTES",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "allowance",
+  "inputs": [
+   {
+    "name": "owner",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "spender",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "approve",
+  "inputs": [
+   {
+    "name": "spender",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "balanceOf",
+  "inputs": [
+   {
+    "name": "account",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "burn",
+  "inputs": [
+   {
+    "name": "amount",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "decimals",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "deployer",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "description",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "editor",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "extraURI",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "getTokenInfo",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "tokenDeployer",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "tokenLogo",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "tokenDescription",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "tokenSocials",
+    "type": "tuple",
+    "internalType": "struct HedgeFunToken.Socials",
+    "components": [
+     {
+      "name": "twitter",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "telegram",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "discord",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "website",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "farcaster",
+      "type": "string",
+      "internalType": "string"
+     }
+    ]
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "initMetadata",
+  "inputs": [
+   {
+    "name": "m",
+    "type": "tuple",
+    "internalType": "struct HedgeFunToken.Info",
+    "components": [
+     {
+      "name": "logo",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "description",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "socials",
+      "type": "tuple",
+      "internalType": "struct HedgeFunToken.Socials",
+      "components": [
+       {
+        "name": "twitter",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "telegram",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "discord",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "website",
+        "type": "string",
+        "internalType": "string"
+       },
+       {
+        "name": "farcaster",
+        "type": "string",
+        "internalType": "string"
+       }
+      ]
+     },
+     {
+      "name": "extraURI",
+      "type": "string",
+      "internalType": "string"
+     }
+    ]
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "launcher",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "lock",
+  "inputs": [],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "locked",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "logo",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "name",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "setEditor",
+  "inputs": [
+   {
+    "name": "editor_",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "setMetadata",
+  "inputs": [
+   {
+    "name": "logo_",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "description_",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "socials_",
+    "type": "tuple",
+    "internalType": "struct HedgeFunToken.Socials",
+    "components": [
+     {
+      "name": "twitter",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "telegram",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "discord",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "website",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "farcaster",
+      "type": "string",
+      "internalType": "string"
+     }
+    ]
+   },
+   {
+    "name": "extraURI_",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "socials",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "twitter",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "telegram",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "discord",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "website",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "farcaster",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "symbol",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "string",
+    "internalType": "string"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "totalSupply",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "transfer",
+  "inputs": [
+   {
+    "name": "to",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "transferFrom",
+  "inputs": [
+   {
+    "name": "from",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "to",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bool",
+    "internalType": "bool"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "updatedAt",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint64",
+    "internalType": "uint64"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "event",
+  "name": "Approval",
+  "inputs": [
+   {
+    "name": "owner",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "spender",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "EditorSet",
+  "inputs": [
+   {
+    "name": "editor",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "MetadataLocked",
+  "inputs": [],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "MetadataSet",
+  "inputs": [
+   {
+    "name": "by",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "logo",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   },
+   {
+    "name": "description",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   },
+   {
+    "name": "socials",
+    "type": "tuple",
+    "indexed": false,
+    "internalType": "struct HedgeFunToken.Socials",
+    "components": [
+     {
+      "name": "twitter",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "telegram",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "discord",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "website",
+      "type": "string",
+      "internalType": "string"
+     },
+     {
+      "name": "farcaster",
+      "type": "string",
+      "internalType": "string"
+     }
+    ]
+   },
+   {
+    "name": "extraURI",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
+  "name": "Transfer",
+  "inputs": [
+   {
+    "name": "from",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "to",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "value",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "error",
+  "name": "ERC20InsufficientAllowance",
+  "inputs": [
+   {
+    "name": "spender",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "allowance",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "needed",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "ERC20InsufficientBalance",
+  "inputs": [
+   {
+    "name": "sender",
+    "type": "address",
+    "internalType": "address"
+   },
+   {
+    "name": "balance",
+    "type": "uint256",
+    "internalType": "uint256"
+   },
+   {
+    "name": "needed",
+    "type": "uint256",
+    "internalType": "uint256"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "ERC20InvalidApprover",
+  "inputs": [
+   {
+    "name": "approver",
+    "type": "address",
+    "internalType": "address"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "ERC20InvalidReceiver",
+  "inputs": [
+   {
+    "name": "receiver",
+    "type": "address",
+    "internalType": "address"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "ERC20InvalidSender",
+  "inputs": [
+   {
+    "name": "sender",
+    "type": "address",
+    "internalType": "address"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "ERC20InvalidSpender",
+  "inputs": [
+   {
+    "name": "spender",
+    "type": "address",
+    "internalType": "address"
+   }
+  ]
+ },
+ {
+  "type": "error",
+  "name": "IsLocked",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "NotAllowed",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "TooLong",
+  "inputs": []
+ }
+]
