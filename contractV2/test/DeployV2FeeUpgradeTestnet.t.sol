@@ -273,7 +273,7 @@ contract DeployV2FeeUpgradeTestnetTest is Test {
         q.creator = alice;
         q.taxBps = 300;
         q.creatorBps = 1000;
-        q.tp1Bps = 300;
+        q.tp1Bps = 360; // This fixture deploys a fresh registry with the new ordinary V2 all-in floor.
         q.tp2Bps = 600;
         q.dipBps = 500;
         q.lotBps = 2000;

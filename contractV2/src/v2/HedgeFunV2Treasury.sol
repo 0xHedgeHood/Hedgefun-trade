@@ -125,7 +125,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
 
     /// @dev The post-stop gate guards the first re-entry after a stop only. Once the treasury has sold at a
     ///      profit or bought again, `lastSalePrice` is a newer reference than the stop and the gate is done.
-    function _clearStopGate() private {
+    function _clearStopGate() internal virtual {
         if (lastStopAt != 0) (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (0, 0, 0);
     }
 

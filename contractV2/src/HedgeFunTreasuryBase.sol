@@ -323,7 +323,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     ///      `p > cost`), so the profit share cannot go negative and what did not sell keeps its cost.
     function takeProfit(uint256 id) public virtual nonReentrant { _takeProfit(id); }
 
-    function _takeProfit(uint256 id) internal {
+    function _takeProfit(uint256 id) internal virtual {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         _book();
