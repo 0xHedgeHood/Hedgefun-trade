@@ -29,6 +29,7 @@ natively.
 | check a stock before a V2 listing or launch (graduation depth, gate, 0.05% sell chunk) | [`tools/v2_launch_check.py`](../tools/v2_launch_check.py), [V2_DEPLOYMENT_REHEARSAL.md](./V2_DEPLOYMENT_REHEARSAL.md#listing-check-first-live-run) |
 | see what ships first and what waits for v2, and why | [ROADMAP.md](https://github.com/keyuyuan/hedgefund/blob/983542cf93442d7309abf8290f2427235fd2ab93/docs/ROADMAP.md) |
 | sell weekly covered calls from a treasury to a market maker (RFQ desk, runbook, oracle caveats, review record) | [COVERED_CALL_DESK.md](./COVERED_CALL_DESK.md) |
+| review the proposed RHNVDA Earn vault, physical RFQ desks and deployment gates | [EARN_RFQ_LAUNCH.md](./EARN_RFQ_LAUNCH.md), [EARN_VAULT_IMPLEMENTATION.md](./EARN_VAULT_IMPLEMENTATION.md) |
 | write the site, the announcement or the launch form | [LAUNCH_KIT.md](https://github.com/keyuyuan/hedgefund/blob/983542cf93442d7309abf8290f2427235fd2ab93/docs/LAUNCH_KIT.md) |
 | respond to an incident | [`../emergency/README.md`](https://github.com/keyuyuan/hedgefund/blob/983542cf93442d7309abf8290f2427235fd2ab93/emergency/README.md) |
 

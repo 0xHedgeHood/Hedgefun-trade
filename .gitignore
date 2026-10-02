@@ -15,3 +15,7 @@ contractV2/broadcast/
 contractV2/deploy/testnet-v2.dryrun.json
 **/__pycache__/
 contractV2/deploy/testnet-v2.candidate.json
+
+# Earn operator input and generated Safe batches are not source artifacts.
+contractV2/deploy/earn-addresses.json
+contractV2/deploy/safe/

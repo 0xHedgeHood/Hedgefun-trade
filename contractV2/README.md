@@ -1,6 +1,6 @@
 # Hedgefun contracts V2
 
-This directory is the self-contained V2 contract snapshot from main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The Solidity files in `src/` are byte-identical to that source commit. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
+This directory is the self-contained V2 contract snapshot from main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The original V2 Solidity files in `src/` are byte-identical to that source commit; the later mirrored option modules are documented below. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
 
 ## What V2 adds
 
@@ -74,3 +74,17 @@ The scoped security review is in [`V2_TESTNET_REVIEW.md`](./docs/V2_TESTNET_REVI
 ## Source PR #105
 
 This branch mirrors [Add CoveredCallDesk: treasuries sell weekly covered calls to market makers via RFQ](https://github.com/keyuyuan/hedgefund/pull/105) at source commit `983542cf93442d7309abf8290f2427235fd2ab93`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/983542cf93442d7309abf8290f2427235fd2ab93/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+## RHNVDA Earn source PR #119
+
+This branch additionally mirrors [source PR #119](https://github.com/keyuyuan/hedgefund/pull/119) at commit
+`e3ac1991dce5099fee5867b92e0282728b65fee8` under `contractV2/`. Its `EarnVault`, strict-physical call desk,
+cash-secured put desk and V3 adapter are separate from V2 strategy-token treasuries. The migration depends on the
+`CoveredCallDesk` and oracle-round interface introduced by this branch's source PR #105. The offline Safe batch tool
+was adapted to accept a local verified addresses file, because this public source mirror carries no production
+address book. Start with [the Earn launch notes](./docs/EARN_RFQ_LAUNCH.md).
+
+From `contractV2/`, run `forge test --offline -q`, `forge build --offline --skip test --sizes`, and
+`python3 -m unittest discover -s tests -p 'test_*.py'` (including the Earn Safe batch checks). At this commit, `EarnVault` is **24,523 bytes**, just
+**53 bytes** below the EIP-170 runtime limit. Mainnet addresses in the deployment script require fresh verification.
+No live fork rehearsal of this new stack, independent security review, or deployment is part of this mirror.

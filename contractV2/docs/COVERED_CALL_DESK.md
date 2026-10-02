@@ -6,8 +6,9 @@ It is the on-chain half of the Wintermute conversation: we send covered-call inv
 execute if the price works.
 
 It is a standalone module. It touches no launched strategy, factory or hook. Launched treasuries cannot use it
-(they have no withdrawal path, by design); the writer is any address the desk's owner allowlists — today the
-protocol treasury Safe, later a lending or user vault.
+(they have no withdrawal path, by design); the writer is any address the desk's owner allowlists. Its delayed
+backstop can net settle a Physical call. The separate [RHNVDA Earn vault](./EARN_RFQ_LAUNCH.md) uses a new
+`PhysicalCallDesk` that requires full strike payment before stock delivery.
 
 ## RFQ status: two-step pilot
 
@@ -144,12 +145,9 @@ The fork test proves the round logic against the real RHNVDA / USD history. For 
 1106 at $225.660187, refuses round 1105 as not the last, and refuses round 1107 as after expiry. It also runs a full
 offer → fill → exercise cycle with the real NVDA and USDG tokens.
 
-## Next: a user vault on top
+## Separate RHNVDA Earn vault
 
-Users depositing into a pool that writes calls through this desk is a separate contract: the desk becomes one
-allowlisted writer. The hard parts are epoch-boundary deposits and withdrawals, share pricing while a short call is
-open, the stock-or-USDG mix after an exercise, and premium distribution per share. Those are already solved in
-Ribbon Finance's Theta Vault v2 (MIT): `RibbonVault` (deposit receipts, `initiateWithdraw` / `completeWithdraw`,
-`_rollToNextOption`), `ShareMath` and `Vault`, about 900 lines. The plan is to port that base and replace its option
-leg (Opyn oTokens plus a Gnosis auction) with `offer`/`settle` on this desk. The ported code needs its own review:
-the chain, the assets and the option leg all change.
+The [Earn vault](./EARN_RFQ_LAUNCH.md) keeps its own hNVDA shares and RHNVDA/USDG asset ledger. It deploys a new
+`PhysicalCallDesk` and `CashSecuredPutDesk` for full-collateral, physical RFQs. This legacy desk remains independent;
+its owner-controlled delayed backstop may net settle even a Physical call and must not be configured as the Earn
+vault's call desk.
