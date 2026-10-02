@@ -146,7 +146,13 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
         // Only after ruling out all sales do we compact exact-matching lots for a buy.
         // A fresh booking costs p and cannot itself be stop- or profit-due at p.
         _bookV2();
-        if (lots.length == MAX_STRATEGY_LOTS && !_coalesceLots()) revert NotDue();
+        if (lots.length == MAX_STRATEGY_LOTS && !_coalesceLots()) {
+            // Booking pending stock after dust cleanup may fill the freed slot. Preserve the cleanup
+            // and booking, then leave the dip for a later call with capacity.
+            if (stopDustId != type(uint256).max) return (Action.Stop, stopDustId);
+            if (profitDustId != type(uint256).max) return (Action.TakeProfit, profitDustId);
+            revert NotDue();
+        }
         _buyDip();
         _clearStopGate();
         return (Action.BuyDip, lots.length - 1);
@@ -227,6 +233,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
             uint256 qty = L.qty;
             uint256 dustCost = L.cost;
             _shrink(id, qty);
+            _releasedDustStock += qty;
             emit ProfitDustReleased(id, qty, dustCost, p);
             return true;
         }
@@ -237,6 +244,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
         uint256 cost = L.cost;
         if (first) { L.tp1Left = left - q; if (left == q) L.half = true; }
         _shrink(id, q);
+        _releasedDustStock += q;
         emit ProfitDustReleased(id, q, cost, p);
         return true;
     }

@@ -244,8 +244,51 @@ abstract contract V2ExecuteBase is Test {
         assertEq(treasury.lotCount(), 1);
     }
 
+    function test_rebookingReleasedStopDustDoesNotCountItAsNewStock() public {
+        uint256 dust = (SCALE + 90e18 - 1) / 90e18;
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 90e18);
+        _px(110e18);
+        _fundAndBook(chunk + dust);
+        _px(90e18);
+        treasury.execute(); // sell the economic chunk
+        _px(90e18);
+        treasury.execute(); // release the unsellable tail
+        assertEq(treasury.unbookedStock(), dust);
+
+        uint256 receivedBefore = treasury.totalStockReceived();
+        uint256 donation = 0.1 ether;
+        stock.mint(address(treasury), donation);
+        assertTrue(treasury.book());
+        assertEq(treasury.totalStockReceived(), receivedBefore + donation);
+        assertEq(treasury.unbookedStock(), 0);
+    }
+
     function test_unexecutableProfitDustDoesNotBlockLaterProfit() public {
         _assertProfitDustUnblocks(false);
+    }
+
+    function test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() public {
+        HedgeFunTreasuryBase.Params memory p = _params(0);
+        p.tp2Bps = 0;
+        treasury = new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+
+        uint256 tail = 2 * ((SCALE + 100e18 - 1) / 100e18);
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 115e18);
+        _fundAndBook(chunk + tail);
+        _px(115e18);
+        treasury.execute(); // profit sale leaves a microscopic tail
+        _px(115e18);
+        treasury.execute(); // release tail without another sale
+        assertEq(treasury.unbookedStock(), tail);
+
+        uint256 receivedBefore = treasury.totalStockReceived();
+        uint256 donation = 0.1 ether;
+        stock.mint(address(treasury), donation);
+        assertTrue(treasury.book());
+        assertEq(treasury.totalStockReceived(), receivedBefore + donation);
+        assertEq(treasury.unbookedStock(), 0);
     }
 
     function test_allInProfitDustDoesNotBlockLaterProfit() public {
@@ -585,6 +628,48 @@ abstract contract V2ExecuteBase is Test {
         uint256 used = before - gasleft();
         assertEq(treasury.lotCount(), treasury.MAX_STRATEGY_LOTS());
         assertLt(used, 10_000_000, "full-cap buy rejection must stay within a practical gas budget");
+    }
+
+    function test_dustCleanupSurvivesPendingBookingAtLotCapacity() public {
+        HedgeFunTreasuryBase.Params memory p = _params(0);
+        p.tp2Bps = 0;
+        treasury = new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+
+        uint256 tail = 2 * ((SCALE + 100e18 - 1) / 100e18);
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 115e18);
+        _fundAndBook(chunk + tail);
+        _px(115e18);
+        treasury.execute(); // realize a profit, leaving a microscopic tail
+        (uint256 left,,,) = treasury.lots(0);
+        assertEq(left, tail);
+
+        _px(110e18);
+        for (uint256 i = 1; i < treasury.MAX_STRATEGY_LOTS(); ++i) {
+            stockFeed.set(int256((110e18 + i * 1e14) / 1e10));
+            _fundAndBook(0.1 ether);
+        }
+        assertEq(treasury.lotCount(), treasury.MAX_STRATEGY_LOTS());
+        uint256 donation = 0.1 ether;
+        stock.mint(address(treasury), donation); // pending at capacity
+        usdg.mint(address(treasury), 100e6);
+        _px(109e18); // dip is due after the earlier sale
+
+        uint256 receivedBefore = treasury.totalStockReceived();
+        uint256 salePriceBefore = treasury.lastSalePrice();
+        uint256 keeperUsdgBefore = usdg.balanceOf(address(this));
+        uint256 beforeGas = gasleft();
+        (HedgeFunV2Treasury.Action action,) = treasury.execute();
+        uint256 used = beforeGas - gasleft();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        assertEq(treasury.lotCount(), treasury.MAX_STRATEGY_LOTS());
+        assertEq(treasury.unbookedStock(), 0);
+        assertEq(treasury.bookedStock(), stock.balanceOf(address(treasury)) - treasury.buybackStock());
+        assertEq(treasury.totalStockReceived(), receivedBefore + donation);
+        assertEq(treasury.lastSalePrice(), salePriceBefore, "cleanup must not claim a sale");
+        assertEq(usdg.balanceOf(address(this)), keeperUsdgBefore, "cleanup must not pay a bounty");
+        assertLt(used, 10_000_000, "full-cap cleanup must fit a practical transaction gas budget");
     }
 }
 

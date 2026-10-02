@@ -156,8 +156,11 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     /// is 1.0 if the rule earned nothing over holding the stock it was handed, and above 1.0 if it earned stock.
     /// Deliberately NOT a NAV per token: there is no redemption, so a per-token asset value would describe a claim
     /// that does not exist. What a holder gets is `totalBurned` against the supply.
-    uint256 public totalStockReceived;            // booked into lots: sell tax, plus anything donated
+    uint256 public totalStockReceived;            // distinct incoming stock booked into lots, excluding rebooked dust
     uint256 public totalStockSpentOnBuybacks;     // spent buying the token back, before the caller's bounty
+    /// @dev Previously received principal released from an uneconomic lot. It remains in the treasury's
+    ///      unbooked balance and must not be counted a second time when a later donation makes booking viable.
+    uint256 internal _releasedDustStock;
 
     // 2 while the buy-back's swap is in flight, else 0: the only `unlock` this treasury ever opens, so a callback at
     // any other moment is refused.
@@ -301,7 +304,9 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         // pool sits within the deviation gate of a frozen feed, `health()` answers with that feed, and a lot booked
         // there would plant an out-of-date dip reference. Out of hours it waits.
         { (bool live,) = _oracle.tryPrice(); if (!live) return false; }
-        lots.push(Lot(un, p, false, 0)); bookedStock += un; totalStockReceived += un;
+        uint256 rebooked = Math.min(un, _releasedDustStock);
+        _releasedDustStock -= rebooked;
+        lots.push(Lot(un, p, false, 0)); bookedStock += un; totalStockReceived += un - rebooked;
         // The first lot is also where a dip is first measured from, so a treasury whose stock falls before it ever
         // rises can still `buyDip` with whatever USDG it holds (anyone may send it some). The booked price is a LIVE
         // oracle price -- see above -- and a sale or a dip buy replaces it.
@@ -388,6 +393,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         if (q != L.qty || _ruleValue(q, p) >= _DUST_VALUE_LIMIT) return false;
         uint256 cost = L.cost;
         _shrink(id, q);
+        _releasedDustStock += q;
         emit StopDustReleased(id, q, cost, p);
         return true;
     }
