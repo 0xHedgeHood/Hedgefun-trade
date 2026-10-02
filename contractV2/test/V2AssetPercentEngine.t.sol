@@ -100,11 +100,12 @@ abstract contract V2AssetPercentEngineFixture is V2StrategyEngineAccountingFixtu
 contract V2AssetPercentEngineTest is V2AssetPercentEngineFixture {
     address private constant KEEPER = address(0xB07);
 
-    function test_schemaAndGenericRegistryAppendPreserveOldIdentityAndWords() public {
+    function test_schemaAndGenericRegistryAppendPreserveExistingKindAndWords() public {
         (uint32 oldVersion, uint32 oldSchema, bytes32 oldCode, uint256 oldCaps) = deployer.kindManifest(engineKind);
         assertEq(oldVersion, 1); assertEq(oldSchema, 1); assertEq(oldCaps, 3);
         assertEq(oldCode, keccak256(type(HedgeFunV2EngineTreasury).creationCode));
-        assertEq(oldCode, 0x21db9a11b19dfe73eb5e372972f0dc7057595360c989d92012ba4b638e0d271f);
+        // A fresh registry commits to the code compiled in this checkout. Already deployed
+        // registries retain their original chunks and hash when the source later changes.
         HedgeFunV2EngineTreasury old = _launch(920, 100e6, 500e6);
         assertEq(uint256(old.engineConfig().words[1]), 100e6);
         usdg.mint(address(old), 50_000e6);

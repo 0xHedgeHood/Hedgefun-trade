@@ -2,6 +2,7 @@
 pragma solidity ^0.8.24;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
@@ -107,6 +108,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     IERC20 internal immutable _usdg;
     PriceOracle internal immutable _oracle;
     uint256 internal immutable _SCALE;         // 1e18 * 10^stockDecimals / 10^usdgDecimals
+    uint256 internal immutable _DUST_VALUE_LIMIT; // one hundredth of a USDG, in its raw units
 
     IERC20 public immutable token;
     IPoolManager public immutable poolManager;
@@ -164,6 +166,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     event LotBooked(uint256 indexed id, uint256 qty, uint256 cost, bool fromTax);
     event ProfitTaken(uint256 qty, uint256 cost, uint256 price, uint256 usdgToReserve, uint256 stockToBurn);
     event Stopped(uint256 qty, uint256 cost, uint256 price);
+    event StopDustReleased(uint256 indexed id, uint256 qty, uint256 cost, uint256 price);
     event Buyback(uint256 stockSpent, uint256 tokenBurned);
     event VoteDelegateSet(address indexed by, address indexed delegatee, bool accepted);
 
@@ -181,6 +184,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
     constructor(address usdg_, address stock_, address token_, address poolManager_, address factory_, address oracle_, uint256 scale_, Params memory p) {
         _usdg = IERC20(usdg_); _stock = IERC20(stock_); token = IERC20(token_);
         poolManager = IPoolManager(poolManager_); factory = factory_; _oracle = PriceOracle(oracle_); _SCALE = scale_;
+        _DUST_VALUE_LIMIT = Math.max(1, 10 ** uint256(IERC20Metadata(usdg_).decimals()) / 100);
         _params = p;
     }
 
@@ -375,20 +379,37 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
 
     function stopLoss(uint256 id) public virtual nonReentrant { _stopLoss(id); }
 
-    function _stopLoss(uint256 id) internal {
+    /// @dev A residual worth less than one hundredth of a USDG is non-economic as an independent V3 sale.
+    ///      USDG output can round down after fees while the minimum-output check rounds up. Retire only the
+    ///      ENTIRE lot, leaving its unsold stock as unbooked principal. A later book may combine such tails.
+    function _releaseStopDust(uint256 id, uint256 p) internal returns (bool) {
+        Lot storage L = lots[id];
+        uint256 q = Math.min(L.qty, _ruleStockFor(_params.sellChunkUsdg, p));
+        if (q != L.qty || _ruleValue(q, p) >= _DUST_VALUE_LIMIT) return false;
+        uint256 cost = L.cost;
+        _shrink(id, q);
+        emit StopDustReleased(id, q, cost, p);
+        return true;
+    }
+
+    function _stopLoss(uint256 id) internal returns (bool sold) {
         if (_params.stopBps == 0) revert NotDue();
         if (pricedOffPoolOnly()) revert NotDue();                               // see `pricedOffPoolOnly`
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         Lot storage L = lots[id];
         if (!HedgeFunMath.fellTo(p, L.cost, _params.stopBps)) revert NotDue();
+        if (_releaseStopDust(id, p)) return false;
         // in chunks, for the reason `takeProfit` gives -- and a stop is the sale most likely to meet a thin pool
         (uint256 q, uint256 cost) = (Math.min(L.qty, _ruleStockFor(_params.sellChunkUsdg, p)), L.cost);
+        // A misconfigured chunk can be too small even when the whole lot is not dust. Do not shrink it or
+        // advance the sale reference without receiving USDG.
+        if (_ruleValue(q, p) == 0) revert NotDue();
         _notePrice(p); _noteTokenSpot();
         uint256 got;
-        // dust: see `takeProfit`. Otherwise `q` becomes what the pool actually took, and the lot, the
-        // event and the bounty below are all sized from that: what did not sell is still in the lot, at its cost
-        if (_ruleValue(q, p) != 0) (q, got) = _swapStock(false, q, p);
+        // `q` becomes what the pool actually took, and the lot, the event and the bounty below are all sized
+        // from that: what did not sell is still in the lot, at its cost.
+        (q, got) = _swapStock(false, q, p);
         if (q != L.qty && L.tp1Left > L.qty - q) L.tp1Left = L.qty - q;         // what tp1 still owes cannot outlive the stock
         _shrink(id, q);
         // out of the proceeds, because a stop has no profit to pay from. Without a bounty the only loss-limiting
@@ -397,6 +418,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         lastSalePrice = p;
         emit Stopped(q, cost, p);
         if (bounty != 0) _usdg.safeTransfer(msg.sender, bounty);              // last: every effect is already written
+        return true;
     }
 
     function buyDip() public virtual nonReentrant { _buyDip(); }

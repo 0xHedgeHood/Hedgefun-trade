@@ -16,6 +16,7 @@ import {Test} from "forge-std/Test.sol";
 import {console2} from "forge-std/console2.sol";
 import {HedgeFunTreasuryBase} from "../src/HedgeFunTreasuryBase.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
+import {HedgeFunV2AllInTreasury} from "../src/v2/HedgeFunV2AllInTreasury.sol";
 import {PoolTrader} from "../src/PoolTrader.sol";
 import {HedgeFunToken} from "../src/HedgeFunToken.sol";
 import {PriceOracle} from "../src/PriceOracle.sol";
@@ -167,6 +168,262 @@ abstract contract V2ExecuteBase is Test {
         (a, id) = _v2().execute();
         assertEq(uint256(a), uint256(HedgeFunV2Treasury.Action.Stop));
         assertEq(id, 0, "a remaining due stop must beat the other lot's profit and a dip");
+    }
+
+    function test_unexecutableStopDustDoesNotBlockLaterStop() public {
+        _assertStopDustUnblocks(1);
+    }
+
+    function test_minimumOutputRoundingDustDoesNotBlockLaterStop() public {
+        // At a value of 2 raw USDG units the pool returns 1, but the minimum
+        // output check rounds its required amount up to 2.
+        _assertStopDustUnblocks(2);
+    }
+
+    function test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() public {
+        _assertStopDustUnblocks(76);
+    }
+
+    function test_allInStopDustDoesNotBlockLaterStop() public {
+        HedgeFunTreasuryBase.Params memory p = _params(500);
+        p.sellChunkUsdg = 20e6;
+        treasury = new HedgeFunV2AllInTreasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+        _assertStopDustUnblocks(1);
+    }
+
+    function test_stopDustWithoutAnotherDueLotDoesNotClaimASale() public {
+        uint256 dust = (SCALE + 90e18 - 1) / 90e18;
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 90e18);
+        _px(110e18);
+        _fundAndBook(chunk + dust);
+        _px(90e18);
+        treasury.execute();
+        _px(90e18);
+
+        uint256 reserveBefore = treasury.reserveUsdg();
+        uint256 stockBefore = stock.balanceOf(address(treasury));
+        uint256 unbookedBefore = treasury.unbookedStock();
+        uint256 salePriceBefore = treasury.lastSalePrice();
+        uint256 stopPriceBefore = treasury.lastStopPrice();
+        uint256 stopAtBefore = treasury.lastStopAt();
+        uint256 stopUpdatedAtBefore = treasury.lastStopStockUpdatedAt();
+        uint256 keeperUsdgBefore = usdg.balanceOf(address(this));
+        (HedgeFunV2Treasury.Action action, uint256 id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.Stop));
+        assertEq(id, 0);
+        assertEq(treasury.lotCount(), 0);
+        assertEq(treasury.reserveUsdg(), reserveBefore);
+        assertEq(stock.balanceOf(address(treasury)), stockBefore);
+        assertEq(treasury.unbookedStock(), unbookedBefore + dust);
+        assertEq(treasury.lastSalePrice(), salePriceBefore);
+        assertEq(treasury.lastStopPrice(), stopPriceBefore);
+        assertEq(treasury.lastStopAt(), stopAtBefore);
+        assertEq(treasury.lastStopStockUpdatedAt(), stopUpdatedAtBefore);
+        assertEq(usdg.balanceOf(address(this)), keeperUsdgBefore);
+    }
+
+    function test_stopDustAndDueDipExecuteInTheSameCall() public {
+        uint256 dust = (SCALE + 85e18 - 1) / 85e18;
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 90e18);
+        _px(110e18);
+        _fundAndBook(chunk + dust);
+        usdg.mint(address(treasury), 100e6);
+        _px(90e18);
+        treasury.execute(); // stop sells one chunk and leaves dust
+        (uint256 left,,,) = treasury.lots(0);
+        assertEq(left, dust);
+
+        vm.warp(block.timestamp + 601);
+        _px(85e18); // new oracle report, deeper price and elapsed stop cooldown
+        (HedgeFunV2Treasury.Action action,) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.BuyDip));
+        assertEq(treasury.unbookedStock(), dust);
+        assertEq(treasury.lastStopAt(), 0);
+        assertEq(treasury.lotCount(), 1);
+    }
+
+    function test_unexecutableProfitDustDoesNotBlockLaterProfit() public {
+        _assertProfitDustUnblocks(false);
+    }
+
+    function test_allInProfitDustDoesNotBlockLaterProfit() public {
+        _assertProfitDustUnblocks(true);
+    }
+
+    function _assertProfitDustUnblocks(bool allIn) internal {
+        HedgeFunTreasuryBase.Params memory p = _params(0);
+        p.tp2Bps = 0;
+        treasury = allIn
+            ? new HedgeFunV2AllInTreasury(address(usdg), address(stock), address(mirror),
+                address(oracle), address(token), address(pm), address(this), p)
+            : new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+                address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+
+        uint256 tail = (SCALE + 100e18 - 1) / 100e18 + 1;
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 115e18);
+        _fundAndBook(chunk + tail); // cost 100: first priority at the profit trigger
+        _px(105e18);
+        _fundAndBook(1 ether); // cost 105: also profit-due at 115
+        _px(115e18);
+
+        (HedgeFunV2Treasury.Action action, uint256 id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        assertEq(id, 0);
+        (uint256 left,,,) = treasury.lots(0);
+        assertEq(left, tail);
+        (uint256 victimBefore,,,) = treasury.lots(1);
+
+        _px(115e18);
+        (action, id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        assertEq(id, 0);
+        assertEq(treasury.unbookedStock(), tail);
+        assertEq(treasury.lotCount(), 1);
+        (uint256 victimAfter,,,) = treasury.lots(0);
+        assertLt(victimAfter, victimBefore);
+    }
+
+    function test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() public {
+        HedgeFunTreasuryBase.Params memory p = _params(0);
+        p.tp2Bps = 2000;
+        treasury = new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+
+        uint256 tail = 2 * ((SCALE + 110e18 - 1) / 110e18);
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 110e18);
+        _fundAndBook(2 * (chunk + tail));
+        _px(110e18);
+        treasury.execute(); // TP1 owes the tiny tail after this chunk
+        _px(110e18);
+        uint256 qtyBefore;
+        {
+            (uint256 qty,, bool half, uint256 left) = treasury.lots(0);
+            qtyBefore = qty;
+            assertFalse(half);
+            assertEq(left, tail);
+        }
+        uint256 reserveBefore = treasury.reserveUsdg();
+        uint256 stockBefore = stock.balanceOf(address(treasury));
+        uint256 salePriceBefore = treasury.lastSalePrice();
+        uint256 keeperStockBefore = stock.balanceOf(address(this));
+
+        (HedgeFunV2Treasury.Action action,) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        {
+            (uint256 qty,, bool half, uint256 left) = treasury.lots(0);
+            assertEq(qty, qtyBefore - tail);
+            assertTrue(half);
+            assertEq(left, 0);
+        }
+        assertEq(treasury.unbookedStock(), tail);
+        assertEq(treasury.reserveUsdg(), reserveBefore);
+        assertEq(stock.balanceOf(address(treasury)), stockBefore);
+        assertEq(treasury.lastSalePrice(), salePriceBefore);
+        assertEq(stock.balanceOf(address(this)), keeperStockBefore);
+    }
+
+    function test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() public {
+        uint256 tail = 3 * ((SCALE + 115e18 - 1) / 115e18);
+        uint256 stopChunk = Math.mulDiv(20e6, SCALE, 90e18);
+        _fundAndBook(stopChunk + tail); // cost 100
+        _px(90e18);
+        treasury.execute(); // leave a microscopic tail, then rebound before its next stop
+        (uint256 left,,,) = treasury.lots(0);
+        assertEq(left, tail);
+
+        _px(105e18);
+        _fundAndBook(1 ether); // another lot whose TP1 is due at 115
+        _px(115e18);
+        uint256 unbookedBefore = treasury.unbookedStock();
+        (HedgeFunV2Treasury.Action action, uint256 id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        assertEq(id, 0);
+        assertEq(treasury.unbookedStock(), unbookedBefore + tail);
+        assertEq(treasury.lotCount(), 1);
+        (uint256 victimAfter,,,) = treasury.lots(0);
+        assertLt(victimAfter, 1 ether);
+    }
+
+    function test_unrepresentableChunkCannotClaimAStop() public {
+        HedgeFunTreasuryBase.Params memory p = _params(500);
+        p.sellChunkUsdg = 1; // factory refuses this, but direct construction must not fake a fill
+        treasury = new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+        _fundAndBook(1 ether);
+        _px(90e18);
+        uint256 salePrice = treasury.lastSalePrice();
+        vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
+        treasury.execute();
+        assertEq(treasury.bookedStock(), 1 ether);
+        assertEq(treasury.lastSalePrice(), salePrice);
+        assertEq(treasury.lastStopAt(), 0);
+    }
+
+    function test_minimumBookedLotStillExecutesStop() public {
+        _fundAndBook(0.05 ether); // $5 at cost 100: exactly the configured booking minimum
+        _px(90e18);
+        uint256 reserveBefore = treasury.reserveUsdg();
+        (HedgeFunV2Treasury.Action action,) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.Stop));
+        assertEq(treasury.lotCount(), 0);
+        assertGt(treasury.reserveUsdg(), reserveBefore);
+        assertEq(treasury.unbookedStock(), 0);
+    }
+
+    function test_minimumBookedLotStillExecutesTp1() public {
+        HedgeFunTreasuryBase.Params memory p = _params(0);
+        treasury = new HedgeFunV2Treasury(address(usdg), address(stock), address(mirror),
+            address(oracle), address(token), address(pm), address(this), p);
+        treasury.wire(_tokenKey());
+        _fundAndBook(0.05 ether); // its first half is below the booking minimum, but is a real sale
+        _px(106e18);
+        uint256 reserveBefore = treasury.reserveUsdg();
+        (HedgeFunV2Treasury.Action action,) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        (, , bool half, uint256 left) = treasury.lots(0);
+        assertTrue(half);
+        assertEq(left, 0);
+        assertGt(treasury.reserveUsdg(), reserveBefore);
+        assertEq(treasury.unbookedStock(), 0);
+    }
+
+    function _assertStopDustUnblocks(uint256 rawValue) internal {
+        uint256 dust = (rawValue * SCALE + 90e18 - 1) / 90e18;
+        assertEq(Math.mulDiv(dust, 90e18, SCALE), rawValue);
+        assertLt(Math.mulDiv(Math.mulDiv(dust, 997_000, 1_000_000), 90e18, SCALE), rawValue);
+        uint256 chunk = Math.mulDiv(20e6, SCALE, 90e18);
+
+        _px(110e18);
+        _fundAndBook(chunk + dust);
+        _px(100e18);
+        _fundAndBook(1 ether);
+        _px(90e18);
+
+        (HedgeFunV2Treasury.Action action, uint256 id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.Stop));
+        assertEq(id, 0);
+        (uint256 dustLeft,,,) = treasury.lots(0);
+        assertEq(dustLeft, dust);
+        (uint256 victimBefore,,,) = treasury.lots(1);
+
+        // The pool is healthy again, while the highest-cost lot still cannot trade.
+        _px(90e18);
+        uint256 unbookedBefore = treasury.unbookedStock();
+        (action, id) = treasury.execute();
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.Stop));
+        assertEq(id, 0);
+        assertEq(treasury.lotCount(), 1);
+        assertEq(treasury.unbookedStock(), unbookedBefore + dust);
+        assertEq(stock.balanceOf(address(treasury)),
+            treasury.bookedStock() + treasury.buybackStock() + treasury.unbookedStock());
+
+        (uint256 victimAfter,,,) = treasury.lots(0);
+        assertLt(victimAfter, victimBefore);
     }
 
     function test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() public {
