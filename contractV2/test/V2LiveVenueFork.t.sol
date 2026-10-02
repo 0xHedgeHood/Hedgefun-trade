@@ -12,7 +12,7 @@ import {PriceOracle} from "../src/PriceOracle.sol";
 import {HedgeFunFactory, TokenDeployer} from "../src/HedgeFunFactory.sol";
 import {HedgeFunToken} from "../src/HedgeFunToken.sol";
 import {HedgeFunTreasuryBase} from "../src/HedgeFunTreasuryBase.sol";
-import {HedgeFunHook} from "../src/hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../src/hooks/HedgeFunV2Hook.sol";
 import {HedgeFunBondingCurve as Curve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {CurveDeployer} from "../src/v2/CurveDeployer.sol";
@@ -52,7 +52,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
     address private constant BOT = address(0xB07);
 
     HedgeFunV2Factory private factory;
-    HedgeFunHook private hook;
+    HedgeFunV2Hook private hook;
     HedgeFunToken private token;
     Curve private curve;
     Router private router;
@@ -89,7 +89,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         d.lpFee = 3000;
         d.tickSpacing = 60; d.minTaxBps = 100; d.maxTaxBps = 1500; d.protocolBps = 2000; d.maxCreatorBps = 3000;
         d.spikeBps = 9000; d.spikeSeconds = 120; d.snipeBps = 9900; d.snipeSeconds = 3;
-        d.sweepTipBps = 50; d.bountyBps = 50; d.maxSlippageBps = 100; d.maxDeviationBps = 50;
+        d.sweepTipBps = 0; d.bountyBps = 50; d.maxSlippageBps = 100; d.maxDeviationBps = 50;
         d.maxBuybackImpactBps = 300; d.buybackCooldown = 60; d.minLotUsdg = 5e6;
         d.buybackChunkUsdg = 500e6; d.sellChunkUsdg = type(uint128).max;
     }
@@ -99,6 +99,10 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
     }
 
     function _setUpForkKind(uint8 strategyKind) private {
+        _setUpForkKindAndTax(strategyKind, 1000);
+    }
+
+    function _setUpForkKindAndTax(uint8 strategyKind, uint16 taxBps) private {
         vm.skip(vm.envOr("RH_FORK", uint256(0)) == 0, "live V2 fork: set RH_FORK=1; no broadcast");
         string memory rpc = vm.envOr("RH_RPC", string("blockmachine"));
         uint256 pinnedBlock = vm.envOr("RH_FORK_BLOCK", uint256(70_786_980));
@@ -111,7 +115,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         // Small real V3 trades limit tick traversal/RPC reads. This is test economics, not production defaults.
         uint256 initialPrice = Math.mulDiv(25e18, 1e18, oracle.price()) / 1_000_000;
         assertGt(initialPrice, 0);
-        hook = _deployHook(PM);
+        hook = _deployV2Hook(PM);
         HedgeFunFactory.Defaults memory defaults = _defaults();
         if (strategyKind == 1) {
             // This fork deliberately graduates at only ~100 USDG to keep archive reads small. With that shallow
@@ -146,7 +150,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         vm.stopPrank();
         HedgeFunFactory.Request memory request;
         request.name = "V2 live-venue fork only"; request.symbol = "V2FORK";
-        request.stock = GME; request.creator = CREATOR; request.taxBps = 1000; request.creatorBps = 1000;
+        request.stock = GME; request.creator = CREATOR; request.taxBps = taxBps; request.creatorBps = 1000;
         request.tp1Bps = 3000; request.tp2Bps = 6000; request.dipBps = 800; request.lotBps = 5000;
         request.expectedOpenPriceE18 = initialPrice;
         if (strategyKind != 0) {
@@ -233,6 +237,9 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         assertEq(IERC20(GME).balanceOf(user), b.stock + refund, "partial buy returns stock to the right user");
         assertEq(b.routeStock - IERC20(GME).balanceOf(ROUTE_POOL), p.minStockReceived);
         if (stage == 0) {
+            uint256 actualPaid = p.minStockReceived - refund;
+            assertEq(curve.totalFees() - b.fees, Math.mulDiv(actualPaid, curve.taxBps(), 10_000),
+                "actual curve stock payment accrues a base fee, including the graduation buy");
             uint256 extraBurn;
             if (curve.status() == Curve.Status.Graduated) {
                 extraBurn = b.reserve - got - expectedCurveTax - token.balanceOf(address(PM));
@@ -241,8 +248,8 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         } else {
             (uint256 taxAfter,) = hook.accrued(key.toId());
             uint256 tax = taxAfter - b.taxToken;
-            assertEq(tax, (got + tax) / 10, "graduated exact-input buy has the ordinary 10% token tax");
-            assertEq(token.totalSupply(), b.supply, "V4 token tax burns when swept");
+            assertEq(tax, Math.mulDiv(got + tax, curve.taxBps(), 10_000), "graduated buy fee uses the frozen base rate");
+            assertEq(token.totalSupply(), b.supply, "V4 basic token fee remains a conversion claim");
         }
         _assertClean();
     }
@@ -263,7 +270,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         uint256 tax;
         if (stage == 0) tax = curve.totalFees() - b.fees;
         else { (, uint256 afterTax) = hook.accrued(key.toId()); tax = afterTax - b.taxStock; }
-        assertGt(tax, 0); assertEq(tax, (netStock + tax) / 10, "sell tax is charged in real GME");
+        assertGt(tax, 0); assertEq(tax, Math.mulDiv(netStock + tax, curve.taxBps(), 10_000), "sell tax is charged in real GME");
         assertEq(token.totalSupply(), b.supply);
         _assertClean();
     }
@@ -283,15 +290,27 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
     function _sweepV4Fees() private {
         (uint256 taxTokens, uint256 taxStock) = hook.accrued(key.toId());
         uint256 supplyBefore = token.totalSupply();
+        uint256 pendingBefore = hook.pendingTokenFees(key.toId());
         uint256 tokenTip = token.balanceOf(BOT);
+        uint256 protocolBefore = IERC20(GME).balanceOf(PROTOCOL);
+        uint256 creatorBefore = IERC20(GME).balanceOf(CREATOR);
+        uint256 treasuryBefore = IERC20(GME).balanceOf(curve.treasury());
         uint256 stockBefore = IERC20(GME).balanceOf(PROTOCOL) + IERC20(GME).balanceOf(CREATOR)
             + IERC20(GME).balanceOf(curve.treasury()) + IERC20(GME).balanceOf(BOT);
         vm.prank(BOT); hook.sweep(key.toId());
-        assertEq(token.balanceOf(BOT) - tokenTip, taxTokens * 50 / 10000);
-        assertEq(supplyBefore - token.totalSupply(), taxTokens - taxTokens * 50 / 10000);
+        assertEq(token.balanceOf(BOT), tokenTip, "V2 has no sweep tip");
+        assertEq(token.totalSupply(), supplyBefore, "V2 basic buy fees are not burned");
+        assertEq(hook.pendingTokenFees(key.toId()), pendingBefore + taxTokens);
+        assertEq(PM.balanceOf(address(hook), uint256(uint160(address(token)))), pendingBefore + taxTokens,
+            "pending inventory is backed by manager claims");
         uint256 stockAfter = IERC20(GME).balanceOf(PROTOCOL) + IERC20(GME).balanceOf(CREATOR)
             + IERC20(GME).balanceOf(curve.treasury()) + IERC20(GME).balanceOf(BOT);
         assertEq(stockAfter - stockBefore, taxStock, "tax stays with configured recipients and sweeper");
+        uint256 protocolCut = Math.mulDiv(taxStock, 2000, 10_000);
+        uint256 creatorCut = Math.mulDiv(taxStock, 1000, 10_000);
+        assertEq(IERC20(GME).balanceOf(PROTOCOL) - protocolBefore, protocolCut);
+        assertEq(IERC20(GME).balanceOf(CREATOR) - creatorBefore, creatorCut);
+        assertEq(IERC20(GME).balanceOf(curve.treasury()) - treasuryBefore, taxStock - protocolCut - creatorCut);
         _assertClean();
     }
 
@@ -349,6 +368,7 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         assertGt(curveFees, 0);
         uint256 lpStockBefore = IERC20(GME).balanceOf(address(PM));
         uint256 treasuryStockBefore = IERC20(GME).balanceOf(curve.treasury());
+        uint256 routeStockBeforeFinal = IERC20(GME).balanceOf(ROUTE_POOL);
         (, uint256 finalRefund) = _quotedBuy(BOB, 250e6, 0);
         assertEq(uint256(curve.status()), 2); assertGt(finalRefund, 0);
         uint256 lpStock = IERC20(GME).balanceOf(address(PM)) - lpStockBefore;
@@ -360,7 +380,9 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         console2.log("Live graduation LP GME raw:", lpStock);
         console2.log("Live graduation treasury GME raw:", treasuryStock);
         assertGt(PM.getLiquidity(key.toId()), 0, "production V4 manager holds graduated position");
-        assertEq(curve.totalFees(), curveFees, "graduation must not spend curve fee liabilities");
+        uint256 finalPayment = routeStockBeforeFinal - IERC20(GME).balanceOf(ROUTE_POOL) - finalRefund;
+        assertEq(curve.totalFees(), curveFees + Math.mulDiv(finalPayment, curve.taxBps(), 10_000),
+            "graduation preserves prior liabilities and adds only the crossing buy's base fee");
         assertEq(hook.buyRateBps(key.toId()), 1000); assertEq(hook.sellRateBps(key.toId()), 1000);
         _claimCurveFees();
         (uint256 aAfter,) = _quotedBuy(ALICE, 5e6, 2);
@@ -430,6 +452,54 @@ contract StrategyForkTestV2LiveVenue is Test, HookMiner {
         console2.log("Live kind-1 graduation budget GME raw:", budget);
         console2.log("Live kind-1 buyback spent GME raw:", spent);
         console2.log("Live kind-1 buyback burned FUN raw:", burned);
+    }
+
+    /// The selected 3% fee schedule on deployed stock/V3/V4 contracts: buy-token claims become actual stock
+    /// payouts in bounded batches, with every unconverted and unpaid amount still independently accounted for.
+    function test_fork_selectedThreePercentBuyFeesConvertToStockAndSplit() public {
+        _setUpForkKindAndTax(0, 300);
+        _quotedBuy(ALICE, 250e6, 0);
+        assertEq(uint256(curve.status()), 2);
+        _quotedBuy(BOB, 5e6, 2);
+        (uint256 taxTokens, uint256 stockTax) = hook.accrued(key.toId());
+        assertGt(taxTokens, 0);
+        assertEq(stockTax, 0, "ordinary buy fee starts in tokens, not stock cash");
+        uint256 supplyBefore = token.totalSupply();
+        uint256 protocolBefore = IERC20(GME).balanceOf(PROTOCOL);
+        uint256 creatorBefore = IERC20(GME).balanceOf(CREATOR);
+        uint256 treasuryBefore = IERC20(GME).balanceOf(curve.treasury());
+        hook.sweep(key.toId());
+        assertEq(hook.pendingTokenFees(key.toId()), taxTokens);
+        assertEq(PM.balanceOf(address(hook), uint256(uint160(address(token)))), taxTokens);
+        uint256 convertedStock;
+        for (uint256 i; i < 4 && hook.pendingTokenFees(key.toId()) != 0; ++i) {
+            uint256 pending = hook.pendingTokenFees(key.toId());
+            (uint160 spot,,,) = PM.getSlot0(key.toId());
+            uint160 limit = address(token) < GME
+                ? uint160(uint256(spot) * 9950 / 10_000)
+                : uint160(uint256(spot) * 10050 / 10_000);
+            vm.prank(OWNER);
+            (uint256 consumed, uint256 stockOut) = hook.convertFees(key, pending, 1, limit, block.timestamp);
+            assertGt(consumed, 0);
+            assertEq(hook.pendingTokenFees(key.toId()), pending - consumed);
+            assertEq(PM.balanceOf(address(hook), uint256(uint160(address(token)))), pending - consumed);
+            convertedStock += stockOut;
+            _assertClean();
+        }
+        assertEq(hook.pendingTokenFees(key.toId()), 0);
+        assertEq(token.totalSupply(), supplyBefore, "converting base fees never burns live supply");
+        hook.sweep(key.toId());
+        uint256 protocolPaid = IERC20(GME).balanceOf(PROTOCOL) - protocolBefore;
+        uint256 creatorPaid = IERC20(GME).balanceOf(CREATOR) - creatorBefore;
+        uint256 treasuryPaid = IERC20(GME).balanceOf(curve.treasury()) - treasuryBefore;
+        assertApproxEqAbs(protocolPaid, Math.mulDiv(convertedStock, 2000, 10_000), 4);
+        assertApproxEqAbs(creatorPaid, Math.mulDiv(convertedStock, 1000, 10_000), 4);
+        assertEq(protocolPaid + creatorPaid + treasuryPaid, convertedStock);
+        assertEq(PM.balanceOf(address(hook), uint256(uint160(GME))), 0);
+        _assertClean();
+        console2.log("Live 3% buy fee token claims raw:", taxTokens);
+        console2.log("Live converted GME fee raw:", convertedStock);
+        console2.log("Live protocol/creator/treasury GME payouts raw:", protocolPaid, creatorPaid, treasuryPaid);
     }
 
     /// Three ordered same-timestamp calls against the real USDG/GME V3 route and a fork-local V2 curve.

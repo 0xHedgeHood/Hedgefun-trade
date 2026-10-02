@@ -84,6 +84,19 @@
  },
  {
   "type": "function",
+  "name": "allInTriggerCodeHash",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "bind",
   "inputs": [],
   "outputs": [],
@@ -962,6 +975,11 @@
  {
   "type": "error",
   "name": "AlreadyBound",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadConfig",
   "inputs": []
  },
  {

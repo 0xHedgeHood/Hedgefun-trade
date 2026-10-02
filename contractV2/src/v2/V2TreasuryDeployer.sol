@@ -4,9 +4,10 @@ pragma solidity ^0.8.24;
 import {BoundDeployer} from "../HedgeFunDeployers.sol";
 import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {IUniswapV3Pool} from "../interfaces/IUniswapV3.sol";
-import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
+import {HedgeFunV2AllInTreasury} from "./HedgeFunV2AllInTreasury.sol";
 import {EngineConfig, IStrategyPolicy, PolicyManifest, StrategyCapabilities} from "./strategy/IStrategyPolicy.sol";
 import {SpotEngineConfig} from "./strategy/SpotEngineConfig.sol";
+import {V2CreatorParams} from "./strategy/V2CreatorParams.sol";
 
 interface IFactoryOwner {
     function owner() external view returns (address);
@@ -24,7 +25,7 @@ contract V2InitCodeChunk {
     }
 }
 
-/// @notice Deploys one V2 treasury per launch, choosing its code by STRATEGY KIND. Kind 0 is `HedgeFunV2Treasury`.
+/// @notice Deploys one V2 treasury per launch, choosing its code by STRATEGY KIND. New kind 0 is `HedgeFunV2AllInTreasury`.
 ///
 /// The factory has no bytes to spare under EIP-170 and its `Request` is the deployed V1 ABI, so the per-launch strategy choice
 /// lives here instead: a creator names the kind for their own (symbol, nonce) salt before `predict`/`launch`, and the
@@ -52,8 +53,11 @@ contract V2TreasuryDeployer is BoundDeployer {
         bytes32 creationCodeHash;
         uint256 capabilities;
     }
-    /// registered strategy code, by kind. Index 0 is `HedgeFunV2Treasury`.
+    /// registered strategy code, by kind. Index 0 is the ordinary lot strategy with creator-selected rungs.
     Kind[] private _kinds;
+    /// @notice Exact ordinary V2 code allowed creator-selected TP/dip/stop rungs. Also applies if re-registered.
+    /// @dev Getter name is retained for clients of earlier registries; this code imposes no economic trigger floor.
+    bytes32 public immutable allInTriggerCodeHash;
     /// @notice the kind a creator chose for a salt; unset = kind 0
     mapping(bytes32 => uint8) public strategyKindOf;
     mapping(bytes32 => EngineConfig) private _engineConfigOf;
@@ -129,8 +133,11 @@ contract V2TreasuryDeployer is BoundDeployer {
     }
 
     constructor() {
-        (address a, address b) = makeChunks(type(HedgeFunV2Treasury).creationCode);
-        _kinds.push(Kind(a, b, 0, 0, keccak256(type(HedgeFunV2Treasury).creationCode), 0));
+        bytes memory code = type(HedgeFunV2AllInTreasury).creationCode;
+        bytes32 codeHash = keccak256(code);
+        allInTriggerCodeHash = codeHash;
+        (address a, address b) = makeChunks(code);
+        _kinds.push(Kind(a, b, 0, 0, codeHash, 0));
         emit KindRegistered(0, a, b);
     }
 
@@ -374,17 +381,21 @@ contract V2TreasuryDeployer is BoundDeployer {
             args, (address, address, address, address, address, address, address, HedgeFunTreasuryBase.Params)
         );
         uint256 poolFeeBps = uint256(IUniswapV3Pool(v3Pool).fee()) / 100;
-        uint256 friction = p.maxSlippageBps + poolFeeBps + p.bountyBps;
-        if (p.stopBps != 0 && p.stopBps <= friction) revert StopInsideExecutionFriction(p.stopBps, friction);
-        // the spot engine's floors, with the listing's own lot, chunk and friction, exactly as its constructor sees them
         Kind storage k = _kinds[strategyKindOf[salt]];
+        if (k.creationCodeHash == allInTriggerCodeHash) {
+            V2CreatorParams.validate(p.tp1Bps, p.tp2Bps, p.dipBps, p.stopBps);
+        } else {
+            uint256 friction = p.maxSlippageBps + poolFeeBps + p.bountyBps;
+            if (p.stopBps != 0 && p.stopBps <= friction) revert StopInsideExecutionFriction(p.stopBps, friction);
+        }
+        // Spot engine floors remain listing-dependent, exactly as its constructor sees them.
         if (
             _isSpotV1(k.engineVersion, k.engineConfigSchema)
                 && !SpotEngineConfig.valid(
                     _engineConfigOf[salt].words,
                     p.minLotUsdg,
                     p.sellChunkUsdg,
-                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps)
+                    SpotEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps, p.bountyBps)
                 )
         ) revert BadEngineConfig();
     }

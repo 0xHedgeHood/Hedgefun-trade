@@ -1,5 +1,9 @@
 # V2 launch rehearsal
 
+The current scripts deploy `HedgeFunV2Hook` for [two-sided fee income](./V2_TWO_SIDED_FEES.md).
+The recorded September 27–28 runs below predate that change; their simulated addresses and gas estimates are
+historical evidence. Repeat the rehearsal with the exact new release commit and addresses before deployment.
+
 Use `script/RehearseV2Launchpad.s.sol` to check that the V2 deployers, hook, factory, stock trade router, and kind-1 buyback code registration can be created and bound on a **local fork**. The script rejects every chain ID except `31337` and also rejects Foundry broadcast/resume contexts. It does not list a stock, open public launches, create a strategy treasury, move funds, or deploy to Robinhood Chain. Run the command below **without `--broadcast`**: Foundry simulates its deployment transactions and discards them.
 
 ```sh
@@ -39,7 +43,7 @@ and an estimated **37,452,577** gas. That is a development commit, not the relea
 
 Before a real V2 launch, require all of the following:
 
-1. V2 PR reviewed and merged after the full local suite, live venue fork suite, ABI/document checks, and runtime/initcode size checks pass. The factory has a narrow code-size margin (179 runtime bytes since the owner's per-stock `saleBps` was removed); the curve deployer has 7,846 since it took the creator's curve-choice registry.
+1. V2 PR reviewed and merged after the full local suite, live venue fork suite, ABI/document checks, and runtime/initcode size checks pass. The two-sided-fee factory has a narrow code-size margin (75 runtime bytes); check the exact release artifacts again after any source or compiler change.
 2. Repeat this rehearsal at a recent fork block using the exact release commit and intended Safe/calendar addresses. Record the commit, fork block, default settings, readback, and gas estimates. A fork result does not prove chain RPC availability or actual account signing.
 3. Verify each stock's oracle, USDG V3 pool, market-hours behavior, opening price, curve endpoint, graduation V4 pool, and trading route. Check token transfers and pool fee on a stock-specific fork launch and buy/sell/graduation replay. **The listing check (audit round 3 M-2 / M-3):** run `tools/v2_launch_check.py`. Run it before enabling a listing or opening public launches, and again immediately before each V2 launch, because pool depth here moves by tens of percent within an hour. The raise size is each creator's choice, so for a launch the check runs at that creator's `saleBps` and its verdict is shown to the creator as a warning; nothing on chain refuses the launch ([decision below](#raise-size-and-opening-window-decided-2026-09-28)):
 
@@ -165,14 +169,14 @@ treasury's deviation gate until arbitrage re-pegs it.
 
 ## Deployment parameters decided after audit round 4
 
-Two parameters were decided on 2026-09-28 in response to [audit round 4](../audit/round-4-2026-09-27/ISSUES.md). Neither
+Two parameters were decided on 2026-09-28 in response to [audit round 4](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/audit/round-4-2026-09-27/ISSUES.md). Neither
 needs code; both belong in the listing and launch procedure. A third constraint, on V1, follows from the V2 opening-tax
 fix of the same day.
 
 **Trade tax: the creator chooses it within the factory's existing bounds.** The rehearsal's candidate bounds are
 1%–15%, and the founder does not want a tighter cap. The front end must show a creator what the tax is likely to
 cost them before they choose. The best evidence on this chain is the pons.family natural experiment in
-[PONS_TAX_ELASTICITY.md](./research/PONS_TAX_ELASTICITY.md): up to 5% total tax, graduation rates and the same
+[PONS_TAX_ELASTICITY.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/research/PONS_TAX_ELASTICITY.md): up to 5% total tax, graduation rates and the same
 creator's volume are flat; above 5%, graduation falls from about 1% of launches to 0.18% and the same creator gets
 about half the volume. Pons's total is its 1% base fee plus the creator's tax; the comparable Hedgefun number is the
 whole `taxBps`.
