@@ -2,6 +2,8 @@
 
 Status: source and local fork rehearsal only. This document is not a deployment receipt. Stage must not enable ETH until the independent native-market publisher has verified all seventeen real transactions.
 
+The separate [small fee-3000 WETH/tUSDG payment bridge](./TESTNET_V2_ETH_BRIDGE.md) can support tiny native-ETH payments to existing stock strategies. It leaves this market's fee-500 pool slot free, but does not supply this market's ETH oracle, 600-second observation history, or WETH strategy listing.
+
 ## Two uses of ETH
 
 - Stock strategy purchases: native ETH → canonical WETH/tUSDG V3 pool → existing tUSDG/stock pool → strategy token. Sales follow the reverse route and unwrap the final WETH to native ETH.

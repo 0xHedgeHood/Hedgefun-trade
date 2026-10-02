@@ -57,6 +57,7 @@ CONTRACTS = [
     ("src/v2/V2TreasuryDeployer.sol", "V2TreasuryDeployer"),
     ("src/v2/HedgeFunV2TradeRouter.sol", "HedgeFunV2TradeRouter"),
     ("src/v2/HedgeFunV2NativeRouter.sol", "HedgeFunV2NativeRouter"),
+    ("src/v2/HedgeFunV2LaunchNativeRouter.sol", "HedgeFunV2LaunchNativeRouter"),
 ]
 
 HOOKS_LIB = "lib/v4-core/src/libraries/Hooks.sol"

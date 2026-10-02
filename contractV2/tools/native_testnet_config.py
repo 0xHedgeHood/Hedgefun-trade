@@ -15,6 +15,8 @@ PERMISSIONS = [
     ("read", "./lib/v4-core/test/bin/v3Factory.bytecode"),
     *[("read-write", f"./deploy/testnet-v2-native-market.{phase}.{kind}.json")
       for phase in ("init", "poke", "activate") for kind in ("candidate", "dryrun")],
+    ("read-write", "./deploy/testnet-v2-native-bridge.candidate.json"),
+    ("read-write", "./deploy/testnet-v2-native-bridge.dryrun.json"),
 ]
 
 

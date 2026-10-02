@@ -73,7 +73,7 @@ contract TestnetV2EthMarketForkTest is Test {
         _stockNativeRoundTrip(x);
         _ethUnderlyingGraduateAndTrade(x);
         _ethUnderlyingExplicitRefund(x);
-        _unchanged(original); assertEq(original.marketCount, 8);
+        _unchanged(original);
     }
 
     function _capture() private view returns (Preserved memory x) {

@@ -17,7 +17,9 @@ class NativeConfigTest(unittest.TestCase):
         target = TOOL.render(source)
         parsed = tomllib.loads(target)["profile"]["default"]
         self.assertEqual(parsed["fs_permissions"], [dict(access=access, path=path) for access, path in TOOL.PERMISSIONS])
-        self.assertEqual(len(parsed["fs_permissions"]), 9)
+        self.assertEqual(len(parsed["fs_permissions"]), 11)
+        self.assertIn(dict(access="read-write", path="./deploy/testnet-v2-native-bridge.candidate.json"), parsed["fs_permissions"])
+        self.assertIn(dict(access="read-write", path="./deploy/testnet-v2-native-bridge.dryrun.json"), parsed["fs_permissions"])
         self.assertNotIn(dict(access="read-write", path="./deploy/testnet-v2-fees.json"), parsed["fs_permissions"])
         self.assertEqual((ROOT / "foundry.toml").read_text(), source)
         self.assertEqual(parsed["optimizer_runs"], 1)
