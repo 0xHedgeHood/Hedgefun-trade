@@ -93,7 +93,7 @@ struct EngineConfig {
 | Word | Meaning | Bounds |
 | --- | --- | --- |
 | `words[0]`, bits 0–15 | stock target, bps | 2,000–9,000 |
-| bits 16–31 | band, percentage points in bps | `>= 2*(slippage + floor(poolFee/100) + bounty)`; `< target`; target + band `< 10,000` |
+| bits 16–31 | band, percentage points in bps | creator-selected, including 0 or 1 bps; `< target`; target + band `< 10,000` |
 | bits 32–63 | cooldown seconds | 600–`uint32.max` |
 | bits 64–79 | profit buyback share, bps | 0–10,000 |
 | bits 80–255 | reserved | zero |
@@ -102,8 +102,11 @@ struct EngineConfig {
 
 10% = 1,000 bps and 50% = 5,000 bps. Recommended initial UI inputs are target 70%, band 5 percentage points,
 cooldown 600 seconds, action cap 10%, daily cap 50%, profit buyback share 0%. They are a starting configuration,
-not evidence of profitable trading. Allocation-band validity still depends on the selected listing's actual
-slippage/pool fee/bounty. Listing `sellChunkUsdg >= minLotUsdg` is required by the new constructor.
+not evidence of profitable trading. The creator may choose a band of 0 or 1 bps independently of slippage,
+pool fee and keeper bounty. A narrower band can propose more frequent trading, but does not promise a profitable
+fill. The core and policy both validate with a zero optional band minimum; packed-word geometry, cooldown,
+percentage limits, live-market checks, actual-fill accounting and rewards still apply. Listing
+`sellChunkUsdg >= minLotUsdg` is required by the new constructor.
 
 The word layout is intentionally isolated. Schema 1 continues to interpret `words[1]/[2]` as **absolute USDG
 base units**. A schema-1 policy cannot be bound to a schema-2 kind. Upgrading a saved draft must be explicit;
@@ -171,7 +174,13 @@ real winter/summer/DST trading sessions. Stateful invariants use the authoritati
 read the owned V4 position/balances independently of the production reader, and derive turnover from balance
 deltas and buyback allocation; they check caps against each action's pre-trade NAV.
 
-Local final verification: **1,667 passed, zero failed, 62 skipped** across the repository. The eight offline suites
+### Historical verification and commitments
+
+The following measurements and commitments describe source `aecfd05574888446debe0f4595e23fe9f265648d`
+before removing the schema-2 economic band minimum. They remain historical evidence; the revised source
+requires newly generated commitments and its own release proof.
+
+Historical local verification: **1,667 passed, zero failed, 62 skipped** across the repository. The eight offline suites
 contribute **48 passing tests**, including four 256-case fuzz tests and two stateful invariants, each run for
 256 sequences of 500 calls (128,000 calls per invariant). The skipped optional fork/integration cases are not
 live deployment evidence. `forge build --sizes` and the subsequent final build passed.
@@ -200,6 +209,18 @@ below 24,576 bytes. Future source changes must recheck both runtime and complete
 component. The registered policy budget is 150,000 gas with exact 160-byte intent return.
 Tests execute the genuine policy through this budget. These commitments must be recomputed after any production
 source/configuration change; source commit must identify the committed new source, not just its base revision.
+
+### Creator-selected band revision
+
+The schema-2 constructor and policy now accept zero or one-bp allocation bands with the optional band minimum
+set to zero. Regression launches use 300-bp maximum slippage, the 30-bp venue fee and a 200-bp keeper reward;
+they prove configuration freezing, actual-output rewards, inventory conservation, percentage caps and cooldown.
+Malformed target/band geometry is still rejected before any subtraction. Schema-1 core/policy source and its
+creation/runtime commitments remain unchanged from the integrated main baseline.
+
+Current bytecode sizes and callable interfaces are generated in [REFERENCE.md](REFERENCE.md) and
+[SURFACE.md](../abi/SURFACE.md). The historical GME fork results above do not verify the revised schema-2 bytes.
+No deployment, registration or public-chain execution is claimed for this revision.
 
 ## Human deployment/registration and proof publication runbook
 

@@ -91,7 +91,7 @@ contract V2AssetPercentRebalancePolicy is IStrategyPolicy {
                 || config.schema != AssetPercentEngineConfig.CONFIG_SCHEMA
         ) revert BadConfig();
 
-        if (!AssetPercentEngineConfig.valid(config.words, 1)) revert BadConfig();
+        if (!AssetPercentEngineConfig.valid(config.words, 0)) revert BadConfig();
         uint256 packed = uint256(config.words[0]);
         policyConfig.targetBps = uint16(packed);
         policyConfig.deadbandBps = uint16(packed >> 16);

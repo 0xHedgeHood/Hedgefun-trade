@@ -167,9 +167,7 @@ contract HedgeFunV2AssetPercentEngineTreasury is HedgeFunV2Treasury {
                 || manifest.maxGas > MAX_POLICY_GAS || manifest.maxReturnBytes != INTENT_RETURN_BYTES
                 || manifest.capabilities & SPOT_CAPABILITIES == 0 || manifest.capabilities & ~SPOT_CAPABILITIES != 0
                 || p.sellChunkUsdg < p.minLotUsdg
-                || !AssetPercentEngineConfig.valid(
-                    c.words, AssetPercentEngineConfig.minDeadbandBps(p.maxSlippageBps, poolFeeBps, p.bountyBps)
-                )
+                || !AssetPercentEngineConfig.valid(c.words, 0)
         ) revert BadEngineConfig();
     }
 

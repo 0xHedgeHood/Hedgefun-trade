@@ -5,6 +5,7 @@ import {Test} from "forge-std/Test.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {HedgeFunTreasuryBase} from "../src/HedgeFunTreasuryBase.sol";
 import {HedgeFunFactory} from "../src/HedgeFunFactory.sol";
+import {HedgeFunBondingCurve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {HedgeFunV2AssetPercentEngineTreasury} from "../src/v2/HedgeFunV2AssetPercentEngineTreasury.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {V2AssetPercentRebalancePolicy} from "../src/v2/strategy/V2AssetPercentRebalancePolicy.sol";
@@ -31,13 +32,18 @@ contract V2AssetPercentConfigTest is V2AssetPercentEngineFixture {
         assertFalse(h.valid(c.words, 360), "invalid huge words refuse without multiplication overflow");
     }
 
-    function test_allocationCooldownAndRewardFrictionFloors() public {
+    function test_allocationGeometryCooldownAndOptionalToolingMinimum() public {
         AssetPercentConfigHarness h = new AssetPercentConfigHarness();
         EngineConfig memory c = _percentConfig(1000, 5000, 0);
         c.words[0] = bytes32(uint256(2000) | uint256(360) << 16 | uint256(600) << 32);
         assertTrue(h.valid(c.words, 360));
         c.words[0] = bytes32(uint256(2000) | uint256(359) << 16 | uint256(600) << 32);
-        assertFalse(h.valid(c.words, 360));
+        assertFalse(h.valid(c.words, 360), "an optional tooling minimum is not the protocol minimum");
+        assertTrue(h.valid(c.words, 0), "protocol core and policy impose no economic band minimum");
+        c.words[0] = bytes32(uint256(2000) | uint256(600) << 32);
+        assertTrue(h.valid(c.words, 0), "zero creator band is valid");
+        c.words[0] |= bytes32(uint256(1) << 16);
+        assertTrue(h.valid(c.words, 0), "one-bp creator band is valid");
         c.words[0] = bytes32(uint256(1999) | uint256(360) << 16 | uint256(600) << 32);
         assertFalse(h.valid(c.words, 360));
         c.words[0] = bytes32(uint256(9000) | uint256(999) << 16 | uint256(type(uint32).max) << 32);
@@ -81,6 +87,75 @@ contract V2AssetPercentConfigTest is V2AssetPercentEngineFixture {
         HedgeFunTreasuryBase.Params memory p = _params(); p.sellChunkUsdg = p.minLotUsdg - 1;
         (ok, error_) = _construct(c, p); assertFalse(ok);
         assertEq(error_, HedgeFunV2AssetPercentEngineTreasury.BadEngineConfig.selector);
+    }
+
+    function test_zeroCreatorBandDeploysWithHighFrictionAndPreservesExecution() public {
+        _assertCreatorBand(0, 1002);
+    }
+
+    function test_oneBpCreatorBandDeploysWithHighFrictionAndPreservesExecution() public {
+        _assertCreatorBand(1, 1003);
+    }
+
+    function _assertCreatorBand(uint256 band, uint96 nonce) private {
+        HedgeFunFactory.Defaults memory d = factory.getDefaults();
+        d.maxSlippageBps = 300;
+        d.bountyBps = 200;
+        vm.prank(owner); factory.setDefaults(d);
+        HedgeFunFactory.Request memory q = _request();
+        q.nonce = nonce;
+        // These inherited lot-rule fields are not the schema-2 allocation band.
+        q.tp1Bps = 2000; q.tp2Bps = 3000; q.dipBps = 2000; q.stopBps = 0;
+        EngineConfig memory c = _percentConfig(1000, 5000, 0);
+        c.words[0] = bytes32(uint256(7000) | band << 16 | uint256(600) << 32);
+        deployer.setEngineConfig(q.symbol, q.nonce, percentKind, c);
+        (,, bytes32 terms) = factory.predict(q);
+        uint256 id = factory.launch(q, terms);
+        (, address treasuryAddress,,,) = factory.strategies(id);
+        HedgeFunV2AssetPercentEngineTreasury t = HedgeFunV2AssetPercentEngineTreasury(treasuryAddress);
+        {
+            HedgeFunBondingCurve curve = HedgeFunBondingCurve(factory.curves(id));
+            stock.approve(address(curve), type(uint256).max);
+            _graduateV2(curve);
+        }
+        assertEq(t.params().maxSlippageBps, 300);
+        assertEq(t.params().bountyBps, 200);
+        assertEq(uint16(uint256(t.engineConfig().words[0]) >> 16), band);
+        bytes32 frozen = t.configHash();
+        // Registry draft changes and future listing defaults cannot rewrite this deployed fund.
+        c.words[0] |= bytes32(uint256(500) << 16);
+        deployer.setEngineConfig(q.symbol, q.nonce, percentKind, c);
+        d.maxSlippageBps = 100; d.bountyBps = 50;
+        vm.prank(owner); factory.setDefaults(d);
+        assertEq(t.configHash(), frozen);
+        assertEq(uint16(uint256(t.engineConfig().words[0]) >> 16), band);
+        assertEq(t.params().maxSlippageBps, 300); assertEq(t.params().bountyBps, 200);
+        (bool due, StrategyAction action, uint256 amount) = t.preview();
+        assertTrue(due); assertEq(uint256(action), uint256(StrategyAction.SellStock));
+        uint256 bookedBefore = t.bookedStock(); uint256 reserveBefore = t.reserveUsdg();
+        uint256 poolCashBefore = usdg.balanceOf(address(venue));
+        Risk memory limits = _risk(t);
+        address keeper = address(0xB07);
+        vm.prank(keeper); t.execute();
+        uint256 gross = poolCashBefore - usdg.balanceOf(address(venue));
+        uint256 reward = Math.mulDiv(gross, 200, 10_000);
+        assertEq(usdg.balanceOf(keeper), reward, "reward uses the frozen actual-fill rate");
+        assertEq(t.reserveUsdg() - reserveBefore, gross - reward);
+        assertEq(bookedBefore - t.bookedStock(), amount);
+        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertLe(t.turnoverInEpoch(), limits.trade); assertLe(t.turnoverInEpoch(), limits.remaining);
+        assertEq(t.strategyNonce(), 1);
+        vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector); t.execute();
+    }
+
+    function test_constructorRejectsBadGeometryEvenWithoutEconomicBandMinimum() public {
+        EngineConfig memory c = _percentConfig(1000, 5000, 0);
+        c.words[0] = bytes32(uint256(2000) | uint256(2000) << 16 | uint256(600) << 32);
+        (bool ok, bytes4 reason) = _construct(c, _params());
+        assertFalse(ok); assertEq(reason, HedgeFunV2AssetPercentEngineTreasury.BadEngineConfig.selector);
+        c.words[0] = bytes32(uint256(9000) | uint256(1000) << 16 | uint256(600) << 32);
+        (ok, reason) = _construct(c, _params());
+        assertFalse(ok); assertEq(reason, HedgeFunV2AssetPercentEngineTreasury.BadEngineConfig.selector);
     }
 
     function test_existingRegistryMetadataIsGenericAndInvalidWordsCannotDeploy() public {
@@ -145,6 +220,20 @@ contract V2AssetPercentPolicyTest is Test {
         assertEq(uint256(policy.decide(c, config, 0).action), uint256(StrategyAction.Hold));
         vm.warp(block.timestamp + 1);
         assertEq(uint256(policy.decide(c, config, 0).action), uint256(StrategyAction.SellStock));
+    }
+
+    function test_zeroAndOneBpBandsFollowCreatorGeometryAndHoldAtTarget() public {
+        for (uint256 band; band < 2; ++band) {
+            EngineConfig memory c = _config();
+            c.words[0] = bytes32(uint256(7000) | band << 16 | uint256(600) << 32);
+            assertEq(uint256(policy.decide(_context(700e6, 300e6), c, 0).action), uint256(StrategyAction.Hold));
+            assertEq(uint256(policy.decide(_context(701e6, 299e6), c, 0).action), uint256(StrategyAction.SellStock));
+            assertEq(uint256(policy.decide(_context(699e6, 301e6), c, 0).action), uint256(StrategyAction.BuyStock));
+        }
+        EngineConfig memory malformed = _config();
+        malformed.words[0] = bytes32(uint256(2000) | uint256(2000) << 16 | uint256(600) << 32);
+        vm.expectRevert(V2AssetPercentRebalancePolicy.BadConfig.selector);
+        policy.decide(_context(700e6, 300e6), malformed, 0);
     }
 
     function test_mulDivAcceptsFullWidthNavWhileOverflowSumHoldsAndWrongSchemaRefuses() public {

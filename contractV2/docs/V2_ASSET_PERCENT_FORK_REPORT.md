@@ -20,8 +20,10 @@ This fork covers GME. Other supported stocks are not claimed to have received in
 The offline token-ordering tests and fuzz/invariant suites cover shared arithmetic and execution behavior.
 Synthetic deposits and time steps exercise rule triggers; they are not a recorded historical price path.
 
-Production source remains the reviewed implementation from `aecfd05574888446debe0f4595e23fe9f265648d`.
-The new tests, CI and this report do not change its bytecode commitments.
+This report verifies the historical implementation from `aecfd05574888446debe0f4595e23fe9f265648d`.
+It predates the creator-selected zero/one-bp allocation-band revision and does not verify that revision's new
+schema-2 core/policy bytecode. Preserve the results as evidence for their named source; repeat the release proof
+for any future registered revision. No public-chain deployment is claimed here.
 
 ## Results
 

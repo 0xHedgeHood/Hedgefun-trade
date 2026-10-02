@@ -14,17 +14,12 @@ library AssetPercentEngineConfig {
     uint256 internal constant MIN_COOLDOWN = 600;
     uint256 internal constant MAX_DAILY_TURNOVER_MULTIPLE = 24;
 
-    function minDeadbandBps(uint256 slippageBps, uint256 poolFeeBps, uint256 bountyBps)
-        internal pure returns (uint256)
-    {
-        return 2 * (slippageBps + poolFeeBps + bountyBps);
-    }
-
     function payoutBps(bytes32 word0) internal pure returns (uint256) {
         return uint16(uint256(word0) >> 64);
     }
 
-    /// @param minDeadband Listing friction floor; 1 when validating without listing data.
+    /// @param minDeadband Optional caller-supplied minimum for tooling. Protocol core and policy pass zero.
+    /// @dev The creator chooses the band, including zero; only target/band geometry constrains it.
     function valid(bytes32[3] memory words, uint256 minDeadband) internal pure returns (bool) {
         uint256 packed = uint256(words[0]);
         uint256 target = uint16(packed);
