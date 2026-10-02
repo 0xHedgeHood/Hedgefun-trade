@@ -5,8 +5,9 @@ or automated keeper service is supplied by this change.
 
 `HedgeFunV2AssetPercentEngineTreasury` is a separate execution core, and `V2AssetPercentRebalancePolicy` is a separate
 stateless policy. Both declare engine version **1**, config schema **2**, spot capabilities **3** (buy + sell).
-The existing schema-1 Engine, policy, deployer, factory, registrations and deployed funds are unchanged. Existing
-funds cannot migrate their immutable rules; a new configuration belongs to a new launch.
+The deployed schema-1 Engine, policy, deployer, factory, registrations and funds are unchanged. Existing
+funds cannot migrate their immutable rules; a new configuration belongs to a new launch. Later source changes,
+including the V2 lot dust fix, can change the bytecode built for a fresh registry without changing deployed code.
 
 The new core copies the reviewed rewarded Engine deliberately: its private execution methods cannot be overridden
 without changing the old source/creation code. Schema validation, live total-asset percentage sizing, a constructor-created immutable asset reader and the
@@ -190,7 +191,8 @@ The separate enabled mainnet-state fork suite adds four execution/accounting sce
 70,786,980, with local fund deployment and explicit oracle-timestamp/calendar test conditions. See the
 [fork and scenario report](V2_ASSET_PERCENT_FORK_REPORT.md) for scope, actual amounts, reproduction and CI gates.
 
-Build commitments (creation code excludes constructor arguments):
+Build commitments at the #114 merge (creation code excludes constructor arguments). These are historical
+values, not commitments for a fresh build after the V2 lot dust fix:
 
 | Artifact | Bytes | Keccak256 |
 | --- | ---: | --- |

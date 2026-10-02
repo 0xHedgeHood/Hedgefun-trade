@@ -1101,6 +1101,25 @@
  },
  {
   "type": "event",
+  "name": "DustCleared",
+  "inputs": [
+   {
+    "name": "id",
+    "type": "uint256",
+    "indexed": true,
+    "internalType": "uint256"
+   },
+   {
+    "name": "stockAmount",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
   "name": "LotBooked",
   "inputs": [
    {
@@ -1231,6 +1250,25 @@
  },
  {
   "type": "event",
+  "name": "RemainderReclassified",
+  "inputs": [
+   {
+    "name": "id",
+    "type": "uint256",
+    "indexed": true,
+    "internalType": "uint256"
+   },
+   {
+    "name": "stockAmount",
+    "type": "uint256",
+    "indexed": false,
+    "internalType": "uint256"
+   }
+  ],
+  "anonymous": false
+ },
+ {
+  "type": "event",
   "name": "StopDustReleased",
   "inputs": [
    {
@@ -1313,6 +1351,11 @@
  {
   "type": "error",
   "name": "AlreadyWired",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadConfig",
   "inputs": []
  },
  {

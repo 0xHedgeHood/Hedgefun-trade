@@ -316,7 +316,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
         x.nativeRouter = new HedgeFunV2NativeRouter(x.router, IWrappedNative(WETH));
     }
 
-    function _register(Deployment memory x) internal {
+    function _register(Deployment memory x) internal virtual {
         (address a, address b) = x.treasury.makeChunks(type(HedgeFunV2BuybackTreasury).creationCode);
         if (x.treasury.registerKind(a, b) != 1) revert BadBinding("buyback kind");
         x.policy = new V2RebalancePolicy();
@@ -391,7 +391,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
     function _writeCandidate(Deployment memory x, uint256 startBlock, bool requested, string memory commit) internal {
         string memory k = "feeUpgrade";
         vm.serializeString(k, "schema", "v2-testnet-two-sided-fee-upgrade-v1");
-        vm.serializeString(k, "featureVersion", "v2-two-sided-stock-fees-v1");
+        vm.serializeString(k, "featureVersion", _featureVersion());
         vm.serializeUint(k, "chainId", CHAIN_ID);
         vm.serializeBool(k, "broadcast", false);
         vm.serializeBool(k, "broadcastRequested", requested);
@@ -423,15 +423,27 @@ contract DeployV2FeeUpgradeTestnet is Script {
         vm.serializeUint(k, "engineKind", x.engineKind);
         vm.serializeUint(k, "recommendedTaxBps", 300);
         vm.serializeUint(k, "recommendedCreatorBps", 1000);
-        vm.serializeUint(k, "plannedTransactionCount", PLANNED_TRANSACTIONS);
+        vm.serializeUint(k, "plannedTransactionCount", plannedTransactionCount());
         string memory stocks;
         for (uint256 i; i < x.lines.length; ++i) {
             stocks = vm.serializeString("reusedStocks", x.lines[i].symbol, _lineJson(x.lines[i]));
         }
         string memory json = vm.serializeString(k, "stocks", stocks);
-        string memory path = requested ? OUT : OUT_DRY;
+        string memory path = _candidatePath(requested);
         vm.writeJson(json, path);
         console2.log("unverified candidate", path);
+    }
+
+    function _featureVersion() internal pure virtual returns (string memory) {
+        return "v2-two-sided-stock-fees-v1";
+    }
+
+    function plannedTransactionCount() public pure virtual returns (uint256) {
+        return PLANNED_TRANSACTIONS;
+    }
+
+    function _candidatePath(bool requested) internal pure virtual returns (string memory) {
+        return requested ? OUT : OUT_DRY;
     }
 
     function _lineJson(Line memory l) internal returns (string memory) {

@@ -51,11 +51,16 @@ CONTRACTS = [
     ("src/v2/CurveDeployer.sol", "CurveDeployer"),
     ("src/v2/V2LiquidityVault.sol", "V2LiquidityVault"),
     ("src/v2/HedgeFunV2Treasury.sol", "HedgeFunV2Treasury"),
+    ("src/v2/HedgeFunV2AllInTreasury.sol", "HedgeFunV2AllInTreasury"),
     ("src/v2/HedgeFunV2EngineTreasury.sol", "HedgeFunV2EngineTreasury"),
     ("src/v2/strategy/V2RebalancePolicy.sol", "V2RebalancePolicy"),
+    ("src/v2/HedgeFunV2AssetPercentEngineTreasury.sol", "HedgeFunV2AssetPercentEngineTreasury"),
+    ("src/v2/V2FundAssetReader.sol", "V2FundAssetReader"),
+    ("src/v2/strategy/V2AssetPercentRebalancePolicy.sol", "V2AssetPercentRebalancePolicy"),
     ("src/v2/V2TreasuryDeployer.sol", "V2TreasuryDeployer"),
     ("src/v2/HedgeFunV2TradeRouter.sol", "HedgeFunV2TradeRouter"),
     ("src/v2/HedgeFunV2NativeRouter.sol", "HedgeFunV2NativeRouter"),
+    ("src/v2/HedgeFunV2LaunchNativeRouter.sol", "HedgeFunV2LaunchNativeRouter"),
 ]
 
 HOOKS_LIB = "lib/v4-core/src/libraries/Hooks.sol"

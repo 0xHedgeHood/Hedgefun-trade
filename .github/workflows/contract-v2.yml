@@ -24,6 +24,7 @@ jobs:
         with:
           version: v1.5.0
       - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - run: python3 -m unittest discover -s tools/tests -p 'test_*.py'
       - run: forge build --sizes
       - run: forge test
       - name: Reject known-bug assertions
@@ -81,3 +82,58 @@ jobs:
               grep -Fq "[PASS] $scenario()" "percent-fork-$split.log"
             done
           done
+          RH_FORK=1 forge test --threads 1 --mc '^V2LaunchNativeRouterMainnetForkTest$' -vv 2>&1 | tee native-mainnet-fork.log
+          if grep -q '\[SKIP' native-mainnet-fork.log; then
+            echo "::error::native mainnet-state fork was skipped"
+            exit 1
+          fi
+          grep -Fq '[PASS] test_fork_nativeLaunchAndFirstBuy_realWethUsdgGmePools_andAtomicRollback()' native-mainnet-fork.log
+
+  native-launch-testnet-fork:
+    name: V2 native launch testnet fork
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    concurrency:
+      group: native-launch-testnet-fork-${{ github.repository }}-${{ github.head_ref || github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.5.0
+      - name: Fork deployed V2 core and exercise ETH venue, bridge, activation and buy
+        env:
+          V2_NATIVE_LAUNCH_FORK: "true"
+          ETH_MARKET_FORK: "true"
+          ETH_BRIDGE_FORK: "true"
+          ETH_BASE_BOOK: deploy/testnet-v2-fees.json
+        run: |
+          set -o pipefail
+          cp deploy/testnet-v2-keeper-reward-proof/fee-core-book.json deploy/testnet-v2-fees.json
+          native_config=$(python3 tools/native_testnet_config.py)
+          native_root=$(dirname "$native_config")
+          rpc=https://rpc.testnet.chain.robinhood.com
+          passed=0
+          for attempt in 1 2 3; do
+            block=$(cast block-number --rpc-url "$rpc")
+            export V2_NATIVE_LAUNCH_FORK_BLOCK="$block" ETH_MARKET_FORK_BLOCK="$block" ETH_BRIDGE_FORK_BLOCK="$block"
+            if forge test --config-path "$native_config" --root "$native_root" --threads 1 --mc 'TestnetV2EthMarketForkTest|V2LaunchNativeRouterForkTest|TestnetV2EthBridgeForkTest' -vv 2>&1 | tee native-launch-fork.log; then
+              passed=1
+              break
+            fi
+            if ! grep -Eq 'HTTP error 429|rate limit exceeded|retry_after_ms' native-launch-fork.log; then
+              echo "::error::native launch fork failed for a non-rate-limit reason"
+              exit 1
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 65; fi
+          done
+          if [ "$passed" -ne 1 ]; then exit 1; fi
+          if grep -q '\[SKIP' native-launch-fork.log; then
+            echo "::error::native launch fork tests were skipped"
+            exit 1
+          fi
+          grep -Fq '[PASS] test_fork_nativeLaunchActivatesAndBuysThroughCanonicalTwoHopV3()' native-launch-fork.log
+          grep -Fq '[PASS] test_realWrappedNativeVenueSupportsStockPaymentAndEthUnderlyingGraduationWithoutChangingEightListings()' native-launch-fork.log
+          grep -Fq '[PASS] test_nativeOnlyWalletLaunchesAndBuysStockThroughRecoverableBridge()' native-launch-fork.log
