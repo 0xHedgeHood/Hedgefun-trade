@@ -43,7 +43,7 @@ contract OtherEngineSchemaOnePolicy is IStrategyPolicy {
 /// `setEngineConfig` then `predict` (the factory's own call), and the engine constructor directly, as the deployer
 /// would run it. They must agree: both accept, or both refuse with `BadEngineConfig`.
 ///
-/// The floors (round 4 E-2, X-5) are tested at their edges: `deadbandBps >= 2 x (maxSlippageBps + poolFeeBps)`,
+/// The floors are tested at their edges: `deadbandBps >= 2 x (maxSlippageBps + poolFeeBps + bountyBps)`,
 /// `cooldown >= 600`, `targetBps` in [2,000, 9,000], `maxDailyTurnoverUsdg <= 24 x maxTradeUsdg`.
 contract V2StrategyEngineConfigTest is V2FactoryFixture {
     address private constant TOKEN = address(0x70CE);
@@ -239,12 +239,18 @@ contract V2StrategyEngineConfigTest is V2FactoryFixture {
     /// E-2: V1's tp1/dip rule -- the band must clear its own execution friction twice over -- and it follows the
     ///      listing's gates, so it is refused at `predict`, where the pool fee and `maxSlippageBps` are known
     function test_deadbandFloorIsTwiceTheListingFrictionOnBothPaths() public {
-        assertEq(SpotEngineConfig.minDeadbandBps(100, 30), 260, "the fixture listing: 100 bps slippage, 0.30% pool");
+        assertEq(SpotEngineConfig.minDeadbandBps(100, 30, 50), 360, "slippage + pool + executor reward");
         _assertBothRefuse(_config(5000, 1, 600, 100e6, 500e6), _params(), false, "deadband 1 bp");
-        _assertBothRefuse(_config(5000, 259, 600, 100e6, 500e6), _params(), false, "deadband 259 < 2 x 130");
-        _assertBothAccept(_config(5000, 260, 600, 100e6, 500e6), _params(), "deadband 260 == 2 x 130");
-        _assertBothRefuse(_config(5000, 459, 600, 100e6, 500e6), _params(CHUNK, 200), false, "deadband 459 < 2 x 230");
-        _assertBothAccept(_config(5000, 460, 600, 100e6, 500e6), _params(CHUNK, 200), "deadband 460 == 2 x 230");
+        _assertBothRefuse(_config(5000, 359, 600, 100e6, 500e6), _params(), false, "deadband 359 < 2 x 180");
+        _assertBothAccept(_config(5000, 360, 600, 100e6, 500e6), _params(), "deadband 360 == 2 x 180");
+        _assertBothRefuse(_config(5000, 559, 600, 100e6, 500e6), _params(CHUNK, 200), false, "deadband 559 < 2 x 280");
+        _assertBothAccept(_config(5000, 560, 600, 100e6, 500e6), _params(CHUNK, 200), "deadband 560 == 2 x 280");
+        HedgeFunTreasuryBase.Params memory free = _params();
+        free.bountyBps = 0;
+        _assertBothAccept(_config(5000, 260, 600, 100e6, 500e6), free, "zero bounty preserves prior floor");
+        free.bountyBps = 200;
+        _assertBothRefuse(_config(5000, 659, 600, 100e6, 500e6), free, false, "maximum bounty needs 660 bps");
+        _assertBothAccept(_config(5000, 660, 600, 100e6, 500e6), free, "maximum bounty floor");
     }
 
     /// X-5: one V3 TWAP window, so two actions never share one pinned mean and a day holds at most 144 actions

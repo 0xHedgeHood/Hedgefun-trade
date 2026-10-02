@@ -1,5 +1,10 @@
 # V2 dual-engine architecture and adversarial review
 
+This is the historical dual-engine review. The subsequent [two-sided fee change](./V2_TWO_SIDED_FEES.md)
+changes ordinary buy fees from token burns into income and requires fresh curve/hook/factory deployment.
+Its accounting, conversion tests and review are additional release gates; older measured capital results
+do not describe the new fee model.
+
 This review covers the change from the stock-denominated curve in PR #77 to a graduation that funds both
 locked V4 liquidity and the stock-strategy treasury. It is an internal code/test review, not an independent
 third-party audit and not a deployment approval.

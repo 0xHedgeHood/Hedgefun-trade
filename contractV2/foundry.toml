@@ -10,6 +10,11 @@ fs_permissions = [
   { access = "read-write", path = "./deploy/testnet-v2-whitelist.dryrun.json" },
   { access = "read-write", path = "./deploy/testnet-v2-stock-extension.candidate.json" },
   { access = "read-write", path = "./deploy/testnet-v2-stock-extension.dryrun.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-fees.candidate.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-fees.dryrun.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-creator.candidate.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-creator.dryrun.json" },
+  { access = "read", path = "./deploy/testnet-v2-fees.json" },
 ]
 src = "src"
 out = "out"

@@ -19,6 +19,19 @@
  },
  {
   "type": "function",
+  "name": "MAX_OPENING_TAX_EXEMPTIONS",
+  "inputs": [],
+  "outputs": [
+   {
+    "name": "",
+    "type": "uint8",
+    "internalType": "uint8"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "MAX_SALE_BPS",
   "inputs": [],
   "outputs": [
@@ -155,6 +168,107 @@
  },
  {
   "type": "function",
+  "name": "deployConfigured",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "base",
+    "type": "tuple",
+    "internalType": "struct HedgeFunBondingCurve.Init",
+    "components": [
+     {
+      "name": "factory",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "token",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "stock",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "treasury",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "protocol",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "creator",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "supply",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "virtualStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "saleBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "taxBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "protocolBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "creatorBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "snipeBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "snipeSeconds",
+      "type": "uint8",
+      "internalType": "uint8"
+     },
+     {
+      "name": "openingTaxExemptions",
+      "type": "address[]",
+      "internalType": "address[]"
+     }
+    ]
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
   "name": "deployVault",
   "inputs": [
    {
@@ -270,6 +384,25 @@
  },
  {
   "type": "function",
+  "name": "openingTaxExemptions",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address[]",
+    "internalType": "address[]"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
   "name": "predict",
   "inputs": [
    {
@@ -281,6 +414,107 @@
     "name": "args",
     "type": "bytes",
     "internalType": "bytes"
+   }
+  ],
+  "outputs": [
+   {
+    "name": "",
+    "type": "address",
+    "internalType": "address"
+   }
+  ],
+  "stateMutability": "view"
+ },
+ {
+  "type": "function",
+  "name": "predictConfigured",
+  "inputs": [
+   {
+    "name": "salt",
+    "type": "bytes32",
+    "internalType": "bytes32"
+   },
+   {
+    "name": "base",
+    "type": "tuple",
+    "internalType": "struct HedgeFunBondingCurve.Init",
+    "components": [
+     {
+      "name": "factory",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "token",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "stock",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "treasury",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "protocol",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "creator",
+      "type": "address",
+      "internalType": "address"
+     },
+     {
+      "name": "supply",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "virtualStock",
+      "type": "uint256",
+      "internalType": "uint256"
+     },
+     {
+      "name": "saleBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "taxBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "protocolBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "creatorBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "snipeBps",
+      "type": "uint16",
+      "internalType": "uint16"
+     },
+     {
+      "name": "snipeSeconds",
+      "type": "uint8",
+      "internalType": "uint8"
+     },
+     {
+      "name": "openingTaxExemptions",
+      "type": "address[]",
+      "internalType": "address[]"
+     }
+    ]
    }
   ],
   "outputs": [
@@ -315,6 +549,29 @@
     "name": "snipeSeconds",
     "type": "uint8",
     "internalType": "uint8"
+   }
+  ],
+  "outputs": [],
+  "stateMutability": "nonpayable"
+ },
+ {
+  "type": "function",
+  "name": "setOpeningTaxExemptions",
+  "inputs": [
+   {
+    "name": "symbol",
+    "type": "string",
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "internalType": "uint96"
+   },
+   {
+    "name": "recipients",
+    "type": "address[]",
+    "internalType": "address[]"
    }
   ],
   "outputs": [],
@@ -387,6 +644,37 @@
   "anonymous": false
  },
  {
+  "type": "event",
+  "name": "OpeningTaxExemptionsSet",
+  "inputs": [
+   {
+    "name": "creator",
+    "type": "address",
+    "indexed": true,
+    "internalType": "address"
+   },
+   {
+    "name": "symbol",
+    "type": "string",
+    "indexed": false,
+    "internalType": "string"
+   },
+   {
+    "name": "nonce",
+    "type": "uint96",
+    "indexed": false,
+    "internalType": "uint96"
+   },
+   {
+    "name": "recipients",
+    "type": "address[]",
+    "indexed": false,
+    "internalType": "address[]"
+   }
+  ],
+  "anonymous": false
+ },
+ {
   "type": "error",
   "name": "AlreadyBound",
   "inputs": []
@@ -394,6 +682,11 @@
  {
   "type": "error",
   "name": "BadCurveConfig",
+  "inputs": []
+ },
+ {
+  "type": "error",
+  "name": "BadOpeningTaxExemptions",
   "inputs": []
  },
  {

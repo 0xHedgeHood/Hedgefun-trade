@@ -1,7 +1,12 @@
 # Append four synthetic stocks to the existing V2 testnet
 
+> Historical source #108 workflow: this script binds the earlier recipient-whitelist factory and its original
+> four-stock inventory. The current target V2 source includes later native-ETH and creator changes, but this
+> document does not establish that those contracts or these four extra pools are deployed now. Before any
+> use, verify live addresses, roles, listings, chain state and available signer separately.
+
 `script/AddV2TestnetStocks.s.sol` extends the existing opening-tax-whitelist deployment on chain **46630**.
-Its production targets are fixed in source: factory `0x3E95976E2425e63cb2A8d48BBce8976F55627019`, market
+Its historical targets are fixed in source: factory `0x3E95976E2425e63cb2A8d48BBce8976F55627019`, market
 `0xc1AF2f52980F8A7AA4E90A8E30D5c3FaF0375f21`, and operator `0x75Cee941B0eF3A83feA0397BbF903C12c1D7e96D`.
 The script verifies the existing factory/market/tUSDG/feed/calendar/V3Factory/treasury-deployer bindings before
 creating anything. The starting market inventory must contain exactly the existing four pools. A fresh rerun

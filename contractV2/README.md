@@ -1,6 +1,6 @@
 # Hedgefun contracts V2
 
-This directory is the self-contained V2 contract snapshot from main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The Solidity files in `src/` are byte-identical to that source commit. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
+This directory began as the self-contained V2 contract snapshot from source main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The stacked mirrors below add later V2 source changes. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
 
 ## What V2 adds
 
@@ -14,11 +14,13 @@ permanently locked V4 full-range position and the strategy treasury, and the tre
 | `src/v2/CurveDeployer.sol` | Holds the curve creation code and the one-time graduation execution |
 | `src/v2/HedgeFunBondingCurve.sol` | Per-launch fixed-product curve: buys, sells, launch-window buy tax, fee liabilities, the graduation trigger |
 | `src/v2/V2LiquidityVault.sol` | Owns the locked full-range V4 position; fee-only collection, no liquidity removal or upgrade path |
-| `src/v2/HedgeFunV2Treasury.sol`, `src/v2/V2TreasuryDeployer.sol` | The V1 rule, inactive until `wire()`; one atomic `execute()` (stop first, then take-profit, then dip) and pluggable strategy kinds |
+| `src/v2/HedgeFunV2Treasury.sol`, `src/v2/HedgeFunV2AllInTreasury.sol`, `src/v2/V2TreasuryDeployer.sol` | Ordered `execute()` (stop first, then take-profit, then dip), dust handling, creator-selected ordinary rungs in new registries, and pluggable strategy kinds |
 | `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks) |
 | `src/v2/HedgeFunV2EngineTreasury.sol`, `src/v2/strategy/IStrategyPolicy.sol` | The strategy engine: a treasury that executes a registered, stateless policy's intent (hold / buy / sell) under its own custody, cooldown, per-call and daily-turnover limits; the policy is pinned by runtime code hash and committed in the CREATE2 config |
 | `src/v2/strategy/V2RebalancePolicy.sol` | The first policy: keep stock at a target share of treasury value, act outside a deadband |
 | `src/v2/HedgeFunV2TradeRouter.sol`, `src/v2/HedgeFunV2NativeRouter.sol` | Any-ERC20 and native-currency entry and exit through V3 hops, with minimum-out and explicit partial-fill refunds |
+| `src/v2/HedgeFunV2AssetPercentEngineTreasury.sol`, `src/v2/strategy/V2AssetPercentRebalancePolicy.sol` | Separate percentage Engine: single trade and daily turnover limits follow total fund assets; the target weight uses tradable stock and USDG |
+| `src/v2/HedgeFunV2LaunchNativeRouter.sol` | A creator launches and makes the first stock-denominated curve buy using one native ETH payment |
 
 The four V1 files that changed (`HedgeFunFactory`, `HedgeFunTreasury`, `HedgeFunTreasuryBase`, `hooks/HedgeFunHook`)
 changed to let V2 inherit them; the V1 deployment does not pick those changes up.
@@ -26,6 +28,7 @@ changed to let V2 inherit them; the V1 deployment does not pick those changes up
 Design and review notes are in `docs/`: start with [`V2_BONDING_CURVE.md`](./docs/V2_BONDING_CURVE.md), then
 [`STRATEGY_ENGINE.md`](./docs/STRATEGY_ENGINE.md),
 [`V2_DUAL_ENGINE_REVIEW.md`](./docs/V2_DUAL_ENGINE_REVIEW.md) and [`V2_ADVERSARIAL_REVIEW.md`](./docs/V2_ADVERSARIAL_REVIEW.md).
+For user, keeper and admin entry points with fork fuzz paths, see [`V2_ACTOR_FLOW_FUZZ_MAP.md`](./docs/V2_ACTOR_FLOW_FUZZ_MAP.md).
 Some links inside those documents point at parts of the main repository that this snapshot omits.
 `lab/` is the offline research workbench those documents cite (Python, no chain access needed for the model).
 
@@ -61,7 +64,7 @@ The operator supplies a testnet-only signer and test ETH. Dry-run output and an 
 
 ## Build sizes
 
-At this snapshot, `forge build --sizes` reports runtime sizes of 24,397 bytes for `HedgeFunV2Factory` (179 bytes below EIP-170), 16,730 for `CurveDeployer`, 11,445 for `V2TreasuryDeployer` and 19,354 for `HedgeFunHook`. Recheck these after any source or compiler change.
+The integrated local build reports runtime sizes of 24,501 bytes for `HedgeFunV2Factory` (75 bytes below EIP-170), 19,329 for `CurveDeployer`, 11,697 for `V2TreasuryDeployer` and 19,354 for `HedgeFunHook`. Recheck these after any source or compiler change.
 
 ## Status
 
@@ -79,6 +82,26 @@ This branch mirrors [Add V2 opening-tax recipient whitelist](https://github.com/
 
 This branch mirrors [Deploy and verify V2 whitelist stack on Robinhood testnet](https://github.com/keyuyuan/hedgefund/pull/103) at source commit `d7f20e10a24646bcfb2c752d4fbf44d612445498`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/d7f20e10a24646bcfb2c752d4fbf44d612445498/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
 
+## Source PR #104
+
+This branch mirrors [Audit TSLA V2 testnet stress journey](https://github.com/keyuyuan/hedgefund/pull/104) at source commit `64c0adc602bbcbb70c0b4511ac67ee2aa40fceca`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
 ## Source PR #108
 
-This branch mirrors [Append four synthetic stocks to V2 testnet](https://github.com/keyuyuan/hedgefund/pull/108) at source commit `4ff128573152c6a6589a64c6636d6f6de1919580`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/4ff128573152c6a6589a64c6636d6f6de1919580/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+This mirror adds the historical four-stock testnet extension from [source PR #108](https://github.com/keyuyuan/hedgefund/pull/108) at `4ff128573152c6a6589a64c6636d6f6de1919580`. It targets the earlier whitelist factory and synthetic market, with candidate and dry-run manifests. It does not add listings to the current native ETH deployment or prove a new testnet transaction. See the [extension runbook](./docs/TESTNET_STOCK_EXTENSION.md) for the pinned addresses and verification requirements.
+
+## Source PR #111
+
+This branch mirrors [Add isolated two-sided-fee testnet deployment and TSLA rehearsal](https://github.com/keyuyuan/hedgefund/pull/111) at source commit `4e437ca9e724f2f4b7df74df9ffb100f2d22f7c9`. Contract files retain their source bytes. The source [README](https://github.com/keyuyuan/hedgefund/blob/4e437ca9e724f2f4b7df74df9ffb100f2d22f7c9/README.md) and validation claims belong to that pinned development snapshot; mirror checks are reported separately in the pull request. Run local commands from `contractV2/`.
+
+Keeper proof archives retain the original sourceCommit and receipt hashes, including source PR #112. tools/audit_v2_keeper_reward.py verifies the original repository history and layout: replay that audit from the pinned keyuyuan/hedgefund checkout, not this prefixed mirror. Do not replace the proof source commit with a mirror commit.
+
+## Current V2 source mirrors
+
+The parent [percentage Engine mirror](https://github.com/0xHedgeHood/Hedgefun-trade/pull/14) carries the final source [#114](https://github.com/keyuyuan/hedgefund/pull/114) revision. This branch adds the creator-parameter and ETH-market prerequisite from source [#113](https://github.com/keyuyuan/hedgefund/pull/113), the native launch and first buy from source [#118](https://github.com/keyuyuan/hedgefund/pull/118), the stop/profit dust scheduler change from source [#116](https://github.com/keyuyuan/hedgefund/pull/116), and its capacity and received-stock accounting correction from source [#122](https://github.com/keyuyuan/hedgefund/pull/122). The [actor flow and fuzz map](./docs/V2_ACTOR_FLOW_FUZZ_MAP.md) mirrors merged source [#121](https://github.com/keyuyuan/hedgefund/pull/121) with the #122 follow-up. The source `AuditRound5Treasury` assertion fixture is excluded because its V1 fixture chain is not part of this curated directory; the mirrored `V2Execute` tests exercise the V2 dust paths.
+
+The native launch router and new creator registry require separate operator deployment, registration and live-state verification. Source mirroring and fork rehearsals do not activate them on the public testnet. See [native launch](./docs/V2_NATIVE_LAUNCH.md), [ETH market](./docs/TESTNET_V2_ETH_MARKET.md), and [percentage Engine](./docs/V2_ASSET_PERCENT_ENGINE.md) for the distinct release steps.
+
+## Historical hackathon demo (#117)
+
+The isolated [testnet demo poll](./docs/TESTNET_DEMO_BALLOT.md), its `DemoBallot` contract and the demo script mirror source [#117](https://github.com/keyuyuan/hedgefund/pull/117). The script pins the earlier `0xACEB…` fees factory and a 25 USDG launch fee. It documents that completed demo and is not an activation path for the new native ETH launch default. Deployments and the source repository's roadmap remain outside this mirror.

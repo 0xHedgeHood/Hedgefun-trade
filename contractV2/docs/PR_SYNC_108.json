@@ -3,7 +3,7 @@
   "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/108",
   "sourceHead": "4ff128573152c6a6589a64c6636d6f6de1919580",
   "sourceMergeBase": "d7f20e10a24646bcfb2c752d4fbf44d612445498",
-  "targetBase": "codex/sync-pr-103",
+  "targetBase": "codex/contract-v1",
   "targetBranch": "codex/sync-pr-108",
   "parentSourcePullRequest": 103,
   "mirroredPaths": [
@@ -13,7 +13,9 @@
     "contractV2/script/AddV2TestnetStocks.s.sol",
     "contractV2/test/AddV2TestnetStocks.t.sol"
   ],
-  "adaptations": [],
+  "adaptations": [
+    "Curated contractV2/.gitignore to the two #108 generated plans; repository-root ignores cover common build output and secrets."
+  ],
   "byteIdenticalChangedSolidity": [
     "script/AddV2TestnetStocks.s.sol",
     "test/AddV2TestnetStocks.t.sol"

@@ -198,10 +198,15 @@ contract V2NativeRouterTest is V2FactoryFixture {
         wrapped.transfer(address(nativeRouter), 11 ether);
         vm.deal(address(nativeRouter), 7 ether);
         Router.Hop[] memory empty = new Router.Hop[](0);
+        (uint256 expectedSpent, uint256 expectedTokens, uint256 burned) = c.quoteBuyFor(500 ether, alice);
+        assertEq(burned, 0, "this curve has no opening surcharge");
+        assertApproxEqAbs(expectedSpent * 9000, 400 ether * 10_000, 10_000,
+            "a 400-stock principal cap requires the gross 10%-fee payment");
         vm.prank(alice);
         (uint256 got, uint256 refund) = nativeRouter.buy{value: 500 ether}(_params(500 ether, 0), empty);
-        assertEq(refund, 100 ether);
-        assertEq(alice.balance, 600 ether);
+        assertEq(refund, 500 ether - expectedSpent);
+        assertEq(alice.balance, 500 ether + refund);
+        assertEq(got, expectedTokens);
         assertEq(t.balanceOf(alice), got);
         assertEq(wrapped.balanceOf(address(nativeRouter)), 11 ether);
         assertEq(address(nativeRouter).balance, 7 ether);
