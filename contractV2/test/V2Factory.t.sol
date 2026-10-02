@@ -143,8 +143,14 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         factory.launch(q, terms);
     }
 
-    function test_tinyStopIsRejectedAtQuoteAndLaunch() public {
+    function test_legacyKindTinyStopIsRejectedAtQuoteAndLaunch() public {
         HedgeFunFactory.Request memory q = _request();
+        // These are the immutable historical V2 bounds, not the new creator-selected ordinary kind.
+        V2TreasuryDeployer deployer = V2TreasuryDeployer(address(factory.treasuryDeployer()));
+        (address a, address b) = deployer.makeChunks(type(HedgeFunV2Treasury).creationCode);
+        vm.prank(owner);
+        uint8 kind = deployer.registerKind(a, b);
+        deployer.setStrategyKind(q.symbol, q.nonce, kind);
         q.stopBps = 1;
         vm.expectRevert(abi.encodeWithSelector(V2TreasuryDeployer.StopInsideExecutionFriction.selector, 1, 180));
         factory.predict(q);
