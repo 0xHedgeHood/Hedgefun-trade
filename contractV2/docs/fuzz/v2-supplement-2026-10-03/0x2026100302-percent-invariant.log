@@ -1,0 +1,66 @@
+No files changed, compilation skipped
+
+Ran 2 tests for test/V2AssetPercentInvariant.t.sol:V2AssetPercentInvariantTest
+[PASS] invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2716  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2726  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2692  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2707  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2792  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2700  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2807  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2778  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2693  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2673  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2716  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2726  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2692  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2707  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2792  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2700  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2807  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2778  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2693  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2673  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.67s (6.61s CPU time)
+
+Ran 1 test suite in 3.67s (3.67s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
