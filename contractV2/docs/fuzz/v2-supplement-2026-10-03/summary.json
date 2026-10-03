@@ -1,0 +1,786 @@
+{
+  "tested_commit": "86ada137e39f612af095ea4de545170450ba9243",
+  "base_commit": "179c4a4c510d0f627440b41f644743d942c4e5c6",
+  "seeds": [
+    "0x2026100301",
+    "0x2026100302",
+    "0x2026100303"
+  ],
+  "campaigns": 15,
+  "passing_test_results": 99,
+  "fuzz_samples": 76800,
+  "invariant_handler_calls": 393216,
+  "unexpected_handler_reverts": 0,
+  "failed": 0,
+  "skipped": 0,
+  "details": [
+    {
+      "log": "0x2026100301-dust-capacity.log",
+      "tests": [
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100301-dust-progress.log",
+      "tests": [
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100301-engine-cost.log",
+      "tests": [
+        {
+          "test": "invariant_costAndBucketsMatchExternalAccountingModel",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyExecuteAttemptIsClassified",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100301-percent-invariant.log",
+      "tests": [
+        {
+          "test": "invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100301-percent-limits.log",
+      "tests": [
+        {
+          "test": "testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "test_schema2NonVacuousCoverageWitness",
+          "runs": 1,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "witness"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100302-dust-capacity.log",
+      "tests": [
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100302-dust-progress.log",
+      "tests": [
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100302-engine-cost.log",
+      "tests": [
+        {
+          "test": "invariant_costAndBucketsMatchExternalAccountingModel",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyExecuteAttemptIsClassified",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100302-percent-invariant.log",
+      "tests": [
+        {
+          "test": "invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100302-percent-limits.log",
+      "tests": [
+        {
+          "test": "testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "test_schema2NonVacuousCoverageWitness",
+          "runs": 1,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "witness"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100303-dust-capacity.log",
+      "tests": [
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_capacity128PendingBookingRetainsCleanup",
+          "runs": 256,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100303-dust-progress.log",
+      "tests": [
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupKeepsGateUntilGenuineReentry",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupMakesSameCallProgress",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100303-engine-cost.log",
+      "tests": [
+        {
+          "test": "invariant_costAndBucketsMatchExternalAccountingModel",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyExecuteAttemptIsClassified",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100303-percent-invariant.log",
+      "tests": [
+        {
+          "test": "invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        },
+        {
+          "test": "invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger",
+          "runs": 256,
+          "handler_calls": 32768,
+          "handler_reverts": 0,
+          "kind": "invariant"
+        }
+      ]
+    },
+    {
+      "log": "0x2026100303-percent-limits.log",
+      "tests": [
+        {
+          "test": "testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference",
+          "runs": 1024,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "fuzz"
+        },
+        {
+          "test": "test_schema2NonVacuousCoverageWitness",
+          "runs": 1,
+          "handler_calls": 0,
+          "handler_reverts": 0,
+          "kind": "witness"
+        }
+      ]
+    }
+  ]
+}

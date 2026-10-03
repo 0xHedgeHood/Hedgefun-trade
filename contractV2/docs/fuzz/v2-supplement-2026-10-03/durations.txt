@@ -1,0 +1,15 @@
+0x2026100301 percent-invariant 5
+0x2026100301 percent-limits 22
+0x2026100301 engine-cost 11
+0x2026100301 dust-progress 12
+0x2026100301 dust-capacity 8
+0x2026100302 percent-invariant 6
+0x2026100302 percent-limits 22
+0x2026100302 engine-cost 10
+0x2026100302 dust-progress 12
+0x2026100302 dust-capacity 9
+0x2026100303 percent-invariant 5
+0x2026100303 percent-limits 23
+0x2026100303 engine-cost 10
+0x2026100303 dust-progress 12
+0x2026100303 dust-capacity 9
