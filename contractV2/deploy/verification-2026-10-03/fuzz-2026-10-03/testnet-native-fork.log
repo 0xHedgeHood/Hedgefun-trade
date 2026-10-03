@@ -1,0 +1,46 @@
+Compiling 130 files with Solc 0.8.26
+Solc 0.8.26 finished in 8.89s
+Compiler run successful!
+2026-10-03T05:52:51.829608Z  WARN evm::traces::external: etherscan config not found
+2026-10-03T05:52:52.170163Z  WARN foundry_fork_db::cache: Failed to read cache file err=Os { code: 2, kind: NotFound, message: "No such file or directory" } path="/Users/leo/.foundry/cache/rpc/46630/127976901"
+2026-10-03T05:52:57.034609Z  WARN foundry_fork_db::cache: Failed to read cache file err=Os { code: 2, kind: NotFound, message: "No such file or directory" } path="/Users/leo/.foundry/cache/rpc/46630/127976901"
+
+Ran 2 tests for /Users/leo/Documents/ChatGPT/hedgefun/contractV2/test/TestnetV2EthMarketFork.t.sol:TestnetV2EthMarketForkTest
+[PASS] test_actualOperatorBalanceStopsBeforeAnyNativeMarketTransaction() (gas: 6277951)
+[PASS] test_realWrappedNativeVenueSupportsStockPaymentAndEthUnderlyingGraduationWithoutChangingEightListings() (gas: 89360516)
+Logs:
+  stock ETH exact input: 100000000000000
+  stock ETH match attempts: 1
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 30.73s (30.22s CPU time)
+
+Ran 1 test for /Users/leo/Documents/ChatGPT/hedgefun/contractV2/test/V2LaunchNativeRouterFork.t.sol:V2LaunchNativeRouterForkTest
+[PASS] test_fork_nativeLaunchActivatesAndBuysThroughCanonicalTwoHopV3() (gas: 123940524)
+Logs:
+  native launch fork block: 127976901
+  V2 factory 0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A
+  V2 trade router 0xB291B34CD2D32C4a2DeFCe074107824654D427eF
+  native launch router 0x3DC6A2f595075ced0c5338F2eaBD294612d1d707
+  WETH/USDG route pool 0x4ED2Cd1cE6e2F581C5E3bbb34E7D6c003Cc9b3c5
+  native launch fee (wei) 1000000000000000
+  expected defaults hash
+  0x26df9d64c0b7711677896f3465307f3b53dd37c79668af9ef70acc3ece3fecc7
+  simulation readback passed; verify three receipts and live state after broadcast
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.76s (2.76s CPU time)
+
+Ran 1 test for /Users/leo/Documents/ChatGPT/hedgefun/contractV2/test/TestnetV2EthBridgeFork.t.sol:TestnetV2EthBridgeForkTest
+[PASS] test_nativeOnlyWalletLaunchesAndBuysStockThroughRecoverableBridge() (gas: 37630889)
+Logs:
+  V2 factory 0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A
+  V2 trade router 0xB291B34CD2D32C4a2DeFCe074107824654D427eF
+  native launch router 0x29009A012a8F5DA13760673991Fae99cb8188DF2
+  WETH/USDG route pool 0x69a8d3eE8AD3FC3B20f6D96a5eAA07a61e907540
+  native launch fee (wei) 100000000000
+  expected defaults hash
+  0xb22c27e592f9fd6bc473077053e196523de630905767a65469d4fd58069ecea4
+  simulation readback passed; verify three receipts and live state after broadcast
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 40.69s (40.69s CPU time)
+
+Ran 3 test suites in 40.69s (74.18s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

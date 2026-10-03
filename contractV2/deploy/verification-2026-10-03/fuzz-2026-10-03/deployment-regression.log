@@ -1,0 +1,33 @@
+Compiling 4 files with Solc 0.8.26
+Solc 0.8.26 finished in 9.02s
+Compiler run successful!
+2026-10-03T05:59:20.114324Z  WARN evm::traces::external: etherscan config not found
+
+Ran 2 tests for test/DeployV2CreatorTestnet.t.sol:DeployV2CreatorTestnetTest
+[PASS] test_creatorCandidateHasSeparateFeatureAndFortyUnverifiedTransactions() (gas: 47724558)
+Logs:
+  unverified candidate deploy/testnet-v2-creator.dryrun.json
+
+[PASS] test_publicChunkNonceInterferenceCannotChangeCreatorRegistrations() (gas: 114906881)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 7.20ms (7.32ms CPU time)
+
+Ran 9 tests for test/DeployV2FeeUpgradeTestnet.t.sol:DeployV2FeeUpgradeTestnetTest
+[PASS] test_appendedNinthMarketDoesNotBlockOrExpandReviewedDeployment() (gas: 382429602)
+[PASS] test_candidateCannotBecomePublishedAndRequiresCommit() (gas: 311887027)
+Logs:
+  unverified candidate deploy/testnet-v2-fees.dryrun.json
+  new fee factory 0x9F2FCe6997cFA69eF9675a170121Fff533288210
+  new fee hook 0x99c9b8A1B890727ba85D954909646278591a2844
+  new fee router 0xB15D34FC30292DeDb070875074e7b56FD34a1da2
+  reused stocks 8
+
+[PASS] test_extraMarketCannotReplaceAnOriginalReviewedPool() (gas: 76385711)
+[PASS] test_fewerThanEightMarketsStillRefusedBeforeDeployment() (gas: 206628)
+[PASS] test_newBindingsAndEightMarketsPreserveOldState() (gas: 306640356)
+[PASS] test_refusesBrokenOldBindingBeforeDeploying() (gas: 49766)
+[PASS] test_refusesEmptyPoolBeforeDeploying() (gas: 298647)
+[PASS] test_refusesWrongChainAndSender() (gas: 33438)
+[PASS] test_tslaLaunchCurveTradesGraduateV4AndSettleFees() (gas: 318845854)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 181.17ms (282.53ms CPU time)
+
+Ran 2 test suites in 181.87ms (188.37ms CPU time): 11 tests passed, 0 failed, 0 skipped (11 total tests)

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 652, in <module>
+    main()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 648, in main
+    verify(args.directory.resolve())
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 276, in verify
+    assert rpc('eth_getLogs', [{'address': old_curve, 'fromBlock': hex(start),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 43, in rpc
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/Users/leo/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['curl', '--fail', '--silent', '--show-error', '--max-time', '30', '-H', 'Content-Type: application/json', '--data-binary', '@-', 'https://robinhood-testnet.drpc.org']' returned non-zero exit status 56.

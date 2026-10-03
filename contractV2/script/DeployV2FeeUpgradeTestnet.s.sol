@@ -188,7 +188,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
 
     function deploy(uint256 saltStart) public returns (Deployment memory x) {
         if (block.chainid != CHAIN_ID) revert WrongChain(block.chainid);
-        if (msg.sender != OPERATOR) revert NotOperator(msg.sender);
+        if (msg.sender != deploymentOperator()) revert NotOperator(msg.sender);
         x.venue = _venue();
         _checkVenue(x.venue);
         x.defaults = x.venue.factory.getDefaults();
@@ -200,7 +200,10 @@ contract DeployV2FeeUpgradeTestnet is Script {
         }
         x.defaults.sweepTipBps = 0;
         Seed[] memory seeds = _seeds();
-        if (seeds.length != 8 || x.venue.market.poolCount() != 8) revert BadBinding("eight markets");
+        // The shared test market is append-only. New, unrelated lines must not
+        // block a fresh core for these eight reviewed seeds. _readPool still
+        // verifies every original pool in the first eight registry entries.
+        if (seeds.length != 8 || x.venue.market.poolCount() < 8) revert BadBinding("eight markets");
         x.lines = new Line[](8);
         for (uint256 i; i < seeds.length; ++i) {
             for (uint256 j; j < i; ++j) {
@@ -211,7 +214,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
             x.lines[i] = _readLine(x.venue, seeds[i]);
         }
         x.hookSalt = _mineHook(saltStart);
-        vm.startBroadcast(OPERATOR);
+        vm.startBroadcast(deploymentOperator());
         _deployCore(x);
         _register(x);
         for (uint256 i; i < x.lines.length; ++i) {
@@ -301,7 +304,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
         x.hook = new HedgeFunV2Hook{salt: x.hookSalt}(IPoolManager(PM));
         if (uint160(address(x.hook)) & 0x3FFF != HOOK_FLAGS) revert BadBinding("hook flags");
         x.factory = new HedgeFunV2Factory(
-            OPERATOR,
+            deploymentOperator(),
             PM,
             address(x.venue.v3Factory),
             address(x.venue.usdg),
@@ -342,7 +345,7 @@ contract DeployV2FeeUpgradeTestnet is Script {
 
     function _readBack(Deployment memory x) internal view {
         if (
-            x.factory.owner() != OPERATOR || x.factory.protocol() != OPERATOR || !x.factory.publicLaunch()
+            x.factory.owner() != deploymentOperator() || x.factory.protocol() != OPERATOR || !x.factory.publicLaunch()
                 || x.factory.strategyCount() != 0 || address(x.factory.poolManager()) != PM
                 || address(x.factory.v3Factory()) != address(x.venue.v3Factory)
                 || x.factory.usdg() != address(x.venue.usdg) || x.hook.factory() != address(x.factory)
@@ -400,8 +403,9 @@ contract DeployV2FeeUpgradeTestnet is Script {
         vm.serializeString(k, "baseBookSha256", BASE_BOOK_SHA256);
         vm.serializeAddress(k, "baseFactory", address(x.venue.factory));
         vm.serializeAddress(k, "baseTreasuryDeployer", address(x.venue.treasury));
-        vm.serializeAddress(k, "operator", OPERATOR);
-        vm.serializeAddress(k, "owner", OPERATOR);
+        vm.serializeAddress(k, "operator", deploymentOperator());
+        vm.serializeAddress(k, "owner", deploymentOperator());
+        vm.serializeAddress(k, "venueOperator", OPERATOR);
         vm.serializeAddress(k, "protocol", OPERATOR);
         vm.serializeAddress(k, "poolManager", PM);
         vm.serializeAddress(k, "weth", WETH);
@@ -436,6 +440,12 @@ contract DeployV2FeeUpgradeTestnet is Script {
 
     function _featureVersion() internal pure virtual returns (string memory) {
         return "v2-two-sided-stock-fees-v1";
+    }
+
+    /// @dev A fresh test operator can own only the new core. Reused venue ownership,
+    ///      protocol recipient and every original venue check stay pinned to OPERATOR.
+    function deploymentOperator() public pure virtual returns (address) {
+        return OPERATOR;
     }
 
     function plannedTransactionCount() public pure virtual returns (uint256) {

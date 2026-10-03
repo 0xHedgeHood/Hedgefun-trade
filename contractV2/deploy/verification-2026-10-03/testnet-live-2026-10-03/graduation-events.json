@@ -1,0 +1,16 @@
+{
+  "Graduated": {
+    "id": 4,
+    "sqrtPriceX96": "23031090066577517794157778",
+    "liquidity": "35813405311419360743914",
+    "stockSeeded": "10410714285714285713",
+    "tokenSeeded": "123200000000000023019369055",
+    "tokenBurned": "436799999999999976980630945"
+  },
+  "GraduationCapitalSplit": {
+    "id": 4,
+    "lpStock": "10410714285714285713",
+    "treasuryStock": "10410714285714285716",
+    "treasuryBooked": "0"
+  }
+}

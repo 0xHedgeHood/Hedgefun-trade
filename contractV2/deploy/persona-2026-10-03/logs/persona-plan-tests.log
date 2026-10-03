@@ -1,0 +1,12 @@
+test_budget_stage_and_persona_mutations_are_rejected (test_persona_scenarios.PersonaPlanTest.test_budget_stage_and_persona_mutations_are_rejected) ... ok
+test_buy_plan_permits_one_wei_curve_refund_with_minimum_output (test_persona_scenarios.PersonaPlanTest.test_buy_plan_permits_one_wei_curve_refund_with_minimum_output) ... ok
+test_deterministic_actor_variation_and_fixed_launch_profile (test_persona_scenarios.PersonaPlanTest.test_deterministic_actor_variation_and_fixed_launch_profile) ... ok
+test_graduation_is_funded_for_one_hundred_seeded_actor_plans (test_persona_scenarios.PersonaPlanTest.test_graduation_is_funded_for_one_hundred_seeded_actor_plans) ... ok
+test_kol_signal_and_negative_probes_have_no_broadcast (test_persona_scenarios.PersonaPlanTest.test_kol_signal_and_negative_probes_have_no_broadcast) ... ok
+test_opening_rate_boundary_and_creator_control (test_persona_scenarios.PersonaPlanTest.test_opening_rate_boundary_and_creator_control) ... ok
+test_unverified_or_wrong_chain_deployment_is_rejected (test_persona_scenarios.PersonaPlanTest.test_unverified_or_wrong_chain_deployment_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.033s
+
+OK

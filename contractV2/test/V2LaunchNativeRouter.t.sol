@@ -415,4 +415,171 @@ contract V2LaunchNativeRouterTest is V2FactoryFixture {
             uint256(HedgeFunBondingCurve(factory.curves(id)).status()), uint256(HedgeFunBondingCurve.Status.Graduated)
         );
     }
+
+    // Differential fuzz: quote a separately snapshotted direct launch, then execute the
+    // native launch against the same initial state. The V3 leg is a synthetic flat-price
+    // venue; the curve, factory, hook, V4 PoolManager and graduation are production code.
+    function _fuzzQuote(HedgeFunFactory.Request memory q, bytes32 terms, uint256 offer)
+        private returns (uint256 spent, uint256 out, bool graduates)
+    {
+        uint256 snapshot = vm.snapshotState();
+        vm.prank(creator);
+        uint256 id = factory.launch{value: FEE}(q, terms);
+        HedgeFunBondingCurve curve = HedgeFunBondingCurve(factory.curves(id));
+        uint256 burned;
+        (spent, out, burned) = curve.quoteBuyFor(offer * 997 / 1000, creator);
+        graduates = curve.tokenReserve() - out - burned == curve.minTokenReserve();
+        assertTrue(vm.revertToStateAndDelete(snapshot));
+    }
+
+    function _assertFuzzRollback(HedgeFunFactory.Request memory q, uint256 creatorBefore) private view {
+        _assertNoLaunch(q, creatorBefore, 1000 ether);
+        (, address treasury,) = factory.predict(q);
+        assertEq(treasury.code.length, 0, "treasury deployment rolled back");
+        assertEq(factory.predictCurve(q).code.length, 0, "curve deployment rolled back");
+        assertEq(stock.balanceOf(address(venue)), 1000 ether);
+        assertEq(stock.balanceOf(creator), 0);
+        assertEq(wrapped.balanceOf(address(trade)), 0);
+        assertEq(stock.balanceOf(address(trade)), 0);
+        assertEq(wrapped.allowance(address(launcher), address(trade)), 0);
+    }
+
+    function testFuzz_nativeLaunchMatchesDirectQuoteAndGraduation(
+        uint96 offerSeed, uint96 nonce, uint16 taxSeed, uint16 creatorFeeSeed
+    ) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        q.nonce = nonce;
+        q.taxBps = uint16(bound(taxSeed, 100, 1500));
+        q.creatorBps = uint16(bound(creatorFeeSeed, 0, 3000));
+        (address predicted,, bytes32 terms) = factory.predict(q);
+        (uint256 spent, uint256 quotedOut, bool graduates) = _fuzzQuote(q, terms, offer);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        p.minFinalOut = quotedOut;
+        uint256 creatorBefore = creator.balance;
+        vm.prank(creator);
+        (uint256 id, uint256 out, uint256 refund) =
+            launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        HedgeFunBondingCurve curve = HedgeFunBondingCurve(factory.curves(id));
+        assertEq(curve.token(), predicted);
+        assertEq(out, quotedOut);
+        assertEq(refund + spent, offer * 997 / 1000);
+        assertEq(IERC20(predicted).balanceOf(creator), out);
+        assertEq(stock.balanceOf(creator), refund);
+        assertEq(creatorBefore - creator.balance, FEE + offer);
+        assertEq(protocol.balance, FEE);
+        assertEq(factory.strategyCount(), 1);
+        assertEq(uint256(curve.status()), graduates ? 2 : 0, "no persistent Ready stage");
+        assertEq(stock.balanceOf(address(venue)), 1000 ether - offer * 997 / 1000);
+        assertEq(wrapped.balanceOf(address(venue)), 1000 ether + offer);
+        assertEq(stock.balanceOf(address(curve)), curve.realStockReserve() + curve.totalFees());
+        assertEq(address(launcher).balance, 0);
+        assertEq(wrapped.balanceOf(address(launcher)), 0);
+        assertEq(stock.balanceOf(address(launcher)), 0);
+        assertEq(wrapped.balanceOf(address(trade)), 0);
+        assertEq(stock.balanceOf(address(trade)), 0);
+        assertEq(wrapped.allowance(address(launcher), address(trade)), 0);
+        assertEq(stock.allowance(address(trade), address(curve)), 0);
+    }
+
+    function testFuzz_nativeLaunchOneUnitSlippageRollsBackAllAssets(uint96 offerSeed, bool stockLeg) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        (, uint256 quotedOut,) = _fuzzQuote(q, terms, offer);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        if (stockLeg) p.minStockReceived = offer * 997 / 1000 + 1;
+        else p.minFinalOut = quotedOut + 1;
+        uint256 creatorBefore = creator.balance;
+        vm.prank(creator);
+        vm.expectRevert();
+        launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        _assertFuzzRollback(q, creatorBefore);
+    }
+
+    function testFuzz_nativeLaunchWrongValueCannotChargeOrDeploy(uint96 offerSeed, uint64 deltaSeed, bool excess) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        uint256 delta = bound(uint256(deltaSeed), 1, FEE);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        uint256 payment = excess ? FEE + offer + delta : FEE + offer - delta;
+        LaunchRouter.BuyParams memory p = _params(offer);
+        uint256 creatorBefore = creator.balance;
+        vm.prank(creator);
+        vm.expectRevert(LaunchRouter.BadPayment.selector);
+        launcher.launchAndBuy{value: payment}(q, terms, _info(), p, _path());
+        _assertFuzzRollback(q, creatorBefore);
+    }
+
+    function testFuzz_nativeLaunchHostileVenueRollsBackCreation(uint96 offerSeed, uint8 modeSeed) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        uint256 mode = bound(modeSeed, 1, 7);
+        // Callback payload is deliberately ignored: mode 7 (ForgedData) is safe.
+        // The seven rejecting modes are 1..6 and 8 (ShortOutput).
+        venue.setMode(V2RouterPool.Mode(mode == 7 ? 8 : mode));
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        uint256 creatorBefore = creator.balance;
+        vm.prank(creator);
+        vm.expectRevert();
+        launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        _assertFuzzRollback(q, creatorBefore);
+    }
+
+    function testFuzz_nativeGraduationRefundRequiresOptIn(uint96 offerSeed) public {
+        uint256 offer = bound(uint256(offerSeed), 100 ether, 200 ether);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        (uint256 spent,, bool graduates) = _fuzzQuote(q, terms, offer);
+        assertTrue(graduates);
+        assertLt(spent, offer * 997 / 1000);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        p.allowPartialFill = false;
+        uint256 creatorBefore = creator.balance;
+        vm.prank(creator);
+        vm.expectPartialRevert(TradeRouter.PartialFill.selector);
+        launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        _assertFuzzRollback(q, creatorBefore);
+    }
+
+    function testFuzz_nativeLaunchPreservesDonatedAssets(uint96 offerSeed, uint96 donationSeed) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        uint256 donation = bound(uint256(donationSeed), 1, 50 ether);
+        vm.deal(address(launcher), donation);
+        wrapped.deposit{value: donation}();
+        wrapped.transfer(address(launcher), donation);
+        stock.mint(address(launcher), donation);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        vm.prank(creator);
+        (, uint256 out, uint256 refund) =
+            launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        assertGt(out, 0);
+        assertEq(stock.balanceOf(creator), refund);
+        assertEq(address(launcher).balance, donation);
+        assertEq(wrapped.balanceOf(address(launcher)), donation);
+        assertEq(stock.balanceOf(address(launcher)), donation);
+        assertEq(wrapped.allowance(address(launcher), address(trade)), 0);
+    }
+
+    function testFuzz_nativeLaunchIgnoresForgedCallbackPaymentData(uint96 offerSeed) public {
+        uint256 offer = bound(uint256(offerSeed), 1e10, 200 ether);
+        venue.setMode(V2RouterPool.Mode.ForgedData);
+        HedgeFunFactory.Request memory q = _requestForCreator();
+        (,, bytes32 terms) = factory.predict(q);
+        (uint256 spent, uint256 quotedOut,) = _fuzzQuote(q, terms, offer);
+        LaunchRouter.BuyParams memory p = _params(offer);
+        vm.prank(creator);
+        (, uint256 out, uint256 refund) =
+            launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
+        assertEq(out, quotedOut);
+        assertEq(spent + refund, offer * 997 / 1000);
+        assertEq(wrapped.balanceOf(address(0xBAD)), 0);
+        assertEq(stock.balanceOf(address(0xBAD)), 0);
+        assertEq(wrapped.balanceOf(address(venue)), 1000 ether + offer);
+        assertEq(wrapped.balanceOf(address(trade)), 0);
+        assertEq(stock.balanceOf(address(trade)), 0);
+    }
 }

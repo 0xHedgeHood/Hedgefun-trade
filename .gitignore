@@ -10,8 +10,19 @@ contractV2/broadcast/
 **/*.keystore
 **/*wk.txt
 .DS_Store
+.local/
+artifacts/
 
 # Generated testnet plans and local Python caches are not release evidence.
 contractV2/deploy/testnet-v2.dryrun.json
 **/__pycache__/
 contractV2/deploy/testnet-v2.candidate.json
+# Exact local copy of the archived fee book used by opt-in native fork tests.
+contractV2/deploy/testnet-v2-fees.json
+contractV2/deploy/testnet-v2-fees.candidate.json
+contractV2/deploy/testnet-v2-fees.dryrun.json
+contractV2/deploy/testnet-v2-creator.candidate.json
+contractV2/deploy/testnet-v2-creator.dryrun.json
+contractV2/deploy/testnet-v2-fresh-creator.candidate.json
+contractV2/deploy/testnet-v2-fresh-creator.dryrun.json
+**/*.password

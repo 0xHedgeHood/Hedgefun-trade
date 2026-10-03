@@ -14,6 +14,8 @@ fs_permissions = [
   { access = "read-write", path = "./deploy/testnet-v2-fees.dryrun.json" },
   { access = "read-write", path = "./deploy/testnet-v2-creator.candidate.json" },
   { access = "read-write", path = "./deploy/testnet-v2-creator.dryrun.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-fresh-creator.candidate.json" },
+  { access = "read-write", path = "./deploy/testnet-v2-fresh-creator.dryrun.json" },
   { access = "read", path = "./deploy/testnet-v2-fees.json" },
 ]
 src = "src"

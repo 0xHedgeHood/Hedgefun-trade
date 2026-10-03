@@ -1,0 +1,147 @@
+No files changed, compilation skipped
+2026-10-03T06:59:50.803521Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/src/StdAssertions.sol
+2026-10-03T06:59:50.803850Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/src/StdError.sol
+2026-10-03T06:59:50.803915Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/src/StdInvariant.sol
+2026-10-03T06:59:50.804197Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/src/StdToml.sol
+2026-10-03T06:59:50.804316Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/src/Test.sol
+2026-10-03T06:59:50.806061Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/lib/solmate/src/auth/Owned.sol
+2026-10-03T06:59:50.806126Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/ERC6909.sol
+2026-10-03T06:59:50.806184Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/ERC6909Claims.sol
+2026-10-03T06:59:50.806248Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/Extsload.sol
+2026-10-03T06:59:50.806320Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/Exttload.sol
+2026-10-03T06:59:50.806385Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/NoDelegateCall.sol
+2026-10-03T06:59:50.806478Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/PoolManager.sol
+2026-10-03T06:59:50.806543Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/ProtocolFees.sol
+2026-10-03T06:59:50.807102Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/libraries/CurrencyDelta.sol
+2026-10-03T06:59:50.808130Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/test/PoolDonateTest.sol
+2026-10-03T06:59:50.808180Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/test/PoolModifyLiquidityTest.sol
+2026-10-03T06:59:50.808238Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/test/PoolSwapTest.sol
+2026-10-03T06:59:50.808290Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/src/test/PoolTestBase.sol
+2026-10-03T06:59:50.808638Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/v4-core/test/utils/CurrencySettler.sol
+2026-10-03T06:59:50.808691Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/ActivateV2NativeLaunch.s.sol
+2026-10-03T06:59:50.808747Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/AddV2TestnetStocks.s.sol
+2026-10-03T06:59:50.808799Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/CheckV2Listings.s.sol
+2026-10-03T06:59:50.808964Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/DeployV2Testnet.s.sol
+2026-10-03T06:59:50.809012Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/RehearseV2Launchpad.s.sol
+2026-10-03T06:59:50.809063Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/SeedTestnet.s.sol
+2026-10-03T06:59:50.809114Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetHackathonDemo.s.sol
+2026-10-03T06:59:50.809163Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetTSLAStressLaunch.s.sol
+2026-10-03T06:59:50.809210Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2AllInFloor.s.sol
+2026-10-03T06:59:50.809284Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2EthBridge.s.sol
+2026-10-03T06:59:50.809339Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2EthMarket.s.sol
+2026-10-03T06:59:50.809394Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2FeesJourney.s.sol
+2026-10-03T06:59:50.809441Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2Journey.s.sol
+2026-10-03T06:59:50.809495Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/TestnetV2KeeperReward.s.sol
+2026-10-03T06:59:50.809593Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/testnet/TestnetCryptoOracle.sol
+2026-10-03T06:59:50.809636Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/testnet/TestnetEthBridgeLiquidity.sol
+2026-10-03T06:59:50.809728Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/testnet/TestnetNativeMarket.sol
+2026-10-03T06:59:50.811714Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AddV2TestnetStocks.t.sol
+2026-10-03T06:59:50.811767Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/BondingCurve.t.sol
+2026-10-03T06:59:50.811817Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/DemoBallot.t.sol
+2026-10-03T06:59:50.811863Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/DeployV2CreatorTestnet.t.sol
+2026-10-03T06:59:50.811921Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/DeployV2FeeUpgradeTestnet.t.sol
+2026-10-03T06:59:50.811966Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/DeployV2Testnet.t.sol
+2026-10-03T06:59:50.812009Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/HedgeFunMath.t.sol
+2026-10-03T06:59:50.812075Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/InteractVenueParity.t.sol
+2026-10-03T06:59:50.812116Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/StrategyPolicyAdversarialMocks.t.sol
+2026-10-03T06:59:50.812165Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/StrategyTokenMetadata.t.sol
+2026-10-03T06:59:50.812218Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2AllInFloor.t.sol
+2026-10-03T06:59:50.812290Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2CreatorCore.t.sol
+2026-10-03T06:59:50.812336Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2EthBridge.t.sol
+2026-10-03T06:59:50.812383Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2EthBridgeFork.t.sol
+2026-10-03T06:59:50.812425Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2EthMarket.t.sol
+2026-10-03T06:59:50.812468Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2EthMarketCandidate.t.sol
+2026-10-03T06:59:50.812515Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2EthMarketFork.t.sol
+2026-10-03T06:59:50.812559Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2JourneyFork.t.sol
+2026-10-03T06:59:50.812610Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestnetV2KeeperReward.t.sol
+2026-10-03T06:59:50.812653Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TradingCalendar.t.sol
+2026-10-03T06:59:50.812701Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AdversarialAccounting.t.sol
+2026-10-03T06:59:50.812755Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AdversarialCallbacks.t.sol
+2026-10-03T06:59:50.812807Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AdversarialTrading.t.sol
+2026-10-03T06:59:50.812857Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentConfigPolicy.t.sol
+2026-10-03T06:59:50.812917Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentEngine.t.sol
+2026-10-03T06:59:50.812978Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentFork.t.sol
+2026-10-03T06:59:50.813027Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentFundAssets.t.sol
+2026-10-03T06:59:50.813076Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentGuards.t.sol
+2026-10-03T06:59:50.813133Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentInvariant.t.sol
+2026-10-03T06:59:50.813171Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentOrdering.t.sol
+2026-10-03T06:59:50.813216Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2AssetPercentTradingDay.t.sol
+2026-10-03T06:59:50.813259Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2Budget32Fork.t.sol
+2026-10-03T06:59:50.813304Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2BuybackKind.t.sol
+2026-10-03T06:59:50.813351Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CapitalSimulationFork.t.sol
+2026-10-03T06:59:50.813398Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CreatorCurveConfig.t.sol
+2026-10-03T06:59:50.813443Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CreatorParameters.t.sol
+2026-10-03T06:59:50.813489Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CreatorTakeProfit.t.sol
+2026-10-03T06:59:50.813538Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CurveDeployer.t.sol
+2026-10-03T06:59:50.813581Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2CurveSecurity.t.sol
+2026-10-03T06:59:50.813620Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2DualEngine.t.sol
+2026-10-03T06:59:50.813670Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2Emergency.t.sol
+2026-10-03T06:59:50.813714Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2EngineKeeperReward.t.sol
+2026-10-03T06:59:50.813765Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2Execute.t.sol
+2026-10-03T06:59:50.813813Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2Factory.t.sol
+2026-10-03T06:59:50.813867Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LaunchNativeRouter.t.sol
+2026-10-03T06:59:50.813920Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LaunchNativeRouterFork.t.sol
+2026-10-03T06:59:50.813968Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LaunchNativeRouterMainnetFork.t.sol
+2026-10-03T06:59:50.814012Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LiquidityVault.t.sol
+2026-10-03T06:59:50.814065Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LiveVenueFork.t.sol
+2026-10-03T06:59:50.814137Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LowFrequencyFork.t.sol
+2026-10-03T06:59:50.814184Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2LpDepthExperiment.t.sol
+2026-10-03T06:59:50.814230Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2MarketBuyScenarios.t.sol
+2026-10-03T06:59:50.814278Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2MarketMixedScenarios.t.sol
+2026-10-03T06:59:50.814324Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2MarketSellScenarios.t.sol
+2026-10-03T06:59:50.814376Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2MarketSniperScenarios.t.sol
+2026-10-03T06:59:50.814422Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2NativeRouter.t.sol
+2026-10-03T06:59:50.814467Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2OpeningTaxDecay.t.sol
+2026-10-03T06:59:50.814509Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2OpeningTaxExemption.t.sol
+2026-10-03T06:59:50.814556Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2OriginalSupplyParticipationFork.t.sol
+2026-10-03T06:59:50.814601Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2RebalancePolicy.t.sol
+2026-10-03T06:59:50.814651Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngine.t.sol
+2026-10-03T06:59:50.814697Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineAccounting.t.sol
+2026-10-03T06:59:50.814744Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineConfig.t.sol
+2026-10-03T06:59:50.814794Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineGains.t.sol
+2026-10-03T06:59:50.814849Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineGuards.t.sol
+2026-10-03T06:59:50.814896Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineInvariant.t.sol
+2026-10-03T06:59:50.814943Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyEngineTradingDay.t.sol
+2026-10-03T06:59:50.814987Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyKinds.t.sol
+2026-10-03T06:59:50.815031Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2StrategyOptionsBoundary.t.sol
+2026-10-03T06:59:50.815074Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2TSLAStress.t.sol
+2026-10-03T06:59:50.815124Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2TradeRouter.t.sol
+2026-10-03T06:59:50.815175Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/V2TwoSidedFees.t.sol
+2026-10-03T06:59:50.815225Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/mocks/Mocks.sol
+2026-10-03T06:59:50.815269Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/mocks/StrategyPolicyMocks.sol
+2026-10-03T06:59:50.815312Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/utils/FundAssetMath.sol
+2026-10-03T06:59:50.815352Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/utils/HookMiner.sol
+2026-10-03T06:59:50.815395Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/utils/V2FactoryFixture.sol
+2026-10-03T06:59:51.311279Z  WARN foundry_fork_db::cache: Failed to read cache file err=Os { code: 2, kind: NotFound, message: "No such file or directory" } path="/Users/leo/.foundry/cache/rpc/46630/128005379"
+Script ran successfully.
+
+== Return ==
+x: struct DeployV2FeeUpgradeTestnet.Deployment Deployment({ venue: Venue({ factory: 0x3E95976E2425e63cb2A8d48BBce8976F55627019, treasury: 0xB15D34FC30292DeDb070875074e7b56FD34a1da2, market: 0xc1AF2f52980F8A7AA4E90A8E30D5c3FaF0375f21, usdg: 0x539574139BB4Ac74Fd2183ba0E38ed777E30B58d, usdgFeed: 0x6beF5980dDa88F8B925f814C5033959A13ae535A, calendar: 0xB8661bAd51e504862107CF4eBAdB1c8c2ABFA6CD, v3Factory: 0x0b0a96D7EB396E7471998889C4803dD0F529Eb01 }), lines: [Line({ symbol: "AAPL", stock: 0x7efCa82CE9f4596230743b767260f55B9673AffE, feed: 0x44280A33Df11EE67B8B75B0E9055d0D2dF6c182e, oracle: 0x800180c0097e25CfB6313af08289e2C8cd1411a5, pool: 0xcd596f59D8ea2c3577d5a7cB7aAFC6B46Bb8Fd06, fee: 500, priceE18: 339000000000000000000 [3.39e20], openPriceE18: 29800000000 [2.98e10], liquidity: 5544933648818501111 [5.544e18], tickLower: 211100 [2.111e5], tickUpper: 225020 [2.25e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "GME", stock: 0xDD301669340232F283b1e91a7c4571591d86bd85, feed: 0x3B73e842567da49905468368222D03078aD84417, oracle: 0xe9858C468FC2B17840cFed7379d0C25737B1E4b0, pool: 0x9f978fa32e3dc5D61D92Be85644c867DCee692c0, fee: 500, priceE18: 24000000000000000000 [2.4e19], openPriceE18: 423000000000 [4.23e11], liquidity: 20841627805058302912 [2.084e19], tickLower: 237580 [2.375e5], tickUpper: 251500 [2.515e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "NVDA", stock: 0x7b6a95E6c97a212d5307e8B50290DC1ac2715B84, feed: 0xe669024986027d0b458D7a41Cedd368587334a58, oracle: 0x878DaF3a1565Ecb16C50904Ddaf2476a17E54296, pool: 0x52e6b4d22c7e1cDFf8329Dab4017A73f607B487E, fee: 500, priceE18: 228000000000000000000 [2.28e20], openPriceE18: 44200000000 [4.42e10], liquidity: 6766760994443365622 [6.766e18], tickLower: 215060 [2.15e5], tickUpper: 228980 [2.289e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "TSLA", stock: 0xcee322837F181Bd93AC2d71e4dDf334BFF565b98, feed: 0x91B711c49Cc10098BFcCDD7d935AbA576BD4bffb, oracle: 0x5001C9C8b278425129C36C8099520aBAA70aa4ae, pool: 0x04083643FF9E8c27f66C9dD99947743A9B777244, fee: 3000, priceE18: 358000000000000000000 [3.58e20], openPriceE18: 26500000000 [2.65e10], liquidity: 5405299530135571866 [5.405e18], tickLower: 210540 [2.105e5], tickUpper: 224460 [2.244e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "MSFT", stock: 0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce, feed: 0x4708D200c1A043Ce4d273F53eA1c245A17e2b5F6, oracle: 0xcD81F9041f6e56CB734F580676e3A3B0BffD9d34, pool: 0xf94Fda49fD23F11116644Ff5880522EF04097699, fee: 3000, priceE18: 500000000000000000000 [5e20], openPriceE18: 20000000000 [2e10], liquidity: 4584332199940353334 [4.584e18], tickLower: 207180 [2.071e5], tickUpper: 221100 [2.211e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "AMZN", stock: 0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88, feed: 0xC69FaDbFEc1213ab7eE20f0Cc883F5728FD12975, oracle: 0xA81F110FA29c9335ce7B4a289CcE98ED1a44A1bB, pool: 0x86fd810f5b4c769E9FBad9A38E1e92bed8909652, fee: 3000, priceE18: 200000000000000000000 [2e20], openPriceE18: 50000000000 [5e10], liquidity: 7233930408619105019 [7.233e18], tickLower: 216360 [2.163e5], tickUpper: 230280 [2.302e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "GOOGL", stock: 0x3027527030CFaE82e93119EAE3B1372D07064Dfe, feed: 0x1E7f20E9Ee11C23B9D8D1Ee021b32723dc24546d, oracle: 0x79847509969fB5ca678836563a49C770DEFCD585, pool: 0x87f94AC256B0108c09e7281402b127fd1b932481, fee: 500, priceE18: 200000000000000000000 [2e20], openPriceE18: 50000000000 [5e10], liquidity: 7225226234085865780 [7.225e18], tickLower: -230290 [-2.302e5], tickUpper: -216370 [-2.163e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 }), Line({ symbol: "META", stock: 0xEa3de3A8064278227760760e72e9A1c215F89903, feed: 0x34781f5Ab7A9b44B7616984B49d9DAFb39F4732D, oracle: 0x14f9867471039f91A106276C9736Df66c92BDa80, pool: 0xD638256044b6EB3CC0a4617F704C6df8BF1a6856, fee: 3000, priceE18: 600000000000000000000 [6e20], openPriceE18: 16666666667 [1.666e10], liquidity: 4173157035921873558 [4.173e18], tickLower: 205380 [2.053e5], tickUpper: 219300 [2.193e5], maxDeviationBps: 50, maxSlippageBps: 100, sellChunkUsdg: 2000000000 [2e9], lpBps: 5000 })], defaults: Defaults({ supply: 1000000000000000000000000000 [1e27], lpFee: 3000, tickSpacing: 60, minTaxBps: 100, maxTaxBps: 1500, protocolBps: 2000, maxCreatorBps: 3000, spikeBps: 0, spikeSeconds: 0, sweepTipBps: 0, snipeBps: 9900, snipeSeconds: 3, bountyBps: 50, maxSlippageBps: 100, maxDeviationBps: 50, maxBuybackImpactBps: 300, buybackCooldown: 60, minLotUsdg: 5000000 [5e6], buybackChunkUsdg: 500000000 [5e8], sellChunkUsdg: 2000000000 [2e9], launchFeeCurrency: 2, launchFeeAmount: 25000000 [2.5e7] }), treasury: 0x0548fF6a60C690804e1179B0EC6FC59c353ce1A7, token: 0xBd8C9107C1894E3Ae2C1230426784E13db605414, curve: 0x2a5aA00A1B9Dd43536cB645335704dD45e3da1A8, hook: 0x99c9b8A1B890727ba85D954909646278591a2844, factory: 0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF, router: 0xEF6bE3C3A19F33C0F62beC3FFb37228e8c47F755, nativeRouter: 0x0843CEa94EE6B570A75ba046fFc8418E5e3F8d1B, policy: 0xaABfC59a721Ad9C3c3e915513a2Ef57053A8098b, policyKey: 0x18d2de54dbf4cdad6efbfb60dfd14d6b83930a81f9f79fa0fb584c456b335068, engineKind: 2, hookSalt: 0x000000000000000000000000000000000000000000000000000000000001651d })
+
+== Logs ==
+  unverified candidate deploy/testnet-v2-fresh-creator.dryrun.json
+  new fee factory 0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF
+  new fee hook 0x99c9b8A1B890727ba85D954909646278591a2844
+  new fee router 0xEF6bE3C3A19F33C0F62beC3FFb37228e8c47F755
+  reused stocks 8
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 46630
+
+Estimated gas price: 0.01 gwei
+
+Estimated total gas used for script: 60749144
+
+Estimated amount required: 0.00060749144 ETH
+
+==========================
+
+SIMULATION COMPLETE. To broadcast these transactions, add --broadcast and wallet configuration(s) to the previous command. See forge script --help for more.
+
+Transactions saved to: /Users/leo/Documents/ChatGPT/hedgefun/contractV2/broadcast/DeployV2FreshCreatorTestnet.s.sol/46630/dry-run/run-latest.json
+
+Sensitive values saved to: /Users/leo/Documents/ChatGPT/hedgefun/contractV2/cache/DeployV2FreshCreatorTestnet.s.sol/46630/dry-run/run-latest.json
+

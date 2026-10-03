@@ -1,0 +1,15 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 5.88s
+Compiler run successful!
+2026-10-03T06:00:56.552689Z  WARN evm::traces::external: etherscan config not found
+
+Ran 1 test for test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[PASS] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 365792159)
+Logs:
+  creator core fork block: 127978606
+  reviewed source: 179c4a4c510d0f627440b41f644743d942c4e5c6
+  fork-only reopening timestamp: 1791161797
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 788.75ms (787.27ms CPU time)
+
+Ran 1 test suite in 790.00ms (788.75ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)

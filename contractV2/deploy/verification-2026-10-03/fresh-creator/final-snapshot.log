@@ -1,0 +1,21 @@
+{
+  "blockNumber": 128015608,
+  "blockHash": "0xb129e21c7372bb999cb110ee298fb6c925ad79b3522b306878ee9b3be623a044",
+  "stage": 2,
+  "walletBalances": {
+    "nativeWei": 9212797250000000,
+    "tUSDG6": 626039199,
+    "TSLA18": 995787515688598704,
+    "FUN18": 402545348571578733504715301
+  },
+  "treasury": {
+    "bookedStock": 0,
+    "buybackStock": 0,
+    "unbookedStock": 9224471047528745562,
+    "totalStockReceived": 0,
+    "heldStock": 9224471047528745562
+  },
+  "routerBalancesZero": true,
+  "routerAllowancesZero": true,
+  "nativeSpentWei": 144074610000000
+}

@@ -1,0 +1,123 @@
+{
+  "pr": "https://github.com/0xHedgeHood/Hedgefun-trade/pull/19",
+  "reviewedHead": "cff3001b825614c39634c80d4c5cdbd5e59208fe",
+  "base": "179c4a4c510d0f627440b41f644743d942c4e5c6",
+  "finding": "No actionable merge-blocking issue found in the reviewed test-only change.",
+  "localReplay": {
+    "passed": 99,
+    "fuzzSamples": 76800,
+    "invariantCalls": 393216,
+    "failed": 0,
+    "skipped": 0,
+    "seeds": [
+      "0x2026100301",
+      "0x2026100302",
+      "0x2026100303"
+    ],
+    "evidence": [
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100301-dust-capacity.log",
+        "passed": 4,
+        "fuzzSamples": 1024,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100301-dust-progress.log",
+        "passed": 20,
+        "fuzzSamples": 20480,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100301-engine-cost.log",
+        "passed": 3,
+        "fuzzSamples": 1024,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100301-percent-invariant.log",
+        "passed": 2,
+        "fuzzSamples": 0,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100301-percent-limits.log",
+        "passed": 4,
+        "fuzzSamples": 3072,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100302-dust-capacity.log",
+        "passed": 4,
+        "fuzzSamples": 1024,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100302-dust-progress.log",
+        "passed": 20,
+        "fuzzSamples": 20480,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100302-engine-cost.log",
+        "passed": 3,
+        "fuzzSamples": 1024,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100302-percent-invariant.log",
+        "passed": 2,
+        "fuzzSamples": 0,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100302-percent-limits.log",
+        "passed": 4,
+        "fuzzSamples": 3072,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100303-dust-capacity.log",
+        "passed": 4,
+        "fuzzSamples": 1024,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100303-dust-progress.log",
+        "passed": 20,
+        "fuzzSamples": 20480,
+        "invariantCalls": 0
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100303-engine-cost.log",
+        "passed": 3,
+        "fuzzSamples": 1024,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100303-percent-invariant.log",
+        "passed": 2,
+        "fuzzSamples": 0,
+        "invariantCalls": 65536
+      },
+      {
+        "file": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/supplement/0x2026100303-percent-limits.log",
+        "passed": 4,
+        "fuzzSamples": 3072,
+        "invariantCalls": 0
+      }
+    ]
+  },
+  "ci": {
+    "runId": 37099733174,
+    "conclusion": "success",
+    "head": "cff3001b825614c39634c80d4c5cdbd5e59208fe"
+  },
+  "merge": {
+    "attempted": true,
+    "merged": false,
+    "status": 403,
+    "reason": "Resource not accessible by integration",
+    "expectedHead": "cff3001b825614c39634c80d4c5cdbd5e59208fe"
+  },
+  "scope": "Review and local supplemental replay only; no transaction signed or broadcast."
+}

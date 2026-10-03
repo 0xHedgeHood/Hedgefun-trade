@@ -60,6 +60,8 @@ they were written, and carry their dates.
 
 | Document | What it is |
 |---|---|
+| [EQUITY_PARAMETER_FEES_2025_2026-10-03.md](EQUITY_PARAMETER_FEES_2025_2026-10-03.md) | One year of daily TSLA/NVDA/META prices, five strategy profiles, matched fee controls, 39 actual-contract fork cases and independently checked accounting |
+| [COMPETITOR_MECHANICS_2026-10-03.md](COMPETITOR_MECHANICS_2026-10-03.md) | Official-source comparison of Long/StonkFun mechanics and the limits of HedgeFun's claimed differences |
 | [`../AUDIT.md`](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/AUDIT.md) | Security review, 2026-09-20: three adversarial passes, 43 Foundry reproductions, a go/no-go, and the measured chain facts each finding was sized against. Status banners record which rounds fixed what |
 | [STOCK_TOKEN_ASSESSMENT.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/STOCK_TOKEN_ASSESSMENT.md) | What the real Robinhood stock token can do to a holder: beacon proxy, upgrader, deny-list, pause, `adminBurn`. Every row VERIFIED or INFERRED |
 | [`../LISTING_CANDIDATES.md`](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/LISTING_CANDIDATES.md) | Which stocks can be listed (194 → 35 → 25), the first-wave decision, and what the feeds actually do across a weekend |

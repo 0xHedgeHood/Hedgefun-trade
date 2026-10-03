@@ -57,11 +57,11 @@ contract DeployV2CreatorTestnet is DeployV2FeeUpgradeTestnet {
         }
     }
 
-    function _featureVersion() internal pure override returns (string memory) {
+    function _featureVersion() internal pure virtual override returns (string memory) {
         return "v2-creator-selected-stock-fees-v1";
     }
 
-    function _candidatePath(bool requested) internal pure override returns (string memory) {
+    function _candidatePath(bool requested) internal pure virtual override returns (string memory) {
         return requested ? "deploy/testnet-v2-creator.candidate.json" : "deploy/testnet-v2-creator.dryrun.json";
     }
 }

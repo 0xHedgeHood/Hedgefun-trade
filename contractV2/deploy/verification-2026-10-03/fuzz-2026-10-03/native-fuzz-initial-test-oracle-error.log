@@ -1,0 +1,34 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 6.51s
+Compiler run successful!
+2026-10-03T05:48:53.283908Z  WARN evm::traces::external: etherscan config not found
+
+Ran 17 tests for test/V2LaunchNativeRouter.t.sol:V2LaunchNativeRouterTest
+[PASS] testCreatorCannotBeSpoofed() (gas: 222265)
+[PASS] testCurveCapRefundsStockToCreator() (gas: 11932776)
+[PASS] testCurveCapWithoutPartialFillRollsBackEverything() (gas: 12376525)
+[PASS] testDonatedBalancesStayInRouter() (gas: 9408211)
+[PASS] testFuzz_nativeGraduationRefundRequiresOptIn(uint96) (runs: 2048, μ: 21161951, ~: 21161977)
+[FAIL: next call did not revert as expected; counterexample: calldata=0x8dc98dcd000000000000000000000000000000000000000000000000000000184d6d4cd00000000000000000000000000000000000000000000000000000000000000007 args=[104378223824 [1.043e11], 7]] testFuzz_nativeLaunchHostileVenueRollsBackCreation(uint96,uint8) (runs: 0, μ: 0, ~: 0)
+[PASS] testFuzz_nativeLaunchMatchesDirectQuoteAndGraduation(uint96,uint96,uint16,uint16) (runs: 2048, μ: 19929487, ~: 20654154)
+[PASS] testFuzz_nativeLaunchOneUnitSlippageRollsBackAllAssets(uint96,bool) (runs: 2048, μ: 19306952, ~: 18387388)
+[PASS] testFuzz_nativeLaunchPreservesDonatedAssets(uint96,uint96) (runs: 2048, μ: 11264619, ~: 11998318)
+[PASS] testFuzz_nativeLaunchWrongValueCannotChargeOrDeploy(uint96,uint64,bool) (runs: 2048, μ: 390118, ~: 390163)
+[PASS] testLaunchAndBuyUsesOnlyNativeAndCreatorOpeningTaxExemption() (gas: 18068079)
+[PASS] testNativeFeeAndRouteAreRequired() (gas: 9245564)
+[PASS] testStaleFeeTermsRollBackNativeFee() (gas: 6989480)
+[PASS] testTwoHopNativeToUsdgToListedStockLaunch() (gas: 12027016)
+[PASS] testUnrelatedLaunchBetweenQuoteAndExecutionUsesActualId() (gas: 18072156)
+[PASS] testWrappedNativeStockRefundUnwrapsToCreator() (gas: 13767244)
+[PASS] testWrongPaymentAndSlippageRollBackCreationAndFee() (gas: 9560661)
+Suite result: FAILED. 16 passed; 1 failed; 0 skipped; finished in 5.01s (17.27s CPU time)
+
+Ran 1 test suite in 5.01s (5.01s CPU time): 16 tests passed, 1 failed, 0 skipped (17 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/V2LaunchNativeRouter.t.sol:V2LaunchNativeRouterTest
+[FAIL: next call did not revert as expected; counterexample: calldata=0x8dc98dcd000000000000000000000000000000000000000000000000000000184d6d4cd00000000000000000000000000000000000000000000000000000000000000007 args=[104378223824 [1.043e11], 7]] testFuzz_nativeLaunchHostileVenueRollsBackCreation(uint96,uint8) (runs: 0, μ: 0, ~: 0)
+
+Encountered a total of 1 failing tests, 16 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test

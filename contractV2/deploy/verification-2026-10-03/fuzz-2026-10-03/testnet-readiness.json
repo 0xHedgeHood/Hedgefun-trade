@@ -1,0 +1,212 @@
+{
+  "schema": "hedgefun-testnet-readiness-v1",
+  "chainId": 46630,
+  "blockNumber": 127976654,
+  "blockHash": "0x2ba427be804c45ba22a0e8cac3a4d09c57676f4ca8334a1ab6915ba6dc0afe83",
+  "blockTimestamp": 1791006728,
+  "bookSha256": "ada428eb04ac0f982fd6a002e8745b4100c6db99ce620adcf254e42ac1cbc82c",
+  "bookSourceCommit": "698e577048fde8681d9263f32a653d5176f888e5",
+  "sourceCommit": "179c4a4c510d0f627440b41f644743d942c4e5c6",
+  "evidence": "read-only live state; no transaction signed or broadcast; runtime/source equivalence not certified",
+  "defaults": {
+    "supply": "1000000000000000000000000000",
+    "lpFee": "3000",
+    "tickSpacing": "60",
+    "minTaxBps": "100",
+    "maxTaxBps": "1500",
+    "protocolBps": "2000",
+    "maxCreatorBps": "3000",
+    "spikeBps": "0",
+    "spikeSeconds": "0",
+    "sweepTipBps": "0",
+    "snipeBps": "9900",
+    "snipeSeconds": "3",
+    "bountyBps": "50",
+    "maxSlippageBps": "100",
+    "maxDeviationBps": "50",
+    "maxBuybackImpactBps": "300",
+    "buybackCooldown": "60",
+    "minLotUsdg": "5000000",
+    "buybackChunkUsdg": "500000000",
+    "sellChunkUsdg": "2000000000",
+    "launchFeeCurrency": "2",
+    "launchFeeAmount": "25000000"
+  },
+  "factory": "0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A",
+  "owner": "0x75cee941b0ef3a83fea0397bbf903c12c1d7e96d",
+  "publicLaunch": true,
+  "strategyCount": 4,
+  "operatorNativeWei": "20703067020000000",
+  "code": {
+    "factory": {
+      "address": "0xACEB03aAeE5494Aa54929Ec840630ae32A9ade0A",
+      "bytes": 24501,
+      "sha256": "152fe2cf8bd57657a348f8c3b178b1014fafde443a5c1526fdfaa2407dd9ad69"
+    },
+    "tradeRouter": {
+      "address": "0xB291B34CD2D32C4a2DeFCe074107824654D427eF",
+      "bytes": 11966,
+      "sha256": "7aaba75012f794d7f7e63d9cdf8efc6744d1c924e63ea72881339bdb74d6ba83"
+    },
+    "nativeRouter": {
+      "address": "0xf42cB1CEa83D26aefd538A3F1758c1269f85D89a",
+      "bytes": 5812,
+      "sha256": "48bc6308ab1a6bd6c2410abcebe2aaa51a0362aeb0c03f078ae6149c59da8615"
+    },
+    "hook": {
+      "address": "0xF1b4C95B63091AE2eb68E640F6D9485982146844",
+      "bytes": 22605,
+      "sha256": "42c9bdd2d3460b5e2ee956c6699e0d4fce44ec7babef0aae984580d9399790d2"
+    },
+    "curveDeployer": {
+      "address": "0x0D73f6bd43D3937e4b07c70bfFC53A8c25d3C1CA",
+      "bytes": 19329,
+      "sha256": "a0a21c44183e9432e1f19ccb50f38c939ae98fc07e834b2cf55da0877600c15a"
+    },
+    "treasuryDeployer": {
+      "address": "0xe874fE425e14f3CBa3aDBA2Dd10B50E153Ac6064",
+      "bytes": 11445,
+      "sha256": "0b79c55f1ab4357a44c7e31f586a20dfd4d5c2c248be0e1297bea89afd066542"
+    },
+    "poolManager": {
+      "address": "0x8366a39CC670B4001A1121B8F6A443A643e40951",
+      "bytes": 24009,
+      "sha256": "6eb21c69298b064e37fcf8089a941ae096fe08c0f179b2d399567aef1b10585b"
+    },
+    "weth": {
+      "address": "0x7943e237c7F95DA44E0301572D358911207852Fa",
+      "bytes": 2202,
+      "sha256": "eb5a5f69ebb602e71cdf5fdeb7d49ca9e4b37d105432c0cbd31a754fc4d360a7"
+    }
+  },
+  "routerFactoryMatches": true,
+  "stocks": {
+    "AAPL": {
+      "token": "0x7efCa82CE9f4596230743b767260f55B9673AffE",
+      "oracle": "0x800180c0097e25cfb6313af08289e2c8cd1411a5",
+      "pool": "0xcd596f59d8ea2c3577d5a7cb7aafc6b46bb8fd06",
+      "openPriceE18": "29800000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "GME": {
+      "token": "0xDD301669340232F283b1e91a7c4571591d86bd85",
+      "oracle": "0xe9858c468fc2b17840cfed7379d0c25737b1e4b0",
+      "pool": "0x9f978fa32e3dc5d61d92be85644c867dcee692c0",
+      "openPriceE18": "423000000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "NVDA": {
+      "token": "0x7b6a95E6c97a212d5307e8B50290DC1ac2715B84",
+      "oracle": "0x878daf3a1565ecb16c50904ddaf2476a17e54296",
+      "pool": "0x52e6b4d22c7e1cdff8329dab4017a73f607b487e",
+      "openPriceE18": "44200000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "TSLA": {
+      "token": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+      "oracle": "0x5001c9c8b278425129c36c8099520abaa70aa4ae",
+      "pool": "0x04083643ff9e8c27f66c9dd99947743a9b777244",
+      "openPriceE18": "26500000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "MSFT": {
+      "token": "0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce",
+      "oracle": "0xcd81f9041f6e56cb734f580676e3a3b0bffd9d34",
+      "pool": "0xf94fda49fd23f11116644ff5880522ef04097699",
+      "openPriceE18": "20000000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "AMZN": {
+      "token": "0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88",
+      "oracle": "0xa81f110fa29c9335ce7b4a289cce98ed1a44a1bb",
+      "pool": "0x86fd810f5b4c769e9fbad9a38e1e92bed8909652",
+      "openPriceE18": "50000000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "GOOGL": {
+      "token": "0x3027527030CFaE82e93119EAE3B1372D07064Dfe",
+      "oracle": "0x79847509969fb5ca678836563a49c770defcd585",
+      "pool": "0x87f94ac256b0108c09e7281402b127fd1b932481",
+      "openPriceE18": "50000000000",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    },
+    "META": {
+      "token": "0xEa3de3A8064278227760760e72e9A1c215F89903",
+      "oracle": "0x14f9867471039f91a106276c9736df66c92bda80",
+      "pool": "0xd638256044b6eb3cc0a4617f704c6df8bf1a6856",
+      "openPriceE18": "16666666667",
+      "enabled": true,
+      "oracleTryPriceWords": [
+        "0",
+        "0"
+      ]
+    }
+  },
+  "nativePools": {
+    "500": "0x0000000000000000000000000000000000000000",
+    "3000": "0x0000000000000000000000000000000000000000"
+  },
+  "strategies": [
+    {
+      "id": 0,
+      "token": "0x1cf4cdc42281f3c47b1a4aa5f3600a7dc37bbfab",
+      "treasury": "0x5db20533c6ee74001c26d5d9028afccae0498a86",
+      "stock": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+      "curve": "0x5bf89de49a40f16b1ca03ab18b77fb4b080381b0",
+      "status": 2
+    },
+    {
+      "id": 1,
+      "token": "0x80ff57645ab0e4458b690a9276297c5014cf9649",
+      "treasury": "0x58a2d9800e1f833e007618338deb8d3d6d1ca0ac",
+      "stock": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+      "curve": "0x762f7ad5dee39a1fd90e8489062ab369e06fde3e",
+      "status": 2
+    },
+    {
+      "id": 2,
+      "token": "0x548df48cd6ec54d698e055289f35f95b2897c2c0",
+      "treasury": "0x30b96039fc571a9fb14fd44ce15264bdd73bb900",
+      "stock": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+      "curve": "0x662460627acdd9077fe9e96fc0cb6196a30b8465",
+      "status": 2
+    },
+    {
+      "id": 3,
+      "token": "0x576f9bf6e7e164cbf37c4ed4422e5a8dd0347204",
+      "treasury": "0xc1270d8bcac97916c5e29e34666152bc846c153d",
+      "stock": "0xcb4820d3c59ec8a6b78312693d09d620f4277643",
+      "curve": "0x7bb7d9ca827d97e692edd242f791675302f2a578",
+      "status": 2
+    }
+  ],
+  "strategiesTruncated": false
+}

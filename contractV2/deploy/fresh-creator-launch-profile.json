@@ -1,0 +1,41 @@
+{
+  "schema": "hedgefun-creator-testnet-launch-profile-v1",
+  "chainId": 46630,
+  "addressBook": "testnet-v2-fresh-creator.json",
+  "testOnly": true,
+  "name": "Hedgefun Latest Creator Testnet",
+  "symbol": "HFLATEST",
+  "creator": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+  "stockSymbol": "TSLA",
+  "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+  "kind": 0,
+  "taxBps": 300,
+  "creatorBps": 1000,
+  "tp1Bps": 1,
+  "tp2Bps": 2,
+  "dipBps": 1,
+  "stopBps": 1,
+  "lotBps": 2000,
+  "bandBpsPerHour": 0,
+  "nonce": "2026100302",
+  "maxFee": "25000000",
+  "expectedOpenPriceE18": "26500000000",
+  "curve": { "saleBps": 4000, "snipeSeconds": 180 },
+  "execution": { "slippageBps": 100, "deadlineSeconds": 300 },
+  "creatorParameterBounds": {
+    "appliesTo": "kind 0 with the verified creator-selected all-in creation code; other kinds retain their own schemas",
+    "tp1Bps": { "min": 1, "max": 4294967295 },
+    "tp2Bps": { "max": 4294967295, "rule": "0 or strictly greater than tp1Bps" },
+    "dipBps": { "min": 1, "max": 9999 },
+    "stopBps": { "min": 0, "max": 9999, "zeroMeaning": "stop disabled" },
+    "saleBps": { "min": 1000, "max": 9000 },
+    "snipeSeconds": { "min": 0, "max": 180 }
+  },
+  "notes": [
+    "1 bps = 0.01%; this profile exercises the accepted lower boundary, not a trading recommendation.",
+    "Creator rungs do not remove oracle/calendar, slippage, minimum-lot, keeper-reward or cooldown execution checks.",
+    "Creator fee is a share of collected tax, not an additional percentage of the trade.",
+    "Factory defaults, fees, listing gates and opening price must be read again before predicting launch terms.",
+    "This profile uses stock/tUSDG only; Native ETH launch is not enabled by this deployment."
+  ]
+}

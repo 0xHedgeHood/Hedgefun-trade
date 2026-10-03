@@ -1,0 +1,10 @@
+{
+  ".gitignore": "68a007f2cdebd1d2f26e8ec452c08080f37c4ecd8a5f2db4412e9feacefb5c7b",
+  "contractV2/script/DeployV2FeeUpgradeTestnet.s.sol": "31e8438c5f28b9e500ebde9ce21565c35511ff6e54bc15f202160e2def0e4f97",
+  "contractV2/test/V2LaunchNativeRouter.t.sol": "c3b36f0aa4597be4d6d481e9554df0c267afb712316968b75abe3fc2f36477fc",
+  "contractV2/test/DeployV2FeeUpgradeTestnet.t.sol": "67b3a94776adcefc82b1a5e3bb2488c0fd6c9026f8c407e92aa6f516f85ee4ec",
+  "contractV2/test/TestnetV2CreatorCore.t.sol": "ab7dc5927917391365cf31201a7d48f1f61100fb24ef9c4a03a2e9e74433b25c",
+  "contractV2/tools/read_testnet_readiness.py": "70550ef2fc46ace1a04bfa0e35d7c28a4ce103e7c86849e7f3ab83f69006213e",
+  "contractV2/tools/run_fuzz_campaign.sh": "79909978eaf4082d6e5a9f8b4b59c48db340c5ddeaf7f1007154e79634150a43",
+  "contractV2/docs/FUZZ_TESTNET_2026-10-03.md": "f14c8fa2e297c60b2801913fa150f660bfac0fc4f31d481897c1a5f5399b89dd"
+}

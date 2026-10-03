@@ -85,6 +85,26 @@ contract TestnetV2CreatorCoreTest is Test {
         curve.buy(24e18, output, CREATOR, block.timestamp + 300);
         vm.stopPrank();
         assertEq(uint8(curve.status()), 2);
+        // Graduation is atomic even when the equity calendar is closed. The
+        // best-effort book then leaves funded stock unbooked until reopening.
+        // Exercise that path on weekend forks rather than assuming every run
+        // occurs during a trading session. Only the local fork clock advances.
+        (bool healthy,) = x.lines[3].oracle.tryPrice();
+        if (!healthy) {
+            assertTrue(x.venue.calendar.isClosed(block.timestamp), "unexpected unhealthy open-market oracle");
+            uint256 funded = IERC20(q.stock).balanceOf(treasury);
+            assertGt(funded, 0, "graduation still funded the treasury");
+            assertEq(t.bookedStock(), 0);
+            assertEq(t.unbookedStock(), funded);
+            uint256 nextOpen = block.timestamp;
+            for (uint256 i; i < 96 && x.venue.calendar.isClosed(nextOpen); ++i) nextOpen += 1 hours;
+            assertFalse(x.venue.calendar.isClosed(nextOpen), "no opening within four days");
+            vm.warp(nextOpen);
+            emit log_named_uint("fork-only reopening timestamp", nextOpen);
+            (healthy,) = x.lines[3].oracle.tryPrice();
+            assertTrue(healthy, "feed must remain healthy when the fork reopens");
+            assertTrue(t.book());
+        }
         assertGt(t.bookedStock(), 0);
         assertEq(t.bookedStock() + t.buybackStock(), IERC20(q.stock).balanceOf(treasury));
     }

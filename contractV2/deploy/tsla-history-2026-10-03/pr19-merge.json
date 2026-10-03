@@ -1,0 +1,10 @@
+{
+  "pr": "https://github.com/0xHedgeHood/Hedgefun-trade/pull/19",
+  "reviewedHead": "cff3001b825614c39634c80d4c5cdbd5e59208fe",
+  "mergeCommit": "719cbd3ff92ef79b83b58ef9aafe4bfc99b412e5",
+  "merged": true,
+  "mergedAt": "2026-10-03T17:43:11Z",
+  "method": "non-force fast-forward push of a two-parent merge commit through user-configured GitHub SSH; verified merged=true with GitHub API",
+  "priorReviewEvidence": "../verification-2026-10-03/pr19-review/review-summary.json",
+  "note": "Prior GitHub integration returned 403. Original failed-attempt review record is preserved, not overwritten."
+}

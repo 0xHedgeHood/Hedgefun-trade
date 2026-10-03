@@ -1,0 +1,58 @@
+8 encrypted persona wallets ready; public addresses saved.
+Signing fund-sniper: owner nonce=79
+Confirmed fund-sniper: 0xdd7c33eac5896610d4fb1acfd1c3d537a59170d7b594ec512a038b71144fa9a2
+Signing drip-stock-sniper: sniper nonce=0
+Confirmed drip-stock-sniper: 0x411e5ee57e969b9c7b15aa20a52379ecc96a3ce5822d95701e07a4fd28fa3e73
+Signing approve-stock-sniper: sniper nonce=1
+Confirmed approve-stock-sniper: 0x2a6014e16255093c487ec11c27215de64155cfa44fdf4744dd6bdc475aa749d2
+Signing fund-opening_buyer: owner nonce=80
+Confirmed fund-opening_buyer: 0x8d36cee7dc29ceae180d4b4b4caee0d539937c90b0edbebefa97363d5d2e76d5
+Signing drip-stock-opening_buyer: opening_buyer nonce=0
+Confirmed drip-stock-opening_buyer: 0x652a51454faecf177d25dba48b4bde73ad8a4bef27b188ac99af054acb6bf506
+Signing approve-stock-opening_buyer: opening_buyer nonce=1
+Confirmed approve-stock-opening_buyer: 0x469731b3ffac58c9f12f8e59ebb487298c16fe61365cf202149773ea00265873
+Signing drip-usdg-opening_buyer: opening_buyer nonce=2
+Confirmed drip-usdg-opening_buyer: 0x770f4c2cd0681f9a58f1b12955503c1c9605895ec5c67fce7cab6095b0081adf
+Signing approve-usdg-opening_buyer: opening_buyer nonce=3
+Confirmed approve-usdg-opening_buyer: 0x93dcb1f80e52025cd6929b3c1612c21f3ed3666eabe763631306f47ac6228b7b
+Signing fund-diamond_hands: owner nonce=81
+Confirmed fund-diamond_hands: 0xec233f9b08297766237d16a32e7dceae481e060ec6976812a74e3ecdd703bfe1
+Signing drip-stock-diamond_hands: diamond_hands nonce=0
+Confirmed drip-stock-diamond_hands: 0xbef8be4762ab815ec0e0427c58d160d62c24b1dccc79e43f7d2378d1352f6e7d
+Signing approve-stock-diamond_hands: diamond_hands nonce=1
+Confirmed approve-stock-diamond_hands: 0xda170d71cc5e635804e7d46dfcd1171e0135194ed2b467e44272eb4a0fb25342
+Signing fund-paper_hands: owner nonce=82
+Confirmed fund-paper_hands: 0xf6099fe05cf9b6b120075ce2f2faa63a3e64a9abd95db785f081619cb675ac81
+Signing drip-stock-paper_hands: paper_hands nonce=0
+Confirmed drip-stock-paper_hands: 0x60f5d63d35b21be3629bef3e818ce4efb9db09dc2006adfe8ef7ff0a479f89d0
+Signing approve-stock-paper_hands: paper_hands nonce=1
+Confirmed approve-stock-paper_hands: 0xc4b14d81d5825256c48b37b69e068be74596853d74ee661970264a797ca5fef4
+Signing fund-kol: owner nonce=83
+Confirmed fund-kol: 0x5451c22fef664ac44147a3463950ec93565f686589ffc5be02d245f3c00539c9
+Signing drip-stock-kol: kol nonce=0
+Confirmed drip-stock-kol: 0x5171d0ce9335ed2a12e561bfaa7864a8d8dea6fac26b6c302cfd6605b3a54e43
+Signing approve-stock-kol: kol nonce=1
+Confirmed approve-stock-kol: 0xce2116a58955142ec66380d94c454c9f00dd9126b02edb04580fcc9511f9f0ab
+Signing fund-follower_1: owner nonce=84
+Confirmed fund-follower_1: 0xfe72d9c19e8b820346f87fb7e5e219ddf4b4db08d854c0106b43601d722271c5
+Signing drip-stock-follower_1: follower_1 nonce=0
+Confirmed drip-stock-follower_1: 0x322b6370b3970c5ecccfceb82e3795cdb4f87df403287316de8b85b917834742
+Signing approve-stock-follower_1: follower_1 nonce=1
+Confirmed approve-stock-follower_1: 0x834bfea4ec6fa3646f0888cbc0b31ced74f730c84aed97b9adb541530714b394
+Signing fund-follower_2: owner nonce=85
+Confirmed fund-follower_2: 0x833f9a13aa65e1acadfae69d9edc86ae30b7aabdc353cd566867e111549fd144
+Signing drip-stock-follower_2: follower_2 nonce=0
+Confirmed drip-stock-follower_2: 0xd26928b770a5da24971b40b6dfbcb8c923d87c2e38ebb55ddd5bdd480f0dbcea
+Signing approve-stock-follower_2: follower_2 nonce=1
+Confirmed approve-stock-follower_2: 0x6875e7d594c0326defd992249abfe48a712349b919e5128b35b7f27f7a77c3a5
+Signing fund-late_fomo: owner nonce=86
+Confirmed fund-late_fomo: 0x4caa4feb1c74f19ff12f00cdf1ece023565ddfffc07184fc7783e7b671ca9f5a
+Signing drip-stock-late_fomo: late_fomo nonce=0
+Confirmed drip-stock-late_fomo: 0x2357a875b9f3dce0408a49ab2749b8d781e73099a11c98632f87d187863eb08a
+Signing approve-stock-late_fomo: late_fomo nonce=1
+Confirmed approve-stock-late_fomo: 0xf5a793b10b8385a1a10dea4a28eb4304a4d11867aee62a2960e6b56a35a0538f
+Signing drip-usdg-late_fomo: late_fomo nonce=2
+Confirmed drip-usdg-late_fomo: 0x160a703e8a19db236be19858493272345486b02bab8fb693a3cbacaa974e5cb4
+Signing approve-usdg-late_fomo: late_fomo nonce=3
+Confirmed approve-usdg-late_fomo: 0xf3778a8609f0b84e47e59b1fd7345ac04cb44684430afa033b9c7feadc03b001
+All actor funding, stock drips and finite approvals confirmed.

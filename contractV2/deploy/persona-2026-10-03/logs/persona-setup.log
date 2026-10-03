@@ -1,0 +1,30 @@
+8 encrypted persona wallets ready; public addresses saved.
+Signing fund-sniper: owner nonce=79
+error: unexpected argument '--data' found
+
+  tip: to pass '--data' as a value, use '-- --data'
+
+Usage: cast send <TO> [SIG] [ARGS]...
+
+For more information, try '--help'.
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 376, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 371, in main
+    elif a.phase=='setup':setup(plan)
+                          ^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 157, in setup
+    send('fund-'+role,'owner',who(role),value=int(actor['native_funding_wei']))
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 105, in send
+    h=cast('send',target,'--data',data,'--value',value,'--rpc-url',RPC,'--chain','46630',
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 54, in cast
+    return subprocess.check_output([CAST,*map(str,args)],text=True,timeout=90).strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/Users/leo/Documents/ChatGPT/hedgefun/.local/bin/cast', 'send', '0xAea82156C9Da6A408C5BddC8AC15a5C673989d34', '--data', '0x', '--value', '60000000000000', '--rpc-url', 'https://rpc.testnet.chain.robinhood.com', '--chain', '46630', '--legacy', '--nonce', '79', '--gas-limit', '38961', '--gas-price', '20000000', '--keystore', '/Users/leo/Documents/ChatGPT/hedgefun/.local/testnet-wallet-20261003/hedgefun-testnet', '--password-file', '/Users/leo/Documents/ChatGPT/hedgefun/.local/testnet-wallet-20261003/password', '--async']' returned non-zero exit status 2.

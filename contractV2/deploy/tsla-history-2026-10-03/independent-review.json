@@ -1,0 +1,1924 @@
+{
+  "schema": "hedgefun-tsla-history-independent-review-v1",
+  "reviewedAtUtc": "2026-10-03T17:56:32.010231+00:00",
+  "status": "PASS",
+  "scope": "Independent read-only audit of raw Yahoo data, normalization, Solidity replay harness and all 3009 logged snapshots. No signing, broadcast, or mutation of prior evidence. Only this review artifact is written.",
+  "method": "Standalone Decimal/integer calculations from raw source and raw Forge logs. No imports of or calls to the normalizer or exporter formulas. Solidity reviewed for oracle execution order, actual treasury cashflow assertions and account coverage.",
+  "evidence": {
+    "rawSource": {
+      "path": "artifacts/tsla-history-20261003/yahoo-raw.json",
+      "sha256": "4dc21458ad5d6dba9b66b214a4da65cdd082b645f933831df87b4f4e7b3e4d77"
+    },
+    "archivedSource": {
+      "path": "contractV2/data/tsla-history-2022-2025-source.json",
+      "sha256": "4dc21458ad5d6dba9b66b214a4da65cdd082b645f933831df87b4f4e7b3e4d77"
+    },
+    "normalizedJson": {
+      "path": "contractV2/data/tsla-history-2022-2025.json",
+      "sha256": "a4b8f96e7f22d253a20787764de98ff98810ca4a3add10d2e2583cb81b68e7e1"
+    },
+    "normalizedCsv": {
+      "path": "contractV2/data/tsla-history-2022-2025.csv",
+      "sha256": "8f5a04d38cc63090a30c766d183afe6c1b5adcd96f36079dadd406e9810322b6"
+    },
+    "dataNormalizer": {
+      "path": "contractV2/tools/tsla_history_data.py",
+      "sha256": "b70b998b0ed501f74b4e95efa60f0b32058753b01e9a3de6abdc14713d0fdd45"
+    },
+    "harness": {
+      "path": "contractV2/test/TslaHistoricalReplayFork.t.sol",
+      "sha256": "a44b5a2e16ecf4badd296a5085becc559d104f2761f7e19092f2e2476bf8c475"
+    },
+    "forgeLog": {
+      "path": "artifacts/tsla-history-20261003/forge.log",
+      "sha256": "d74e31b65c41ee20aeea3d91fa5c2fd7a7afedcb04b7df134bc8164c629660aa"
+    },
+    "priorSuccessfulLog": {
+      "path": "artifacts/tsla-history-20261003/forge-before-depth-assert.log",
+      "sha256": "01316902501c4bac67459b6949b202b2e4d73713141f64044dda8b369eb0bbe0"
+    },
+    "exportResults": {
+      "path": "contractV2/deploy/tsla-history-2026-10-03/results.json",
+      "sha256": "13df262ab132df748112862dc7203f508f7796eb912b82dab454d78a37bff2e8"
+    },
+    "exportDailyCsv": {
+      "path": "contractV2/deploy/tsla-history-2026-10-03/daily.csv",
+      "sha256": "aa8fbdc9c0df92863a74f9a9c3ecfd2d48fa5aad9a36c27e64c032169c35b8ad"
+    },
+    "exportSummaryCsv": {
+      "path": "contractV2/deploy/tsla-history-2026-10-03/summary.csv",
+      "sha256": "d810759f1ee2cf656d4de2d1e7a266412d283c8ca0261f52006d77f1c59eec57"
+    },
+    "generatedReport": {
+      "path": "contractV2/deploy/tsla-history-2026-10-03/GENERATED_REPORT.md",
+      "sha256": "ad6f182d1560efcba751283a97547cd77e5a6eecbebce7b5954f52b5d1dd29d7"
+    },
+    "reportTool": {
+      "path": "contractV2/tools/tsla_history_report.py",
+      "sha256": "23a7c44202105b60a88b7eb915142eba79be752075d8bd3d90dfbcb426376d5b"
+    },
+    "humanReport": {
+      "path": "contractV2/docs/TSLA_HISTORICAL_REPLAY_2026-10-03.md",
+      "sha256": "718f70d5f86839991eee69b03d8788488bef0080b604c0df7a738b0579678ff6"
+    }
+  },
+  "checks": {
+    "action_type_counts": 3009,
+    "actual_buyback_stock_flow_into_v4_less_0_3_percent_lp_fee": 86,
+    "buyback_daily_oracle_mark_integer_formula": 3009,
+    "buyback_moves_fun_stock_up": 86,
+    "canonical_csv_count": 1,
+    "canonical_csv_exact_row": 1003,
+    "close_equals_adjclose": 1003,
+    "constant_v3_liquidity_entire_path": 3009,
+    "cumulative_counts_and_rewards_monotonic": 38961,
+    "curve_fees_unchanged_and_not_in_nav": 3009,
+    "daily_action_category_matches": 8991,
+    "daily_actual_stock_spend_sums": 2997,
+    "daily_buyback_mark_sums": 2997,
+    "daily_source_mapping": 3009,
+    "depth_assert_rerun_preserves_all_economic_rows": 3009,
+    "dip_spends_usdg": 87,
+    "exactly_one_execute_and_buyback_attempt_per_noninitial_day": 1998,
+    "expected_initial_balances": 1,
+    "final_harness_hash": 1,
+    "final_log_hash": 1,
+    "fixed_liquidity_source_assertions_and_logging_reviewed": 1,
+    "fun_stock_price_independent_lp_reserve_ratio": 3009,
+    "fun_usd_integer_formula": 3009,
+    "group_observation_count": 12,
+    "half_even_8dp_and_e18": 1003,
+    "healthy_positive_post_action_quotes": 3009,
+    "holder_fun_units_constant": 3009,
+    "identical_initial_economic_balances": 14,
+    "initial_fun_rounding_at_most_two_wei": 2,
+    "nav_integer_formula": 3009,
+    "no_buyback_no_spend": 2911,
+    "no_buyback_preserves_fun_pool_and_supply": 14555,
+    "no_execute_means_usdg_unchanged": 2772,
+    "ohlc_valid": 1003,
+    "one_three_for_one_split": 1,
+    "only_notdue_expected_rejection": 1998,
+    "passive_balances_and_price_conserved": 11033,
+    "passive_no_calls": 1003,
+    "passive_no_keeper_effects": 10030,
+    "passive_usd_marks_follow_tsla_return": 4,
+    "provider_timestamps_are_session_open": 1003,
+    "raw_date_mapping": 1003,
+    "raw_ohlc_preserved": 4012,
+    "raw_source_preservation": 1,
+    "raw_volume_preserved": 1003,
+    "replay_row_and_venue_counts": 1,
+    "source_identity": 1,
+    "source_unique_sorted_1003": 1,
+    "stop_and_tp_receive_usdg": 138,
+    "success_counters_match_daily_flags": 2997,
+    "supply_plus_burn_conserved": 3009,
+    "synthetic_clock_and_fork": 3009,
+    "treasury_stock_bucket_identity": 3009,
+    "twelve_independent_groups": 1,
+    "twelve_tests_pass_no_unexpected_reverts": 1,
+    "v4_fun_out_equals_burn_plus_keeper_reward": 86,
+    "venue_original_and_full_range_ticks": 12,
+    "venue_pool_preserved": 12,
+    "venue_same_initial_liquidity": 12,
+    "window_calendar_intervals": 4,
+    "window_prices_and_dates": 4,
+    "year_counts": 1,
+    "daily_csv_count": 1,
+    "daily_csv_matches_verified_json": 3009,
+    "export_derived_field_independent_formula": 63189,
+    "export_final_provenance": 4,
+    "export_full_row_keyset": 1,
+    "export_max_spot_deviation": 1,
+    "export_raw_field_exact": 144432,
+    "export_valuation_label": 3009,
+    "human_report_2023_two_take_profits": 1,
+    "human_report_dates": 4,
+    "human_report_rounded_percentage": 20,
+    "human_report_table_four_windows": 1,
+    "packaged_log_exact": 1,
+    "report_tool_provenance": 1,
+    "summary_actual_counts_and_cashflows": 132,
+    "summary_burn_fraction": 12,
+    "summary_csv_drawdown_fields": 108,
+    "summary_csv_scalar_fields": 408,
+    "summary_dates_and_counts": 36,
+    "summary_groups_exact": 1,
+    "summary_labels": 12,
+    "summary_mdd_indices_and_marks_independent": 216,
+    "summary_mdd_value_independent": 36,
+    "summary_returns_independent": 48,
+    "summary_unit_conversions": 120
+  },
+  "totals": {
+    "sourceBars": 1003,
+    "replayTestsPassed": 12,
+    "replaySnapshots": 3009,
+    "keeperActions": 225,
+    "buybacks": 86,
+    "unexpectedReverts": 0,
+    "fixedV3Liquidity": "5405299530135571866",
+    "maxAbsoluteSpotDeviationBps": "0.48130761633814131925039048276251217510871341939280284250209791798996837881899974",
+    "buybackLpStockMinus997Per1000SpentWeiRange": [
+      -1,
+      0
+    ],
+    "buybackLpFunMinusBurnMinusRewardWeiRange": [
+      0,
+      1
+    ],
+    "funStockPriceMinusLpReserveRatioE18Range": [
+      0,
+      0
+    ]
+  },
+  "dataReview": {
+    "yearCounts": {
+      "2022": 251,
+      "2023": 250,
+      "2024": 252,
+      "2025": 250
+    },
+    "sourceTimestamps": "All 1003 timestamps are 09:30 America/New_York session-open labels; not availability times of the close.",
+    "sourceCloseEqualsAdjustedCloseEveryRow": true,
+    "split": "2022-08-25 3:1; inputs already adjusted, no second division or holdings multiplication.",
+    "splitDayCloseChangePercent": "-0.34556844067094636570718575274383930420376889625181196935183267757299647960240200",
+    "maximumRoundingErrorUsd": "0.0000000049219",
+    "precision": "8 decimal places HALF_EVEN; E18 encodes exact rounded value.",
+    "periodDefinition": "Each year first observed Close to last observed Close; independent reset, not standard previous-year-end annual return or chained four-year return."
+  },
+  "baselineRawValues": {
+    "holderFunRaw": [
+      "400000000000000000000000000"
+    ],
+    "lpStockRaw": [
+      "8833333333333333331"
+    ],
+    "treasuryStockRaw": [
+      "8833333333333333335"
+    ],
+    "treasuryUsdgRaw": [
+      "0"
+    ],
+    "treasuryBookedRaw": [
+      "8833333333333333335"
+    ],
+    "treasuryUnbookedRaw": [
+      "0"
+    ],
+    "treasuryBuybackRaw": [
+      "0"
+    ],
+    "lotCount": [
+      "1"
+    ],
+    "keeperStockRaw": [
+      "0"
+    ],
+    "keeperUsdgRaw": [
+      "0"
+    ],
+    "keeperFunRaw": [
+      "0"
+    ],
+    "curveUnclaimedFeesRaw": [
+      "546391752577319587"
+    ],
+    "funStockE18": [
+      "73611111111"
+    ],
+    "stockPoolLiquidity": [
+      "5405299530135571866"
+    ],
+    "lpFunRaw": [
+      "120000000000000024021021389",
+      "120000000000000024021021391"
+    ],
+    "totalSupplyRaw": [
+      "520000000000000024021021390",
+      "520000000000000024021021392"
+    ]
+  },
+  "formulas": {
+    "navOracleUsdE18": "floor(treasuryStockRaw * historicalPriceE18 / 1e18) + treasuryUsdgRaw * 1e12",
+    "funOracleUsdE18": "floor(funStockE18 * historicalPriceE18 / 1e18)",
+    "dailyBuybackOracleUsdgValueRaw": "floor(actualStockSpentRaw * historicalPriceE18 / 1e30), then summed across days; monetary mark, not actual USDG spent",
+    "periodChangePercent": "100 * (last observed value / first observed value - 1)",
+    "maximumDailyDrawdownPercent": "max over daily rows of 100 * (running prior-or-current peak - current value) / running peak",
+    "independentFunPriceCrosscheck": "floor(lpStockRaw * 1e18 / lpFunRaw) agrees with emitted marginal FUN/STOCK price within 1 unit of E18 encoding; full-range principal holdings omit accrued fees.",
+    "independentBuybackStockFlow": "LP principal STOCK change equals floor(actualStockSpentRaw * 997 / 1000), within -1..0 wei of round-down conversion. The harness separately asserts actual treasury balance decrease equals returned spend.",
+    "independentBuybackFunFlow": "LP principal FUN decrease equals daily burn plus keeper FUN increase, within 0..1 wei of round-down conversion."
+  },
+  "sourceReview": {
+    "actualDeployedContracts": true,
+    "forkBlock": 128172359,
+    "mockedMarketCalendarOpen": true,
+    "dailyInputOrdering": "Price is known then held 601 synthetic seconds, poke updates the observation, health verified, at most one execute then one buyback. No future bar consulted.",
+    "fixedDepthProof": "After replacing original seeded position, original/new position liquidity and active liquidity match. Final harness asserts active V3 liquidity after every price move and at end of every sample after keeper operations; all 3009 log values equal initial L.",
+    "fixedDepthFinding": "Initial harness only checked active L at fixture setup. Independent review identified possible inactive LP crossing. Final a44b5a2e harness adds full-path assertion and per-row L; rerun preserves every economic row, excludes only harness gas and added L field.",
+    "accountingAssertions": "Actual treasury stock buckets sum to balance; tracked FUN holder/curve/manager/hook/keeper/treasury/factory balances sum to supply; holder FUN unchanged; router FUN/STOCK/USDG zero. These unlogged accounts are source assertions in 12 passing tests, not separately reconstructed from raw snapshots.",
+    "sourceHashStatus": "final expected source and log hashes verified"
+  },
+  "limitations": [
+    "Historical daily Close inputs do not constitute historical chain or market execution; current deployed contracts and artificial test-asset minting are used.",
+    "Same V3 L is counterfactual depth, not historical liquidity or equal total capital after widening the LP range. External market-maker/price-setting P&L and costs are excluded.",
+    "Close is available only after the session. The 601-second constant-price hold, synthetic calendar-day timing and forced-open market are explicit assumptions, not observed tradability; DST, holidays, early closes and intraday paths are absent.",
+    "One execute and one buyback attempt per noninitial day may leave further actions due. Daily samples cannot validate intraday 1-bp triggering, ordering, delay or execution frequency.",
+    "No external FUN user flow or adversarial trades in this replay. Marginal FUN and LP marks are not executable full-position liquidation proceeds.",
+    "Treasury NAV excludes spent buyback stock; buyback marks are not investment distributions. Neither NAV change nor NAV plus buyback marks is investor total return.",
+    "Unclaimed curve fees and LP accrued fees are separate from treasury cash and LP principal. Gasleft-based harness estimates exclude intrinsic gas and are not deducted as paid costs.",
+    "Three groups reset at every year first close. Source prices use already-split-adjusted share units, avoiding any duplicate split application."
+  ],
+  "independentMetrics": [
+    {
+      "year": 2022,
+      "mode": "keeper1",
+      "firstDate": "2022-01-03",
+      "lastDate": "2022-12-30",
+      "observations": 251,
+      "tslaCloseChangePercent": "-69.199353105922094708384000020194102272613983207412241838539511446280321362634810",
+      "funStockChangePercent": "32.408930627369673857550746677520831315739654085004890043901894173651172670450790",
+      "funOracleMarkChangePercent": "-59.217192821238639207908114981264761454888646472439196095073293229150864480644460",
+      "treasuryNavOracleMarkChangePercent": "-27.783311747569899425950890611747406081584197762125521874442616159120863317853298",
+      "treasuryNavDrawdown": {
+        "percent": "27.783311747569899425950890611747406081584197762125521874442616159120863317853298",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "3532685551963333333999",
+        "troughMarkRaw": "2551188512000000000000"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "63.878842428906908182528327869788505885326727864867874520792797739456138531764888",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "29439046266316",
+        "troughMarkRaw": "10633724289283"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "72.719999021252561974635454507539094249943902202846822490350833851396103701264604",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "399926666260000000000",
+        "troughMarkRaw": "109099998470000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3532685551963333333999",
+      "finalTreasuryNavOracleUsdE18": "2551188512000000000000",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 251,
+      "executeDatesAndCodes": [
+        {
+          "date": "2022-01-04",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-05",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-06",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-07",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-19",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-20",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-21",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-24",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-25",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-26",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-01-27",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-02-22",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-02-23",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-12",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-16",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-17",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-05-18",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-19",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-20",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-24",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-25",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-05-26",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-03",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-06",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-07",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-10",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-13",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-06-16",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-17",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-21",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-22",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-23",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-06-28",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-29",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-06-30",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-07-01",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-07-05",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-07-06",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-07-07",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-07-08",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-07-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-07-12",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-10-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-10-10",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-10-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-10-12",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-10-13",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-10-14",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-10-17",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-10-18",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-10-20",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-10-21",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-10-24",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-11-04",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-07",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-11-08",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-09",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-11-21",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-22",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-11-23",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-11-25",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-28",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-11-29",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-30",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-12-01",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-12-05",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-06",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-08",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-12",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-13",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-14",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-15",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-12-16",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-19",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-20",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-21",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-22",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-23",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-27",
+          "actionCode": 0
+        }
+      ],
+      "actions": "81",
+      "stopActions": "25",
+      "tpActions": "23",
+      "dipActions": "33",
+      "buybacks": "24",
+      "burnedRaw": "15636243052923745563375593",
+      "buybackStockSpentRaw": "1335107346786243633",
+      "buybackOracleUsdgValueRaw": "296514594",
+      "executeNotDue": "169",
+      "buybackNotDue": "226",
+      "keeperStockRaw": "6709082144654479",
+      "keeperUsdgRaw": "173968570",
+      "keeperFunRaw": "78574085693084148559665",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "2551188512"
+    },
+    {
+      "year": 2022,
+      "mode": "keeper500",
+      "firstDate": "2022-01-03",
+      "lastDate": "2022-12-30",
+      "observations": 251,
+      "tslaCloseChangePercent": "-69.199353105922094708384000020194102272613983207412241838539511446280321362634810",
+      "funStockChangePercent": "33.231717370918085611125914091488491945798473195389884487842097938849572978020910",
+      "funOracleMarkChangePercent": "-58.963769181667940143675880417348246637254629397735786591474338472276583807002078",
+      "treasuryNavOracleMarkChangePercent": "-23.433851200539826894077134296730490177629440739325714508295777829202716774771093",
+      "treasuryNavDrawdown": {
+        "percent": "24.177783491000171270241885108884368407485161491137180806393796503488173798739436",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "3532685551963333333999",
+        "troughMarkRaw": "2678560487791794250359"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "66.566836220734047873337472610767408743921749305702211407334563675689301621486299",
+        "peakDate": "2022-04-04",
+        "troughDate": "2022-12-27",
+        "peakIndex": 63,
+        "troughIndex": 247,
+        "peakMarkRaw": "30126119182084",
+        "troughMarkRaw": "10072114766483"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "72.719999021252561974635454507539094249943902202846822490350833851396103701264604",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "399926666260000000000",
+        "troughMarkRaw": "109099998470000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3532685551963333333999",
+      "finalTreasuryNavOracleUsdE18": "2704841276333276735257",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 251,
+      "executeDatesAndCodes": [
+        {
+          "date": "2022-01-05",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-06",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-19",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-21",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-01-27",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-01-31",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-02-01",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-02-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-02-15",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-02-18",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-02-23",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-02-24",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-20",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-05-24",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-05-26",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-05-27",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-06-03",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-06-13",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-11-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-09",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-11-21",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-11-23",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-11-30",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-12-05",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-08",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-13",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-16",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-20",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-22",
+          "actionCode": 0
+        },
+        {
+          "date": "2022-12-27",
+          "actionCode": 2
+        },
+        {
+          "date": "2022-12-29",
+          "actionCode": 1
+        },
+        {
+          "date": "2022-12-30",
+          "actionCode": 1
+        }
+      ],
+      "actions": "33",
+      "stopActions": "11",
+      "tpActions": "9",
+      "dipActions": "13",
+      "buybacks": "11",
+      "burnedRaw": "15957141354037845316124275",
+      "buybackStockSpentRaw": "1366734128714089914",
+      "buybackOracleUsdgValueRaw": "299165856",
+      "executeNotDue": "217",
+      "buybackNotDue": "239",
+      "keeperStockRaw": "7940026820339133",
+      "keeperUsdgRaw": "76033225",
+      "keeperFunRaw": "80186639970039423699110",
+      "treasuryStockRaw": "213331208533398771",
+      "treasuryUsdgRaw": "2678563138"
+    },
+    {
+      "year": 2022,
+      "mode": "passive",
+      "firstDate": "2022-01-03",
+      "lastDate": "2022-12-30",
+      "observations": 251,
+      "tslaCloseChangePercent": "-69.199353105922094708384000020194102272613983207412241838539511446280321362634810",
+      "funStockChangePercent": "0",
+      "funOracleMarkChangePercent": "-69.199353105922830455954839171484396987829066600504455858388051488405150079044479",
+      "treasuryNavOracleMarkChangePercent": "-69.199353105922094708394274719698851465217483835079369370548061675893987233593428",
+      "treasuryNavDrawdown": {
+        "percent": "72.719999021252561974642829628950168635126306479036660751773471047960292230200738",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "3532685551963333333999",
+        "troughMarkRaw": "963716653151666666848"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "72.719999021252276335862880045037506919408710025819110468591875444825423318264884",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "29439046266316",
+        "troughMarkRaw": "8030972109585"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "72.719999021252561974635454507539094249943902202846822490350833851396103701264604",
+        "peakDate": "2022-01-03",
+        "troughDate": "2022-12-27",
+        "peakIndex": 0,
+        "troughIndex": 247,
+        "peakMarkRaw": "399926666260000000000",
+        "troughMarkRaw": "109099998470000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3532685551963333333999",
+      "finalTreasuryNavOracleUsdE18": "1088090002738333333538",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 251,
+      "executeDatesAndCodes": [],
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "treasuryStockRaw": "8833333333333333335",
+      "treasuryUsdgRaw": "0"
+    },
+    {
+      "year": 2023,
+      "mode": "keeper1",
+      "firstDate": "2023-01-03",
+      "lastDate": "2023-12-29",
+      "observations": 250,
+      "tslaCloseChangePercent": "129.86123889627840435990711073689065150270764846570492278009742695235026121272803",
+      "funStockChangePercent": "6.9673003648407053590412689892211943682856168971596764028636372474005488864111700",
+      "funOracleMarkChangePercent": "145.87636183252303472928149809929241190634938148075588830764791060220476506959587",
+      "treasuryNavOracleMarkChangePercent": "-0.30082982482926196967876679002413115035747550012072590450915557005520441427672800",
+      "treasuryNavDrawdown": {
+        "percent": "3.5605255938820050245130321736492963310599296813028692150964513497763762313332598",
+        "peakDate": "2023-01-04",
+        "troughDate": "2023-01-06",
+        "peakIndex": 1,
+        "troughIndex": 3,
+        "peakMarkRaw": "987158787273114457159",
+        "troughMarkRaw": "952010746000000000000"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "32.719709868258522833025008456147295419670322296132830466743930661527677089574389",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "23097538018974",
+        "troughMarkRaw": "15540090592455"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "32.719709868255737771241563519274979479601912099757954200293558236430160037275468",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "293339996340000000000",
+        "troughMarkRaw": "197360000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "954883319818333333513",
+      "finalTreasuryNavOracleUsdE18": "952010746000000000000",
+      "immediateUnhealthyNoninitialDays": 216,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [
+        {
+          "date": "2023-01-04",
+          "actionCode": 1
+        },
+        {
+          "date": "2023-01-05",
+          "actionCode": 1
+        }
+      ],
+      "actions": "2",
+      "stopActions": "0",
+      "tpActions": "2",
+      "dipActions": "0",
+      "buybacks": "3",
+      "burnedRaw": "3954021480064359143755380",
+      "buybackStockSpentRaw": "303451770685282980",
+      "buybackOracleUsdgValueRaw": "34019517",
+      "executeNotDue": "247",
+      "buybackNotDue": "246",
+      "keeperStockRaw": "1524883269775290",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "19869454673690246953543",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "952010746"
+    },
+    {
+      "year": 2023,
+      "mode": "keeper500",
+      "firstDate": "2023-01-03",
+      "lastDate": "2023-12-29",
+      "observations": 250,
+      "tslaCloseChangePercent": "129.86123889627840435990711073689065150270764846570492278009742695235026121272803",
+      "funStockChangePercent": "15.027757661909475860621750152242447924758101808188314115936888021307074547956690",
+      "funOracleMarkChangePercent": "164.40422883626630150424774948572548935698871733464961344001802986058663337848505",
+      "treasuryNavOracleMarkChangePercent": "-0.30081306885534565495884360609264053235239686542649107631966864326046339024285200",
+      "treasuryNavDrawdown": {
+        "percent": "3.5380356092623114265891923665169197365081487556653588773354366833700344708510689",
+        "peakDate": "2023-01-04",
+        "troughDate": "2023-01-12",
+        "peakIndex": 1,
+        "troughIndex": 7,
+        "peakMarkRaw": "986928798322722545405",
+        "troughMarkRaw": "952010906000000000000"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "32.719709868254756631984668985094774945050596082773200696017963467562522956714009",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "24838039258459",
+        "troughMarkRaw": "16711104876128"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "32.719709868255737771241563519274979479601912099757954200293558236430160037275468",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "293339996340000000000",
+        "troughMarkRaw": "197360000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "954883319818333333513",
+      "finalTreasuryNavOracleUsdE18": "952010906000000000000",
+      "immediateUnhealthyNoninitialDays": 216,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [
+        {
+          "date": "2023-01-04",
+          "actionCode": 1
+        },
+        {
+          "date": "2023-01-09",
+          "actionCode": 1
+        }
+      ],
+      "actions": "2",
+      "stopActions": "0",
+      "tpActions": "2",
+      "dipActions": "0",
+      "buybacks": "6",
+      "burnedRaw": "8072360715749624147558600",
+      "buybackStockSpentRaw": "642431786855783890",
+      "buybackOracleUsdgValueRaw": "75758978",
+      "executeNotDue": "247",
+      "buybackNotDue": "243",
+      "keeperStockRaw": "3228300436461224",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "40564626712309669083205",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "952010906"
+    },
+    {
+      "year": 2023,
+      "mode": "passive",
+      "firstDate": "2023-01-03",
+      "lastDate": "2023-12-29",
+      "observations": 250,
+      "tslaCloseChangePercent": "129.86123889627840435990711073689065150270764846570492278009742695235026121272803",
+      "funStockChangePercent": "0",
+      "funOracleMarkChangePercent": "129.86123889627079261022708778993519785861683439173480872387055433486384065207073",
+      "treasuryNavOracleMarkChangePercent": "129.86123889627840435997860018160622917745487110188748758116349587361687619414208",
+      "treasuryNavDrawdown": {
+        "percent": "32.719709868255737771254214786733392260144457891432992897833088888773975941339277",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "2591169967670000000488",
+        "troughMarkRaw": "1743346672055000000328"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "32.719709868258926007747331445031238844662632827724154278185756433779332760608622",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "21593083063884",
+        "troughMarkRaw": "14527888933769"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "32.719709868255737771241563519274979479601912099757954200293558236430160037275468",
+        "peakDate": "2023-07-18",
+        "troughDate": "2023-10-30",
+        "peakIndex": 134,
+        "troughIndex": 207,
+        "peakMarkRaw": "293339996340000000000",
+        "troughMarkRaw": "197360000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "954883319818333333513",
+      "finalTreasuryNavOracleUsdE18": "2194906628948333333747",
+      "immediateUnhealthyNoninitialDays": 216,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [],
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "treasuryStockRaw": "8833333333333333335",
+      "treasuryUsdgRaw": "0"
+    },
+    {
+      "year": 2024,
+      "mode": "keeper1",
+      "firstDate": "2024-01-02",
+      "lastDate": "2024-12-31",
+      "observations": 252,
+      "tslaCloseChangePercent": "62.563400416596983988295953218668361606002341755834012612415437890348004747350650",
+      "funStockChangePercent": "5.7897112320087391867652962100932306357888199707710019924087109464036357901077800",
+      "funOracleMarkChangePercent": "71.975351869653390021405086808836312189806015712742781076359893518748633176413530",
+      "treasuryNavOracleMarkChangePercent": "-15.350431131531529504747284153528860654353698785001486430808520866010146575103255",
+      "treasuryNavDrawdown": {
+        "percent": "15.350431131531529504747284153528860654353698785001486430808520866010146575103255",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "2194376650501666667080",
+        "troughMarkRaw": "1857530374000000000000"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "39.507974744926485626388812368495593963110788485788267880886351187521391770293555",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "18286472087486",
+        "troughMarkRaw": "11061857313424"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "42.818611989204009098475713107682775086786403706702837063304853980548598278737360",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "248419998170000000000",
+        "troughMarkRaw": "142050003050000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "2194376650501666667080",
+      "finalTreasuryNavOracleUsdE18": "1857530374000000000000",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 252,
+      "executeDatesAndCodes": [
+        {
+          "date": "2024-01-03",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-04",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-05",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-08",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-01-09",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-10",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-11",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-12",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-16",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-01-17",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-18",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-19",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-22",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-23",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-24",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-25",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-02-05",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-02-06",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-07",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-13",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-02-14",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-15",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-16",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-02-20",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-02-23",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-02-26",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-27",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-03-04",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-03-05",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-03-06",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-03-07",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-03-08",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-03-13",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-03-14",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-04-15",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-16",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-04-17",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-18",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-04-19",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-22",
+          "actionCode": 0
+        }
+      ],
+      "actions": "40",
+      "stopActions": "15",
+      "tpActions": "9",
+      "dipActions": "16",
+      "buybacks": "9",
+      "burnedRaw": "3313261163838511043445137",
+      "buybackStockSpentRaw": "252873034358374568",
+      "buybackOracleUsdgValueRaw": "49738445",
+      "executeNotDue": "211",
+      "buybackNotDue": "242",
+      "keeperStockRaw": "1270718765619970",
+      "keeperUsdgRaw": "64018311",
+      "keeperFunRaw": "16649553587128196198212",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "1857530374"
+    },
+    {
+      "year": 2024,
+      "mode": "keeper500",
+      "firstDate": "2024-01-02",
+      "lastDate": "2024-12-31",
+      "observations": 252,
+      "tslaCloseChangePercent": "62.563400416596983988295953218668361606002341755834012612415437890348004747350650",
+      "funStockChangePercent": "18.869439801085085946869562393882067263990765384549420023221961388714297300209380",
+      "funOracleMarkChangePercent": "93.238203396804071207786774087181293483448166399021840539562538829569297344851450",
+      "treasuryNavOracleMarkChangePercent": "-11.408285557743020148865583396900125297248915466948093110884810148568117703480518",
+      "treasuryNavDrawdown": {
+        "percent": "11.408342274316603292117477891380620200463533917174217775554927362552489834667534",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "2194376650501666667080",
+        "troughMarkRaw": "1944034651424752326908"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "37.328616674630767575246481000380300978818056789036369823242238833375267433944139",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "18286472087486",
+        "troughMarkRaw": "11460385018635"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "42.818611989204009098475713107682775086786403706702837063304853980548598278737360",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "248419998170000000000",
+        "troughMarkRaw": "142050003050000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "2194376650501666667080",
+      "finalTreasuryNavOracleUsdE18": "1944035896000000000000",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 252,
+      "executeDatesAndCodes": [
+        {
+          "date": "2024-01-09",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-10",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-12",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-01-24",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-01-25",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-02-09",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-02-28",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-03-04",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-03-06",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-03-14",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-03-18",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-03-27",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-04-02",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-09",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-04-15",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-16",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-04-18",
+          "actionCode": 0
+        },
+        {
+          "date": "2024-04-22",
+          "actionCode": 2
+        },
+        {
+          "date": "2024-04-24",
+          "actionCode": 1
+        },
+        {
+          "date": "2024-04-25",
+          "actionCode": 1
+        }
+      ],
+      "actions": "20",
+      "stopActions": "6",
+      "tpActions": "7",
+      "dipActions": "7",
+      "buybacks": "8",
+      "burnedRaw": "9886106683321995824569991",
+      "buybackStockSpentRaw": "799807615157254470",
+      "buybackOracleUsdgValueRaw": "141246063",
+      "executeNotDue": "231",
+      "buybackNotDue": "243",
+      "keeperStockRaw": "4019133744508812",
+      "keeperUsdgRaw": "30516661",
+      "keeperFunRaw": "49678928056894451379745",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "1944035896"
+    },
+    {
+      "year": 2024,
+      "mode": "passive",
+      "firstDate": "2024-01-02",
+      "lastDate": "2024-12-31",
+      "observations": 252,
+      "tslaCloseChangePercent": "62.563400416596983988295953218668361606002341755834012612415437890348004747350650",
+      "funStockChangePercent": "0",
+      "funOracleMarkChangePercent": "62.563400416596397115509629301514505965267763575313184295480875629020191249549920",
+      "treasuryNavOracleMarkChangePercent": "62.563400416596983988329582128480346761362108047834358397242375054868181833451860",
+      "treasuryNavDrawdown": {
+        "percent": "42.818611989204009098476460644708973950544935392774791652897299813343168492568779",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "2194376650501666667080",
+        "troughMarkRaw": "1254775026941666666903"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "42.818611989205512769897140892610599347379259678694615765672178051862810440129193",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "18286472087486",
+        "troughMarkRaw": "10456458557831"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "42.818611989204009098475713107682775086786403706702837063304853980548598278737360",
+        "peakDate": "2024-01-02",
+        "troughDate": "2024-04-22",
+        "peakIndex": 0,
+        "troughIndex": 76,
+        "peakMarkRaw": "248419998170000000000",
+        "troughMarkRaw": "142050003050000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "2194376650501666667080",
+      "finalTreasuryNavOracleUsdE18": "3567253301003333334006",
+      "immediateUnhealthyNoninitialDays": 213,
+      "healthyPostActionObservations": 252,
+      "executeDatesAndCodes": [],
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "treasuryStockRaw": "8833333333333333335",
+      "treasuryUsdgRaw": "0"
+    },
+    {
+      "year": 2025,
+      "mode": "keeper1",
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "tslaCloseChangePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+      "funStockChangePercent": "34.369566914768859723644934127884747070381712825766613906152100549292305057432890",
+      "funOracleMarkChangePercent": "59.324725773090981923237487022144130410607175265352515246457302670019279776451790",
+      "treasuryNavOracleMarkChangePercent": "-9.5631237912724200713273668676858697887404817358856070291803856644130843348816830",
+      "treasuryNavDrawdown": {
+        "percent": "14.996095103001896413416999779737817798952025984861129665842994447971345778573954",
+        "peakDate": "2025-01-03",
+        "troughDate": "2025-04-21",
+        "peakIndex": 1,
+        "troughIndex": 73,
+        "peakMarkRaw": "3564436700969058014530",
+        "troughMarkRaw": "3029910383405434755612"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "46.672436814992560561733000474407599328907073151777728720432978175092966459962352",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "36618308335647",
+        "troughMarkRaw": "19527651514973"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "428220001220000000000",
+        "troughMarkRaw": "221860000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3350306655890000000632",
+      "finalTreasuryNavOracleUsdE18": "3029912683000000000000",
+      "immediateUnhealthyNoninitialDays": 215,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [
+        {
+          "date": "2025-01-03",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-06",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-01-08",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-01-10",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-01-13",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-14",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-29",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-01-30",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-31",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-02-03",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-04",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-02-05",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-06",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-07",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-10",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-11",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-25",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-26",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-27",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-28",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-03-03",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-03-04",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-03-05",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-03-06",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-03-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-03-10",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-04-08",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-04-09",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-04-10",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-04-11",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-04-14",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-04-16",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-04-17",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-04-21",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-04-22",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-04-23",
+          "actionCode": 1
+        }
+      ],
+      "actions": "37",
+      "stopActions": "9",
+      "tpActions": "14",
+      "dipActions": "14",
+      "buybacks": "18",
+      "burnedRaw": "16396052674039051268113578",
+      "buybackStockSpentRaw": "1410311014249258098",
+      "buybackOracleUsdgValueRaw": "472895195",
+      "executeNotDue": "212",
+      "buybackNotDue": "231",
+      "keeperStockRaw": "7086990021353049",
+      "keeperUsdgRaw": "69012164",
+      "keeperFunRaw": "82392224492658549085988",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "3029912683"
+    },
+    {
+      "year": 2025,
+      "mode": "keeper500",
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "tslaCloseChangePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+      "funStockChangePercent": "19.758747424784541505546844590951768822024078141618149551911876452153829247474950",
+      "funOracleMarkChangePercent": "42.000380223637380306522345762514836625206139933804832828168315693182545646531760",
+      "treasuryNavOracleMarkChangePercent": "-8.6358741335318369771434527499842267671343583440604154955950788139046326379961740",
+      "treasuryNavDrawdown": {
+        "percent": "14.144492499813554985010012872129308054840004594935679330064326635524457562199708",
+        "peakDate": "2025-01-03",
+        "troughDate": "2025-03-10",
+        "peakIndex": 1,
+        "troughIndex": 44,
+        "peakMarkRaw": "3565267365047434769082",
+        "troughMarkRaw": "3060978390000000000000"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "47.683166274340663116757799768679517668477716831508435464827772923723139310803885",
+        "peakDate": "2025-01-21",
+        "troughDate": "2025-04-08",
+        "peakIndex": 11,
+        "troughIndex": 65,
+        "peakMarkRaw": "37384207271392",
+        "troughMarkRaw": "19558233557830"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "428220001220000000000",
+        "troughMarkRaw": "221860000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3350306655890000000632",
+      "finalTreasuryNavOracleUsdE18": "3060978390000000000000",
+      "immediateUnhealthyNoninitialDays": 215,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [
+        {
+          "date": "2025-01-03",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-15",
+          "actionCode": 1
+        },
+        {
+          "date": "2025-01-24",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-03",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-07",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-11",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-02-25",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-02-27",
+          "actionCode": 0
+        },
+        {
+          "date": "2025-03-06",
+          "actionCode": 2
+        },
+        {
+          "date": "2025-03-10",
+          "actionCode": 0
+        }
+      ],
+      "actions": "10",
+      "stopActions": "4",
+      "tpActions": "2",
+      "dipActions": "4",
+      "buybacks": "7",
+      "burnedRaw": "10293479923414980459574110",
+      "buybackStockSpentRaw": "835874311374701155",
+      "buybackOracleUsdgValueRaw": "348423670",
+      "executeNotDue": "239",
+      "buybackNotDue": "242",
+      "keeperStockRaw": "4200373423993472",
+      "keeperUsdgRaw": "24645509",
+      "keeperFunRaw": "51726029765904424419967",
+      "treasuryStockRaw": "0",
+      "treasuryUsdgRaw": "3060978390"
+    },
+    {
+      "year": 2025,
+      "mode": "passive",
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "tslaCloseChangePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+      "funStockChangePercent": "0",
+      "funOracleMarkChangePercent": "18.572031920106722408231602153267376023708123608804745540834934933986209323759430",
+      "treasuryNavOracleMarkChangePercent": "18.572031920106198435249790356614555682078355283441916634542569553568767807104780",
+      "treasuryNavDrawdown": {
+        "percent": "48.190182621568299476179136198283933212821930515802525183111258234058460287211906",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "3782610010776666667380",
+        "troughMarkRaw": "1959763338721666667036"
+      },
+      "funOracleMarkDrawdown": {
+        "percent": "48.190182621567450361606521144710667447530819891407558241751545992690966914401544",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "31521750089757",
+        "troughMarkRaw": "16331361155989"
+      },
+      "tslaCloseDrawdown": {
+        "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+        "peakDate": "2025-01-15",
+        "troughDate": "2025-04-08",
+        "peakIndex": 8,
+        "troughIndex": 65,
+        "peakMarkRaw": "428220001220000000000",
+        "troughMarkRaw": "221860000610000000000"
+      },
+      "initialTreasuryNavOracleUsdE18": "3350306655890000000632",
+      "finalTreasuryNavOracleUsdE18": "3972526677443333334082",
+      "immediateUnhealthyNoninitialDays": 215,
+      "healthyPostActionObservations": 250,
+      "executeDatesAndCodes": [],
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "treasuryStockRaw": "8833333333333333335",
+      "treasuryUsdgRaw": "0"
+    }
+  ],
+  "exportCrosscheck": {
+    "status": "PASS",
+    "assertions": 214803,
+    "checkKinds": 25,
+    "rawRowsVerified": 3009,
+    "rawFieldsCompared": 144432,
+    "derivedFieldsIndependentlyRecomputed": 63189,
+    "summaryGroupsVerified": 12,
+    "dailyCsvRowsVerified": 3009,
+    "summaryCsvRowsVerified": 12,
+    "monetaryDecimalTolerance": "5E-19",
+    "percentageAndIndexTolerance": "5.1E-11",
+    "maxDerivedRoundingErrorByField": {
+      "burnedFun": "0",
+      "buybackStockSpent": "0",
+      "cumulativeBuybackUsdAtExecutionOracleMarks": "0",
+      "dailyBuybackUsdAtExecutionOracleMark": "0",
+      "funOracleMarkIndex": "0.000000000049995674694164746308315202270981491451906869621181681973165135298017",
+      "funStock": "0",
+      "funStockIndex": "0.00000000004970871222935805088638393668058322103649899354118716829213764100874",
+      "funUsdActualSpotMark": "0.00000000000000000050",
+      "funUsdOracleMark": "0",
+      "holderFun": "0",
+      "holderUsdOracleMark": "0",
+      "lpUsdOracleMark": "0.000000000000000000499881317893488068",
+      "spotDeviationFromOracleBps": "0.00000000000049995222748903389870336521248963313424279366351461900586288536590000",
+      "stockSpotUsd": "0",
+      "treasuryNavOracleMarkIndex": "0.00000000004991310938983424583859331212003043352578225335386349416577897348499",
+      "treasuryNavUsdActualSpotMark": "0.0000000000000000005",
+      "treasuryNavUsdOracleMark": "0",
+      "treasuryStock": "0",
+      "treasuryUsdg": "0",
+      "tslaIndex": "0.00000000004991310938359905048017157478873736750016810615409067914670433944919",
+      "tslaOracleUsd": "0"
+    },
+    "humanReport": "Four dated windows and all 20 rounded percentage cells match independent calculations; 2023 keeper500 two take-profit dates confirmed; methodological boundaries reviewed."
+  },
+  "findings": [
+    {
+      "severity": "resolved",
+      "title": "Fixed V3 liquidity assertion did not originally cover the full historical path",
+      "resolution": "Final harness asserts V3 active liquidity after every price move and after keeper operations; every snapshot records identical L. The prior successful log remains preserved, and all economic fields agree with the rerun."
+    }
+  ],
+  "blockingFindings": []
+}

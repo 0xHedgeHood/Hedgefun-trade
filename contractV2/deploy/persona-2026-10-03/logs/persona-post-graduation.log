@@ -1,0 +1,38 @@
+Verified quote-only rejection stale_curve_stage
+Signing 16-late_fomo-buy: late_fomo nonce=4
+Confirmed 16-late_fomo-buy: 0xe1a69e4919e776a853f5df3e1cc9986485fbfa2df5268c1bc4db49ea35f341c7
+Verified 16-late_fomo-buy; stage=2
+Signing 17-opening_buyer-buy: opening_buyer nonce=5
+Confirmed 17-opening_buyer-buy: 0x500f598d6895823d51aa354f8141227e870fde26e9a51129c2e14dc6cc30ebdc
+Verified 17-opening_buyer-buy; stage=2
+Signing 18-late_fomo-buy: late_fomo nonce=5
+Confirmed 18-late_fomo-buy: 0x0d37db38c7f1dab6194edd83ca5e8b5bca6a67b1b48ccc40a179e462a5183630
+Verified 18-late_fomo-buy; stage=2
+Signing approve-19-kol-sell: kol nonce=3
+Confirmed approve-19-kol-sell: 0x43e8e02b8721b4639b1d105888109d373cd09cd01c939b31d6084c530db36821
+Signing 19-kol-sell: kol nonce=4
+Confirmed 19-kol-sell: 0x6382187060b0e93447e46f773ba6051555e81e4efbfa5a40e2efa62560ce77d7
+Verified 19-kol-sell; stage=2
+Signing approve-20-follower_1-sell: follower_1 nonce=3
+Confirmed approve-20-follower_1-sell: 0xbf5bcc0c1c73edee9e7c169cf60d11e367d4d50561c77f7c036a6e35fe5b7104
+Signing 20-follower_1-sell: follower_1 nonce=4
+Confirmed 20-follower_1-sell: 0x6f785c845242102427e0fa4f6baf347d0518506a36b38cf0d0320050b15c251b
+Verified 20-follower_1-sell; stage=2
+Signing approve-21-paper_hands-sell: paper_hands nonce=5
+Confirmed approve-21-paper_hands-sell: 0x56d788b159740ab2591e612d8dc1b6b2aacd7325fc711489b7aa6870154087e1
+Signing 21-paper_hands-sell: paper_hands nonce=6
+Confirmed 21-paper_hands-sell: 0x18d66239b8d25e8682b348c19faf2abdd719f1ceae96fd2bb7363d7364a977f0
+Verified 21-paper_hands-sell; stage=2
+Signing approve-22-sniper-sell: sniper nonce=5
+Confirmed approve-22-sniper-sell: 0x9e1064adb6dfcf2548fde63ff25208557d6e3fcf57dea4f98473b982a5568f0d
+Signing 22-sniper-sell: sniper nonce=6
+Confirmed 22-sniper-sell: 0xfec68336cee10a9f30f0c7f8ef807cf981552b7d9b5585529b61410481a4d0b1
+Verified 22-sniper-sell; stage=2
+Signing approve-23-late_fomo-sell: late_fomo nonce=6
+Confirmed approve-23-late_fomo-sell: 0xb6023809fdc3b3e549f809615ff9c59de7766e5eadef8edfe6934d7c34c52e7c
+Signing 23-late_fomo-sell: late_fomo nonce=7
+Confirmed 23-late_fomo-sell: 0xc4163a9ed7ec6dedcb0ad8c10cc3a606f80f89352da5b5c7c9bfa589b511de32
+Verified 23-late_fomo-sell; stage=2
+Signing 24-diamond_hands-buy: diamond_hands nonce=4
+Confirmed 24-diamond_hands-buy: 0x198b318d9ad4dd937aeb0e3390184b344c3c717c7ca8e1aa0423255cc64e17e4
+Verified 24-diamond_hands-buy; stage=2

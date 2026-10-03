@@ -1,0 +1,4603 @@
+{
+  "schema": "hedgefun-equity-history-independent-review-v1",
+  "status": "PASS",
+  "reviewedAtUtc": "2026-10-03T18:54:41.157141+00:00",
+  "method": "Independent raw-log integer/Decimal reconstruction. Does not import producer code or call exporter formulas. Source-reviewed harness assertions complement logged fields; no public transactions.",
+  "evidence": {
+    "harness": {
+      "path": "contractV2/test/EquityHistoricalFeeReplayFork.t.sol",
+      "sha256": "61161a5b25928b0468e5667cc81504f50ec896d15020923479b317521770cdff"
+    },
+    "log": {
+      "path": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/equity-fee-history-20261003/forge.log",
+      "fileSha256": "0ba1de343ab04bcda76a5fd6f5fb23e6d2f5b90a8944aa0420e2587b8379fdcf",
+      "uncompressedSha256": "0ba1de343ab04bcda76a5fd6f5fb23e6d2f5b90a8944aa0420e2587b8379fdcf"
+    },
+    "data": {
+      "path": "contractV2/data/equity-history-2025.json",
+      "sha256": "9042271c25a5d3e53a9b1ce09e88e87ae2544d5ce50a665c0bb8f31d11b5eea0"
+    },
+    "verifier": {
+      "path": "contractV2/tools/verify_equity_history_replay_independent.py",
+      "sha256": "76edb29dc0060a832ee770d805f4a11391d41fadd93f61d3873c90b747112db0"
+    }
+  },
+  "totals": {
+    "cases": 39,
+    "snapshots": 9750,
+    "actions": 2886,
+    "buybacks": 5503,
+    "externalRoundtripPairs": 8964,
+    "ownerFeeConversions": 8964,
+    "actualDepthProbes": 312
+  },
+  "checks": {
+    "250_rows_per_case": 39,
+    "39_profile_and_venue_records": 1,
+    "39_tests_pass_no_unexpected_reverts": 1,
+    "9750_raw_rows": 1,
+    "action_count_breakdown": 9750,
+    "action_delta_independent_remainder": 9711,
+    "actual_depth_probe_all_in_cost": 312,
+    "actual_depth_probe_incremental_cost_at_most_10bps": 312,
+    "actual_depth_probe_usd_units": 312,
+    "actual_strategy_sizes_covered_by_depth_probes": 9750,
+    "all_burn_sources_reconcile_supply": 9750,
+    "all_depth_sizes_both_directions": 39,
+    "all_eight_actual_depth_probes_per_case": 1,
+    "buyback_budget_lp_vs_strategy_separation": 9711,
+    "constant_v3_L_full_path": 9750,
+    "conversion_paid_fun_lp_fee_matches_v4_rate": 9711,
+    "cumulative_ledger_monotonic": 359307,
+    "daily_action_enum": 29133,
+    "daily_buyback_stock_sum": 9711,
+    "daily_buyback_usd_marks": 9711,
+    "daily_close_mapping": 9750,
+    "daily_harvest_usd_marks": 9711,
+    "daily_lp_harvest_sums": 19422,
+    "daily_success_flags": 9711,
+    "daily_synthetic_clock": 9750,
+    "equal_10k_initial_lp_stock": 39,
+    "equal_10k_initial_treasury": 39,
+    "equal_20k_initial_external_assets": 39,
+    "export_actual_depth_exact": 312,
+    "export_actual_profile_exact": 39,
+    "export_archived_log_exact": 1,
+    "export_cashflow_contribution_units": 117,
+    "export_daily_csv_count": 1,
+    "export_daily_csv_exact": 9750,
+    "export_daily_valuation_label": 9750,
+    "export_depth_count": 1,
+    "export_derived_field_independent": 117000,
+    "export_deterministic_gzip_mtime": 2,
+    "export_exact_daily_keyset": 1,
+    "export_matched_counterfactual_independent": 162,
+    "export_matched_csv_exact": 2,
+    "export_matched_pair_counts": 1,
+    "export_mdd_dates_indices": 780,
+    "export_mdd_independent": 195,
+    "export_mdd_raw_marks": 195,
+    "export_profile_keys": 1,
+    "export_provenance": 2,
+    "export_raw_field_exact": 838500,
+    "export_raw_log_provenance": 1,
+    "export_reader_provenance": 1,
+    "export_return_independent": 195,
+    "export_summary_counts": 390,
+    "export_summary_csv_count": 1,
+    "export_summary_csv_exact": 39,
+    "export_summary_dates": 39,
+    "export_summary_group_keys": 1,
+    "export_summary_raw_unit_conversion": 624,
+    "export_terminal_raw_exact": 39,
+    "export_tool_provenance": 1,
+    "external_assets_integer_formula": 9750,
+    "fee_only_off_no_artificial_buyback_budget": 750,
+    "fixed_fork": 39,
+    "fixed_funded_flow_budget": 39,
+    "frozen_rungs": 39,
+    "full_frozen_39_case_matrix": 1,
+    "fun_stock_independent_lp_principal_ratio": 9750,
+    "fun_usd_integer_formula": 9750,
+    "funded_trader_cash_ledger": 9750,
+    "harvest_off_preserves_uncollected_fees": 5250,
+    "healthy_after_actions": 9750,
+    "holder_units_unchanged": 9750,
+    "hook_protocol_creator_actual_role_split": 9711,
+    "hook_stock_payouts_cover_conversion_and_external_sell_tax": 9711,
+    "hook_stock_settlement_completed": 9750,
+    "initial_curve_fee_separate_unchanged": 9750,
+    "lp_fee_all_sources_conserved": 19500,
+    "matched_on_off_identical_deployment": 108,
+    "matched_on_off_identical_initial_state": 216,
+    "matched_on_off_identical_price_and_order_intents": 4500,
+    "no_flow_baseline_conserved": 4500,
+    "non_strategy_controls_no_execute": 2250,
+    "one_buyback_opportunity_per_day": 9750,
+    "one_strategy_opportunity_per_day": 9750,
+    "only_buyback_notdue_expected": 8964,
+    "only_execute_notdue_expected": 7470,
+    "only_tp_can_add_strategy_buyback_credit": 7691,
+    "price_and_action_effects_telescope": 9750,
+    "price_mark_delta_independent_reprice": 9711,
+    "profile_flags": 39,
+    "roundtrip_fees_paid_by_trader": 9750,
+    "same_daily_100_usdg_order_intents": 9750,
+    "same_ticker_all_profiles_initial_economics_equal": 36,
+    "self_buyback_external_assets_conserved": 9750,
+    "self_paid_stock_lp_fee_matches_v4_rate": 9711,
+    "trader_roundtrip_no_hidden_inventory": 9750,
+    "treasury_nav_integer_formula": 9750,
+    "treasury_stock_bucket_identity": 9750,
+    "venue_original_and_rebuilt_L_match_entire_path": 39,
+    "venue_widened_both_bounds": 39
+  },
+  "assertionCount": 1779681,
+  "rounding": {
+    "maximumFunStockPriceVsLpReserveRatioError": 1,
+    "buybackStockFeeErrorWeiRange": [
+      -1,
+      1
+    ],
+    "conversionFunFeeErrorWeiRange": [
+      0,
+      2
+    ]
+  },
+  "independentMetrics": [
+    {
+      "ticker": "META",
+      "profile": "baseline",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "91795446124205",
+        "changePercent": "10.154535348458215399380626962628904974527412163055921728697933601655667826301570",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908722666556117991013837527905761148695937919078536141082648782763067",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "139065040205",
+        "changePercent": "0",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "11015453534948657591426",
+        "changePercent": "10.154535348457730382540925845801062537264914136948959054827832409443519030230870",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847377497038212055286755233578675149966538259820935493232888069",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "22030907069",
+        "changePercent": "10.15453534500",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345446528927063641180390147768755734444910094797821677653195920285077209290",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "0",
+      "externalGeneratedLpFunRaw": "0",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "0",
+      "convertedFeeTokensRaw": "0",
+      "convertedFeeStockRaw": "0",
+      "hookStockDeliveredRaw": "0",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "0",
+      "hookCreatorStockPaidRaw": "0",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "0",
+      "traderUsdgInRaw": "0",
+      "traderUsdgOutRaw": "0",
+      "flowPairs": "0",
+      "priceMarkDeltaPositiveUsdgRaw": "44139577840",
+      "priceMarkDeltaNegativeUsdgRaw": "42108670771",
+      "actionDeltaPositiveUsdgRaw": "0",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "0",
+      "finalUncollectedLpStockRaw": "0",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "fee_only",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "93021694938044",
+        "changePercent": "11.626033925057163482975894975654840624409905770428148742808995398308371200554630",
+        "maximumDailyDrawdown": {
+          "percent": "34.036733613123431932758018856070075691492376381628938712782839837736425168019876",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "140922739555",
+        "changePercent": "1.3358492884059925907817774969879965023377602093290963500786052931339603030893900",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "12028440978319497358747",
+        "changePercent": "20.284409782071514828842654489697180574227906254444432951369390677367547574367490",
+        "maximumDailyDrawdown": {
+          "percent": "33.029029894860182070240678577363454222877007845428303082266358849861463049906885",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23191441983",
+        "changePercent": "15.95720991500",
+        "maximumDailyDrawdown": {
+          "percent": "33.530138229122100667964445574963781326134582844105538424020171566596169007572167",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "249",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "769760682131894567573658",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "23807031406141069100336",
+      "convertedFeeTokensRaw": "7935677135380356366737266",
+      "convertedFeeStockRaw": "1107916797275632725",
+      "hookStockDeliveredRaw": "1534620130816923531",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438462894519120685",
+      "hookCreatorStockPaidRaw": "219231447259560221",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23155301566",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "45219513384",
+      "priceMarkDeltaNegativeUsdgRaw": "43192718949",
+      "actionDeltaPositiveUsdgRaw": "1164647548",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "1744698434",
+      "finalUncollectedLpStockRaw": "112434096771401430",
+      "finalUncollectedLpFunRaw": "793567713538035636673994",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "fee_only",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "94271060940298",
+        "changePercent": "13.125273127753963542590304850536738133317535965320617628089049184336516833552380",
+        "maximumDailyDrawdown": {
+          "percent": "33.861900578689514258571289491419537966285963258540156753215243712347640430577018",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "142815460171",
+        "changePercent": "2.6968819485266692516827579627851444017061757408636561217898509577466813633529300",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "12028454909447575651610",
+        "changePercent": "20.284549093352296456302545634569632343515995503132742508395108035313330428950690",
+        "maximumDailyDrawdown": {
+          "percent": "33.029021727945766249346340051942836391824483906861413478802689652863974536782490",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23191458047",
+        "changePercent": "15.95729023500",
+        "maximumDailyDrawdown": {
+          "percent": "33.530133493725423165212547028973832725352235668723518338238145743112616564088303",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "793794684827666241427843",
+      "buybackStockSpentRaw": "112771046497637905",
+      "buybackOracleUsdgValueRaw": "74699042",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "112771046497637905",
+      "collectedLpFunBurnedRaw": "788334902979652937320545",
+      "collectedLpOracleUsdgValueRaw": "74699042",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "764684855890263349200808",
+      "buybackGeneratedLpStockRaw": "338313139492786",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "23650047089389588119737",
+      "convertedFeeTokensRaw": "7883349029796529373205349",
+      "convertedFeeStockRaw": "1107947979563134069",
+      "hookStockDeliveredRaw": "1534641235707940537",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438468924487982693",
+      "hookCreatorStockPaidRaw": "219234462243991218",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23155279258",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "45219523013",
+      "priceMarkDeltaNegativeUsdgRaw": "43192728820",
+      "actionDeltaPositiveUsdgRaw": "1164663854",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "3988918014209378097507",
+      "finalTraderLossUsdgRaw": "1744720742",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p100",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "107113605604404",
+        "changePercent": "28.536326724598930160597540108663051525980173957057369791765141874791141202956110",
+        "maximumDailyDrawdown": {
+          "percent": "32.754754826215846860360018769014041769719336214639458733084969001560132305202718",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "162271207329",
+        "changePercent": "16.687276032704613706619249454377993648529575097029685570930799415576956795228510",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10665151702261827696323",
+        "changePercent": "6.6515170216221496917413728610244009844269557871426161061519669689964352350509300",
+        "maximumDailyDrawdown": {
+          "percent": "4.6123741436786507434743670927503069728244323958153401464128882390967212729118450",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "22640907018",
+        "changePercent": "13.2045350900",
+        "maximumDailyDrawdown": {
+          "percent": "18.539561291998144337149622720268644974449120581100861086246907497620835320645017",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "131",
+      "stopActions": "45",
+      "tpActions": "80",
+      "dipActions": "6",
+      "buybacks": "80",
+      "burnedRaw": "8158598594759688985372798",
+      "buybackStockSpentRaw": "1231225588360763620",
+      "buybackOracleUsdgValueRaw": "736018304",
+      "executeNotDue": "118",
+      "buybackNotDue": "169",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "690448921596150927518048",
+      "buybackGeneratedLpStockRaw": "3693676765082335",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21354090358643843119235",
+      "convertedFeeTokensRaw": "7118030119547947706370305",
+      "convertedFeeStockRaw": "1108422147480980936",
+      "hookStockDeliveredRaw": "1534962163476112984",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438560618136031949",
+      "hookCreatorStockPaidRaw": "219280309068015842",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154943726",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "24962332750",
+      "priceMarkDeltaNegativeUsdgRaw": "23304395313",
+      "actionDeltaPositiveUsdgRaw": "1072479253",
+      "actionDeltaNegativeUsdgRaw": "89509672",
+      "keeperStockRaw": "6187063258094252",
+      "keeperUsdgRaw": "78355627",
+      "keeperFunRaw": "40997982888239643142537",
+      "finalTraderLossUsdgRaw": "1745056274",
+      "finalUncollectedLpStockRaw": "116127773536483765",
+      "finalUncollectedLpFunRaw": "711803011954794770637283",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p100",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "108498140479163",
+        "changePercent": "30.197768574300864706887530585924048136793509279142069834486497915363180047123620",
+        "maximumDailyDrawdown": {
+          "percent": "32.581104910605043413408937200892479919637322793940865942843705267989087764695793",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "164368701335",
+        "changePercent": "18.195558777892060078738176639209062097577811576486431290137920972242385294609710",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10665163868448606097001",
+        "changePercent": "6.6516386834899325621971293512852462672172271944971032353364235889049640429044400",
+        "maximumDailyDrawdown": {
+          "percent": "4.6123740154701519747949516104548189200862839918067815348116847770396898331258932",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "22640921404",
+        "changePercent": "13.2046070200",
+        "maximumDailyDrawdown": {
+          "percent": "18.539555514564042385934840034060955912485805948408637135780349032028084097086530",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "131",
+      "stopActions": "45",
+      "tpActions": "80",
+      "dipActions": "6",
+      "buybacks": "249",
+      "burnedRaw": "8870651859455230777125273",
+      "buybackStockSpentRaw": "1347701786240053787",
+      "buybackOracleUsdgValueRaw": "812927048",
+      "executeNotDue": "118",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "116475838716865150",
+      "collectedLpFunBurnedRaw": "707243102141779599770902",
+      "collectedLpOracleUsdgValueRaw": "76908479",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "686025809077526211777650",
+      "buybackGeneratedLpStockRaw": "4043105358720031",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21217293064253387993252",
+      "convertedFeeTokensRaw": "7072431021417795997708914",
+      "convertedFeeStockRaw": "1108451117146170031",
+      "hookStockDeliveredRaw": "1534981770811214970",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438566220231775414",
+      "hookCreatorStockPaidRaw": "219283110115887590",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154923033",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "24962335290",
+      "priceMarkDeltaNegativeUsdgRaw": "23304398480",
+      "actionDeltaPositiveUsdgRaw": "1072493833",
+      "actionDeltaNegativeUsdgRaw": "89509239",
+      "keeperStockRaw": "6187065062930557",
+      "keeperUsdgRaw": "78355685",
+      "keeperFunRaw": "44576139997262466216590",
+      "finalTraderLossUsdgRaw": "1745076967",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p1000",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "120878798042419",
+        "changePercent": "45.054557650128788880378912782534298121392396985224250169686843401094551003611760",
+        "maximumDailyDrawdown": {
+          "percent": "31.613171395985320361862495917376710666721827594625875396750805116781546852127181",
+          "peakDate": "2025-02-18",
+          "troughDate": "2025-04-21",
+          "peakIndex": 30,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "183124714999",
+        "changePercent": "31.682782911542897504172910831108618525710942176619349146219879741342070250185640",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10659513904293745920466",
+        "changePercent": "6.5951390419418585046130109965335042890524008864780537221990743823836051765804200",
+        "maximumDailyDrawdown": {
+          "percent": "10.676995448626772787192849433529641591766547349987469677204740971502794342144494",
+          "peakDate": "2025-02-10",
+          "troughDate": "2025-03-18",
+          "peakIndex": 25,
+          "troughIndex": 50
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23378976186",
+        "changePercent": "16.8948809300",
+        "maximumDailyDrawdown": {
+          "percent": "20.302483170296559446243024686226073947970536194658727566902953874373778701078717",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "44",
+      "stopActions": "21",
+      "tpActions": "22",
+      "dipActions": "1",
+      "buybacks": "25",
+      "burnedRaw": "14724081939992088025154209",
+      "buybackStockSpentRaw": "2357843272062813704",
+      "buybackOracleUsdgValueRaw": "1660754107",
+      "executeNotDue": "205",
+      "buybackNotDue": "224",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "610718350260816118552389",
+      "buybackGeneratedLpStockRaw": "7073529816188455",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "18888196399819055213075",
+      "convertedFeeTokensRaw": "6296065466606351737652092",
+      "convertedFeeStockRaw": "1108975532733757057",
+      "hookStockDeliveredRaw": "1535336707335133608",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438667630667180691",
+      "hookCreatorStockPaidRaw": "219333815333590220",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154560217",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "27875988600",
+      "priceMarkDeltaNegativeUsdgRaw": "25588544316",
+      "actionDeltaPositiveUsdgRaw": "1122193471",
+      "actionDeltaNegativeUsdgRaw": "30661569",
+      "keeperStockRaw": "11848458653581965",
+      "keeperUsdgRaw": "21506475",
+      "keeperFunRaw": "73990361507497929774635",
+      "finalTraderLossUsdgRaw": "1745439783",
+      "finalUncollectedLpStockRaw": "119507626587589885",
+      "finalUncollectedLpFunRaw": "629606546660635173765464",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p1000",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "122392262140845",
+        "changePercent": "46.870714568230297867063923130581346906175217932908649037109999448737981042941530",
+        "maximumDailyDrawdown": {
+          "percent": "31.418707124084221736047270060676552964243325442561535393439403487541554218190485",
+          "peakDate": "2025-02-18",
+          "troughDate": "2025-04-21",
+          "peakIndex": 30,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "185417529671",
+        "changePercent": "33.331518401512261656056665000120689390915636847782120123106895699760963514259250",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10659525344576051354046",
+        "changePercent": "6.5952534447649117718883883646440447640209140789842749935467909012800726051993200",
+        "maximumDailyDrawdown": {
+          "percent": "10.676991703583386223588576861131645057067411448550055325580445618366256007214462",
+          "peakDate": "2025-02-10",
+          "troughDate": "2025-03-18",
+          "peakIndex": 25,
+          "troughIndex": 50
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23378989802",
+        "changePercent": "16.8949490100",
+        "maximumDailyDrawdown": {
+          "percent": "20.302478163867660523917668737333598152426178781244120051413979156461194245681116",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "44",
+      "stopActions": "21",
+      "tpActions": "22",
+      "dipActions": "1",
+      "buybacks": "249",
+      "burnedRaw": "15373342485252611540269932",
+      "buybackStockSpentRaw": "2477709642142370154",
+      "buybackOracleUsdgValueRaw": "1740373017",
+      "executeNotDue": "205",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "119865862284572102",
+      "collectedLpFunBurnedRaw": "625648776467905848997435",
+      "collectedLpOracleUsdgValueRaw": "79700456",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "606879313173868673527383",
+      "buybackGeneratedLpStockRaw": "7433128926426983",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "18769463294037175470052",
+      "convertedFeeTokensRaw": "6256487764679058489974108",
+      "convertedFeeStockRaw": "1109002431786712539",
+      "hookStockDeliveredRaw": "1535354913230250824",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438672832351499913",
+      "hookCreatorStockPaidRaw": "219336416175749830",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154541032",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "27875993047",
+      "priceMarkDeltaNegativeUsdgRaw": "25588549135",
+      "actionDeltaPositiveUsdgRaw": "1122207339",
+      "actionDeltaNegativeUsdgRaw": "30661449",
+      "keeperStockRaw": "11848461205315554",
+      "keeperUsdgRaw": "21506504",
+      "keeperFunRaw": "77252977312827193669569",
+      "finalTraderLossUsdgRaw": "1745458968",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p300",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "109008301989493",
+        "changePercent": "30.809962386693598040704602960854800238600878785926825710798294458007180300772070",
+        "maximumDailyDrawdown": {
+          "percent": "34.044111358926204353190052351348972570152373609542799597666376548377097167699173",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "165141567898",
+        "changePercent": "18.751317839882545913941261496362000063033742967161859599880881507130902856952150",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10842662959800029038130",
+        "changePercent": "8.4266295969875835233632454207979632248913994469526269063013920473604486928332700",
+        "maximumDailyDrawdown": {
+          "percent": "4.3753812336775394126699108479938053864401832929790197163219592196478615812590840",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "22923511801",
+        "changePercent": "14.61755900500",
+        "maximumDailyDrawdown": {
+          "percent": "18.542926546832920696612343343936364159563116095752431665422795939908464383585767",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "112",
+      "stopActions": "40",
+      "tpActions": "69",
+      "dipActions": "3",
+      "buybacks": "69",
+      "burnedRaw": "9141953126454618939868107",
+      "buybackStockSpentRaw": "1390424041478063303",
+      "buybackOracleUsdgValueRaw": "850572020",
+      "executeNotDue": "137",
+      "buybackNotDue": "180",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "672371193489712089290430",
+      "buybackGeneratedLpStockRaw": "4171272124434223",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "20794985365661198637966",
+      "convertedFeeTokensRaw": "6931661788553732879281322",
+      "convertedFeeStockRaw": "1108542180482684837",
+      "hookStockDeliveredRaw": "1535043404573147380",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438583829878041811",
+      "hookCreatorStockPaidRaw": "219291914939020790",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154859460",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "25392879940",
+      "priceMarkDeltaNegativeUsdgRaw": "23522357596",
+      "actionDeltaPositiveUsdgRaw": "1106865568",
+      "actionDeltaNegativeUsdgRaw": "53876111",
+      "keeperStockRaw": "6987055484814351",
+      "keeperUsdgRaw": "43713617",
+      "keeperFunRaw": "45939462947008135376188",
+      "finalTraderLossUsdgRaw": "1745140540",
+      "finalUncollectedLpStockRaw": "116605368895835653",
+      "finalUncollectedLpFunRaw": "693166178855373287928396",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p300",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "110410752736001",
+        "changePercent": "32.492903282494217868084610853455900516485959314844030921095992251005031785348640",
+        "maximumDailyDrawdown": {
+          "percent": "33.878622213973860128238866068860729872993038867674864940017493246070083702593550",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "167266203462",
+        "changePercent": "20.279117753410784339117791290182297330174636611143961808916804893394162881297820",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10842675465111514804355",
+        "changePercent": "8.4267546501024400176146873890459968005338861397080417770902023088255835252347400",
+        "maximumDailyDrawdown": {
+          "percent": "4.3753811017655444153800972005255661495934783301867628831982335127454771980514028",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "22923526582",
+        "changePercent": "14.6176329100",
+        "maximumDailyDrawdown": {
+          "percent": "18.542920992181302487353269905661831690484354098594880970252213806782252414523747",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "112",
+      "stopActions": "40",
+      "tpActions": "69",
+      "dipActions": "3",
+      "buybacks": "249",
+      "burnedRaw": "9844468235241534482422631",
+      "buybackStockSpentRaw": "1507379398629215526",
+      "buybackOracleUsdgValueRaw": "927858776",
+      "executeNotDue": "137",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "116954871554032642",
+      "collectedLpFunBurnedRaw": "688727999158535303384544",
+      "collectedLpOracleUsdgValueRaw": "77286390",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "668066159183779244282882",
+      "buybackGeneratedLpStockRaw": "4522138195887523",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "20661839974756059101662",
+      "convertedFeeTokensRaw": "6887279991585353033845353",
+      "convertedFeeStockRaw": "1108570756801121393",
+      "hookStockDeliveredRaw": "1535062745681694037",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438589355909055124",
+      "hookCreatorStockPaidRaw": "219294677954527438",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154839054",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "25392882700",
+      "priceMarkDeltaNegativeUsdgRaw": "23522360389",
+      "actionDeltaPositiveUsdgRaw": "1106880069",
+      "actionDeltaNegativeUsdgRaw": "53875798",
+      "keeperStockRaw": "6987057925000885",
+      "keeperUsdgRaw": "43713668",
+      "keeperFunRaw": "49469689624329319007028",
+      "finalTraderLossUsdgRaw": "1745160946",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "112674062241620",
+        "changePercent": "35.208874689222525444658308604227303265287843109776424069166233001166928980705770",
+        "maximumDailyDrawdown": {
+          "percent": "34.041218219326827822769946581565882380543374771278074447466529210651680527210066",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "170694992587",
+        "changePercent": "22.744718827516481786933087091325879935591250059711583427144057179543243062337130",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10944190423837640051098",
+        "changePercent": "9.4419042373542109678872999152064884400553183295722115172392610589083218931584500",
+        "maximumDailyDrawdown": {
+          "percent": "5.8927825575299345017988687350221293586950376377256894975824886702276377302545290",
+          "peakDate": "2025-01-27",
+          "troughDate": "2025-02-03",
+          "peakIndex": 15,
+          "troughIndex": 20
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23225807457",
+        "changePercent": "16.12903728500",
+        "maximumDailyDrawdown": {
+          "percent": "18.828074632729778295017399902048290138960687710454875754008024583169151047181218",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "87",
+      "stopActions": "36",
+      "tpActions": "51",
+      "dipActions": "0",
+      "buybacks": "51",
+      "burnedRaw": "10966044137793747901527036",
+      "buybackStockSpentRaw": "1694557764180361375",
+      "buybackOracleUsdgValueRaw": "1143931564",
+      "executeNotDue": "162",
+      "buybackNotDue": "198",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "646055206327761005890849",
+      "buybackGeneratedLpStockRaw": "5083673292541114",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "19981088855497763068910",
+      "convertedFeeTokensRaw": "6660362951832587689594950",
+      "convertedFeeStockRaw": "1108725653598881502",
+      "hookStockDeliveredRaw": "1535167583401869793",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438619309543391044",
+      "hookCreatorStockPaidRaw": "219309654771695397",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154734332",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "26088806917",
+      "priceMarkDeltaNegativeUsdgRaw": "23987292831",
+      "actionDeltaPositiveUsdgRaw": "1132072906",
+      "actionDeltaNegativeUsdgRaw": "7779535",
+      "keeperStockRaw": "8515365649147519",
+      "keeperUsdgRaw": "2292287",
+      "keeperFunRaw": "55105749436149486942319",
+      "finalTraderLossUsdgRaw": "1745265668",
+      "finalUncollectedLpStockRaw": "117517770063942544",
+      "finalUncollectedLpFunRaw": "666036295183258768959759",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "114111015799439",
+        "changePercent": "36.933218958596124343636931080502353335754439442600414311134284189235787459566240",
+        "maximumDailyDrawdown": {
+          "percent": "33.882120048069563833943991276432897872529464896146213186760782153175847099554904",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "172871898008",
+        "changePercent": "24.310105367362123504877751313342742221659288664928624934704163522231370860300830",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10944202641838827526762",
+        "changePercent": "9.4420264173660845833635803833198658997068414918055657268258042149548853631337800",
+        "maximumDailyDrawdown": {
+          "percent": "5.8927821351937469053210627134924533186958671687587668260336257841813811800597664",
+          "peakDate": "2025-01-27",
+          "troughDate": "2025-02-03",
+          "peakIndex": 15,
+          "troughIndex": 20
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23225821964",
+        "changePercent": "16.1291098200",
+        "maximumDailyDrawdown": {
+          "percent": "18.828069150658615493235056763319071678353690836803944067117775355188027853763443",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "87",
+      "stopActions": "36",
+      "tpActions": "51",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "11651003580090253540046170",
+      "buybackStockSpentRaw": "1812428344481190559",
+      "buybackOracleUsdgValueRaw": "1222144516",
+      "executeNotDue": "162",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "117870018391588561",
+      "collectedLpFunBurnedRaw": "661764992717085225654266",
+      "collectedLpOracleUsdgValueRaw": "78167280",
+      "externalGeneratedLpStockRaw": "112434096771401430",
+      "externalGeneratedLpFunRaw": "641912042935572668884508",
+      "buybackGeneratedLpStockRaw": "5437285033443442",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "19852949781512556769758",
+      "convertedFeeTokensRaw": "6617649927170852256542476",
+      "convertedFeeStockRaw": "1108753685118056962",
+      "hookStockDeliveredRaw": "1535186555777125589",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438624730222035545",
+      "hookCreatorStockPaidRaw": "219312365111017656",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154714321",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "26088809885",
+      "priceMarkDeltaNegativeUsdgRaw": "23987295867",
+      "actionDeltaPositiveUsdgRaw": "1132087445",
+      "actionDeltaNegativeUsdgRaw": "7779499",
+      "keeperStockRaw": "8515368472812042",
+      "keeperUsdgRaw": "2292310",
+      "keeperFunRaw": "58547756683870620804124",
+      "finalTraderLossUsdgRaw": "1745285679",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500_stop_off",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "140235708674381",
+        "changePercent": "68.282850408359242710220995080898260770248326880529954927765492160505443333831540",
+        "maximumDailyDrawdown": {
+          "percent": "33.286280281632555647035827368509325914257559406658798284227140708643198631524847",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "212449367462",
+        "changePercent": "52.769788257941704163188322863506124997204504996892651637226771116367650137983150",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10676939567376103645823",
+        "changePercent": "6.7693956727638081978158736177012376903081011153338627563869379543866423926452100",
+        "maximumDailyDrawdown": {
+          "percent": "21.617839925355615218490560506136807118663565102196035273214330551208849172924887",
+          "peakDate": "2025-01-28",
+          "troughDate": "2025-04-21",
+          "peakIndex": 16,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24373866661",
+        "changePercent": "21.86933330500",
+        "maximumDailyDrawdown": {
+          "percent": "25.339847052835059546822836879564339701565485199677697929362560897277992124040050",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "113",
+      "stopActions": "0",
+      "tpActions": "101",
+      "dipActions": "12",
+      "buybacks": "101",
+      "burnedRaw": "22208843476608263174633504",
+      "buybackStockSpentRaw": "3838622947704328025",
+      "buybackOracleUsdgValueRaw": "2607154377",
+      "executeNotDue": "136",
+      "buybackNotDue": "148",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "112434096771401432",
+      "externalGeneratedLpFunRaw": "574468410121947004172570",
+      "buybackGeneratedLpStockRaw": "11515868843113033",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "17767064230575680541540",
+      "convertedFeeTokensRaw": "5922354743525226847138392",
+      "convertedFeeStockRaw": "1109222722530505866",
+      "hookStockDeliveredRaw": "1535504011026707040",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438715431721915979",
+      "hookCreatorStockPaidRaw": "219357715860957861",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154374053",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "35378007088",
+      "priceMarkDeltaNegativeUsdgRaw": "31978044323",
+      "actionDeltaPositiveUsdgRaw": "1044398712",
+      "actionDeltaNegativeUsdgRaw": "70494816",
+      "keeperStockRaw": "19289562551277979",
+      "keeperUsdgRaw": "72514852",
+      "keeperFunRaw": "111602228525669664194092",
+      "finalTraderLossUsdgRaw": "1745625947",
+      "finalUncollectedLpStockRaw": "123949965614514465",
+      "finalUncollectedLpFunRaw": "592235474352522684714110",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500_stop_off",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "599239990230000000000",
+        "finalRaw": "660090026860000000000",
+        "changePercent": "10.154535348457730382537924433274684121710272794054744673110699312948955823228250",
+        "maximumDailyDrawdown": {
+          "percent": "34.209345445908905847371551619558034368505310868850045133706098164764708262626229",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333778",
+        "finalRaw": "141926254791627",
+        "changePercent": "70.311505749043617805323103255390795921029234712965388003571616689612941853344230",
+        "maximumDailyDrawdown": {
+          "percent": "33.127798482844794221104852378388779112702723515416187641544266997335828619640123",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "139065040205",
+        "finalRaw": "215010451630",
+        "changePercent": "54.611433120104493626712930917244543718283678901266959871728172848443610026424040",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000093400197138",
+        "finalRaw": "10676950400821168679627",
+        "changePercent": "6.7695040072144575240099688693013741539330008697688359760719665255346091675639700",
+        "maximumDailyDrawdown": {
+          "percent": "21.617829932799673680903759159933000114170887639465736383821048346291253146195645",
+          "peakDate": "2025-01-28",
+          "troughDate": "2025-04-21",
+          "peakIndex": 16,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24373879708",
+        "changePercent": "21.8693985400",
+        "maximumDailyDrawdown": {
+          "percent": "25.339842195248408311679841067388417541899609746213561750913882236047822002731972",
+          "peakDate": "2025-02-14",
+          "troughDate": "2025-04-21",
+          "peakIndex": 29,
+          "troughIndex": 73
+        }
+      },
+      "actions": "113",
+      "stopActions": "0",
+      "tpActions": "101",
+      "dipActions": "12",
+      "buybacks": "249",
+      "burnedRaw": "22789434173067340047146050",
+      "buybackStockSpentRaw": "3962945247166473518",
+      "buybackOracleUsdgValueRaw": "2689811566",
+      "executeNotDue": "136",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "124321569099644420",
+      "collectedLpFunBurnedRaw": "588684344779608880120896",
+      "collectedLpOracleUsdgValueRaw": "82566610",
+      "externalGeneratedLpStockRaw": "112434096771401442",
+      "externalGeneratedLpFunRaw": "571023814436220613717144",
+      "buybackGeneratedLpStockRaw": "11888835741499289",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "17660530343388266403752",
+      "convertedFeeTokensRaw": "5886843447796088801208920",
+      "convertedFeeStockRaw": "1109248021997418545",
+      "hookStockDeliveredRaw": "1535521134284265411",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "438720324081218367",
+      "hookCreatorStockPaidRaw": "219360162040609069",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23154356036",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "35378012830",
+      "priceMarkDeltaNegativeUsdgRaw": "31978050162",
+      "actionDeltaPositiveUsdgRaw": "1044411253",
+      "actionDeltaNegativeUsdgRaw": "70494213",
+      "keeperStockRaw": "19289566221441304",
+      "keeperUsdgRaw": "72514862",
+      "keeperFunRaw": "114519769713906231392570",
+      "finalTraderLossUsdgRaw": "1745643964",
+      "finalUncollectedLpStockRaw": "1363413256311",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "baseline",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "112368353270721",
+        "changePercent": "34.842023924623023725031377049389843646819295840810312544669904678669772851197110",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187122318046755731200360853447576707160045820887814635346825782730231188",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "602511277591",
+        "changePercent": "0",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "13484202392501500000186",
+        "changePercent": "34.842023924622502899853905510123127574271340746027849616386768074725003446375230",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665769133032176942397968758771855260875050256221845789600061",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "26968404785",
+        "changePercent": "34.84202392500",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835190217938706747660827493182061881331335052456620516141918010404032654491",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "0",
+      "externalGeneratedLpFunRaw": "0",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "0",
+      "convertedFeeTokensRaw": "0",
+      "convertedFeeStockRaw": "0",
+      "hookStockDeliveredRaw": "0",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "0",
+      "hookCreatorStockPaidRaw": "0",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "0",
+      "traderUsdgInRaw": "0",
+      "traderUsdgOutRaw": "0",
+      "flowPairs": "0",
+      "priceMarkDeltaPositiveUsdgRaw": "60215468752",
+      "priceMarkDeltaNegativeUsdgRaw": "53247063967",
+      "actionDeltaPositiveUsdgRaw": "0",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "0",
+      "finalUncollectedLpStockRaw": "0",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "fee_only",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "113924639380395",
+        "changePercent": "36.709567256228469617207813668567494766651252779399094350008199226547385274189120",
+        "maximumDailyDrawdown": {
+          "percent": "36.631180139608735197482835517179437747937098652389587878754954269991699915841756",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "610855975230",
+        "changePercent": "1.3849861321043343657223172436291354410868245945174013143661306495506751919525500",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "14770102116795271718835",
+        "changePercent": "47.701021167522790218372151454870225918177670126517020459037633686562087672583140",
+        "maximumDailyDrawdown": {
+          "percent": "35.122054324492037379052697646183707035256587441010183108075977598082650796402039",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "28441600350",
+        "changePercent": "42.2080017500",
+        "maximumDailyDrawdown": {
+          "percent": "35.875593706296780561543762774897974662474367111719929884172526742787871975334471",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "249",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "797784523777006261645405",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24673748158051740051012",
+      "convertedFeeTokensRaw": "8224582719350580016961529",
+      "convertedFeeStockRaw": "4976207287490648452",
+      "hookStockDeliveredRaw": "6894904687902261226",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1969972767972074313",
+      "hookCreatorStockPaidRaw": "984986383986037029",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271821054",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "61954231313",
+      "priceMarkDeltaNegativeUsdgRaw": "54680017207",
+      "actionDeltaPositiveUsdgRaw": "1167386244",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "1628178946",
+      "finalUncollectedLpStockRaw": "505307078836436418",
+      "finalUncollectedLpFunRaw": "822458271935058001696417",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "fee_only",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "115511662045177",
+        "changePercent": "38.613994453963449265960681645118334615765367471030085400022029966621560434179950",
+        "maximumDailyDrawdown": {
+          "percent": "36.371377759491383776618338840952520754663314879256915237518693559826534642489113",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "619365480135",
+        "changePercent": "2.7973256552786157025411793575411585195826555706552369769881584251243788267742100",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "14770120330913959077694",
+        "changePercent": "47.701203308709663276787018192340720268414925208802634492181361669838652472817190",
+        "maximumDailyDrawdown": {
+          "percent": "35.122044076110624772894664378504859583934365505372867049322878634644596243921889",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "28441621354",
+        "changePercent": "42.2081067700",
+        "maximumDailyDrawdown": {
+          "percent": "35.875587797391214874820912701263428674966396707430120553962549404426239831396715",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "823016192479778358071036",
+      "buybackStockSpentRaw": "506822709212036249",
+      "buybackOracleUsdgValueRaw": "74886531",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "506822709212036249",
+      "collectedLpFunBurnedRaw": "816832047421404735567535",
+      "collectedLpOracleUsdgValueRaw": "74886531",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "792327085998762593500385",
+      "buybackGeneratedLpStockRaw": "1520468127635991",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24504961422642142067150",
+      "convertedFeeTokensRaw": "8168320474214047355675167",
+      "convertedFeeStockRaw": "4976351583446915810",
+      "hookStockDeliveredRaw": "6895002350737045992",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970000671639155687",
+      "hookCreatorStockPaidRaw": "985000335819577721",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271796955",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "61954250745",
+      "priceMarkDeltaNegativeUsdgRaw": "54680033198",
+      "actionDeltaPositiveUsdgRaw": "1167403807",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "4135759761204916372099",
+      "finalTraderLossUsdgRaw": "1628203045",
+      "finalUncollectedLpStockRaw": "4837752036160",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p100",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "132326750553630",
+        "changePercent": "58.792100664070809387207328826340575637427892326155179505382225297608333523365500",
+        "maximumDailyDrawdown": {
+          "percent": "29.448887696211145593451745248715387455707767390559583883185861455644800584322913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "709526812620",
+        "changePercent": "17.761582066459653997019452447130717528040136485160392005858187986310189676484140",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "10777617907869714126746",
+        "changePercent": "7.7761790783834272136187261027598474686821848099287114444777903978283588580391100",
+        "maximumDailyDrawdown": {
+          "percent": "6.8448603976017948212398671730394127424029303469923217069479349516603786808952250",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25507821548",
+        "changePercent": "27.5391077400",
+        "maximumDailyDrawdown": {
+          "percent": "19.912186767878238978310356228715377353842833253499124027612134374444771201728366",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "55",
+      "stopActions": "22",
+      "tpActions": "29",
+      "dipActions": "4",
+      "buybacks": "29",
+      "burnedRaw": "8653670412843619569392176",
+      "buybackStockSpentRaw": "5676405183870654316",
+      "buybackOracleUsdgValueRaw": "741410277",
+      "executeNotDue": "194",
+      "buybackNotDue": "220",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "700455910311461902452416",
+      "buybackGeneratedLpStockRaw": "17029215551611978",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21663584854993667086283",
+      "convertedFeeTokensRaw": "7221194951664555695384340",
+      "convertedFeeStockRaw": "4979095717836310261",
+      "hookStockDeliveredRaw": "6896859644464171405",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970531326989762936",
+      "hookCreatorStockPaidRaw": "985265663494881340",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271377538",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "34519154103",
+      "priceMarkDeltaNegativeUsdgRaw": "30088680760",
+      "actionDeltaPositiveUsdgRaw": "1120272651",
+      "actionDeltaNegativeUsdgRaw": "42924446",
+      "keeperStockRaw": "28524649165179153",
+      "keeperUsdgRaw": "73275245",
+      "keeperFunRaw": "43485780969063414921557",
+      "finalTraderLossUsdgRaw": "1628622462",
+      "finalUncollectedLpStockRaw": "522336294388048396",
+      "finalUncollectedLpFunRaw": "722119495166455569538699",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p100",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "134094540003822",
+        "changePercent": "60.913448004297399447384281870592497829760415873897750293090479640473609498565710",
+        "maximumDailyDrawdown": {
+          "percent": "29.153569801730782403328274361163727625315987466487744974198764551903058651183842",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "719005576428",
+        "changePercent": "19.334791425444371006457322682084375816401746605825881921139384391317581637117320",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "10777633855340868570674",
+        "changePercent": "7.7763385530949711887009908384319714051820303142610974992248637766969458049183100",
+        "maximumDailyDrawdown": {
+          "percent": "6.8448602499089238659727225268823205441972405569143610457332401602359893209673016",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-14",
+          "peakIndex": 2,
+          "troughIndex": 7
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25507840121",
+        "changePercent": "27.53920060500",
+        "maximumDailyDrawdown": {
+          "percent": "19.912179717781444842204511709554601390269431354422649134487519482109962962723417",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "55",
+      "stopActions": "22",
+      "tpActions": "29",
+      "dipActions": "4",
+      "buybacks": "249",
+      "burnedRaw": "9386101124027457221097849",
+      "buybackStockSpentRaw": "6200308642176321755",
+      "buybackOracleUsdgValueRaw": "818525660",
+      "executeNotDue": "194",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "523903167010929104",
+      "collectedLpFunBurnedRaw": "717328056737562383608610",
+      "collectedLpOracleUsdgValueRaw": "77115327",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "695808215035435512100229",
+      "buybackGeneratedLpStockRaw": "18600925926528846",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21519841702126871508381",
+      "convertedFeeTokensRaw": "7173280567375623836085966",
+      "convertedFeeStockRaw": "4979228685119737143",
+      "hookStockDeliveredRaw": "6896949639780717842",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970557039937347631",
+      "hookCreatorStockPaidRaw": "985278519968673692",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271355462",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "34519168772",
+      "priceMarkDeltaNegativeUsdgRaw": "30088692948",
+      "actionDeltaPositiveUsdgRaw": "1120288584",
+      "actionDeltaNegativeUsdgRaw": "42924287",
+      "keeperStockRaw": "28524650628971809",
+      "keeperUsdgRaw": "73275251",
+      "keeperFunRaw": "47166337306670639301863",
+      "finalTraderLossUsdgRaw": "1628644538",
+      "finalUncollectedLpStockRaw": "4837752036160",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p1000",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "115429522808414",
+        "changePercent": "38.515427369848026292443752944778771019711177327248598725520261516688965610316030",
+        "maximumDailyDrawdown": {
+          "percent": "36.560567235668981178388225540415533822195079677537202817357116829005580715066137",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "618925055273",
+        "changePercent": "2.7242274613724475904355288507780119926123721537681494003356616085405219549982800",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "9587256904902147193557",
+        "changePercent": "-4.1274309512575931838807864703478696825206770998599227884719606480648801467776370",
+        "maximumDailyDrawdown": {
+          "percent": "20.428912366920306986141728791462161679591261565052014503838687289990075955558287",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23348404035",
+        "changePercent": "16.74202017500",
+        "maximumDailyDrawdown": {
+          "percent": "27.538065150084997949557673410363054882422933007560388799268814874639356935793648",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "81",
+      "stopActions": "22",
+      "tpActions": "59",
+      "dipActions": "0",
+      "buybacks": "59",
+      "burnedRaw": "780422562620718958981823",
+      "buybackStockSpentRaw": "480678912498513866",
+      "buybackOracleUsdgValueRaw": "73731432",
+      "executeNotDue": "168",
+      "buybackNotDue": "190",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "793010254597918199649260",
+      "buybackGeneratedLpStockRaw": "1442036737495571",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24526090348389222669682",
+      "convertedFeeTokensRaw": "8175363449463074223186834",
+      "convertedFeeStockRaw": "4976325186656699016",
+      "hookStockDeliveredRaw": "6894984484766938568",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1969995567076267853",
+      "hookCreatorStockPaidRaw": "984997783538133807",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271799959",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "33596328323",
+      "priceMarkDeltaNegativeUsdgRaw": "31365742005",
+      "actionDeltaPositiveUsdgRaw": "1143277503",
+      "actionDeltaNegativeUsdgRaw": "25459786",
+      "keeperStockRaw": "2415471922103054",
+      "keeperUsdgRaw": "44347965",
+      "keeperFunRaw": "3921721420204617884299",
+      "finalTraderLossUsdgRaw": "1628200041",
+      "finalUncollectedLpStockRaw": "506749115573931989",
+      "finalUncollectedLpFunRaw": "817536344946307422318942",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p1000",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "117031551654847",
+        "changePercent": "40.437861985564173599873926744214626427567390530936088966606438784215974835943550",
+        "maximumDailyDrawdown": {
+          "percent": "36.300411167767243674801655549807966238448159893581593450131789223381743581430556",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "627515022278",
+        "changePercent": "4.1499214399723118028484033246013312961785663041763570414164596433319078786152600",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "9587272004466059709137",
+        "changePercent": "-4.1272799556184684675977044686929871355199821625534757898906029583991515945057150",
+        "maximumDailyDrawdown": {
+          "percent": "20.428911888510891770932471681001143908905326402505757858526003606493537510499585",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23348423129",
+        "changePercent": "16.74211564500",
+        "maximumDailyDrawdown": {
+          "percent": "27.538058889998400138297908477389543800504966524340950841500414106549051509507631",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "81",
+      "stopActions": "22",
+      "tpActions": "59",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "1595056457599878270932323",
+      "buybackStockSpentRaw": "988954559682052675",
+      "buybackOracleUsdgValueRaw": "148840486",
+      "executeNotDue": "168",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "508269104763446286",
+      "collectedLpFunBurnedRaw": "811969013202433488119015",
+      "collectedLpOracleUsdgValueRaw": "75107989",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "787609942806360483475319",
+      "buybackGeneratedLpStockRaw": "2966863679046040",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24359070396073004643696",
+      "convertedFeeTokensRaw": "8119690132024334881190018",
+      "convertedFeeStockRaw": "4976468700876130617",
+      "hookStockDeliveredRaw": "6895081618503686094",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970023319572481420",
+      "hookCreatorStockPaidRaw": "985011659786240596",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271776003",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "33596338359",
+      "priceMarkDeltaNegativeUsdgRaw": "31365750408",
+      "actionDeltaPositiveUsdgRaw": "1143294914",
+      "actionDeltaNegativeUsdgRaw": "25459736",
+      "keeperStockRaw": "2415504798585932",
+      "keeperUsdgRaw": "44347979",
+      "keeperFunRaw": "8015359083416473723158",
+      "finalTraderLossUsdgRaw": "1628223997",
+      "finalUncollectedLpStockRaw": "4837752036172",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p300",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "124094236445057",
+        "changePercent": "48.913083733800952101614093490025501088091914200045786922096717766687914294891030",
+        "maximumDailyDrawdown": {
+          "percent": "33.857242401788860845944329036976312679874769123914294369685715280613097085814096",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "665384645818",
+        "changePercent": "10.435218487259593439990634859047683514648671119964175157009007289016561746762480",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "10808160834822381967242",
+        "changePercent": "8.0816083479092165774647798721014318267115977016514966439956490551062663523049500",
+        "maximumDailyDrawdown": {
+          "percent": "7.9178267343595714367361852086130303826578432825007659677473072480945955012346556",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25074485469",
+        "changePercent": "25.37242734500",
+        "maximumDailyDrawdown": {
+          "percent": "20.858455446068337777314823216527052058573816964935401410281294951119109906157998",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "49",
+      "stopActions": "24",
+      "tpActions": "23",
+      "dipActions": "2",
+      "buybacks": "23",
+      "burnedRaw": "5025741369157214710448186",
+      "buybackStockSpentRaw": "3189229645120813918",
+      "buybackOracleUsdgValueRaw": "447471463",
+      "executeNotDue": "200",
+      "buybackNotDue": "226",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "736392756689512454250827",
+      "buybackGeneratedLpStockRaw": "9567688935362453",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "22775033712046776935718",
+      "convertedFeeTokensRaw": "7591677904015592311862778",
+      "convertedFeeStockRaw": "4978021483038182945",
+      "hookStockDeliveredRaw": "6896132577525245583",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970323593578641264",
+      "hookCreatorStockPaidRaw": "985161796789320506",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271545280",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "33596892795",
+      "priceMarkDeltaNegativeUsdgRaw": "29632055476",
+      "actionDeltaPositiveUsdgRaw": "1134671053",
+      "actionDeltaNegativeUsdgRaw": "25022903",
+      "keeperStockRaw": "16026279623722671",
+      "keeperUsdgRaw": "47700395",
+      "keeperFunRaw": "25254981754558867891688",
+      "finalTraderLossUsdgRaw": "1628454720",
+      "finalUncollectedLpStockRaw": "514874767771798871",
+      "finalUncollectedLpFunRaw": "759167790401559231186545",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p300",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "125781799947439",
+        "changePercent": "50.938159936655715064753766335743702235661004310784752836257830583906080936271300",
+        "maximumDailyDrawdown": {
+          "percent": "33.584024364347302802428737258659585891518386993119462520256314481982911974126579",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "674433243686",
+        "changePercent": "11.937032346110285141515818435650875468228510183182763036880033442434472866341430",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "10808177386253000444965",
+        "changePercent": "8.0817738622154008729170400615467610298205383803797170337759918809225338420568200",
+        "maximumDailyDrawdown": {
+          "percent": "7.9178260911969114476653383728065868466833834438973169228018935477040626978675297",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25074504715",
+        "changePercent": "25.37252357500",
+        "maximumDailyDrawdown": {
+          "percent": "20.858448446974964300440379144421327397893135614152888137265965487663582746918512",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "49",
+      "stopActions": "24",
+      "tpActions": "23",
+      "dipActions": "2",
+      "buybacks": "249",
+      "burnedRaw": "5795610925062546470125443",
+      "buybackStockSpentRaw": "3705648994062075870",
+      "buybackOracleUsdgValueRaw": "523679942",
+      "executeNotDue": "200",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "516419188066586364",
+      "collectedLpFunBurnedRaw": "754035673992713391335821",
+      "collectedLpOracleUsdgValueRaw": "76208446",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "731414603772931989595617",
+      "buybackGeneratedLpStockRaw": "11116946982186106",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "22621070219781401740204",
+      "convertedFeeTokensRaw": "7540356739927133913358063",
+      "convertedFeeStockRaw": "4978159316142859073",
+      "hookStockDeliveredRaw": "6896225866146114222",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970350247470318023",
+      "hookCreatorStockPaidRaw": "985175123735158882",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271522336",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "33596907921",
+      "priceMarkDeltaNegativeUsdgRaw": "29632068068",
+      "actionDeltaPositiveUsdgRaw": "1134687734",
+      "actionDeltaNegativeUsdgRaw": "25022872",
+      "keeperStockRaw": "16026280432138125",
+      "keeperUsdgRaw": "47700399",
+      "keeperFunRaw": "29123672990264052613575",
+      "finalTraderLossUsdgRaw": "1628477664",
+      "finalUncollectedLpStockRaw": "4837752036160",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "121730080983722",
+        "changePercent": "46.076097180204047329464353530996282021058330677490179238103227638088366603161990",
+        "maximumDailyDrawdown": {
+          "percent": "36.291998756470384574867843215879157063495251370808943138227236952332799739480481",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "652708209028",
+        "changePercent": "8.3312849574701165139107614416962024562364238509751137887394392302054645442737000",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "9943765772151793024456",
+        "changePercent": "-0.56234227877151210694069808494667160005901929645384303341637582064936705485481500",
+        "maximumDailyDrawdown": {
+          "percent": "16.884944779771302662909622011813024850670871564282739938821401354465637605714773",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24074051996",
+        "changePercent": "20.3702599800",
+        "maximumDailyDrawdown": {
+          "percent": "25.244773033682376123674151700487729565730668848828320407575683699197528413244888",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "121",
+      "stopActions": "42",
+      "tpActions": "77",
+      "dipActions": "2",
+      "buybacks": "77",
+      "burnedRaw": "3894853730167858659421689",
+      "buybackStockSpentRaw": "2459902771344257522",
+      "buybackOracleUsdgValueRaw": "419014983",
+      "executeNotDue": "128",
+      "buybackNotDue": "172",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "768447005174803659599252",
+      "buybackGeneratedLpStockRaw": "7379708314032810",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "23766402221901144111434",
+      "convertedFeeTokensRaw": "7922134073967048037104272",
+      "convertedFeeStockRaw": "4977041334738828747",
+      "hookStockDeliveredRaw": "6895469190404093909",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970134054401169367",
+      "hookCreatorStockPaidRaw": "985067027200584557",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271690592",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "34118099720",
+      "priceMarkDeltaNegativeUsdgRaw": "31151916111",
+      "actionDeltaPositiveUsdgRaw": "1134614834",
+      "actionDeltaNegativeUsdgRaw": "26746447",
+      "keeperStockRaw": "12361320459016327",
+      "keeperUsdgRaw": "49988307",
+      "keeperFunRaw": "19572129297325922911622",
+      "finalTraderLossUsdgRaw": "1628309408",
+      "finalUncollectedLpStockRaw": "512686787150469228",
+      "finalUncollectedLpFunRaw": "792213407396704803710686",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "123394438097144",
+        "changePercent": "48.073325716306860307013512878888603730869516067699358349142411952404940228133480",
+        "maximumDailyDrawdown": {
+          "percent": "36.028847511999896628292945637185767152228876835789312905257145910946355748753325",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "661632375856",
+        "changePercent": "9.8124467481142995633332336086218332097782405042371677667301716742182545747388800",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "9943780384668362214471",
+        "changePercent": "-0.56219615360582063213068034541252355464545368090278089319627774481715046037373100",
+        "maximumDailyDrawdown": {
+          "percent": "16.884944208957491515164253019831667629353292802473868379835850530634259291285159",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-01-27",
+          "peakIndex": 2,
+          "troughIndex": 15
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24074070360",
+        "changePercent": "20.370351800",
+        "maximumDailyDrawdown": {
+          "percent": "25.244766260861204427919944075908841490088950386547191199000903213762607449029676",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "121",
+      "stopActions": "42",
+      "tpActions": "77",
+      "dipActions": "2",
+      "buybacks": "249",
+      "burnedRaw": "4676478641271013893834706",
+      "buybackStockSpentRaw": "2974132907516370977",
+      "buybackOracleUsdgValueRaw": "495119641",
+      "executeNotDue": "128",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "514224639773066018",
+      "collectedLpFunBurnedRaw": "786844932400767912565773",
+      "collectedLpOracleUsdgValueRaw": "76103701",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "763239584428744875188671",
+      "buybackGeneratedLpStockRaw": "8922398722548981",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "23605347972023037377102",
+      "convertedFeeTokensRaw": "7868449324007679125657547",
+      "convertedFeeStockRaw": "4977182310796318240",
+      "hookStockDeliveredRaw": "6895564606251651019",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970161316071899984",
+      "hookCreatorStockPaidRaw": "985080658035949875",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271667101",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "34118106337",
+      "priceMarkDeltaNegativeUsdgRaw": "31151921459",
+      "actionDeltaPositiveUsdgRaw": "1134631789",
+      "actionDeltaNegativeUsdgRaw": "26746307",
+      "keeperStockRaw": "12361348079112043",
+      "keeperUsdgRaw": "49988343",
+      "keeperFunRaw": "23499892669703587406083",
+      "finalTraderLossUsdgRaw": "1628332899",
+      "finalUncollectedLpStockRaw": "4837785919381",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500_stop_off",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "180208007446301",
+        "changePercent": "116.24960893517281570235242962299857503639709455923463081817161460305056378017292",
+        "maximumDailyDrawdown": {
+          "percent": "35.359733524171080738067396873508005265114757819338020840463286236887637049289716",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "966262774511",
+        "changePercent": "60.372562381632926071282381477935578202530594763132406059494796839858277154941550",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "11045614777653586738908",
+        "changePercent": "10.456147776214352503444969491095169455417919069566372169202412865191147862688830",
+        "maximumDailyDrawdown": {
+          "percent": "31.830744055775426721841749902381291945913830295891698810453527131422780477153641",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "28226545852",
+        "changePercent": "41.1327292600",
+        "maximumDailyDrawdown": {
+          "percent": "33.942528937732576363022644849635353864115693873450700126613982628697696692753632",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "189",
+      "stopActions": "0",
+      "tpActions": "174",
+      "dipActions": "15",
+      "buybacks": "174",
+      "burnedRaw": "24421880122319998421060267",
+      "buybackStockSpentRaw": "18816998872147441985",
+      "buybackOracleUsdgValueRaw": "3246594384",
+      "executeNotDue": "60",
+      "buybackNotDue": "75",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "676405928132030472966374",
+      "buybackGeneratedLpStockRaw": "56450996616442413",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "20919770973155581638253",
+      "convertedFeeTokensRaw": "6973256991051860546043650",
+      "convertedFeeStockRaw": "4979442473038687488",
+      "hookStockDeliveredRaw": "6897094335576617463",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970598381593318959",
+      "hookCreatorStockPaidRaw": "985299190796659341",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271239665",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "52091432637",
+      "priceMarkDeltaNegativeUsdgRaw": "44973403314",
+      "actionDeltaPositiveUsdgRaw": "1120110792",
+      "actionDeltaNegativeUsdgRaw": "11594263",
+      "keeperStockRaw": "94557783277122734",
+      "keeperUsdgRaw": "32046315",
+      "keeperFunRaw": "122723015690050243321822",
+      "finalTraderLossUsdgRaw": "1628760335",
+      "finalUncollectedLpStockRaw": "561758075452878831",
+      "finalUncollectedLpFunRaw": "697325699105186054604627",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500_stop_off",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "138309997560000000000",
+        "finalRaw": "186500000000000000000",
+        "changePercent": "34.842023924622502899854725440282915727643079860090484119881290235777226341525790",
+        "maximumDailyDrawdown": {
+          "percent": "36.886835187121953889665411713516788750203397252819834642583079593844225570097913",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333483",
+        "finalRaw": "182426129954216",
+        "changePercent": "118.91135594466603520472337980077231680987781291900945944799745901083139656361655",
+        "maximumDailyDrawdown": {
+          "percent": "35.091896855500200960148429244188054169479312335606391721278891032211054582541507",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "602511277591",
+        "finalRaw": "978156192784",
+        "changePercent": "62.346536764411791702004327968977487155538011765839587839596243087079381479420980",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000029107921298",
+        "finalRaw": "11045627575872479359021",
+        "changePercent": "10.456275758403278332045421211216563316802264844014048583389228682742835794140180",
+        "maximumDailyDrawdown": {
+          "percent": "31.830733309306233391106838865560811612017920571216246793827291835470902949650195",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "28226562766",
+        "changePercent": "41.1328138300",
+        "maximumDailyDrawdown": {
+          "percent": "33.942522729313168975247954527104706461444118616359665018753767183715685808889687",
+          "peakDate": "2025-01-06",
+          "troughDate": "2025-04-04",
+          "peakIndex": 2,
+          "troughIndex": 63
+        }
+      },
+      "actions": "189",
+      "stopActions": "0",
+      "tpActions": "174",
+      "dipActions": "15",
+      "buybacks": "249",
+      "burnedRaw": "25001003359520992477480238",
+      "buybackStockSpentRaw": "19380451684886931335",
+      "buybackOracleUsdgValueRaw": "3331232659",
+      "executeNotDue": "60",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "563443585515278559",
+      "collectedLpFunBurnedRaw": "693136695122300898889070",
+      "collectedLpOracleUsdgValueRaw": "84671831",
+      "externalGeneratedLpStockRaw": "505307078836436418",
+      "externalGeneratedLpFunRaw": "672342594268631871922278",
+      "buybackGeneratedLpStockRaw": "58141355054660669",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "20794100853669026966792",
+      "convertedFeeTokensRaw": "6931366951223008988890583",
+      "convertedFeeStockRaw": "4979566354118475253",
+      "hookStockDeliveredRaw": "6897178181142124580",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "1970622337469178140",
+      "hookCreatorStockPaidRaw": "985311168734588953",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23271219465",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "52091443061",
+      "priceMarkDeltaNegativeUsdgRaw": "44973411513",
+      "actionDeltaPositiveUsdgRaw": "1120125335",
+      "actionDeltaNegativeUsdgRaw": "11594117",
+      "keeperStockRaw": "94557829645083598",
+      "keeperUsdgRaw": "32046329",
+      "keeperFunRaw": "125633182711160766218369",
+      "finalTraderLossUsdgRaw": "1628780535",
+      "finalUncollectedLpStockRaw": "4848375818528",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "baseline",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "98810026600782",
+        "changePercent": "18.572031920106498624048532805653675493835533812735249894769849486738294736001040",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568015910860851675325451330713855091582953798688955706517733166878153",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "219714547569",
+        "changePercent": "0",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "11857203192117876431582",
+        "changePercent": "18.572031920106198435263854164498856757098095212099843394797737147172441105814540",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476174857946650074631363244968820679868112714552796445441008139",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23714406384",
+        "changePercent": "18.5720319200",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182623628010729274021746239831171406922152013177090901902688275890425096023",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "0",
+      "externalGeneratedLpFunRaw": "0",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "0",
+      "convertedFeeTokensRaw": "0",
+      "convertedFeeStockRaw": "0",
+      "hookStockDeliveredRaw": "0",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "0",
+      "hookCreatorStockPaidRaw": "0",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "0",
+      "traderUsdgInRaw": "0",
+      "traderUsdgOutRaw": "0",
+      "flowPairs": "0",
+      "priceMarkDeltaPositiveUsdgRaw": "66813446021",
+      "priceMarkDeltaNegativeUsdgRaw": "63099039637",
+      "actionDeltaPositiveUsdgRaw": "0",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "0",
+      "finalUncollectedLpStockRaw": "0",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "fee_only",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "100422304637237",
+        "changePercent": "20.506765563838924532804106105477846391563967429716787204513107020973136041140850",
+        "maximumDailyDrawdown": {
+          "percent": "47.999784246561851182422850152826604097761118191354004766574287439501814249969181",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "223299618351",
+        "changePercent": "1.6316947701763492053607961704497744476339945724952708217821867862301157448398900",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "13189743077665291223413",
+        "changePercent": "31.897430775459808922228455642156275126640351096526355272825904549940096972022580",
+        "maximumDailyDrawdown": {
+          "percent": "47.277012312514413578890861263859341793321979700012291377468476645796747388813605",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25241027442",
+        "changePercent": "26.2051372100",
+        "maximumDailyDrawdown": {
+          "percent": "47.637534954725141135067438218403530019717856709337500369869453873624582253084271",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "0",
+      "burnedRaw": "0",
+      "buybackStockSpentRaw": "0",
+      "buybackOracleUsdgValueRaw": "0",
+      "executeNotDue": "0",
+      "buybackNotDue": "249",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "938180658211739661797794",
+      "buybackGeneratedLpStockRaw": "0",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "29015896645723907066033",
+      "convertedFeeTokensRaw": "9671965548574635688635601",
+      "convertedFeeStockRaw": "2136705660156027924",
+      "hookStockDeliveredRaw": "2963043409082321962",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846583831166377386",
+      "hookCreatorStockPaidRaw": "423291915583188552",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156789180",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "69158302000",
+      "priceMarkDeltaNegativeUsdgRaw": "65080834287",
+      "actionDeltaPositiveUsdgRaw": "1163559729",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "0",
+      "finalTraderLossUsdgRaw": "1743210820",
+      "finalUncollectedLpStockRaw": "217326146604833501",
+      "finalUncollectedLpFunRaw": "967196554857463568863827",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "fee_only",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "102071240149244",
+        "changePercent": "22.485488178233441814941514172226370336567659785718641298943398012646613119543270",
+        "maximumDailyDrawdown": {
+          "percent": "47.875254140130960614159141338975788980017477611644780716225401230533464358337015",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "226966200908",
+        "changePercent": "3.3004884834595046313048260058427264839932907610701696367472358427447355385087200",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "13189769899979289188761",
+        "changePercent": "31.897698998599786149444996574064373866933778706958653892164591683054735275632560",
+        "maximumDailyDrawdown": {
+          "percent": "47.277008451779829806943189336679816439118326187856362402436448653647323134580548",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "25241058371",
+        "changePercent": "26.20529185500",
+        "maximumDailyDrawdown": {
+          "percent": "47.637532726207585055264450299117549407238046920093968665371109499395610017425021",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "0",
+      "stopActions": "0",
+      "tpActions": "0",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "968298064671246825010723",
+      "buybackStockSpentRaw": "217978079662778611",
+      "buybackOracleUsdgValueRaw": "74699157",
+      "executeNotDue": "0",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "217978079662778611",
+      "collectedLpFunBurnedRaw": "959420119630251432937902",
+      "collectedLpOracleUsdgValueRaw": "74699157",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "930637516041343889949646",
+      "buybackGeneratedLpStockRaw": "653934238988211",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "28782603588907542988256",
+      "convertedFeeTokensRaw": "9594201196302514329378898",
+      "convertedFeeStockRaw": "2136793781011497301",
+      "hookStockDeliveredRaw": "2963103051335113036",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846600871810031969",
+      "hookCreatorStockPaidRaw": "423300435905015850",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156756040",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "69158339450",
+      "priceMarkDeltaNegativeUsdgRaw": "65080865058",
+      "actionDeltaPositiveUsdgRaw": "1163583979",
+      "actionDeltaNegativeUsdgRaw": "0",
+      "keeperStockRaw": "0",
+      "keeperUsdgRaw": "0",
+      "keeperFunRaw": "4865819420458526758727",
+      "finalTraderLossUsdgRaw": "1743243960",
+      "finalUncollectedLpStockRaw": "2001181043101",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p100",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "113903548819813",
+        "changePercent": "36.684258582816623241782958571335650762663509074249152820335067943812529163306210",
+        "maximumDailyDrawdown": {
+          "percent": "47.991081082322377023054268312841236693979875835534237628369015577464152500088276",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "253276591014",
+        "changePercent": "15.275294156141412089366738749211383130215419914401143719927425758301268707194790",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10844438366720748185402",
+        "changePercent": "8.4443836662265275431694703978058789267965932104578640448894004102723813807434400",
+        "maximumDailyDrawdown": {
+          "percent": "8.8597646588325754370966051613016050594220498213569969137089318658263782724010185",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-03-04",
+          "peakIndex": 1,
+          "troughIndex": 40
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23675156624",
+        "changePercent": "18.3757831200",
+        "maximumDailyDrawdown": {
+          "percent": "27.417173363111593369122602584915643731874741483028881253163626580955070368754128",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "39",
+      "stopActions": "21",
+      "tpActions": "14",
+      "dipActions": "4",
+      "buybacks": "14",
+      "burnedRaw": "7341708214755231089387935",
+      "buybackStockSpentRaw": "1733007539040613395",
+      "buybackOracleUsdgValueRaw": "710477644",
+      "executeNotDue": "210",
+      "buybackNotDue": "235",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "828883508315818897156755",
+      "buybackGeneratedLpStockRaw": "5199022617121846",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "25635572422138728778172",
+      "convertedFeeTokensRaw": "8545190807379576259346497",
+      "convertedFeeStockRaw": "2138116044854355814",
+      "hookStockDeliveredRaw": "2963997990485525816",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846856568710149909",
+      "hookCreatorStockPaidRaw": "423428284355074838",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156295698",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38445521472",
+      "priceMarkDeltaNegativeUsdgRaw": "35775090671",
+      "actionDeltaPositiveUsdgRaw": "1098070887",
+      "actionDeltaNegativeUsdgRaw": "93345064",
+      "keeperStockRaw": "8708580598194029",
+      "keeperUsdgRaw": "78114267",
+      "keeperFunRaw": "36893006104297643665258",
+      "finalTraderLossUsdgRaw": "1743704302",
+      "finalUncollectedLpStockRaw": "222525169221955347",
+      "finalUncollectedLpFunRaw": "854519080737957625934927",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p100",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "115701403302090",
+        "changePercent": "38.841683961533886745325878250594793638193826927834432110274313624314315415611810",
+        "maximumDailyDrawdown": {
+          "percent": "47.870186438661785779905264246361197872126648198725358555545219068312039730430274",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "257274310656",
+        "changePercent": "17.094800277257284390189263080438225636605889426025346044072257541158098462552150",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10844462947913063591733",
+        "changePercent": "8.4446294781496793829409382741460454013258379911111394608469334180744026237122000",
+        "maximumDailyDrawdown": {
+          "percent": "8.8597598736464670484433297462993340043909506717671329411951180568420095972526065",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-03-04",
+          "peakIndex": 1,
+          "troughIndex": 40
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23675185021",
+        "changePercent": "18.37592510500",
+        "maximumDailyDrawdown": {
+          "percent": "27.417170190825949717660521948150620482447599592171917194184689078995453068012794",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "39",
+      "stopActions": "21",
+      "tpActions": "14",
+      "dipActions": "4",
+      "buybacks": "249",
+      "burnedRaw": "8215821712605097623288726",
+      "buybackStockSpentRaw": "1956200297834948961",
+      "buybackOracleUsdgValueRaw": "787279863",
+      "executeNotDue": "210",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "223192746317295125",
+      "collectedLpFunBurnedRaw": "847771282063827613343776",
+      "collectedLpOracleUsdgValueRaw": "76802204",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "822338143601912784943335",
+      "buybackGeneratedLpStockRaw": "5868600893504725",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "25433138461914828400441",
+      "convertedFeeTokensRaw": "8477712820638276133437670",
+      "convertedFeeStockRaw": "2138197780396097040",
+      "hookStockDeliveredRaw": "2964053311001559128",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846872374571873709",
+      "hookCreatorStockPaidRaw": "423436187285936727",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156265055",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38445554569",
+      "priceMarkDeltaNegativeUsdgRaw": "35775117782",
+      "actionDeltaPositiveUsdgRaw": "1098093094",
+      "actionDeltaNegativeUsdgRaw": "93344860",
+      "keeperStockRaw": "8708580660892724",
+      "keeperUsdgRaw": "78114271",
+      "keeperFunRaw": "41285536244246721724942",
+      "finalTraderLossUsdgRaw": "1743734945",
+      "finalUncollectedLpStockRaw": "2001181043101",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p1000",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "125563590628970",
+        "changePercent": "50.676308753706855017783992705195227507180350283809622662408791687400539917521200",
+        "maximumDailyDrawdown": {
+          "percent": "47.103842795047333183364610266402301334426063415740348683724522069691486742477888",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "279203927529",
+        "changePercent": "27.075758350191958381075130547310782833965766351708514529435573661634514288805650",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10129765206797907507630",
+        "changePercent": "1.2976520670627678862470663637549948722914638953055974339551866183379327916436000",
+        "maximumDailyDrawdown": {
+          "percent": "16.552374332093324480710402471102563596741407301141747951057791167349920791302520",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-21",
+          "peakIndex": 8,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23598126359",
+        "changePercent": "17.99063179500",
+        "maximumDailyDrawdown": {
+          "percent": "31.024460762231832438174980708469124975328406014372834354790624981073554943632731",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "actions": "78",
+      "stopActions": "25",
+      "tpActions": "51",
+      "dipActions": "2",
+      "buybacks": "54",
+      "burnedRaw": "12666552208324864666003245",
+      "buybackStockSpentRaw": "3150831453171940760",
+      "buybackOracleUsdgValueRaw": "1164723512",
+      "executeNotDue": "171",
+      "buybackNotDue": "195",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "794198294159889594673813",
+      "buybackGeneratedLpStockRaw": "9452494359515851",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24562833839996585402409",
+      "convertedFeeTokensRaw": "8187611279998861800759476",
+      "convertedFeeStockRaw": "2138526231722300533",
+      "hookStockDeliveredRaw": "2964275614414462950",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846935889832703385",
+      "hookCreatorStockPaidRaw": "423467944916351577",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156128485",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "40774161381",
+      "priceMarkDeltaNegativeUsdgRaw": "38230081152",
+      "actionDeltaPositiveUsdgRaw": "1110707118",
+      "actionDeltaNegativeUsdgRaw": "56660988",
+      "keeperStockRaw": "15833323885286110",
+      "keeperUsdgRaw": "51067947",
+      "keeperFunRaw": "63651016122235500834161",
+      "finalTraderLossUsdgRaw": "1743871515",
+      "finalUncollectedLpStockRaw": "226778640964349352",
+      "finalUncollectedLpFunRaw": "818761127999886180076222",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p1000",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "127487127859900",
+        "changePercent": "52.984553430806660373129460470822123705336711980083357628747735162876705890097260",
+        "maximumDailyDrawdown": {
+          "percent": "46.976443127337614891754557073181412865553942539349686830660776229804859487248981",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "283481116059",
+        "changePercent": "29.022460822706562947240656227555413554483352836437235246272579051722517579001660",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10129783409798042263963",
+        "changePercent": "1.2978340970641138029900464772129505233850570289170249195598956953985740423009300",
+        "maximumDailyDrawdown": {
+          "percent": "16.554185824983220746692970491083397223423354763146395229746202858582518989310246",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-21",
+          "peakIndex": 8,
+          "troughIndex": 73
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "23598150711",
+        "changePercent": "17.99075355500",
+        "maximumDailyDrawdown": {
+          "percent": "31.024452960494006061694691125404340100065415909783739289793446475075522614853492",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "actions": "78",
+      "stopActions": "25",
+      "tpActions": "51",
+      "dipActions": "2",
+      "buybacks": "249",
+      "burnedRaw": "13474779682045074172436592",
+      "buybackStockSpentRaw": "3378296100318315276",
+      "buybackOracleUsdgValueRaw": "1242936541",
+      "executeNotDue": "171",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "227459033724745229",
+      "collectedLpFunBurnedRaw": "812595874666538728749437",
+      "collectedLpOracleUsdgValueRaw": "78221492",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "788217998426542566886826",
+      "buybackGeneratedLpStockRaw": "10134888300954830",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24377876239996161862611",
+      "convertedFeeTokensRaw": "8125958746665387287494173",
+      "convertedFeeStockRaw": "2138603981313399972",
+      "hookStockDeliveredRaw": "2964328237143749866",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846950924898213934",
+      "hookCreatorStockPaidRaw": "423475462449106843",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156099459",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "40774175622",
+      "priceMarkDeltaNegativeUsdgRaw": "38230092177",
+      "actionDeltaPositiveUsdgRaw": "1110727975",
+      "actionDeltaNegativeUsdgRaw": "56660709",
+      "keeperStockRaw": "15833352093434997",
+      "keeperUsdgRaw": "51067971",
+      "keeperFunRaw": "67712460713794342574935",
+      "finalTraderLossUsdgRaw": "1743900541",
+      "finalUncollectedLpStockRaw": "2001181043102",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p300",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "116871871036092",
+        "changePercent": "40.246245242326432343379837750678847058341237209038677879741384635995734445393850",
+        "maximumDailyDrawdown": {
+          "percent": "47.791485901330056282004254629142311587991437269542493485502148438210860974599574",
+          "peakDate": "2025-01-17",
+          "troughDate": "2025-03-10",
+          "peakIndex": 10,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "259876969490",
+        "changePercent": "18.279364004510096827743294143441788733185801351684187897179594059854448235249620",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "11118290346104476029696",
+        "changePercent": "11.182903460039034184138074145186658557613581672279518940158304098560254098141110",
+        "maximumDailyDrawdown": {
+          "percent": "6.1548855462177555607290724604284357102647858375707728156235484611863188447562185",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-01-17",
+          "peakIndex": 1,
+          "troughIndex": 10
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24114317698",
+        "changePercent": "20.5715884900",
+        "maximumDailyDrawdown": {
+          "percent": "26.264578996467173776972704733251914810365323872247351710756673911628413828731038",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "34",
+      "stopActions": "20",
+      "tpActions": "13",
+      "dipActions": "1",
+      "buybacks": "14",
+      "burnedRaw": "8783626883152556026805002",
+      "buybackStockSpentRaw": "2100561709922068086",
+      "buybackOracleUsdgValueRaw": "871663203",
+      "executeNotDue": "215",
+      "buybackNotDue": "235",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "808801096616509712202032",
+      "buybackGeneratedLpStockRaw": "6301685129766209",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "25014466905665248831108",
+      "convertedFeeTokensRaw": "8338155635221749610328859",
+      "convertedFeeStockRaw": "2138387054224665687",
+      "hookStockDeliveredRaw": "2964181415961394818",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846908975988969619",
+      "hookCreatorStockPaidRaw": "423454487994484677",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156201407",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38968870141",
+      "priceMarkDeltaNegativeUsdgRaw": "35951031294",
+      "actionDeltaPositiveUsdgRaw": "1125692625",
+      "actionDeltaNegativeUsdgRaw": "29213774",
+      "keeperStockRaw": "10555586482020435",
+      "keeperUsdgRaw": "20488389",
+      "keeperFunRaw": "44138828558555557923635",
+      "finalTraderLossUsdgRaw": "1743798593",
+      "finalUncollectedLpStockRaw": "223627831734599710",
+      "finalUncollectedLpFunRaw": "833815563522174961033140",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p300",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "118701967311057",
+        "changePercent": "42.442360772269024396821760524831898528157779399926445019730116061741573505710820",
+        "maximumDailyDrawdown": {
+          "percent": "47.676566646326004278728428584066321744021860361924312905458948238085260494234829",
+          "peakDate": "2025-01-17",
+          "troughDate": "2025-03-10",
+          "peakIndex": 10,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "263946382169",
+        "changePercent": "20.131500207608813365783127663683553731032920305646709619491067318858876902535270",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "11118314278905312545274",
+        "changePercent": "11.183142788047397175031027218631348792178980869668736072826589402413145110499200",
+        "maximumDailyDrawdown": {
+          "percent": "6.1548852338762737235852330087559904054626148684484858083369661620586992021898995",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-01-17",
+          "peakIndex": 1,
+          "troughIndex": 10
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24114345399",
+        "changePercent": "20.57172699500",
+        "maximumDailyDrawdown": {
+          "percent": "26.264575893354035248650832644935198746195543161668827916359659599792467356500929",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "34",
+      "stopActions": "20",
+      "tpActions": "13",
+      "dipActions": "1",
+      "buybacks": "249",
+      "burnedRaw": "9639758227288003091647270",
+      "buybackStockSpentRaw": "2324860473124492574",
+      "buybackOracleUsdgValueRaw": "948929431",
+      "executeNotDue": "215",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "224298726843163756",
+      "collectedLpFunBurnedRaw": "827261348834135895321472",
+      "collectedLpOracleUsdgValueRaw": "77281409",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "802443508369111818461702",
+      "buybackGeneratedLpStockRaw": "6974581419373356",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24817840465024076859770",
+      "convertedFeeTokensRaw": "8272613488341358953214612",
+      "convertedFeeStockRaw": "2138467532724444774",
+      "hookStockDeliveredRaw": "2964235885680770144",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846924538765934008",
+      "hookCreatorStockPaidRaw": "423462269382966879",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156171246",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38968901605",
+      "priceMarkDeltaNegativeUsdgRaw": "35951057103",
+      "actionDeltaPositiveUsdgRaw": "1125714583",
+      "actionDeltaNegativeUsdgRaw": "29213686",
+      "keeperStockRaw": "10555586664730288",
+      "keeperUsdgRaw": "20488392",
+      "keeperFunRaw": "48440996117025141163928",
+      "finalTraderLossUsdgRaw": "1743828754",
+      "finalUncollectedLpStockRaw": "2001181043101",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "120446153200921",
+        "changePercent": "44.535383840091139746977920563535202909326237016388167121093020619478411367333740",
+        "maximumDailyDrawdown": {
+          "percent": "47.224540359429276370407848738377472568696147050806631470855172768042978522457311",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "267824764018",
+        "changePercent": "21.896691403144929641870890932749496369330231765906233442064048546888233016362800",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10941448664140389307288",
+        "changePercent": "9.4144866404141635109530547894928910501907352902870266907722652526156514683771900",
+        "maximumDailyDrawdown": {
+          "percent": "6.0802852361970524793138543424850951435860107299083635712042682875569778900071166",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-01-22",
+          "peakIndex": 1,
+          "troughIndex": 12
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24133770144",
+        "changePercent": "20.6688507200",
+        "maximumDailyDrawdown": {
+          "percent": "26.038220566874975173242788390929797657523156228874175532771383543000721390478751",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "118",
+      "stopActions": "45",
+      "tpActions": "73",
+      "dipActions": "0",
+      "buybacks": "75",
+      "burnedRaw": "10443938071959668837765058",
+      "buybackStockSpentRaw": "2537016580540939881",
+      "buybackOracleUsdgValueRaw": "1052716007",
+      "executeNotDue": "131",
+      "buybackNotDue": "174",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "790216695021645151113858",
+      "buybackGeneratedLpStockRaw": "7611049741622860",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24439691598607581993332",
+      "convertedFeeTokensRaw": "8146563866202527331069350",
+      "convertedFeeStockRaw": "2138636827536240193",
+      "hookStockDeliveredRaw": "2964350468364873812",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846957276675677899",
+      "hookCreatorStockPaidRaw": "423478638337838808",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156112957",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38328656674",
+      "priceMarkDeltaNegativeUsdgRaw": "35318193020",
+      "actionDeltaPositiveUsdgRaw": "1130771576",
+      "actionDeltaNegativeUsdgRaw": "7465086",
+      "keeperStockRaw": "12748827037894136",
+      "keeperUsdgRaw": "2489178",
+      "keeperFunRaw": "52482100864118938883207",
+      "finalTraderLossUsdgRaw": "1743887043",
+      "finalUncollectedLpStockRaw": "224937196346456361",
+      "finalUncollectedLpFunRaw": "814656386620252733107190",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "122314857910107",
+        "changePercent": "46.777829491098606748290452175053994187539821176780220614623709972167800050835270",
+        "maximumDailyDrawdown": {
+          "percent": "47.097505116761610974814832523846024833819562105502468559012692935323563095354003",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "271980026635",
+        "changePercent": "23.787901003499255463539806680373557600022932143800890935898263747979727202129840",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10941466843003400414186",
+        "changePercent": "9.4146684290442729355294043587731447388780799071992290091476323792094448275986700",
+        "maximumDailyDrawdown": {
+          "percent": "6.0802848330082790005091134682818725398297772299908588383643174428442761013345533",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-01-22",
+          "peakIndex": 1,
+          "troughIndex": 12
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "24133793346",
+        "changePercent": "20.6689667300",
+        "maximumDailyDrawdown": {
+          "percent": "26.038217566863966332731130059443168807634239810458201731818020035455598333005812",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "118",
+      "stopActions": "45",
+      "tpActions": "73",
+      "dipActions": "0",
+      "buybacks": "249",
+      "burnedRaw": "11279557550497258742123449",
+      "buybackStockSpentRaw": "2762631583725189720",
+      "buybackOracleUsdgValueRaw": "1130470097",
+      "executeNotDue": "131",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "225612040174965839",
+      "collectedLpFunBurnedRaw": "808298483239999237774862",
+      "collectedLpOracleUsdgValueRaw": "77817142",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "784049528742799260641494",
+      "buybackGeneratedLpStockRaw": "8287894751175440",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "24248954497199977133368",
+      "convertedFeeTokensRaw": "8082984832399992377748521",
+      "convertedFeeStockRaw": "2138716009434758987",
+      "hookStockDeliveredRaw": "2964404060513068158",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "846972588718019160",
+      "hookCreatorStockPaidRaw": "423486294359009450",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23156083319",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "38328665644",
+      "priceMarkDeltaNegativeUsdgRaw": "35318200376",
+      "actionDeltaPositiveUsdgRaw": "1130793145",
+      "actionDeltaNegativeUsdgRaw": "7465067",
+      "keeperStockRaw": "12748841927388023",
+      "keeperUsdgRaw": "2489214",
+      "keeperFunRaw": "56681193721091752472862",
+      "finalTraderLossUsdgRaw": "1743916681",
+      "finalUncollectedLpStockRaw": "2001181043102",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500_stop_off",
+      "harvestEnabled": false,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "177460860679914",
+        "changePercent": "112.95303281440272152177415050580323256005128452035868018780516349980235897288539",
+        "maximumDailyDrawdown": {
+          "percent": "46.810553950058701480814676869199108181873915779966428586786641524235035765083170",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "394602997862",
+        "changePercent": "79.598029455959150668158732656958217328189809572599662020516066741481427827794520",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10883107237399597985293",
+        "changePercent": "8.8310723730115276757902814869911701405984226804452557659082971708554268694820900",
+        "maximumDailyDrawdown": {
+          "percent": "32.822990113702552196048737280950750269002054804895786910883893594728353913385385",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-03-10",
+          "peakIndex": 1,
+          "troughIndex": 44
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "26883023351",
+        "changePercent": "34.41511675500",
+        "maximumDailyDrawdown": {
+          "percent": "39.183596950179798648526036759105136927663994050929438184816223833259380053186789",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "192",
+      "stopActions": "0",
+      "tpActions": "174",
+      "dipActions": "18",
+      "buybacks": "176",
+      "burnedRaw": "29586544620330540536663068",
+      "buybackStockSpentRaw": "8779879856353057422",
+      "buybackOracleUsdgValueRaw": "3450112726",
+      "executeNotDue": "57",
+      "buybackNotDue": "73",
+      "collectedLpStockRaw": "0",
+      "collectedLpFunBurnedRaw": "0",
+      "collectedLpOracleUsdgValueRaw": "0",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "700361542642898889160626",
+      "buybackGeneratedLpStockRaw": "26339639569059259",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21660666267306151211270",
+      "convertedFeeTokensRaw": "7220222089102050403716385",
+      "convertedFeeStockRaw": "2139798469638846555",
+      "hookStockDeliveredRaw": "2965136694580110001",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "847181912737173970",
+      "hookCreatorStockPaidRaw": "423590956368586861",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23155659898",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "63106161729",
+      "priceMarkDeltaNegativeUsdgRaw": "57191233405",
+      "actionDeltaPositiveUsdgRaw": "1010965376",
+      "actionDeltaNegativeUsdgRaw": "42870349",
+      "keeperStockRaw": "44119999278155980",
+      "keeperUsdgRaw": "66592113",
+      "keeperFunRaw": "148676103619751459983149",
+      "finalTraderLossUsdgRaw": "1744340102",
+      "finalUncollectedLpStockRaw": "243665786173892760",
+      "finalUncollectedLpFunRaw": "722022208910205040371896",
+      "pendingHookTokenFeesRaw": "0"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500_stop_off",
+      "harvestEnabled": true,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "observations": 250,
+      "stockOracleUsdE18": {
+        "initialRaw": "379279998780000000000",
+        "finalRaw": "449720001220000000000",
+        "changePercent": "18.572031920106198435270939915182837736034228111057156442442867696109203198832600",
+        "maximumDailyDrawdown": {
+          "percent": "48.190182621568299476172702440496247308847270756168160472361973340148504331929440",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-04-08",
+          "peakIndex": 8,
+          "troughIndex": 65
+        }
+      },
+      "funOracleUsdE18": {
+        "initialRaw": "83333333333918",
+        "finalRaw": "179916932404888",
+        "changePercent": "115.90031888435084336270739448296724492030750180963912256730357191606779813943687",
+        "maximumDailyDrawdown": {
+          "percent": "46.681917876037354461588577767143861839340039575866564857953784912478850528994436",
+          "peakDate": "2025-01-21",
+          "troughDate": "2025-03-10",
+          "peakIndex": 11,
+          "troughIndex": 44
+        }
+      },
+      "funStockE18": {
+        "initialRaw": "219714547569",
+        "finalRaw": "400064333178",
+        "changePercent": "82.083679758329275382529142721446285445528846032639279944573946264638656699506580",
+        "maximumDailyDrawdown": {
+          "percent": "0",
+          "peakDate": "2025-01-02",
+          "troughDate": "2025-01-02",
+          "peakIndex": 0,
+          "troughIndex": 0
+        }
+      },
+      "treasuryNavOracleUsdE18": {
+        "initialRaw": "10000000000090456903132",
+        "finalRaw": "10883123891269955273144",
+        "changePercent": "8.8312389117150990478427438185447503488836805732483905702050040103616063706853000",
+        "maximumDailyDrawdown": {
+          "percent": "32.822985505076796970771613947213410476324505595715273575630770402698833935303979",
+          "peakDate": "2025-01-03",
+          "troughDate": "2025-03-10",
+          "peakIndex": 1,
+          "troughIndex": 44
+        }
+      },
+      "externalAssetsUsdgRaw": {
+        "initialRaw": "20000000000",
+        "finalRaw": "26883046245",
+        "changePercent": "34.41523122500",
+        "maximumDailyDrawdown": {
+          "percent": "39.183594484998845402202943116822085963587222967850925626071353851491524797281715",
+          "peakDate": "2025-01-15",
+          "troughDate": "2025-03-10",
+          "peakIndex": 8,
+          "troughIndex": 44
+        }
+      },
+      "actions": "192",
+      "stopActions": "0",
+      "tpActions": "174",
+      "dipActions": "18",
+      "buybacks": "249",
+      "burnedRaw": "30201873836031202564802510",
+      "buybackStockSpentRaw": "9024277025991191665",
+      "buybackOracleUsdgValueRaw": "3535109932",
+      "executeNotDue": "57",
+      "buybackNotDue": "0",
+      "collectedLpStockRaw": "244390617720771298",
+      "collectedLpFunBurnedRaw": "716881553073888011475508",
+      "collectedLpOracleUsdgValueRaw": "85058789",
+      "externalGeneratedLpStockRaw": "217326146604833501",
+      "externalGeneratedLpFunRaw": "695375106481671371131114",
+      "buybackGeneratedLpStockRaw": "27072831077973444",
+      "buybackGeneratedLpFunRaw": "0",
+      "conversionGeneratedLpStockRaw": "0",
+      "conversionGeneratedLpFunRaw": "21506446592216640344394",
+      "convertedFeeTokensRaw": "7168815530738880114754904",
+      "convertedFeeStockRaw": "2139869109070423447",
+      "hookStockDeliveredRaw": "2965184504982626880",
+      "hookTokenBurnRaw": "0",
+      "hookProtocolStockPaidRaw": "847195572852178793",
+      "hookCreatorStockPaidRaw": "423597786426089270",
+      "hookSweeperStockPaidRaw": "0",
+      "conversionCount": "249",
+      "traderUsdgInRaw": "24900000000",
+      "traderUsdgOutRaw": "23155633798",
+      "flowPairs": "249",
+      "priceMarkDeltaPositiveUsdgRaw": "63106180819",
+      "priceMarkDeltaNegativeUsdgRaw": "57191248617",
+      "actionDeltaPositiveUsdgRaw": "1010983833",
+      "actionDeltaNegativeUsdgRaw": "42869790",
+      "keeperStockRaw": "44120032202363835",
+      "keeperUsdgRaw": "66592124",
+      "keeperFunRaw": "151768210231312575702401",
+      "finalTraderLossUsdgRaw": "1744366202",
+      "finalUncollectedLpStockRaw": "8359962035647",
+      "finalUncollectedLpFunRaw": "0",
+      "pendingHookTokenFeesRaw": "0"
+    }
+  ],
+  "matchedHarvestComparisons": [
+    {
+      "ticker": "TSLA",
+      "profile": "fee_only",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "30929",
+      "finalTreasuryNavOnMinusOffUsdE18": "26822313997965348",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.978722614394517282137408066748523945003692356001854094430290991673477078402420",
+      "traderLossOnMinusOffUsdgRaw": "33140"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p100",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "28397",
+      "finalTreasuryNavOnMinusOffUsdE18": "24581192315406331",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.157425378717263503542919679259142875530317853585279289939245680501786252305600",
+      "traderLossOnMinusOffUsdgRaw": "30643"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p300",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "27701",
+      "finalTreasuryNavOnMinusOffUsdE18": "23932800836515578",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.196115529942592053441922774153051469816542190887767139988731425745839060316970",
+      "traderLossOnMinusOffUsdgRaw": "30161"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "23202",
+      "finalTreasuryNavOnMinusOffUsdE18": "18178863011106898",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.242445651007467001312531611518791278213584160392053493530689352689388683501530",
+      "traderLossOnMinusOffUsdgRaw": "29638"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p1000",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "24352",
+      "finalTreasuryNavOnMinusOffUsdE18": "18203000134756333",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.308244677099805355345467765626896198156361696273734966338943475476165972576060",
+      "traderLossOnMinusOffUsdgRaw": "29026"
+    },
+    {
+      "ticker": "TSLA",
+      "profile": "p500_stop_off",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "22894",
+      "finalTreasuryNavOnMinusOffUsdE18": "16653870357287851",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.94728606994812184093324397716401236025621728928044237949840841626543916655148",
+      "traderLossOnMinusOffUsdgRaw": "26100"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "fee_only",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "21004",
+      "finalTreasuryNavOnMinusOffUsdE18": "18214118687358859",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.904427197734979648752867976550839849114114691630991050013830740074175159990830",
+      "traderLossOnMinusOffUsdgRaw": "24099"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p100",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "18573",
+      "finalTreasuryNavOnMinusOffUsdE18": "15947471154443928",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.121347340226590060176953044251922192332523547742570787708254342865275975200210",
+      "traderLossOnMinusOffUsdgRaw": "22076"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p300",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "19246",
+      "finalTreasuryNavOnMinusOffUsdE18": "16551430618477723",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.025076202854762963139672845718201147569090110738965914161112817218166641380270",
+      "traderLossOnMinusOffUsdgRaw": "22944"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "18364",
+      "finalTreasuryNavOnMinusOffUsdE18": "14612516569190015",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.997228536102812977549159347892321709811185390209179111039184314316573624971490",
+      "traderLossOnMinusOffUsdgRaw": "23491"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p1000",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "19094",
+      "finalTreasuryNavOnMinusOffUsdE18": "15099563912515580",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.922434615716147307430173799435855407856213203687490241086177267527009225627520",
+      "traderLossOnMinusOffUsdgRaw": "23956"
+    },
+    {
+      "ticker": "NVDA",
+      "profile": "p500_stop_off",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "16914",
+      "finalTreasuryNavOnMinusOffUsdE18": "12798218892620113",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.66174700949321950237095017777374177348071835977482862982584440778083278344363",
+      "traderLossOnMinusOffUsdgRaw": "20200"
+    },
+    {
+      "ticker": "META",
+      "profile": "fee_only",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "16064",
+      "finalTreasuryNavOnMinusOffUsdE18": "13931128078292863",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.499239202696800059614409874881897508907630194892468885280053786028145632997750",
+      "traderLossOnMinusOffUsdgRaw": "22308"
+    },
+    {
+      "ticker": "META",
+      "profile": "p100",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "14386",
+      "finalTreasuryNavOnMinusOffUsdE18": "12166186778400678",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.661441849701934546289990477260996610813335322084700042721356040572038844167510",
+      "traderLossOnMinusOffUsdgRaw": "20693"
+    },
+    {
+      "ticker": "META",
+      "profile": "p300",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "14781",
+      "finalTreasuryNavOnMinusOffUsdE18": "12505311485766225",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.682940895800619827380007892601100277885080528917205210297697792997851484576570",
+      "traderLossOnMinusOffUsdgRaw": "20406"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "14507",
+      "finalTreasuryNavOnMinusOffUsdE18": "12218001187475664",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.724344269373598898978622476275050070466596332823990241968051188068858478860470",
+      "traderLossOnMinusOffUsdgRaw": "20011"
+    },
+    {
+      "ticker": "META",
+      "profile": "p1000",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "13616",
+      "finalTreasuryNavOnMinusOffUsdE18": "11440282305433580",
+      "funMarkReturnOnMinusOffPercentagePoints": "1.816156918101508986685010348047048784782820947684398867423156047643430039329770",
+      "traderLossOnMinusOffUsdgRaw": "19185"
+    },
+    {
+      "ticker": "META",
+      "profile": "p500_stop_off",
+      "finalExternalAssetsOnMinusOffUsdgRaw": "13047",
+      "finalTreasuryNavOnMinusOffUsdE18": "10833445065033804",
+      "funMarkReturnOnMinusOffPercentagePoints": "2.028655340684375095102108174492535150780907832435433075806124529107498519512690",
+      "traderLossOnMinusOffUsdgRaw": "18017"
+    }
+  ],
+  "scopeLimits": [
+    "Daily Close replay; after-close constant-price 601-second wait and forced-open calendar are synthetic assumptions.",
+    "Full-year 2025 volatility/volume selection is in-sample; profile comparisons are not out-of-sample parameter validation.",
+    "Initial $20k means $10k treasury stock plus $10k locked LP stock, not gross acquisition/launch cost or redeemable investor equity.",
+    "External-asset measure excludes endogenous FUN, pending unconverted FUN taxes, and initial unclaimed curve fees; these are separately logged.",
+    "The synthetic funded trader supplies 249 $100 buy/sell roundtrips per active case. Comparisons are conditional on this flow, not historical FUN demand.",
+    "Matched harvest on/off changes only LP collection. Actual fills, taxes and later strategy state may diverge as effects of the intervention.",
+    "V3 depth and fee tier differ by ticker; raw liquidity L is not a comparable USD depth measure. Actual $100/$1000/$2000/$10000 probes are separate evidence.",
+    "Owner-authorized hook fee conversion is locally impersonated. Permissionless LP harvest/keeper calls do not make the full fee pipeline permissionless.",
+    "Hook role payments are actual cumulative recipient STOCK balance changes, checked against aggregate split rounding. Sell-tax stock is inferred from total paid minus conversion output; original per-trade gross hook-tax bases were not separately logged, so this is not an independent replay of every individual tax calculation.",
+    "Self-paid buyback LP fees recycle existing external stock; external-asset NAV is conserved at buyback within a raw USDG unit and fees are not added as new profit.",
+    "Marginal FUN marks and locked LP asset marks are not full-position exit proceeds. Dividends are not paid. Gas measurements are harness estimates, not charged execution costs."
+  ],
+  "blockingFindings": [],
+  "exportCrosscheck": {
+    "status": "PASS",
+    "rawRows": 9750,
+    "rawFields": 838500,
+    "derivedFields": 117000,
+    "summaries": 39,
+    "harvestMatchedPairs": 18,
+    "strategyMatchedPairs": 30,
+    "actualDepthProbes": 312,
+    "tolerances": {
+      "decimalMonetaryMarks": "5E-19",
+      "displayedPercentagesAndIndices": "5.1E-11",
+      "differenceOfTwoRoundedPercentages": "1.01e-10 percentage points"
+    },
+    "maximumDerivedRoundingErrors": {
+      "externalAssetsIndex": "0E-10",
+      "externalAssetsUsdg": "0.000000",
+      "funOracleMarkIndex": "4.999914664690460153262215933564741060183317725055910761365799584273E-11",
+      "funStockIndex": "4.999184330064384937531963409074266381303114711079273634495225027985E-11",
+      "funUsdActualSpotMark": "5E-19",
+      "funUsdOracleMark": "0E-18",
+      "matched_externalAssetsChangeDeltaPercentagePoints": "0E-11",
+      "matched_externalAssetsDeltaUsdg": "0.000000",
+      "matched_funOracleMarkChangeDeltaPercentagePoints": "8.9654262732798404854057787711698747644770375482567505276425019791850E-11",
+      "matched_traderCashChangeDeltaUsdg": "0.000000",
+      "spotDeviationFromOracleBps": "4.9992039403369577093524848229469519170379026192770353366179226300336689E-13",
+      "stockIndex": "4.9910468990958585132275558588315180019364373612171840874419019897678E-11",
+      "stockOracleUsd": "0E-8",
+      "traderCashChangeUsdg": "0.000000",
+      "treasuryNavIndex": "4.998550259319240767654763804867799203113312907150131057132262640372E-11",
+      "treasuryNavUsdOracleMark": "0E-18"
+    },
+    "hashes": {
+      "results.json": "2adabb8f45439a72762dd865397a8aec4bed054e2a3c5bcd4768600fd5de4f47",
+      "daily.jsonl.gz": "8e09df2292215d9020ec1cb67ad8dbc6df99f12b7a6c299dca94979b1bf0fb9f",
+      "daily.csv": "6106c272e4659cc4ceae80214aedd68e1f79723fa8cfc9e300d9686acd4f16f6",
+      "summary.csv": "33389b2779ada72a4f522dd98b6f8a6c7b0d16cef1bfc864948cee654142ae8e",
+      "harvestMatchedPairs.csv": "e038b6c4c18c8040f1f9d35d15d22afb6c9084e0f8d0444863b5ac368b2d60df",
+      "strategyVersusMatchedFlowControl.csv": "f2db074f5e399b68b4984c3c433e526d32a5b77956d2756f3d91e7ad230da24f",
+      "forge.log.gz": "09da51dae7a87849e58c27c6606f731ff501f72c3606aeac19f452dce5985441",
+      "GENERATED_REPORT.md": "9fde3b8de86521a74941cbb06e24b40ac49b51f23f87e1918135b326e467c9e5"
+    }
+  }
+}

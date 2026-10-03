@@ -1,0 +1,21 @@
+Signing curve-config: owner nonce=90
+Confirmed curve-config: 0x4bd9e4915363a129dd212f8325121922f097aedabc135c6f0dd5b6cb09176040
+Signing approve-launch: owner nonce=91
+Confirmed approve-launch: 0xd61175107a9bc00a11bc0f476dcbf20844f5a120ba090fa7dcd7677f26debd41
+Signing launch: owner nonce=92
+Confirmed launch: 0x199cc20fccbe0e01dd8c60c8be0e5bcccf366bc0f141158f517ae7b69a808730
+Launched HFPERS2 id=3; opening window ends 1791034762
+Signing 01-sniper-buy: sniper nonce=2
+Confirmed 01-sniper-buy: 0xa3e997d59be28304d7ddb5b6a8457941c0cbf3a15846116ada7d06f3e91e52dc
+Verified 01-sniper-buy; stage=0
+WAIT 02-opening_buyer-buy: earliest elapsed 30s
+Signing 02-opening_buyer-buy: opening_buyer nonce=4
+Confirmed 02-opening_buyer-buy: 0x70b0046feeb506c6093fd3611af77c2b028fb2b24bb3c6e2da83c02f4b9958da
+Verified 02-opening_buyer-buy; stage=0
+WAIT 03-sniper-sell: earliest elapsed 100s
+Signing approve-03-sniper-sell: sniper nonce=3
+Confirmed approve-03-sniper-sell: 0x782bc5ea792d0811536c6db8a44c2b3475273d942ee046e1e0fe605d4e9daaa0
+Signing 03-sniper-sell: sniper nonce=4
+Confirmed 03-sniper-sell: 0xea84909ed8514e132776cb4f2829a2f281353d5272bd55df7027da822ddf72de
+Verified 03-sniper-sell; stage=0
+Verified quote-only rejection expired_deadline

@@ -1,0 +1,21 @@
+No files changed, compilation skipped
+2026-10-03T05:56:38.645702Z  WARN evm::traces::external: etherscan config not found
+2026-10-03T05:56:38.960692Z  WARN foundry_fork_db::cache: Failed to read cache file err=Os { code: 2, kind: NotFound, message: "No such file or directory" } path="/Users/leo/.foundry/cache/rpc/46630/127978606"
+
+Ran 1 test for test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[FAIL: BadBinding("eight markets")] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 48462193)
+Logs:
+  creator core fork block: 127978606
+  reviewed source: 179c4a4c510d0f627440b41f644743d942c4e5c6
+
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 3.67s (3.67s CPU time)
+
+Ran 1 test suite in 3.67s (3.67s CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[FAIL: BadBinding("eight markets")] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 48462193)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test
