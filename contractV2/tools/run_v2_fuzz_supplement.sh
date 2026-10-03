@@ -35,9 +35,10 @@ task_run() {
   printf 'Running %s, seed %s\n' "$task_label" "$task_seed"
   local task_started
   task_started="$(date +%s)"
-  printf '%q ' forge test --offline --threads "$task_threads" --fuzz-seed "$task_seed" --fuzz-runs "$task_runs" \
-    "$@" -vv > "$task_output/${task_seed}-${task_label}.command"
-  printf '\n' >> "$task_output/${task_seed}-${task_label}.command"
+  local task_command
+  printf -v task_command '%q ' forge test --offline --threads "$task_threads" --fuzz-seed "$task_seed" --fuzz-runs "$task_runs" \
+    "$@" -vv
+  printf '%s\n' "${task_command% }" > "$task_output/${task_seed}-${task_label}.command"
   forge test --offline --threads "$task_threads" --fuzz-seed "$task_seed" --fuzz-runs "$task_runs" \
     "$@" -vv 2>&1 | tee "$task_output/${task_seed}-${task_label}.log"
   if ! grep -q '\[PASS\]' "$task_output/${task_seed}-${task_label}.log" \
