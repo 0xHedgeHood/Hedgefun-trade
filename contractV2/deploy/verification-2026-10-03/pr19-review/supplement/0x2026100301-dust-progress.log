@@ -1,0 +1,37 @@
+Compiling 6 files with Solc 0.8.26
+Solc 0.8.26 finished in 5.43s
+Compiler run successful!
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6192067, ~: 6192215)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5941020, ~: 5941174)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1555737, ~: 1555991)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272971, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052333, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.22s (10.80s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6191795, ~: 6191941)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5940878, ~: 5941030)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1554773, ~: 1555031)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272898, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052146, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.22s (10.81s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292099, ~: 6292243)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040418, ~: 6040568)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557047, ~: 1557303)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272907, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052154, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.25s (10.86s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292370, ~: 6292517)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040559, ~: 6040712)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1558004, ~: 1558263)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272975, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052337, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.26s (10.87s CPU time)
+
+Ran 4 test suites in 7.26s (28.96s CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)

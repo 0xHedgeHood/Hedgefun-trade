@@ -1,0 +1,23 @@
+........../Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:325: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/tmpamzslvp8/plan.json' mode='r' encoding='UTF-8'>
+  plan = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:325: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/leo/Documents/ChatGPT/hedgefun/contractV2/deploy/v2-listings-plan.json' mode='r' encoding='UTF-8'>
+  plan = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+................/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:349: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/tmpdf6d3jrq.json' mode='r' encoding='UTF-8'>
+  book = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:349: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/tmpb0h54e7l.json' mode='r' encoding='UTF-8'>
+  book = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:349: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/tmp73_prlde.json' mode='r' encoding='UTF-8'>
+  book = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/v2_launch_check.py:349: ResourceWarning: unclosed file <_io.TextIOWrapper name='/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/tmpm9t122k_.json' mode='r' encoding='UTF-8'>
+  book = json.load(open(path))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+............................
+----------------------------------------------------------------------
+Ran 57 tests in 0.010s
+
+OK

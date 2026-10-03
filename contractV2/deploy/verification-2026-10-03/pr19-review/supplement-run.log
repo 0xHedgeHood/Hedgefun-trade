@@ -1,0 +1,578 @@
+Running percent-invariant, seed 0x2026100301
+Compiling 134 files with Solc 0.8.26
+Solc 0.8.26 finished in 7.78s
+Compiler run successful!
+
+Ran 2 tests for test/V2AssetPercentInvariant.t.sol:V2AssetPercentInvariantTest
+[PASS] invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2739  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2780  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2820  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2642  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2722  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2733  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2731  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2696  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2736  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2739  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2709  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2721  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2739  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2780  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2820  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2642  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2722  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2733  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2731  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2696  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2736  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2739  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2709  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2721  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.48s (4.44s CPU time)
+
+Ran 1 test suite in 2.48s (2.48s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+Running percent-limits, seed 0x2026100301
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 6.87s
+Compiler run successful!
+
+Ran 4 tests for test/V2AssetPercentLimitsFuzz.t.sol:V2AssetPercentLimitsFuzzTest
+[PASS] testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget(uint8,uint96) (runs: 1024, μ: 14336428, ~: 14336487)
+[PASS] testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate(uint256,uint16,uint16,bool) (runs: 1024, μ: 20583403, ~: 20568594)
+[PASS] testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference(uint16,uint96) (runs: 1024, μ: 15017083, ~: 15016924)
+[PASS] test_schema2NonVacuousCoverageWitness() (gas: 20603895)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 13.99s (20.96s CPU time)
+
+Ran 1 test suite in 13.99s (13.99s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
+Running engine-cost, seed 0x2026100301
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 7.05s
+Compiler run successful!
+
+Ran 3 tests for test/V2EngineCostInvariant.t.sol:V2EngineCostInvariantTest
+[PASS] invariant_costAndBucketsMatchExternalAccountingModel() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3656  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3643  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3642  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3589  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3686  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3613  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3662  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3638  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3639  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] invariant_everyExecuteAttemptIsClassified() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3656  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3643  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3642  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3589  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3686  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3613  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3662  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3638  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3639  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells(uint96,uint16,uint32) (runs: 1024, μ: 4042307, ~: 4042258)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 6.04s (14.27s CPU time)
+
+Ran 1 test suite in 6.04s (6.04s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+Running dust-progress, seed 0x2026100301
+Compiling 6 files with Solc 0.8.26
+Solc 0.8.26 finished in 5.43s
+Compiler run successful!
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6192067, ~: 6192215)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5941020, ~: 5941174)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1555737, ~: 1555991)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272971, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052333, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.22s (10.80s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6191795, ~: 6191941)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5940878, ~: 5941030)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1554773, ~: 1555031)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272898, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052146, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.22s (10.81s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292099, ~: 6292243)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040418, ~: 6040568)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557047, ~: 1557303)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272907, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052154, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.25s (10.86s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292370, ~: 6292517)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040559, ~: 6040712)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1558004, ~: 1558263)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272975, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052337, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.26s (10.87s CPU time)
+
+Ran 4 test suites in 7.26s (28.96s CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)
+Running dust-capacity, seed 0x2026100301
+No files changed, compilation skipped
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24869428, ~: 24869567)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.57s (4.57s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24875867, ~: 24876006)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.58s (4.58s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24968574, ~: 24968716)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.58s (4.58s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24975013, ~: 24975155)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.58s (4.58s CPU time)
+
+Ran 4 test suites in 4.58s (18.31s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
+Running percent-invariant, seed 0x2026100302
+No files changed, compilation skipped
+
+Ran 2 tests for test/V2AssetPercentInvariant.t.sol:V2AssetPercentInvariantTest
+[PASS] invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2716  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2726  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2692  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2707  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2792  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2700  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2807  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2778  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2693  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2673  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2716  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2726  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2692  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2707  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2792  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2700  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2807  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2742  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2778  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2693  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2673  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.49s (4.49s CPU time)
+
+Ran 1 test suite in 2.49s (2.49s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+Running percent-limits, seed 0x2026100302
+No files changed, compilation skipped
+
+Ran 4 tests for test/V2AssetPercentLimitsFuzz.t.sol:V2AssetPercentLimitsFuzzTest
+[PASS] testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget(uint8,uint96) (runs: 1024, μ: 14336406, ~: 14336487)
+[PASS] testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate(uint256,uint16,uint16,bool) (runs: 1024, μ: 20584269, ~: 20597667)
+[PASS] testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference(uint16,uint96) (runs: 1024, μ: 15017087, ~: 15016924)
+[PASS] test_schema2NonVacuousCoverageWitness() (gas: 20603895)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 14.00s (20.97s CPU time)
+
+Ran 1 test suite in 14.00s (14.00s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
+Running engine-cost, seed 0x2026100302
+No files changed, compilation skipped
+
+Ran 3 tests for test/V2EngineCostInvariant.t.sol:V2EngineCostInvariantTest
+[PASS] invariant_costAndBucketsMatchExternalAccountingModel() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3591  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3675  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3616  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3671  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3666  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3631  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3584  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3622  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3712  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] invariant_everyExecuteAttemptIsClassified() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3591  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3675  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3616  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3671  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3666  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3631  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3584  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3622  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3712  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells(uint96,uint16,uint32) (runs: 1024, μ: 4042287, ~: 4042258)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 6.05s (14.19s CPU time)
+
+Ran 1 test suite in 6.05s (6.05s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+Running dust-progress, seed 0x2026100302
+No files changed, compilation skipped
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6192042, ~: 6192215)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5940997, ~: 5941174)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1555712, ~: 1555991)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272955, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052317, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.20s (10.77s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6191765, ~: 6191941)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5940850, ~: 5941030)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1554758, ~: 1555031)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272875, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052123, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.20s (10.78s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292066, ~: 6292243)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040387, ~: 6040568)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557031, ~: 1557303)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272870, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052118, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.23s (10.83s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292342, ~: 6292517)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040533, ~: 6040712)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557985, ~: 1558263)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272951, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052313, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.24s (10.83s CPU time)
+
+Ran 4 test suites in 7.24s (28.87s CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)
+Running dust-capacity, seed 0x2026100302
+No files changed, compilation skipped
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24875839, ~: 24876006)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.64s (4.64s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24974988, ~: 24975155)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.64s (4.64s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24869397, ~: 24869567)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.65s (4.64s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24968543, ~: 24968716)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.65s (4.65s CPU time)
+
+Ran 4 test suites in 4.65s (18.58s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
+Running percent-invariant, seed 0x2026100303
+No files changed, compilation skipped
+
+Ran 2 tests for test/V2AssetPercentInvariant.t.sol:V2AssetPercentInvariantTest
+[PASS] invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2782  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2694  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2688  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2799  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2751  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2817  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2649  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2754  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2744  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2734  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2682  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2674  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 2782  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 2694  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 2688  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 2799  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 2751  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 2817  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 2649  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 2754  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 2744  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 2734  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 2682  | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 2674  | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.51s (4.52s CPU time)
+
+Ran 1 test suite in 2.52s (2.51s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+Running percent-limits, seed 0x2026100303
+No files changed, compilation skipped
+
+Ran 4 tests for test/V2AssetPercentLimitsFuzz.t.sol:V2AssetPercentLimitsFuzzTest
+[PASS] testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget(uint8,uint96) (runs: 1024, μ: 14336418, ~: 14336487)
+[PASS] testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate(uint256,uint16,uint16,bool) (runs: 1024, μ: 20583947, ~: 20571232)
+[PASS] testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference(uint16,uint96) (runs: 1024, μ: 15017077, ~: 15016924)
+[PASS] test_schema2NonVacuousCoverageWitness() (gas: 20603895)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 14.07s (21.10s CPU time)
+
+Ran 1 test suite in 14.07s (14.07s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)
+Running engine-cost, seed 0x2026100303
+No files changed, compilation skipped
+
+Ran 3 tests for test/V2EngineCostInvariant.t.sol:V2EngineCostInvariantTest
+[PASS] invariant_costAndBucketsMatchExternalAccountingModel() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3633  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3647  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3604  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3616  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3602  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3633  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3722  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3609  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3702  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] invariant_everyExecuteAttemptIsClassified() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3633  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3647  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3604  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3616  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3602  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3633  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3722  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3609  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3702  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells(uint96,uint16,uint32) (runs: 1024, μ: 4042229, ~: 4042258)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 6.12s (14.38s CPU time)
+
+Ran 1 test suite in 6.12s (6.12s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+Running dust-progress, seed 0x2026100303
+No files changed, compilation skipped
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6191787, ~: 6191941)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5940870, ~: 5941030)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1554742, ~: 1555031)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272894, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052140, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.31s (10.92s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6192057, ~: 6192215)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 5941009, ~: 5941174)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1555698, ~: 1555991)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272963, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052323, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.31s (10.93s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292087, ~: 6292243)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040405, ~: 6040568)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557018, ~: 1557303)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272892, ~: 1273077)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052137, ~: 1052328)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.33s (10.97s CPU time)
+
+Ran 5 tests for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_profitCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 6292359, ~: 6292517)
+[PASS] testFuzz_profitCleanupPreservesMoneyAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 6040547, ~: 6040712)
+[PASS] testFuzz_stopCleanupKeepsGateUntilGenuineReentry(uint256,uint256,uint256) (runs: 1024, μ: 1557979, ~: 1558263)
+[PASS] testFuzz_stopCleanupMakesSameCallProgress(uint256,uint256) (runs: 1024, μ: 1272968, ~: 1273153)
+[PASS] testFuzz_stopCleanupPreservesMoneyGateAndDistinctReceipts(uint256,uint256) (runs: 1024, μ: 1052327, ~: 1052518)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.34s (10.98s CPU time)
+
+Ran 4 test suites in 7.34s (29.29s CPU time): 20 tests passed, 0 failed, 0 skipped (20 total tests)
+Running dust-capacity, seed 0x2026100303
+No files changed, compilation skipped
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24869394, ~: 24869567)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.79s (4.79s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24968551, ~: 24968716)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.79s (4.79s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24974979, ~: 24975155)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.80s (4.79s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24875836, ~: 24876006)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.80s (4.80s CPU time)
+
+Ran 4 test suites in 4.80s (19.18s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

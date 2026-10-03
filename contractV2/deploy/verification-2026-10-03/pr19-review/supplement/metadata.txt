@@ -1,0 +1,12 @@
+forge Version: 1.5.0-v1.5.0
+Commit SHA: 1c57854462289b2e71ee7654cd6666217ed86ffd
+Build Timestamp: 2025-11-24T06:07:42.598695000Z (1763964462)
+Build Profile: maxperf
+cff3001b825614c39634c80d4c5cdbd5e59208fe
+fuzz_runs=1024 capacity_runs=256 invariant_runs=256 invariant_depth=128 threads=4
+seeds=0x2026100301 0x2026100302 0x2026100303
+311d3e9440f331aa14ff79d766bd978b4f7a1e6d0699b95639db6a6d18111506  test/V2AssetPercentInvariant.t.sol
+78f558fb0c6ba838c612d9296f31e49d82059d3ca05ed5ff98141163d6775410  test/V2AssetPercentLimitsFuzz.t.sol
+a21773c62eb4b07617e11c16610dd876aaf65c80ebdb8cfb38c44bdf1aa7e606  test/V2EngineCostInvariant.t.sol
+af2165994793f13d1bfd347f1b1e7bcf80162ab4e0a1c4658e92b3373c5d7c19  test/V2DustProgressFuzz.t.sol
+10abcafbc5a66a45a166ee3e92be00b54e9a493c5824c651d8669ebfa526d387  foundry.toml

@@ -1,0 +1,22 @@
+Compiling 3 files with Solc 0.8.26
+Solc 0.8.26 finished in 6.07s
+Compiler run successful!
+2026-10-03T05:59:20.854393Z  WARN evm::traces::external: etherscan config not found
+
+Ran 1 test for test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[FAIL: assertion failed: 0 <= 0] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 365205861)
+Logs:
+  creator core fork block: 127978606
+  reviewed source: 179c4a4c510d0f627440b41f644743d942c4e5c6
+
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 24.87s (24.87s CPU time)
+
+Ran 1 test suite in 24.87s (24.87s CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[FAIL: assertion failed: 0 <= 0] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 365205861)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test

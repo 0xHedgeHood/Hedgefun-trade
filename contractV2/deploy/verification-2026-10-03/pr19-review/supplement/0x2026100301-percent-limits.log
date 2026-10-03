@@ -1,0 +1,12 @@
+Compiling 1 files with Solc 0.8.26
+Solc 0.8.26 finished in 6.87s
+Compiler run successful!
+
+Ran 4 tests for test/V2AssetPercentLimitsFuzz.t.sol:V2AssetPercentLimitsFuzzTest
+[PASS] testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget(uint8,uint96) (runs: 1024, μ: 14336428, ~: 14336487)
+[PASS] testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate(uint256,uint16,uint16,bool) (runs: 1024, μ: 20583403, ~: 20568594)
+[PASS] testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference(uint16,uint96) (runs: 1024, μ: 15017083, ~: 15016924)
+[PASS] test_schema2NonVacuousCoverageWitness() (gas: 20603895)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 13.99s (20.96s CPU time)
+
+Ran 1 test suite in 13.99s (13.99s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

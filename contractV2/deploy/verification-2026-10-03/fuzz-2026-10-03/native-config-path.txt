@@ -1,0 +1,1 @@
+/var/folders/w3/h0ft3bvj3076m58fwm5gj48h0000gn/T/hedgefun-native-config-32q8hufz/foundry.toml

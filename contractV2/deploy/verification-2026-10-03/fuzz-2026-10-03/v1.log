@@ -1,0 +1,58 @@
+Compiling 91 files with Solc 0.8.26
+Solc 0.8.26 finished in 2.43s
+Compiler run successful!
+2026-10-03T05:47:56.633717Z  WARN evm::traces::external: etherscan config not found
+
+Ran 7 tests for test/HedgeFunMath.t.sol:StrategyMathTest
+[PASS] testFuzz_bps_isTheWrittenOutExpression(uint128,uint16) (runs: 4096, μ: 1289, ~: 1289)
+[PASS] testFuzz_exceeds_isTheDeviationGate(uint128,uint128,uint16) (runs: 4096, μ: 1166, ~: 1166)
+[PASS] testFuzz_fellTo_isTheStopAndDipComparison(uint128,uint128,uint16) (runs: 4096, μ: 1797, ~: 1696)
+[PASS] testFuzz_reached_isTheTakeProfitComparison(uint128,uint128,uint16) (runs: 4096, μ: 1657, ~: 1657)
+[PASS] testFuzz_shift_isTheBuybackLimit(uint160,uint16,bool) (runs: 4096, μ: 1795, ~: 1699)
+[PASS] test_theEdgesAreInclusive_exactlyAsBefore() (gas: 3631)
+[PASS] test_theHooksFourNamedFlagsAreTheLiteralItUsedToCheck() (gas: 323)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 39.38ms (187.75ms CPU time)
+
+Ran 8 tests for test/TradingCalendar.t.sol:TradingCalendarTest
+[PASS] test_daylightSavingMovesTheBoundary() (gas: 63335)
+[PASS] test_fixedHolidays() (gas: 106562)
+[PASS] test_floatingHolidays() (gas: 129836)
+[PASS] test_goodFriday() (gas: 72267)
+[PASS] test_overrideBothWays() (gas: 147700)
+[PASS] test_sundayEveningBeforeAHolidayStaysClosed() (gas: 25505)
+[PASS] test_theSessionRollsAtTwentyHundredEastern() (gas: 72179)
+[PASS] test_weekendsAreClosedAndWeekdaysAreNot() (gas: 96218)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 329.47ms (1.52ms CPU time)
+
+Ran 24 tests for test/StrategyTokenMetadata.t.sol:StrategyTokenMetadataTest
+[PASS] testFuzz_aZeroDeployerMeansNobodyCanEverWrite(address) (runs: 4096, μ: 1600427, ~: 1600427)
+[PASS] testFuzz_nobodyButTheDeployerAndTheEditorMayWriteAnything(address) (runs: 4096, μ: 97193, ~: 97193)
+[PASS] testFuzz_nobodyButTheLauncherCanWriteTheFirstEntry(address) (runs: 4096, μ: 18248, ~: 18248)
+[PASS] test_K7_1_anEditorCannotWriteInFrontOfALock_becauseALockNeedsTheEditorGone() (gas: 349838)
+[PASS] test_aCreatorContractThatCannotCall_launchesATokenThatWorks_withAnEntryEmptyForEver() (gas: 1667294)
+[PASS] test_aCreatorsWriteOrLockShutsTheLaunchersDoor() (gas: 320603)
+[PASS] test_aLockIsForGood_forTheEntryAndForTheEditor() (gas: 343816)
+[PASS] test_aSecondWriteReplacesTheWholeEntry_emptyStringsIncluded() (gas: 245440)
+[PASS] test_anEditorMayWrite_butMayNeitherAppointNorLock() (gas: 302117)
+[PASS] test_anEmptyEntryCanBeLockedEmpty() (gas: 45576)
+[PASS] test_atBirthTheWholeSupplyIsMintedOnce_theCreatorIsRecorded_andTheEntryIsEmpty() (gas: 1632094)
+[PASS] test_burnIsStillForOnesOwnBalanceOnly() (gas: 28274)
+[PASS] test_everyChangeIsAnEventCarryingTheWholeNewValue() (gas: 300523)
+[PASS] test_everyStringAtItsCapIsAccepted() (gas: 2388814)
+[PASS] test_gasOfTheLargestPossibleWrite_isReported() (gas: 1929844)
+Logs:
+  setMetadata, every string at its cap (2,816 bytes), first write, gas: 2196854
+  setMetadata, a typical entry over a full one, gas: 35386
+
+[PASS] test_noMetadataCallMovesABalanceAnAllowanceOrTheSupply() (gas: 2076754)
+[PASS] test_oneByteOverAnyCapIsRefused_andNothingIsWritten() (gas: 528461)
+[PASS] test_theCapsCountBytes_notCharacters() (gas: 399685)
+[PASS] test_theDeployerHasNoHandleOnAnyonesTokens() (gas: 25964)
+[PASS] test_theFactoryThatMintedItHasNoSayInTheEntry() (gas: 16202)
+[PASS] test_theLauncherWritesTheFirstEntry_once_andTheEventNamesTheCreator() (gas: 380798)
+[PASS] test_theLaunchersEntryMeetsTheSameCaps_andAnOverCapFieldWritesNothing() (gas: 1505537)
+[PASS] test_theReadersHavePonsSelectors() (gas: 1052)
+[PASS] test_whatTheCreatorWritesReadsBackThroughPonsReaders() (gas: 310508)
+Suite result: ok. 24 passed; 0 failed; 0 skipped; finished in 329.50ms (663.86ms CPU time)
+
+Ran 3 test suites in 330.03ms (698.35ms CPU time): 39 tests passed, 0 failed, 0 skipped (39 total tests)

@@ -1,0 +1,52 @@
+{
+  "chainId": 46630,
+  "rpc": "https://rpc.testnet.chain.robinhood.com",
+  "forkBlock": 127987223,
+  "mode": "LOCAL RPC FORK ONLY; no signature, no broadcast",
+  "wallet": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+  "liveNativeBalanceAtCheckWei": "0",
+  "test": "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/test/TestnetV2FreshWalletFork.t.sol",
+  "testSha256": "d91cb10177d31086b12692b0b147d3e0e74d4ca23cc36b52cc4d91121c21af79",
+  "log": "/Users/leo/Documents/ChatGPT/hedgefun/artifacts/pr19-review/fresh-wallet-fork.log",
+  "result": {
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0
+  },
+  "funding": {
+    "tUSDG": "10000",
+    "testTSLA": "15",
+    "mechanism": "one public drip() per asset; no privileged mint, balance cheat, oracle change or time warp"
+  },
+  "lifecycle": [
+    "public drips",
+    "set creator curve terms",
+    "approve 25 tUSDG launch fee",
+    "launch",
+    "100 tUSDG curve buy",
+    "sell 1 million FUN for tUSDG",
+    "9000 tUSDG graduation buy (stock refund allowed)",
+    "100 tUSDG V4 buy",
+    "sell 1 million FUN for tUSDG"
+  ],
+  "checks": [
+    "graduated stage=2",
+    "recipient and router transfer balance deltas",
+    "minimum outputs enforced",
+    "router retains no balances",
+    "allowances consumed",
+    "treasury asset buckets cover its stock balance"
+  ],
+  "finalForkBalances": {
+    "tUSDG6": "814864782",
+    "TSLA18": "18837658896184898235",
+    "FUN18": "442102720652372402691953724",
+    "treasuryBookedStock18": "0",
+    "treasuryUnbookedStock18": "10410714285714285716"
+  },
+  "publicNetworkBlockers": [
+    "Fresh wallet has no gas",
+    "Faucet browser access declined; pending user reauthorization"
+  ],
+  "replay": "FRESH_WALLET_FORK=true FRESH_WALLET_FORK_BLOCK=127987223 ../.local/bin/forge test --offline --match-path test/TestnetV2FreshWalletFork.t.sol -vv"
+}

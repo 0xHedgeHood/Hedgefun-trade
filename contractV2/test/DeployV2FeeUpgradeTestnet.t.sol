@@ -16,6 +16,7 @@ import {HedgeFunV2TradeRouter} from "../src/v2/HedgeFunV2TradeRouter.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
 import {DeployV2Testnet} from "../script/DeployV2Testnet.s.sol";
 import {DeployV2FeeUpgradeTestnet} from "../script/DeployV2FeeUpgradeTestnet.s.sol";
+import {DeployV2FreshCreatorTestnet} from "../script/DeployV2FreshCreatorTestnet.s.sol";
 import {IV3Pool} from "../script/testnet/TestnetMarket.sol";
 import {MockToken} from "./mocks/Mocks.sol";
 
@@ -83,6 +84,29 @@ contract FeeUpgradeOperatorInvoker {
 
     function run(DeployV2FeeUpgradeTestnet s) external {
         s.run();
+    }
+}
+
+contract FreshCreatorFixtureHarness is DeployV2FreshCreatorTestnet {
+    Venue private fixture;
+    Seed[] private inventory;
+
+    constructor(Venue memory v, Seed[] memory s) {
+        fixture = v;
+        for (uint256 i; i < s.length; ++i) {
+            inventory.push(s[i]);
+        }
+    }
+
+    function _venue() internal view override returns (Venue memory) {
+        return fixture;
+    }
+
+    function _seeds() internal view override returns (Seed[] memory s) {
+        s = new Seed[](inventory.length);
+        for (uint256 i; i < s.length; ++i) {
+            s[i] = inventory[i];
+        }
     }
 }
 
@@ -190,6 +214,39 @@ contract DeployV2FeeUpgradeTestnetTest is Test {
             );
         }
         return keccak256(data);
+    }
+
+    function test_freshSignerOwnsOnlyNewCreatorCore() public {
+        DeployV2FeeUpgradeTestnet.Seed[] memory seeds = new DeployV2FeeUpgradeTestnet.Seed[](8);
+        for (uint256 i; i < base.lines.length; ++i) {
+            DeployV2Testnet.Line memory l = base.lines[i];
+            seeds[i] =
+                DeployV2FeeUpgradeTestnet.Seed(l.symbol, address(l.stock), address(l.feed), address(l.oracle), l.pool);
+        }
+        FreshCreatorFixtureHarness fresh = new FreshCreatorFixtureHarness(
+            DeployV2FeeUpgradeTestnet.Venue(
+                base.factory, base.treasury, base.market, base.usdg, base.usdgFeed, base.calendar, base.v3Factory
+            ),
+            seeds
+        );
+        address signer = fresh.deploymentOperator();
+        assertNotEq(signer, OPERATOR);
+        bytes32 beforeState = _venueState();
+        vm.etch(signer, type(FeeUpgradeOperatorInvoker).runtimeCode);
+        DeployV2FeeUpgradeTestnet.Deployment memory d = FeeUpgradeOperatorInvoker(signer).deploy(fresh);
+        assertEq(d.factory.owner(), signer);
+        assertEq(d.factory.protocol(), OPERATOR);
+        assertEq(d.treasury.kindCount(), 3);
+        assertEq(fresh.plannedTransactionCount(), 40);
+        assertEq(_venueState(), beforeState);
+        assertEq(base.factory.owner(), OPERATOR);
+        assertEq(base.market.owner(), OPERATOR);
+    }
+
+    function test_freshDeploymentRejectsLegacyOperatorBeforeVenueAccess() public {
+        DeployV2FreshCreatorTestnet fresh = new DeployV2FreshCreatorTestnet();
+        vm.expectRevert(abi.encodeWithSelector(DeployV2FeeUpgradeTestnet.NotOperator.selector, OPERATOR));
+        FeeUpgradeOperatorInvoker(OPERATOR).deploy(fresh);
     }
 
     function test_newBindingsAndEightMarketsPreserveOldState() public {

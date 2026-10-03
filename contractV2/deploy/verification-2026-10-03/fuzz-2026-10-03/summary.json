@@ -1,0 +1,41 @@
+{
+  "baselineCommit": "179c4a4c510d0f627440b41f644743d942c4e5c6",
+  "localChangesIncluded": true,
+  "v2Final": {
+    "passed": 739,
+    "failed": 0,
+    "skipped": 35,
+    "seed": "0x20261004",
+    "fuzzProperties": 46,
+    "reportedFuzzCases": 188417,
+    "invariantProperties": 6,
+    "invariantCalls": 1536000
+  },
+  "deploymentRegression": {
+    "passed": 11,
+    "failed": 0,
+    "newUniqueTests": 3
+  },
+  "v1": {
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0,
+    "fuzzRuns": 4096,
+    "seed": "0x20261003"
+  },
+  "python": {
+    "passed": 77,
+    "failed": 0
+  },
+  "testnetForks": {
+    "passed": 6,
+    "failed": 0,
+    "publicTransactionsSent": 0
+  },
+  "preservedEarlierFailures": [
+    "native-fuzz-initial-test-oracle-error.log",
+    "testnet-creator-fork.log",
+    "testnet-creator-fork-fixed.log"
+  ],
+  "finalLogSha256": "8fcd4aacfac0122c9317ef52e457917ae3b9f99957636ebb951839ea09b299cd"
+}
