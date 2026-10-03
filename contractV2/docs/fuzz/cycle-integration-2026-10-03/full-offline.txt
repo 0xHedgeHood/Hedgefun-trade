@@ -1,0 +1,1312 @@
+No files changed, compilation skipped
+
+Ran 8 tests for test/TradingCalendar.t.sol:TradingCalendarTest
+[PASS] test_daylightSavingMovesTheBoundary() (gas: 63335)
+[PASS] test_fixedHolidays() (gas: 106562)
+[PASS] test_floatingHolidays() (gas: 129836)
+[PASS] test_goodFriday() (gas: 72267)
+[PASS] test_overrideBothWays() (gas: 147700)
+[PASS] test_sundayEveningBeforeAHolidayStaysClosed() (gas: 25505)
+[PASS] test_theSessionRollsAtTwentyHundredEastern() (gas: 72179)
+[PASS] test_weekendsAreClosedAndWeekdaysAreNot() (gas: 96218)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 1.77ms (1.46ms CPU time)
+
+Ran 25 tests for test/DemoBallot.t.sol:DemoBallotTest
+[PASS] testCandidateAddressesMustBeNonzeroAndDistinct() (gas: 188528)
+[PASS] testCannotWithdrawBeforeDeadline() (gas: 134224)
+[PASS] testChoiceChangeRefusedWithoutMovingFunds() (gas: 141527)
+[PASS] testConstructorBindsImmutablePoll() (gas: 17583)
+[PASS] testDeadlineBounds() (gas: 1374314)
+[PASS] testDepositFailureGivesNoCredit() (gas: 71050)
+[PASS] testDepositReentryCannotCreateExtraVotes() (gas: 177403)
+[PASS] testFeeActivatedAfterVotingCannotReduceWithdrawalPrincipal() (gas: 160434)
+[PASS] testFeeOnDepositRefusedAndAllEffectsRolledBack() (gas: 112782)
+[PASS] testFuzzVotesRemainBackedUntilWithdrawal(uint256,uint256) (runs: 256, μ: 210401, ~: 210463)
+[PASS] testInvalidChoiceRefused() (gas: 37083)
+[PASS] testNoOpTransferCannotEraseLockedPrincipal() (gas: 165185)
+[PASS] testNoRepeatedWithdrawalOrRevoteOfWithdrawnCapital() (gas: 137952)
+[PASS] testNonVoterCannotWithdrawSomebodyElsesTokens() (gas: 141349)
+[PASS] testSameChoiceAdditionalDepositCountsOnlyNewTokens() (gas: 139899)
+[PASS] testTokenWithoutCodeRefused() (gas: 70489)
+[PASS] testTransferredTokensCannotBeCountedTwice() (gas: 228009)
+[PASS] testVoteBeforeDeadlineAndRefusedAtDeadline() (gas: 133906)
+[PASS] testVoteLocksExactAmountAndEmitsEvent() (gas: 160423)
+[PASS] testWithdrawAtDeadlineReturnsOnlyOwnPrincipalAndKeepsResult() (gas: 221773)
+[PASS] testWithdrawalFailureRetainsAllPrincipalAndVotes() (gas: 160140)
+[PASS] testWithdrawalReentryCannotWithdrawTwice() (gas: 153916)
+[PASS] testWrongChainRefused() (gas: 68557)
+[PASS] testZeroAmountRefused() (gas: 37434)
+[PASS] testZeroTokenRefused() (gas: 65888)
+Suite result: ok. 25 passed; 0 failed; 0 skipped; finished in 40.75ms (40.23ms CPU time)
+
+Ran 2 tests for test/DeployV2CreatorTestnet.t.sol:DeployV2CreatorTestnetTest
+[PASS] test_creatorCandidateHasSeparateFeatureAndFortyUnverifiedTransactions() (gas: 47680256)
+[PASS] test_publicChunkNonceInterferenceCannotChangeCreatorRegistrations() (gas: 114773814)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 11.74ms (8.29ms CPU time)
+
+Ran 5 tests for test/V2CurveDeployer.t.sol:V2CurveDeployerTest
+[PASS] test_curveChunkIsInertWhenCalled() (gas: 26853)
+[PASS] test_curveChunkIsTheCompilersCurveCreationCode() (gas: 26218)
+[PASS] test_frontRunBindFailsTheFactoryConstructor() (gas: 34600537)
+[PASS] test_onlyTheBoundFactoryCanUseTheDeployer() (gas: 38643)
+[PASS] test_predictedCurveAndVaultAreTheDeployedAddresses() (gas: 11681460)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 172.88ms (32.23ms CPU time)
+
+Ran 3 tests for test/V2CurveSecurity.t.sol:V2CurveSecurityTest
+[PASS] test_releaseCallbackCannotConsumeRemainingFees() (gas: 358641)
+[PASS] test_sharedRecipientsPreserveAllFeeLiabilities() (gas: 229655)
+[PASS] test_stockCallbackCannotClaimDuringBuySellOrClaim() (gas: 259048)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.11ms (709.71µs CPU time)
+
+Ran 6 tests for test/DeployV2FeeUpgradeTestnet.t.sol:DeployV2FeeUpgradeTestnetTest
+[PASS] test_candidateCannotBecomePublishedAndRequiresCommit() (gas: 311842511)
+[PASS] test_newBindingsAndEightMarketsPreserveOldState() (gas: 306595796)
+[PASS] test_refusesBrokenOldBindingBeforeDeploying() (gas: 49744)
+[PASS] test_refusesEmptyPoolBeforeDeploying() (gas: 298628)
+[PASS] test_refusesWrongChainAndSender() (gas: 33394)
+[PASS] test_tslaLaunchCurveTradesGraduateV4AndSettleFees() (gas: 318758345)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 337.43ms (283.32ms CPU time)
+
+Ran 8 tests for test/AddV2TestnetStocks.t.sol:AddV2TestnetStocksTest
+[PASS] test_appendsFourStocksAndPreservesOldListings() (gas: 93177849)
+[PASS] test_eachStockLaunchesGraduatesAndTradesWithLowerTargets() (gas: 141995792)
+[PASS] test_pokeOnlyNewPoolsAndStartsUsableTwapAfter600Seconds() (gas: 93282242)
+[PASS] test_refusesBrokenVenueOperatorBinding() (gas: 83397)
+[PASS] test_refusesRepeatInsteadOfCreatingDuplicateTickers() (gas: 92582400)
+[PASS] test_refusesWrongCallerBeforeMutation() (gas: 14190)
+[PASS] test_refusesWrongChainBeforeMutation() (gas: 11996)
+[PASS] test_runWritesOnlyUnverifiedDryRunCandidate() (gas: 92797035)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 479.29ms (430.26ms CPU time)
+
+Ran 6 tests for test/DeployV2Testnet.t.sol:DeployV2TestnetTest
+[PASS] test_deploysListsAndOpens() (gas: 368942)
+[PASS] test_launchBuyGraduateTradeWithTestUsdg() (gas: 13419996)
+[PASS] test_pokeMakesTheRingLive_andKeepsThePrice() (gas: 858107)
+[PASS] test_refusesOtherChains() (gas: 52296397)
+[PASS] test_rolesAndDrip() (gas: 195931)
+[PASS] test_setPriceMovesPoolAndFeedTogether() (gas: 243489)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 53.10ms (7.71ms CPU time)
+
+Ran 14 tests for test/HedgeFunMath.t.sol:HedgeFunMathTest
+[PASS] testFuzz_bps_isTheWrittenOutExpression(uint128,uint16) (runs: 256, μ: 1487, ~: 1487)
+[PASS] testFuzz_exceeds_isTheDeviationGate(uint128,uint128,uint16) (runs: 256, μ: 1232, ~: 1232)
+[PASS] testFuzz_fellTo_isTheStopAndDipComparison(uint128,uint128,uint16) (runs: 256, μ: 1933, ~: 1832)
+[PASS] testFuzz_fullWidthBpsAndThresholds(uint256,uint256,uint16) (runs: 256, μ: 11082, ~: 11037)
+[PASS] testFuzz_reachedFullRateAndWideCost(uint256,uint256,uint16) (runs: 256, μ: 4135, ~: 4138)
+[PASS] testFuzz_reached_matchesTheMathematicalTakeProfitThreshold(uint128,uint128,uint16) (runs: 256, μ: 2182, ~: 2182)
+[PASS] testFuzz_shift_isTheBuybackLimit(uint160,uint16,bool) (runs: 256, μ: 2021, ~: 1912)
+[PASS] testFuzz_upwardShiftWideValues(uint256,uint16) (runs: 256, μ: 1606, ~: 1587)
+[PASS] test_finalThresholdOverflowStillReverts() (gas: 4882)
+[PASS] test_fullWidthIntermediateProductsSucceed() (gas: 4727)
+[PASS] test_nonDivisibleThresholds_preserveInclusiveAndStrictComparisons() (gas: 4722)
+[PASS] test_reached_fixesTheLegacyUint16Overflow() (gas: 13696)
+[PASS] test_theEdgesAreInclusive_exactlyAsBefore() (gas: 3757)
+[PASS] test_theHooksFourNamedFlagsAreTheLiteralItUsedToCheck() (gas: 411)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 51.10ms (51.02ms CPU time)
+
+Ran 2 tests for test/V2AssetPercentOrdering.t.sol:V2AssetPercentOrderingTest
+[PASS] testFuzz_bothTokenOrderingsAndDirectionsUseExactSamePercentUnits(bool,bool) (runs: 256, μ: 15360318, ~: 15360271)
+[PASS] testFuzz_zeroFillCannotCommitActionOrBudget(bool,bool) (runs: 256, μ: 15094328, ~: 15055907)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.48s (1.34s CPU time)
+
+Ran 4 tests for test/V2AssetPercentTradingDay.t.sol:V2AssetPercentTradingDayTest
+[PASS] test_dstMovesSessionRollAndDoesNotResetHistoryWithinASession() (gas: 57484256)
+[PASS] test_realMarketClosureWaitsWithoutReportingLiveCapacity() (gas: 13358614)
+[PASS] test_realSummerSessionRollsAtTwentyNewYork() (gas: 14577080)
+[PASS] test_realWinterSessionDoesNotResetAtUtcMidnight() (gas: 14969779)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 168.89ms (34.33ms CPU time)
+
+Ran 1 test for test/V2Budget32Fork.t.sol:V2Budget32ForkTest
+[SKIP: skipped: opt-in in-memory fork only] setUp() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 1.50ms (0.00ns CPU time)
+
+Ran 22 tests for test/InteractVenueParity.t.sol:InteractVenueParityStockCurrency0Test
+[PASS] testFuzz_arbitrarySequencesNeverBreakTheLedger(uint256) (runs: 256, μ: 2335734, ~: 1815188)
+[PASS] testFuzz_theTwoUnitConversionsAgree(uint256,uint256) (runs: 256, μ: 4092315, ~: 4092478)
+[PASS] test_aBandedTreasuryTradesThroughAScheduledClosure() (gas: 821478)
+[PASS] test_aDipMayFillShort_andSpendsOnlyWhatFilled() (gas: 1122909)
+[PASS] test_aFeedOutageDuringTradingHoursStillFailsClosed() (gas: 518509)
+[PASS] test_aFullPricePath_eachStepWaitsUntilDue_andTheLedgerHoldsThroughout() (gas: 1883519)
+[PASS] test_aPreOpenFrontRunCannotMakeTheRuleActAtTheGapPrice() (gas: 432611)
+[PASS] test_aShortTakeProfitThenAShortStop_tp1LeftIsNotClampedWhileTheLotStillCoversIt() (gas: 1109156)
+[PASS] test_aSpotItsOwnTwapDoesNotCorroborateClosesTheGate() (gas: 105946)
+[PASS] test_aWeekendDumpPaysTheTreasuryNotTheDumper() (gas: 1117633)
+[PASS] test_aWeekendGapIsTradable_andOnlyAnAbsurdOneParks() (gas: 754868)
+[PASS] test_anAtomicShoveCannotBecomeTheWeekendPrice() (gas: 563034)
+[PASS] test_anUnhealthyOracleStopsEveryTradingPath_stopLossIncluded() (gas: 600803)
+[PASS] test_atTheDeviationBoundaryASaleFillsOrIsRefusedWhole() (gas: 912732)
+[PASS] test_chunkedSales_oneChunkACall_throughTp1APriceFallBackAndAStop() (gas: 5675896)
+[PASS] test_multipleLotsSurviveTheSwapAndPop_bookedStockStillTotalsThem() (gas: 2103457)
+[PASS] test_oraclePausedHaltsEvenOnAWeekend() (gas: 584092)
+[PASS] test_stopLossWaitsForTheMarketToOpen() (gas: 720698)
+[PASS] test_theTwoCopiesOfEveryFieldAgree() (gas: 4098348)
+[PASS] test_theTwoScalesAgreeAcrossDecimalCombinations() (gas: 17307075)
+[PASS] test_theV3ConstructorRefusesAZeroSellChunk() (gas: 211550)
+[PASS] test_v3SellThatCannotFullyFill_sellsWhatFits_andTheLedgerFollowsTheStockThatLeft() (gas: 778903)
+Suite result: ok. 22 passed; 0 failed; 0 skipped; finished in 844.90ms (842.78ms CPU time)
+
+Ran 8 tests for test/V2BuybackKind.t.sol:V2BuybackKindTest
+[PASS] test_buybackPacesSpendsBurnsWithoutRearmingSellSpike() (gas: 3147238)
+[PASS] test_cachedSizingPriceExpiresAfterFiveDays() (gas: 3133913)
+[PASS] test_everyLaterStockArrivalIsBudgetToo() (gas: 2731959)
+[PASS] test_graduationShareIsBuybackBudgetNotALot() (gas: 2735164)
+[PASS] test_kindOneBookRecordsReceivedStockSoTheScorecardHasADenominator() (gas: 3061523)
+[PASS] test_kindZeroLaunchIsUnaffected() (gas: 8755978)
+[PASS] test_liveBuybackSeedsFallbackForAStaleOracle() (gas: 3120788)
+[PASS] test_staleOracleWithoutACacheStillFailsClosed() (gas: 2757051)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 140.08ms (7.65ms CPU time)
+
+Ran 1 test for test/V2CapitalSimulationFork.t.sol:V2CapitalSimulationForkTest
+[SKIP: skipped: opt-in in-memory fork only] setUp() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 242.17µs (0.00ns CPU time)
+
+Ran 14 tests for test/V2CreatorCurveConfig.t.sol:V2CreatorCurveConfigTest
+[PASS] test_changingTheRaiseAfterPredictRestates() (gas: 15425821)
+[PASS] test_changingTheWindowAfterPredictRestates() (gas: 13537507)
+[PASS] test_creatorSaleBpsBuildsTheCurveAndItsRaise() (gas: 57645290)
+[PASS] test_creatorSnipeSecondsSetsTheOpeningWindow() (gas: 36724029)
+[PASS] test_firstRegistrationAfterPredictRestatesOnlyIfItChangesTheCurve() (gas: 15416448)
+[PASS] test_noRegistrationGivesTheDefaults() (gas: 17616889)
+[PASS] test_openingWindowLiterals() (gas: 26420496)
+[PASS] test_predictCurveIsTheDeployedCurveForCreatorChoices() (gas: 8936545)
+[PASS] test_preflightRefusesAnUnseedableCreatorChoice() (gas: 15557405)
+[PASS] test_reRegisteringALaunchedSaltChangesNothingDeployed() (gas: 8866195)
+[PASS] test_registrationEmitsAndReadsBack() (gas: 42824)
+[PASS] test_saleBpsOutsideTheCurvesBoundsIsRefusedAtRegistration() (gas: 51070)
+[PASS] test_snipeSecondsOverTheBoundIsRefusedAtRegistration() (gas: 45278)
+[PASS] test_strangerCannotChooseForAnotherCreatorsSalt() (gas: 17443579)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 175.87ms (35.68ms CPU time)
+
+Ran 10 tests for test/V2CreatorParameters.t.sol:V2CreatorParametersTest
+[PASS] testFuzz_allValidCreatorRungsSurviveAdapterAndAllThreeEntries(uint32,uint16,uint16,uint16) (runs: 256, μ: 10011069, ~: 10010956)
+[PASS] test_constructorAdapterPreservesEveryNonEconomicBound() (gas: 2023057)
+[PASS] test_defaultKindBindsExactCreatorSelectedCode() (gas: 29822)
+[PASS] test_legacyConstructorAndRegistryKeepTheirImmutableEconomicBounds() (gas: 10934598)
+[PASS] test_listingSlippageAndMaximumBountyDoNotImposeOrdinaryRungFloors() (gas: 8812590)
+[PASS] test_oneBpsTpDipAndStopAreAccepted_evenWithMaximumBounty() (gas: 10009215)
+[PASS] test_pureBuybackKeepsItsOriginalRegistryStopBoundary() (gas: 7380056)
+[PASS] test_sameCodeRegisteredAtAnotherKindAlsoUsesCreatorRungs() (gas: 11281666)
+[PASS] test_zeroOrMalformedOriginalRungsRejectedAcrossAllEntries() (gas: 533137)
+[PASS] test_zeroStopAndMaximumBasicRungsAreAccepted() (gas: 19963514)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 320.39ms (195.95ms CPU time)
+
+Ran 29 tests for test/V2CreatorParameters.t.sol:V2CreatorTradeEconomicsStock0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179416)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6281887)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469011)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648047)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338532)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231303)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868547)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23366829)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12870595)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12982811)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973389)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644761)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5704887)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215628)
+[PASS] test_partialBuyAndHealthyTakeProfitConserveActualFillInventory() (gas: 6082700)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1346824)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5831862)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982771)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1047297)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904676)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1015773)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146192)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1142017)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213325)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845722)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078676)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215804)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526545)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216200)
+Suite result: ok. 29 passed; 0 failed; 0 skipped; finished in 125.47ms (123.54ms CPU time)
+
+Ran 29 tests for test/V2CreatorParameters.t.sol:V2CreatorTradeEconomicsUsdg0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179690)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282029)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469344)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648184)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339641)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231625)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862334)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360252)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12863682)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12975592)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22966564)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644654)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705005)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215704)
+[PASS] test_partialBuyAndHealthyTakeProfitConserveActualFillInventory() (gas: 6083440)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1348520)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832006)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982961)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1048333)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904922)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1016242)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146906)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1141727)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213391)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845889)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078950)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215880)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526776)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216276)
+Suite result: ok. 29 passed; 0 failed; 0 skipped; finished in 125.80ms (123.87ms CPU time)
+
+Ran 22 tests for test/InteractVenueParity.t.sol:InteractVenueParityUsdgCurrency0Test
+[PASS] testFuzz_arbitrarySequencesNeverBreakTheLedger(uint256) (runs: 256, μ: 2012844, ~: 1790330)
+[PASS] testFuzz_theTwoUnitConversionsAgree(uint256,uint256) (runs: 256, μ: 4092390, ~: 4092544)
+[PASS] test_aBandedTreasuryTradesThroughAScheduledClosure() (gas: 821890)
+[PASS] test_aDipMayFillShort_andSpendsOnlyWhatFilled() (gas: 1123280)
+[PASS] test_aFeedOutageDuringTradingHoursStillFailsClosed() (gas: 518868)
+[PASS] test_aFullPricePath_eachStepWaitsUntilDue_andTheLedgerHoldsThroughout() (gas: 1885342)
+[PASS] test_aPreOpenFrontRunCannotMakeTheRuleActAtTheGapPrice() (gas: 432559)
+[PASS] test_aShortTakeProfitThenAShortStop_tp1LeftIsNotClampedWhileTheLotStillCoversIt() (gas: 1110288)
+[PASS] test_aSpotItsOwnTwapDoesNotCorroborateClosesTheGate() (gas: 105834)
+[PASS] test_aWeekendDumpPaysTheTreasuryNotTheDumper() (gas: 1118335)
+[PASS] test_aWeekendGapIsTradable_andOnlyAnAbsurdOneParks() (gas: 755619)
+[PASS] test_anAtomicShoveCannotBecomeTheWeekendPrice() (gas: 563453)
+[PASS] test_anUnhealthyOracleStopsEveryTradingPath_stopLossIncluded() (gas: 601162)
+[PASS] test_atTheDeviationBoundaryASaleFillsOrIsRefusedWhole() (gas: 913119)
+[PASS] test_chunkedSales_oneChunkACall_throughTp1APriceFallBackAndAStop() (gas: 5676041)
+[PASS] test_multipleLotsSurviveTheSwapAndPop_bookedStockStillTotalsThem() (gas: 2106144)
+[PASS] test_oraclePausedHaltsEvenOnAWeekend() (gas: 584416)
+[PASS] test_stopLossWaitsForTheMarketToOpen() (gas: 720862)
+[PASS] test_theTwoCopiesOfEveryFieldAgree() (gas: 4098414)
+[PASS] test_theTwoScalesAgreeAcrossDecimalCombinations() (gas: 17307075)
+[PASS] test_theV3ConstructorRefusesAZeroSellChunk() (gas: 211616)
+[PASS] test_v3SellThatCannotFullyFill_sellsWhatFits_andTheLedgerFollowsTheStockThatLeft() (gas: 779494)
+Suite result: ok. 22 passed; 0 failed; 0 skipped; finished in 833.07ms (831.00ms CPU time)
+
+Ran 11 tests for test/StrategyPolicyAdversarialMocks.t.sol:StrategyPolicyAdversarialMocksTest
+[PASS] test_fixture_codehashDoesNotCommitMutableStorageSemantics() (gas: 235738)
+[PASS] test_fixture_excessiveAmountMustBeCappedByEngine() (gas: 172921)
+[PASS] test_fixture_gasBombIsBoundedByCallGas() (gas: 157713)
+[PASS] test_fixture_honestIntentHasFixedEncoding() (gas: 173233)
+[PASS] test_fixture_hugeReturnCanBeRejectedBeforeCopy() (gas: 147920)
+[PASS] test_fixture_malformedReturnIsNotAnIntent() (gas: 133176)
+[PASS] test_fixture_optionsActionIsRawOutOfRangeWord() (gas: 173849)
+[PASS] test_fixture_proxyCodehashDoesNotCommitImplementation() (gas: 422912)
+[PASS] test_fixture_revertIsContained() (gas: 136337)
+[PASS] test_fixture_staticcallTrapsStateWrite() (gas: 300301)
+[PASS] test_fixture_wrongCommitmentsAreWellFormedButInvalid() (gas: 328184)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 484.13µs (343.96µs CPU time)
+
+Ran 20 tests for test/BondingCurve.t.sol:BondingCurveTest
+[PASS] testBuySellConservation() (gas: 249445)
+[PASS] testCapReleaseAndDonationIsolation() (gas: 334513)
+[PASS] testClaimsIndependentAndSurviveGraduation() (gas: 477869)
+[PASS] testDeployerPredictAndAuthorization() (gas: 7822615)
+[PASS] testFactoryCannotLeaveReadyPersisted() (gas: 274779)
+[PASS] testFuzzRoundTripCannotProfit(uint96) (runs: 256, μ: 225808, ~: 226019)
+[PASS] testFuzzTerminalReachability(uint16,uint16,uint16,uint16) (runs: 256, μ: 3523788, ~: 3546289)
+[PASS] testFuzzTinyCanonicalReserveRoundTrips(uint16,uint16,uint16) (runs: 256, μ: 3540039, ~: 3540036)
+[PASS] testFuzz_roundTripsAccrueFeesWithoutReserveRoundingSubsidy(uint96,uint16) (runs: 256, μ: 3541024, ~: 3540867)
+[PASS] testFuzz_smallUnitsChooseMinimalPaymentForBestAffordableFill(uint16,uint16) (runs: 256, μ: 3592682, ~: 3607483)
+[PASS] testRejectTaxedInputAndSlippageDeadline() (gas: 278146)
+[PASS] testSenderSurchargeCannotExceedBuyBudgetOrConsumeDonations() (gas: 443958)
+[PASS] testTaxedOutputCannotUnderpaySellerOrFeeRecipient() (gas: 354213)
+[PASS] testTinyUnitsCannotExtractPreviousBuyRounding() (gas: 3534239)
+[PASS] testTokenDonationDoesNotChangeQuotes() (gas: 235657)
+[PASS] testUnfundedCurveCannotTrade() (gas: 1737941)
+[PASS] test_RevertGraduationRollsBackFinalBuyAndKeepsSellsOpen() (gas: 427997)
+[PASS] test_capReachabilityAtZeroAndMaximumConstructorFee() (gas: 13989010)
+[PASS] test_partialCapChargesOnlyFilledStockAndReleasesNetPrincipal() (gas: 3627903)
+[PASS] test_threePercentBuySellRevenueIsSplitTwentyTenSeventy() (gas: 3627347)
+Suite result: ok. 20 passed; 0 failed; 0 skipped; finished in 2.23s (2.54s CPU time)
+
+Ran 1 test for test/TestnetV2CreatorCore.t.sol:TestnetV2CreatorCoreTest
+[SKIP] test_forkFreshCoreAllowsOneBpsAllRungsAndGraduatesOnExistingPools() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 1.76ms (19.71µs CPU time)
+
+Ran 2 tests for test/TestnetV2EthBridge.t.sol:TestnetV2EthBridgeLiquidityTest
+[PASS] test_collectCrystallizesTradingFeesWhilePositionIsStillActive() (gas: 820181)
+[PASS] test_realV3PositionAndUnusedPrefundingCanBeRecoveredOnlyByOwner() (gas: 455738)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.75ms (707.63µs CPU time)
+
+Ran 1 test for test/TestnetV2EthBridgeFork.t.sol:TestnetV2EthBridgeForkTest
+[SKIP: set ETH_BRIDGE_FORK=true] test_nativeOnlyWalletLaunchesAndBuysStockThroughRecoverableBridge() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 499.04µs (14.50µs CPU time)
+
+Ran 7 tests for test/TestnetV2EthMarket.t.sol:TestnetCryptoOracleTest
+[PASS] test_constructorRejectsNoncanonicalPoolMissingCodeWrongDecimalsAndZeroLiquidityFloor() (gas: 673131)
+[PASS] test_cryptoCalendarWeekendUtcRollAndHaltAppliesToEveryPriceRead() (gas: 83890)
+[PASS] test_extremeTicksCannotOverflowAndOutOfRangeCumulativeFailsClosed() (gas: 145072)
+[PASS] test_missingHistoryMalformedReadsLockedOrShallowPoolFailClosed() (gas: 166550)
+[PASS] test_negativeCumulativeMeanRoundsDownRatherThanTowardZero() (gas: 62047)
+[PASS] test_priceUsesCanonicalTickWindowWithoutWrappedEquityPauseInterface() (gas: 66103)
+[PASS] test_reciprocalPairPreserves18StockAnd6QuoteScale() (gas: 1399930)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 1.75ms (1.34ms CPU time)
+
+Ran 5 tests for test/TestnetV2EthMarket.t.sol:TestnetNativeMarketTest
+[PASS] test_callbackAndOperatorBoundariesCannotSpendPrefundedBalances() (gas: 29032251)
+[PASS] test_capsAndInsufficientPrefundingRevertWithoutFabricatingWeth() (gas: 29639649)
+[PASS] test_prefundingAndOneSecondPokeMakeRealV3RingLiveBothOrderings() (gas: 58768546)
+[PASS] test_priceMovesAreBudgetedAndPoolAndSyntheticFeedMoveAtomically() (gas: 29451280)
+[PASS] test_realPoolRequiresFullWindowAndInstantSpotMoveDoesNotRewriteTwap() (gas: 30688130)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 9.29ms (9.01ms CPU time)
+
+Ran 1 test for test/TestnetV2EthMarketCandidate.t.sol:TestnetV2EthMarketCandidateTest
+[SKIP] test_realPhaseWriterHasPublisherShapeAndNarrowFilePermissions() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 705.67µs (12.46µs CPU time)
+
+Ran 2 tests for test/TestnetV2EthMarketFork.t.sol:TestnetV2EthMarketForkTest
+[SKIP] test_actualOperatorBalanceStopsBeforeAnyNativeMarketTransaction() (gas: 0)
+[SKIP] test_realWrappedNativeVenueSupportsStockPaymentAndEthUnderlyingGraduationWithoutChangingEightListings() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 2 skipped; finished in 843.96µs (13.63µs CPU time)
+
+Ran 1 test for test/TestnetV2JourneyFork.t.sol:TestnetV2JourneyForkTest
+[SKIP: skipped] setUp() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 127.33µs (0.00ns CPU time)
+
+Ran 6 tests for test/TestnetV2KeeperReward.t.sol:TestnetV2KeeperRewardTest
+[SKIP] test_fork_allSevenPhasesPayTwoDifferentKeepersAndPreserveOldEngine() (gas: 0)
+[PASS] test_missingPinnedCoreFailsBeforeSchedulingTransactions() (gas: 13487)
+[PASS] test_rewardFrictionBoundaryIsCheckedDespiteOldRegistry() (gas: 11294)
+[PASS] test_rewardRecipientsAreFixedByPhase() (gas: 13183)
+[PASS] test_wrongChainFailsBeforeSchedulingTransactions() (gas: 11340)
+[PASS] test_wrongOwnerCannotAppend() (gas: 9448)
+Suite result: ok. 5 passed; 0 failed; 1 skipped; finished in 856.75µs (86.71µs CPU time)
+
+Ran 24 tests for test/StrategyTokenMetadata.t.sol:StrategyTokenMetadataTest
+[PASS] testFuzz_aZeroDeployerMeansNobodyCanEverWrite(address) (runs: 256, μ: 1600427, ~: 1600427)
+[PASS] testFuzz_nobodyButTheDeployerAndTheEditorMayWriteAnything(address) (runs: 256, μ: 97193, ~: 97193)
+[PASS] testFuzz_nobodyButTheLauncherCanWriteTheFirstEntry(address) (runs: 256, μ: 18248, ~: 18248)
+[PASS] test_K7_1_anEditorCannotWriteInFrontOfALock_becauseALockNeedsTheEditorGone() (gas: 349838)
+[PASS] test_aCreatorContractThatCannotCall_launchesATokenThatWorks_withAnEntryEmptyForEver() (gas: 1667294)
+[PASS] test_aCreatorsWriteOrLockShutsTheLaunchersDoor() (gas: 320603)
+[PASS] test_aLockIsForGood_forTheEntryAndForTheEditor() (gas: 343816)
+[PASS] test_aSecondWriteReplacesTheWholeEntry_emptyStringsIncluded() (gas: 245440)
+[PASS] test_anEditorMayWrite_butMayNeitherAppointNorLock() (gas: 302117)
+[PASS] test_anEmptyEntryCanBeLockedEmpty() (gas: 45576)
+[PASS] test_atBirthTheWholeSupplyIsMintedOnce_theCreatorIsRecorded_andTheEntryIsEmpty() (gas: 1632094)
+[PASS] test_burnIsStillForOnesOwnBalanceOnly() (gas: 28274)
+[PASS] test_everyChangeIsAnEventCarryingTheWholeNewValue() (gas: 300523)
+[PASS] test_everyStringAtItsCapIsAccepted() (gas: 2388814)
+[PASS] test_gasOfTheLargestPossibleWrite_isReported() (gas: 1929844)
+[PASS] test_noMetadataCallMovesABalanceAnAllowanceOrTheSupply() (gas: 2076754)
+[PASS] test_oneByteOverAnyCapIsRefused_andNothingIsWritten() (gas: 528461)
+[PASS] test_theCapsCountBytes_notCharacters() (gas: 399685)
+[PASS] test_theDeployerHasNoHandleOnAnyonesTokens() (gas: 25964)
+[PASS] test_theFactoryThatMintedItHasNoSayInTheEntry() (gas: 16202)
+[PASS] test_theLauncherWritesTheFirstEntry_once_andTheEventNamesTheCreator() (gas: 380798)
+[PASS] test_theLaunchersEntryMeetsTheSameCaps_andAnOverCapFieldWritesNothing() (gas: 1505537)
+[PASS] test_theReadersHavePonsSelectors() (gas: 1052)
+[PASS] test_whatTheCreatorWritesReadsBackThroughPonsReaders() (gas: 310508)
+Suite result: ok. 24 passed; 0 failed; 0 skipped; finished in 80.64ms (85.08ms CPU time)
+
+Ran 5 tests for test/TestnetV2AllInFloor.t.sol:TestnetV2AllInFloorTest
+[PASS] test_creatorRungsHaveOnlyStructuralValidation() (gas: 10977)
+[SKIP] test_forkAppendCreateGraduateOnUnchangedFeeCore() (gas: 0)
+[PASS] test_wrongChainBeforeScheduling() (gas: 10782)
+[PASS] test_wrongCreatorCannotLaunch() (gas: 9170)
+[PASS] test_wrongSenderCannotAppend() (gas: 8988)
+Suite result: ok. 4 passed; 0 failed; 1 skipped; finished in 703.67µs (68.29µs CPU time)
+
+Ran 40 tests for test/V2CreatorTakeProfit.t.sol:V2CreatorTakeProfitStock0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179636)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282041)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469165)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648201)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338620)
+[PASS] test_creator180TriggerSucceedsOnSmallHealthyActualFill() (gas: 5821312)
+[PASS] test_creatorApprovedAdverseActualFillSucceedsWithoutNetProfitRequirement() (gas: 5927156)
+[PASS] test_creatorOneBpsDipActuallyExecutesWithActualFillCost() (gas: 5914309)
+[PASS] test_creatorOneBpsStopActuallyExecutesAndPaysOnlyActualUsdGReward() (gas: 5822982)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231479)
+[PASS] test_distinctCost128DustLotsReleaseCapacity_keepStopGate_thenBookAndBuyNormally() (gas: 77013646)
+[PASS] test_distinctCost128ValuableRemaindersReleaseCapacityWithoutFreeRewards() (gas: 76358710)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868679)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23366873)
+[PASS] test_exactCostCoalescedLotsConserveInventory_andNormalFillClearsStopGate() (gas: 5793927)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12870683)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12982877)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973565)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644937)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5704975)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215782)
+[PASS] test_noMonetaryFillRevertsAtomicallyWithoutRewardOrStopGateChange() (gas: 6957052)
+[PASS] test_oneWeiTp1StageAdvanceThenDustCleanupMovesNoRewardOrPriceReference() (gas: 5593494)
+[PASS] test_partialTp1RemainderReclassificationProgressesTwoCallsThenTp2WithoutEconomicSideEffects() (gas: 5767889)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1347000)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5831862)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982969)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1047485)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904852)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1015914)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146214)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1142193)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213501)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845942)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078852)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215980)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526743)
+[PASS] test_valuableRemainderReclassifiesWithoutRewardSaleOrStopGateChange() (gas: 5575058)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216420)
+[PASS] test_zeroSelectedQuantityRevertsAtomicallyInsteadOfPayingForAnEmptyAction() (gas: 6011527)
+Suite result: ok. 40 passed; 0 failed; 0 skipped; finished in 390.38ms (388.09ms CPU time)
+
+Ran 2 tests for test/V2MarketSellScenarios.t.sol:V2MarketSellScenariosTest
+[PASS] test_fourWalletCurveSellWaveOrderAndConservation() (gas: 1051304)
+[PASS] test_fourWalletV4SellWaveRemainsFlatAfterBuybackNotice() (gas: 5370152)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 139.35ms (6.79ms CPU time)
+
+Ran 6 tests for test/V2MarketSniperScenarios.t.sol:V2MarketSniperScenariosTest
+[PASS] test_buybackNoticeCannotRaiseV2SniperExitTax() (gas: 3619626)
+[PASS] test_graduatedOpeningHasFlatTaxAndNoLaunchSpike() (gas: 4603166)
+[PASS] test_graduatedOpeningSizeSweep() (gas: 6903439)
+[PASS] test_openingTaxTimeSweepKeepsQuotesAndLossesVisible() (gas: 1372960)
+[PASS] test_postWindowCurveOrderAndTightMinOut() (gas: 910816)
+[PASS] test_smallSnipersStillProfitWithinStrictMinOut() (gas: 1348367)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 147.31ms (15.27ms CPU time)
+
+Ran 9 tests for test/V2NativeRouter.t.sol:V2NativeRouterTest
+[PASS] testForcedNativeAndTokenDonationsAreNeverPaidToTraders() (gas: 870228)
+[PASS] testNativeBuyAndSellThroughRealCurve() (gas: 877031)
+[PASS] testNativeBuyUsesCallerAsOpeningTaxRecipient() (gas: 9368009)
+[PASS] testNativeFinalBuyRequiresRefundConsentThenTradesRealV4() (gas: 7081614)
+[PASS] testNativePartialSaleReturnsUnsoldTokensOnce() (gas: 7446497)
+[PASS] testNativeStockSlippageFloorRollsBackWrappingAndGraduation() (gas: 406300)
+[PASS] testPaymentAssetAmountAndUnsolicitedNativeChecks() (gas: 88327)
+[PASS] testRejectedNativePayoutRollsBackSell() (gas: 950299)
+[PASS] testWrappedNativeQuoteRefundIsUnwrappedOnce() (gas: 7620836)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 141.24ms (9.20ms CPU time)
+
+Ran 40 tests for test/V2CreatorTakeProfit.t.sol:V2CreatorTakeProfitUsdg0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179910)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282183)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469498)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648338)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339729)
+[PASS] test_creator180TriggerSucceedsOnSmallHealthyActualFill() (gas: 5821426)
+[PASS] test_creatorApprovedAdverseActualFillSucceedsWithoutNetProfitRequirement() (gas: 5933946)
+[PASS] test_creatorOneBpsDipActuallyExecutesWithActualFillCost() (gas: 5915089)
+[PASS] test_creatorOneBpsStopActuallyExecutesAndPaysOnlyActualUsdGReward() (gas: 5822656)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231801)
+[PASS] test_distinctCost128DustLotsReleaseCapacity_keepStopGate_thenBookAndBuyNormally() (gas: 77000377)
+[PASS] test_distinctCost128ValuableRemaindersReleaseCapacityWithoutFreeRewards() (gas: 76352003)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862466)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360296)
+[PASS] test_exactCostCoalescedLotsConserveInventory_andNormalFillClearsStopGate() (gas: 5794097)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12863770)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12975658)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22966740)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644830)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705093)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215858)
+[PASS] test_noMonetaryFillRevertsAtomicallyWithoutRewardOrStopGateChange() (gas: 6956509)
+[PASS] test_oneWeiTp1StageAdvanceThenDustCleanupMovesNoRewardOrPriceReference() (gas: 5593336)
+[PASS] test_partialTp1RemainderReclassificationProgressesTwoCallsThenTp2WithoutEconomicSideEffects() (gas: 5767507)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1348696)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832006)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 983159)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1048531)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 905098)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1016383)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146928)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1141903)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213567)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5846109)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6079126)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1216056)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526974)
+[PASS] test_valuableRemainderReclassifiesWithoutRewardSaleOrStopGateChange() (gas: 5574914)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216496)
+[PASS] test_zeroSelectedQuantityRevertsAtomicallyInsteadOfPayingForAnEmptyAction() (gas: 6012934)
+Suite result: ok. 40 passed; 0 failed; 0 skipped; finished in 390.02ms (387.69ms CPU time)
+
+Ran 28 tests for test/V2Execute.t.sol:V2ExecuteUsdgCurrency0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179668)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282029)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469344)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648184)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339641)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231608)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862334)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360252)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12863682)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12975580)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22966564)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644654)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705005)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215704)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1348520)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832006)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982961)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1048333)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904922)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1016242)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146906)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1141727)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213391)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845889)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078950)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215880)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526754)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216254)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 123.81ms (121.95ms CPU time)
+
+Ran 5 tests for test/V2OpeningTaxDecay.t.sol:V2OpeningTaxDecayTest
+[PASS] testFuzz_openingRateStaysAboveTheTaxUntilTheWindowEnds(uint16,uint16,uint8,uint256) (runs: 256, μ: 3624444, ~: 3458616)
+[PASS] testFuzz_quoteBuyAgreesWithTheExecutedBuysBurn(uint16,uint8,uint256,uint256) (runs: 256, μ: 3540594, ~: 3544828)
+[PASS] test_openingRateAtOrBelowTheTaxIsTheFlatTaxAndBuysSucceed() (gas: 17583969)
+[PASS] test_shippedThreeSecondSchedule() (gas: 6640172)
+[PASS] test_sixtySecondWindowLastsSixtySeconds() (gas: 3340768)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 370.06ms (529.36ms CPU time)
+
+Ran 18 tests for test/V2Factory.t.sol:V2FactoryTest
+[PASS] test_curveOpeningBuyTaxDecaysAndCreatorPaysOnlyFlatTax() (gas: 9170376)
+[PASS] test_factorySenderFeeCannotConsumeDonationsDuringGraduation() (gas: 11136641)
+[PASS] test_failedSeedRollsBackFinalBuyAndCurveRemainsSellable() (gas: 14115648)
+[PASS] test_graduatedRegistrationIsFactoryOnly() (gas: 8932788)
+[PASS] test_graduatesRealV4Token0Stock18Decimals() (gas: 11763410)
+[PASS] test_graduatesRealV4Token0Stock6Decimals() (gas: 67422358)
+[PASS] test_graduatesRealV4Token1Stock18Decimals() (gas: 11953046)
+[PASS] test_graduatesRealV4Token1Stock6Decimals() (gas: 67116764)
+[PASS] test_graduationAndBuybackKeepFlatSellTax() (gas: 11726340)
+[PASS] test_graduationFeesAndDonationsNeverSeedThePool() (gas: 11816297)
+[PASS] test_launchAndGraduationUseFrozenTerms() (gas: 11777822)
+[PASS] test_legacyKindTinyStopIsRejectedAtQuoteAndLaunch() (gas: 16249468)
+[PASS] test_quoteBecomesStaleWhenCurveTermsChange() (gas: 6811133)
+[PASS] test_runtimeAndInitcodeFitEvmLimits() (gas: 33152)
+[PASS] test_seededPositionCannotBeRemovedByCreatorOrCallbackReplay() (gas: 11733053)
+[PASS] test_token0GraduationAnchorProtectsFirstBuyback() (gas: 12302438)
+[PASS] test_token1GraduationAnchorProtectsFirstBuyback() (gas: 12493872)
+[PASS] test_treasuryWaitsForGraduationBeforeBookingOrTrading() (gas: 11770835)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 263.92ms (132.44ms CPU time)
+
+Ran 4 tests for test/V2OpeningTaxExemption.t.sol:V2OpeningTaxExemptionTest
+[PASS] testExactlyThirtyTwoAdditionalRecipientsCanLaunch() (gas: 11337438)
+[PASS] testExemptionExpiresAtWindowAndDoesNotCarryIntoV4() (gas: 11818310)
+[PASS] testWhitelistIsCreatorScopedValidatedAndFrozenAtLaunch() (gas: 16034236)
+[PASS] testWhitelistedRecipientPaysOnlyFlatTaxAndQuoteMatchesExecution() (gas: 9392747)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 139.70ms (8.21ms CPU time)
+
+Ran 1 test for test/V2OriginalSupplyParticipationFork.t.sol:V2OriginalSupplyParticipationForkTest
+[SKIP: skipped: opt-in in-memory fork only] setUp() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 377.33µs (0.00ns CPU time)
+
+Ran 11 tests for test/V2LaunchNativeRouter.t.sol:V2LaunchNativeRouterTest
+[PASS] testCreatorCannotBeSpoofed() (gas: 222002)
+[PASS] testCurveCapRefundsStockToCreator() (gas: 11889693)
+[PASS] testCurveCapWithoutPartialFillRollsBackEverything() (gas: 12333247)
+[PASS] testDonatedBalancesStayInRouter() (gas: 9365054)
+[PASS] testLaunchAndBuyUsesOnlyNativeAndCreatorOpeningTaxExemption() (gas: 17982045)
+[PASS] testNativeFeeAndRouteAreRequired() (gas: 9202001)
+[PASS] testStaleFeeTermsRollBackNativeFee() (gas: 6946004)
+[PASS] testTwoHopNativeToUsdgToListedStockLaunch() (gas: 11983888)
+[PASS] testUnrelatedLaunchBetweenQuoteAndExecutionUsesActualId() (gas: 17986033)
+[PASS] testWrappedNativeStockRefundUnwrapsToCreator() (gas: 13724117)
+[PASS] testWrongPaymentAndSlippageRollBackCreationAndFee() (gas: 9517533)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 150.34ms (18.82ms CPU time)
+
+Ran 1 test for test/V2LaunchNativeRouterFork.t.sol:V2LaunchNativeRouterForkTest
+[SKIP: set V2_NATIVE_LAUNCH_FORK=true] test_fork_nativeLaunchActivatesAndBuysThroughCanonicalTwoHopV3() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 872.04µs (14.92µs CPU time)
+
+Ran 1 test for test/V2LaunchNativeRouterMainnetFork.t.sol:V2LaunchNativeRouterMainnetForkTest
+[SKIP: fork test: set RH_FORK=1] test_fork_nativeLaunchAndFirstBuy_realWethUsdgGmePools_andAtomicRollback() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 1 skipped; finished in 1.08ms (10.63µs CPU time)
+
+Ran 6 tests for test/V2LiquidityVault.t.sol:V2LiquidityVaultTest
+[PASS] test_callbackCannotBeCalledByOutsider() (gas: 16571)
+[PASS] test_collectsOnlyEarnedFeesAndKeepsPrincipalLocked() (gas: 765635)
+[PASS] test_seedLocksPositionAndReturnsUnusedBudget() (gas: 391545)
+[PASS] test_stockCallbackCannotReenterFeeCollection() (gas: 658273)
+[PASS] test_stockCreditFailureParksFeeButStillBurnsTokenFee() (gas: 800538)
+[PASS] test_tokenSideFeeBurnsWithoutTreasuryCredit() (gas: 545241)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 3.82ms (3.05ms CPU time)
+
+Ran 5 tests for test/V2LiveVenueFork.t.sol:StrategyForkTestV2LiveVenue
+[SKIP: live V2 fork: set RH_FORK=1; no broadcast] test_fork_curveUserBuySandwichedByBot() (gas: 0)
+[SKIP: live V2 fork: set RH_FORK=1; no broadcast] test_fork_curveUserTightMinOutRejectsSandwich() (gas: 0)
+[SKIP: live V2 fork: set RH_FORK=1; no broadcast] test_fork_kindOneRegistersLaunchesGraduatesAndBuysBackOnLiveVenue() (gas: 0)
+[SKIP: live V2 fork: set RH_FORK=1; no broadcast] test_fork_selectedThreePercentBuyFeesConvertToStockAndSplit() (gas: 0)
+[SKIP: live V2 fork: set RH_FORK=1; no broadcast] test_fork_twoUsersLiveV3CurveGraduationV4FeesAndBuybackBurn() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 5 skipped; finished in 1.37ms (43.12µs CPU time)
+
+Ran 13 tests for test/V2LowFrequencyFork.t.sol:V2LowFrequencyForkTest
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_freshButDivergentFeedFailsClosedUntilCorrected() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_gapDownRejectsMismatchThenStopsAtRealV3Price() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_keeperDipBuySandwichedByV3Bot() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_params_10PercentLotFallsBelowMinimumAfterProfit() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_params_partialStopBlocksAnyCallerFromBuyingFirst() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_params_stopOffLeavesOnlyDip() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_params_widerDipDelaysButDoesNotDisableStop() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_sidewaysTenMinuteKeeperChecksDoNothing() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_staleStockFeedHaltsStrategyAndRecovers() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_stopLossThenFurtherDipReenters() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_takeProfitThenDipBuysBackStock() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_transientCrashRecoversWithoutStopLoss() (gas: 0)
+[SKIP: set RH_FORK=1; this is a live-venue fork test] test_fork_uptrendWaitsForMeanThenTakesProfit() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 13 skipped; finished in 1.48ms (111.71µs CPU time)
+
+Ran 2 tests for test/V2LpDepthExperiment.t.sol:V2LpDepthExperimentTest
+[PASS] test_buybackNoticeLeavesV2SellTaxFlat() (gas: 44103081)
+[PASS] test_t0DumpAcrossLpAndSaleShares() (gas: 58762228)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 149.67ms (18.96ms CPU time)
+
+Ran 2 tests for test/V2MarketBuyScenarios.t.sol:V2MarketBuyScenariosTest
+[PASS] testFourWalletBuyWaveGraduationRefundAndAtomicFailure() (gas: 6036935)
+[PASS] testFourWalletBuyWaveOrderChangesWalletOutcomeNotAggregate() (gas: 1032506)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 135.80ms (3.05ms CPU time)
+
+Ran 2 tests for test/V2MarketMixedScenarios.t.sol:V2MarketMixedScenariosTest
+[PASS] test_mixedCurveSameTimestampOrdering() (gas: 601117)
+[PASS] test_mixedV4SameTimestampOrdering() (gas: 4201766)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 136.58ms (3.64ms CPU time)
+
+Ran 47 tests for test/V2CycleTreasury.t.sol:V2CycleStock0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179990)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282250)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469264)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648454)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338861)
+[PASS] test_closedProfitCancelsOldRecoveryAndClosedRecoveryCannotBuy() (gas: 12162523)
+[PASS] test_cycleRequiresSaleBeforeRecoveryAndUsesNoInitialRiseEntry() (gas: 5767351)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1404232)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868920)
+[PASS] test_dueProfitStillWinsOverAnEligibleRecovery() (gas: 984193)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23367071)
+[PASS] test_forgedSwapCallbackCannotSpendTreasury() (gas: 5971686)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 13004975)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 13116982)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973916)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 690251)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705261)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1351553)
+[PASS] test_noCashAndZeroFillDoNotConsumePendingOrChangeLedger() (gas: 6443261)
+[PASS] test_oneWeiProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 1918877)
+[PASS] test_originalDipLadderStillWorksAfterRecoveryIsConsumed() (gas: 11605412)
+[PASS] test_originalProfitDipNeedsNoNewCooldownAndConsumesRecovery() (gas: 6162443)
+[PASS] test_pausedOrStaleReportCannotRecoverAndPendingSurvives() (gas: 6064870)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1395504)
+[PASS] test_realDustRecoveryRollsBackPoolTransfersAndState() (gas: 6289714)
+[PASS] test_realPartialRecoveryConsumesOneEntryAndBooksOnlyActualFill() (gas: 6318989)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832114)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 1106778)
+[PASS] test_recoveryBudgetUsesBothCashFractionAndSellChunk() (gas: 11392399)
+[PASS] test_recoveryConsumesOnceAndUsesActualCostWithoutSpendingBuybackStock() (gas: 6231652)
+[PASS] test_recoveryNeedsCooldownNewStockReportAndExactRiseThreshold() (gas: 6432452)
+[PASS] test_smallProfitAfterLaterStopStillAllowsImmediateOriginalDipAndConsumesRecovery() (gas: 2269762)
+[PASS] test_stopCanRecoverUpAfterCooldownInsteadOfOnlyBuyingDeeperDip() (gas: 1066020)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1130638)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 1029189)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1100516)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1281399)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1277732)
+[PASS] test_subMinimumProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 2829811)
+[PASS] test_subMinimumStopDoesNotArmAndCannotBypassLatestStopGate() (gas: 2044864)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213841)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5846239)
+[PASS] test_twoFullCyclesRearmOnlyOnLaterActualSale() (gas: 12028776)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6079184)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1351839)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5527050)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1352323)
+Suite result: ok. 47 passed; 0 failed; 0 skipped; finished in 166.90ms (164.37ms CPU time)
+
+Ran 47 tests for test/V2CycleTreasury.t.sol:V2CycleStock1Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6180264)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282392)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469597)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648591)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339970)
+[PASS] test_closedProfitCancelsOldRecoveryAndClosedRecoveryCannotBuy() (gas: 12163113)
+[PASS] test_cycleRequiresSaleBeforeRecoveryAndUsesNoInitialRiseEntry() (gas: 5767720)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1404600)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862707)
+[PASS] test_dueProfitStillWinsOverAnEligibleRecovery() (gas: 984375)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360494)
+[PASS] test_forgedSwapCallbackCannotSpendTreasury() (gas: 5971804)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12998062)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 13109763)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22967091)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 690144)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705379)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1351629)
+[PASS] test_noCashAndZeroFillDoNotConsumePendingOrChangeLedger() (gas: 6444528)
+[PASS] test_oneWeiProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 1921186)
+[PASS] test_originalDipLadderStillWorksAfterRecoveryIsConsumed() (gas: 11607991)
+[PASS] test_originalProfitDipNeedsNoNewCooldownAndConsumesRecovery() (gas: 6163688)
+[PASS] test_pausedOrStaleReportCannotRecoverAndPendingSurvives() (gas: 6065423)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1396906)
+[PASS] test_realDustRecoveryRollsBackPoolTransfersAndState() (gas: 6290636)
+[PASS] test_realPartialRecoveryConsumesOneEntryAndBooksOnlyActualFill() (gas: 6319911)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832258)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 1106968)
+[PASS] test_recoveryBudgetUsesBothCashFractionAndSellChunk() (gas: 11393873)
+[PASS] test_recoveryConsumesOnceAndUsesActualCostWithoutSpendingBuybackStock() (gas: 6233004)
+[PASS] test_recoveryNeedsCooldownNewStockReportAndExactRiseThreshold() (gas: 6433853)
+[PASS] test_smallProfitAfterLaterStopStillAllowsImmediateOriginalDipAndConsumesRecovery() (gas: 2273477)
+[PASS] test_stopCanRecoverUpAfterCooldownInsteadOfOnlyBuyingDeeperDip() (gas: 1062970)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1131520)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 1029435)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1101030)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1282113)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1277442)
+[PASS] test_subMinimumProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 2837626)
+[PASS] test_subMinimumStopDoesNotArmAndCannotBypassLatestStopGate() (gas: 2047590)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213907)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5846406)
+[PASS] test_twoFullCyclesRearmOnlyOnLaterActualSale() (gas: 12033512)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6079458)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1351915)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5527281)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1352399)
+Suite result: ok. 47 passed; 0 failed; 0 skipped; finished in 166.58ms (164.03ms CPU time)
+
+Ran 6 tests for test/V2DualEngine.t.sol:V2DualEngineTest
+[PASS] test_graduatedV2PoolNeverArmsSellSpikeFromFeeFundedBuyback() (gas: 11712439)
+[PASS] test_graduationDuringStaleOracleKeepsCapitalPendingUntilBook() (gas: 11952720)
+[PASS] test_graduationExecutorRejectsDirectCalls() (gas: 16073)
+[PASS] test_predonatedVaultTokensNeverIncreaseLpBudgetOrCollectedFees() (gas: 11836438)
+[PASS] test_stockSideLpFeeCreditsBuybackWithoutCreatingStrategyLot() (gas: 13278625)
+[PASS] test_v2RejectsZeroAndExcessiveLpFees() (gas: 49977)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 140.64ms (9.48ms CPU time)
+
+Ran 1 test for test/V2Emergency.t.sol:V2EmergencyTest
+[PASS] test_haltAndDelistDoNotTrapCurveFundsOrBlockGraduation() (gas: 112901857)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 133.60ms (132.36ms CPU time)
+
+Ran 8 tests for test/V2StrategyEngineAccounting.t.sol:V2StrategyEngineAccountingTest
+[PASS] testFuzz_shortBuyFillUsesActualInputAndOutput(uint16) (runs: 256, μ: 11797870, ~: 11798133)
+[PASS] testFuzz_shortSellFillUsesOnlyActualInput(uint16) (runs: 256, μ: 11812485, ~: 11812751)
+[PASS] test_cooldownAndDailyCapUseCumulativeActualTurnover() (gas: 12325061)
+[PASS] test_donationBooksExactlyOnceWithoutTouchingBuybackBucket() (gas: 11638628)
+[PASS] test_previewDoesNotClaimDustBelowTheCoreMinimumIsExecutable() (gas: 11915161)
+[PASS] test_sellRoundingCannotExceedPerCallCapOrTarget() (gas: 11818737)
+[PASS] test_shortBuyBelowMinLotRollsBackWithoutConsumingStrategyState() (gas: 11732404)
+[PASS] test_shortSellBelowMinLotRollsBackWithoutConsumingStrategyState() (gas: 11724638)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 1.21s (1.08s CPU time)
+
+Ran 12 tests for test/V2StrategyEngineConfig.t.sol:V2StrategyEngineConfigTest
+[PASS] testFuzz_deployerAndConstructorAgree(uint16,uint16,uint32,uint256,uint256,bool,uint16) (runs: 256, μ: 267920, ~: 265132)
+[PASS] test_aCompliantConfigIsAcceptedByBothPaths() (gas: 10097719)
+[PASS] test_cooldownFloorIsOneTwapWindowOnBothPaths() (gas: 5545887)
+[PASS] test_dailyTurnoverIsAtMostTwentyFourActionsOnBothPaths() (gas: 5460234)
+[PASS] test_deadbandFloorIsTwiceTheListingFrictionOnBothPaths() (gas: 21504079)
+[PASS] test_everyWordBoundIsRefusedByBothPaths() (gas: 2334870)
+[PASS] test_factoryPredictNamesTheRefusalInsteadOfQuotingAnUnlaunchableConfig() (gas: 246434)
+[PASS] test_maxTradeAboveTheListingChunkIsRefusedByBothPaths() (gas: 5439411)
+[PASS] test_maxTradeBelowTheMinimumLotIsRefusedByBothPaths() (gas: 5439330)
+[PASS] test_spotBoundsApplyOnlyToTheSpotEngineVersion() (gas: 577569)
+[PASS] test_targetIsBetweenTwentyAndNinetyPercentOnBothPaths() (gas: 10745335)
+[PASS] test_theRoundFourUnboundedConfigNoLongerLaunches() (gas: 262801)
+Suite result: ok. 12 passed; 0 failed; 0 skipped; finished in 192.55ms (61.28ms CPU time)
+
+Ran 9 tests for test/V2EngineKeeperReward.t.sol:V2EngineKeeperRewardTest
+[PASS] testFuzz_buyRewardUsesActualStockAndNetCost(uint16,uint16) (runs: 256, μ: 11878066, ~: 11879886)
+[PASS] testFuzz_sellRewardUsesActualUsdOutput(uint16,uint16) (runs: 256, μ: 11865664, ~: 11867211)
+[PASS] test_buyRewardCallbackSeesFinalLedgerAndCannotReenter() (gas: 13044456)
+[PASS] test_buyRewardTransferFailureRollsBackNetCostAndSwap() (gas: 11831219)
+[PASS] test_competingKeeperCannotCollectTwice() (gas: 11834587)
+[PASS] test_executionEventKeepsGrossOutputWhileRewardEventExplainsNet() (gas: 11819630)
+[PASS] test_holdAndDustPayNothingAndDoNotConsumeState() (gas: 23113896)
+[PASS] test_sellRewardCallbackSeesFinalLedgerAndCannotReenter() (gas: 13040273)
+[PASS] test_sellRewardTransferFailureRollsBackSwapAndState() (gas: 11802686)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 1.26s (1.69s CPU time)
+
+Ran 28 tests for test/V2Execute.t.sol:V2ExecuteStockCurrency0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179394)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6281887)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469011)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648047)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338532)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231285)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868547)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23366829)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12870595)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12982799)
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973389)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644761)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5704887)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215628)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1346824)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5831862)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982771)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1047297)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904676)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1015773)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146192)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1142017)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213325)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845722)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078676)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215804)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526523)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216178)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 123.97ms (122.06ms CPU time)
+
+Ran 8 tests for test/V2StrategyEngineGains.t.sol:V2StrategyEngineGainsTest
+[PASS] testFuzz_shortFillMovesOnlyItsShare(uint16) (runs: 256, μ: 12580941, ~: 12580427)
+[PASS] test_aSaleAtOrBelowAverageCostMovesNothing() (gas: 11977188)
+[PASS] test_averageCostFollowsBookingsAndBuysAndIgnoresSales() (gas: 12548326)
+[PASS] test_bookWaitsForALivePrice() (gas: 11639904)
+[PASS] test_bookWaitsForALivePriceEvenWhenTheBandServesOne() (gas: 12308204)
+[PASS] test_fullPayoutSellsOnlyThePrincipal() (gas: 12562843)
+[PASS] test_rebalanceGainsFundTheBurn() (gas: 12839459)
+[PASS] test_zeroPayoutIsThePlainRebalance() (gas: 12615125)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 1.16s (1.03s CPU time)
+
+Ran 11 tests for test/V2RebalancePolicy.t.sol:V2RebalancePolicyTest
+[PASS] testFuzz_eachProposedActionIsCappedAndUsesItsInputAsset(uint96,uint96,uint96,uint64) (runs: 256, μ: 13955, ~: 14175)
+[PASS] test_buyUsesUsdgUnitsAndIsCapped() (gas: 11848)
+[PASS] test_cooldownHoldsUntilItsExactBoundary() (gas: 19374)
+[PASS] test_deadbandBoundariesHoldAndValuesBeyondAct() (gas: 31146)
+[PASS] test_intentEchoesConfigNonceAndPreservesStatelessPolicyState() (gas: 12373)
+[PASS] test_metadataCommitsToSpotSchemaAndBuySellCapabilities() (gas: 6097)
+[PASS] test_policyEchoesTheCoreBoundHashWithoutRecomputingItsDomain() (gas: 12474)
+[PASS] test_rejectsMalformedOrUnsafeConfigurations() (gas: 80650)
+[PASS] test_sellStopsAtTargetWhenCloserThanTheCap() (gas: 12106)
+[PASS] test_sellUsesStockUnitsAndCapsTheirUsdNotional() (gas: 12058)
+[PASS] test_zeroOrInconsistentObservationsFailClosedToHold() (gas: 21796)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 2.58s (2.58s CPU time)
+
+Ran 14 tests for test/V2StrategyEngineGuards.t.sol:V2StrategyEngineGuardsTest
+[PASS] test_C10_deployIsFactoryOnly() (gas: 11736)
+[PASS] test_C11_secondStockFeeCollectionDeliversAgain() (gas: 13387289)
+[PASS] test_C12_engineConfigBoundsAreEnforcedAtConstruction() (gas: 8457798)
+[PASS] test_C13_unhealthyVenueBlocksExecution() (gas: 11847652)
+[PASS] test_C14_bandHealthInAScheduledClosureCannotTradeWithoutALiveOracle() (gas: 12615892)
+[PASS] test_C1_nonceMismatchFailsClosedAtTheCore() (gas: 23818602)
+[PASS] test_C2_policyCodeReplacementAfterLaunchFailsClosed() (gas: 12326623)
+[PASS] test_C3_gasBombIsBoundedByTheRegisteredGas() (gas: 11924886)
+[PASS] test_C4_sellOnlyPolicyCannotBuy() (gas: 11950083)
+[PASS] test_C5_sellInsideTheDeadbandIsRefused() (gas: 23888132)
+[PASS] test_C6_outOfRangeActionWordIsRefusedByNameBeforeTheDecode() (gas: 11868764)
+[PASS] test_C7_disabledPolicyCannotLaunchAnAlreadyConfiguredSalt() (gas: 2535146)
+[PASS] test_C8_cooldownSurvivesTheEpochBoundary() (gas: 12202853)
+[PASS] test_C9_registryWritesAreOwnerOnly() (gas: 6602808)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 161.41ms (29.38ms CPU time)
+
+Ran 14 tests for test/V2StrategyEngine.t.sol:V2StrategyEngineTest
+[PASS] test_coreRejectsReservedConfigBitsEvenWhenPolicyWouldIgnoreThem() (gas: 345199)
+[PASS] test_engineSelectionRestatesQuoteAndLegacySetterCannotSkipConfig() (gas: 6875989)
+[PASS] test_graduatedOverweightEngineSellsOneBoundedChunkAndAccountsTheFill() (gas: 11871467)
+[PASS] test_hugePolicyReturndataIsRejectedBeforeCopyOrStateChange() (gas: 11845458)
+[PASS] test_intentOfTheWrongLengthIsABadPolicyReturnEvenWhenItsWordsAreValid() (gas: 35483477)
+[PASS] test_optionsCapabilityCannotEnterTheSpotEngine() (gas: 346265)
+[PASS] test_outOfRangeActionWordIsABadPolicyReturnNotAnEmptyRevert() (gas: 11917130)
+[PASS] test_policyCodeReplacementFailsBeforePredictionOrLaunch() (gas: 34081)
+[PASS] test_policyDisableBlocksFutureLaunchesButCannotRewriteALaunchedTreasury() (gas: 8872339)
+[PASS] test_registryAndCreate2BindTheExactCorePolicyAndConfig() (gas: 8943872)
+[PASS] test_revertingPolicyCannotConsumeNonceOrMoveAssets() (gas: 11837634)
+[PASS] test_staticcallTrapsPolicyStateWrites() (gas: 12270080)
+[PASS] test_underweightEngineBuysStockButPolicyCannotExceedCoreCap() (gas: 11824317)
+[PASS] test_wrongCommitmentAndExcessiveAmountBothFailClosedAtTheCore() (gas: 23774931)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 158.54ms (26.10ms CPU time)
+
+Ran 5 tests for test/V2StrategyOptionsBoundary.t.sol:V2StrategyOptionsBoundaryTest
+[PASS] test_buybackCapabilityCannotEnterRebalanceEngine() (gas: 8555532)
+[PASS] test_futureUnknownCapabilityFailsClosedInsideSpotEngine() (gas: 8556586)
+[PASS] test_optionsEngineVersionCannotBeConfiguredAgainstSpotEngineKind() (gas: 6462048)
+[PASS] test_overBroadKindCannotSmuggleOptionsCapabilityIntoSpotEngine() (gas: 8556668)
+[PASS] test_spotOnlyKindRejectsPolicyContainingAnyOptionsCapabilityAtConfiguration() (gas: 6463896)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 135.26ms (3.67ms CPU time)
+
+Ran 2 tests for test/V2TSLAStress.t.sol:V2TSLAStressTest
+[PASS] testExactFinishRaiseOverfillAtomicRollbackAndV4Boundary() (gas: 9001019)
+[PASS] testTwelveBuyersWhitelistSniperAndConcentratedDump() (gas: 2063968)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 140.82ms (5.98ms CPU time)
+
+Ran 2 tests for test/V2TradeRouter.t.sol:V2TradeRouterIntegrationTest
+[PASS] testRealFactoryLifecycleTokenCurrency0() (gas: 12985028)
+[PASS] testRealFactoryLifecycleTokenCurrency1() (gas: 13175549)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 140.07ms (9.19ms CPU time)
+
+Ran 24 tests for test/V2TradeRouter.t.sol:V2TradeRouterTest
+[PASS] testBadPathsAreRejectedBeforePull() (gas: 804268)
+[PASS] testCallbackDataCannotSelectPaymentToken() (gas: 592224)
+[PASS] testCurveCapStockFloorProtectsRefundFromWorseV3Price() (gas: 1650320)
+[PASS] testDeadlineStageAndMinimumProtectFullRoute() (gas: 1379397)
+[PASS] testDirectStockBuyAndSellNeedNoV3Pool() (gas: 412284)
+[PASS] testDirectStockBuyHonorsStockFloorButSellIgnoresIt() (gas: 467168)
+[PASS] testDonationsRemainIsolatedFromBuyRefundAndSell() (gas: 1215536)
+[PASS] testFinalCurveBuyGraduatesAndRequiresExplicitStockRefundConsent() (gas: 1257591)
+[PASS] testMaximumThreeHopRouteAndReverseOutput() (gas: 1632036)
+[PASS] testMinimumIsNeverProratedForFinalPartialFill() (gas: 626753)
+[PASS] testNonUsdgTwoHopBuyAndChosenOutputSell() (gas: 838561)
+[PASS] testOpeningTaxUsesFinalRoutedRecipientAndAbsoluteSlippage() (gas: 4056481)
+[PASS] testRealV4DirectStockAndStaleStage() (gas: 2668817)
+[PASS] testRealV4GraduatedTwoHopBuyAndSelectedOutputSell() (gas: 2862140)
+[PASS] testRealV4OutputTransferTaxRevertsWithoutSpendingDonation() (gas: 2580977)
+[PASS] testRealV4PartialBuyRefundRequiresConsentAndIsolatesDonations() (gas: 3688982)
+[PASS] testRealV4PartialSellRefundRequiresConsentAndIsolatesDonations() (gas: 3538651)
+[PASS] testRepeatedIntermediateTokenIsRejected() (gas: 672083)
+[PASS] testShortPoolOutputCannotBeSubsidizedByDonation() (gas: 240005)
+[PASS] testTaxedFinalOutputCannotUseDonationOrMissUserMinimum() (gas: 1111739)
+[PASS] testTaxedInputAndIntermediateTransferAreRejected() (gas: 531637)
+[PASS] testV3CallbacksCannotOverchargeChangeDirectionOrPayTwice() (gas: 1346514)
+[PASS] testV4PartialStockFloorProtectsRefundFromWorseV3Price() (gas: 3907842)
+[PASS] testWhitelistingRouterDoesNotExemptItsUsers() (gas: 4239787)
+Suite result: ok. 24 passed; 0 failed; 0 skipped; finished in 21.57ms (20.32ms CPU time)
+
+Ran 15 tests for test/V2TwoSidedFees.t.sol:V2TwoSidedFeesToken0Test
+[PASS] testConversionCannotSpendDonatedTokens() (gas: 424311)
+[PASS] testConversionRejectsLimitsBeyondHalfPercentSqrtMovement() (gas: 548268)
+[PASS] testConverterIsObservedForPoolHistoryButNotTaxedAgain() (gas: 424066)
+[PASS] testCurveBuyAccruesAndPaysStockToAllThreeRoles() (gas: 145818)
+[PASS] testDeadlineMinimumOutputAndPoolIdentityFailClosed() (gas: 465609)
+[PASS] testExactOutputBuyStillPaysInStock() (gas: 399658)
+[PASS] testFactoryOwnershipTransferChangesConverterAuthorization() (gas: 426519)
+[PASS] testOnlyFactoryOwnerCanConvertAndCallbackCannotBeSpoofed() (gas: 300713)
+[PASS] testPartialFillLeavesInventoryAndCanBeRetried() (gas: 1352742)
+[PASS] testRejectedStockPayoutPreservesRoleCreditAndRetryDoesNotDoubleSplit() (gas: 680124)
+[PASS] testStockRedemptionFailureDoesNotStrandPendingBuyClaims() (gas: 697496)
+[PASS] testTwoPoolsOnSameStockKeepTheirFeesSeparate() (gas: 12309918)
+[PASS] testV4BuyConvertsOnceThenPaysExactTwentyTenSeventy() (gas: 592716)
+[PASS] testV4BuyInventoryIsNotBurnedOrReportedAsStockIncome() (gas: 340908)
+[PASS] testV4SellPaysExactTwentyTenSeventyWithoutConversion() (gas: 405526)
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 143.25ms (10.35ms CPU time)
+
+Ran 15 tests for test/V2TwoSidedFees.t.sol:V2TwoSidedFeesToken1Test
+[PASS] testConversionCannotSpendDonatedTokens() (gas: 424943)
+[PASS] testConversionRejectsLimitsBeyondHalfPercentSqrtMovement() (gas: 548791)
+[PASS] testConverterIsObservedForPoolHistoryButNotTaxedAgain() (gas: 424698)
+[PASS] testCurveBuyAccruesAndPaysStockToAllThreeRoles() (gas: 145818)
+[PASS] testDeadlineMinimumOutputAndPoolIdentityFailClosed() (gas: 466241)
+[PASS] testExactOutputBuyStillPaysInStock() (gas: 399183)
+[PASS] testFactoryOwnershipTransferChangesConverterAuthorization() (gas: 427024)
+[PASS] testOnlyFactoryOwnerCanConvertAndCallbackCannotBeSpoofed() (gas: 301511)
+[PASS] testPartialFillLeavesInventoryAndCanBeRetried() (gas: 1353929)
+[PASS] testRejectedStockPayoutPreservesRoleCreditAndRetryDoesNotDoubleSplit() (gas: 680630)
+[PASS] testStockRedemptionFailureDoesNotStrandPendingBuyClaims() (gas: 697646)
+[PASS] testTwoPoolsOnSameStockKeepTheirFeesSeparate() (gas: 12684643)
+[PASS] testV4BuyConvertsOnceThenPaysExactTwentyTenSeventy() (gas: 593222)
+[PASS] testV4BuyInventoryIsNotBurnedOrReportedAsStockIncome() (gas: 341696)
+[PASS] testV4SellPaysExactTwentyTenSeventyWithoutConversion() (gas: 405170)
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 144.69ms (11.26ms CPU time)
+
+Ran 5 tests for test/V2AssetPercentConfigPolicy.t.sol:V2AssetPercentPolicyTest
+[PASS] test_bandEqualityAndCooldownHoldAreObservationsWithoutStateMutation() (gas: 32183)
+[PASS] test_metadataAndExact160ByteIntentKeepStateHashAndNonce() (gas: 13467)
+[PASS] test_mulDivAcceptsFullWidthNavWhileOverflowSumHoldsAndWrongSchemaRefuses() (gas: 29805)
+[PASS] test_proposalsCoverTradableTargetGapLeavingFullNavCapsToCore() (gas: 39195)
+[PASS] test_zeroAndOneBpBandsFollowCreatorGeometryAndHoldAtTarget() (gas: 52379)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 530.88µs (412.25µs CPU time)
+
+Ran 8 tests for test/V2AdversarialCallbacks.t.sol:V2AdversarialCallbacksTest
+[PASS] testCurveCallbackClaimsCannotChangeAnotherUsersFeeRights() (gas: 4669684)
+[PASS] testInvalidCanonicalCallbacksRollbackAlongsideNormalUsers() (gas: 3259549)
+[PASS] testNativePayoutCallbackCannotRepeatPaymentAndMatchesControl() (gas: 2177542)
+[PASS] testPaymentTokenReentryIsRejectedWithoutChangingControlResult() (gas: 2901601)
+[PASS] testRejectedNativePayoutRollsBackFeesReservesAndTemporaryApproval() (gas: 1486347)
+[PASS] testStaleStageAfterAnotherUserGraduatesRollsBackWrapping() (gas: 3795155)
+[PASS] testUnauthorizedAndIdleTrustedCallbacksPreserveAllBalances() (gas: 1361200)
+[PASS] testUnexpectedNativeReceiveCannotCreditOrChangeOtherTrades() (gas: 1132042)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 145.98ms (13.49ms CPU time)
+
+Ran 15 tests for test/V2AssetPercentEngine.t.sol:V2AssetPercentEngineTest
+[PASS] testFuzz_partialFillRewardsAndActualTurnover(uint16,bool,bool) (runs: 256, μ: 13589045, ~: 13589658)
+[PASS] test_buyPreviewAndExecuteUsePercentageAndAbsoluteListingChunk() (gas: 13641220)
+[PASS] test_dailyBudgetShrinksBelowUsedThenRecoversInSameEpoch() (gas: 13942553)
+[PASS] test_dailyDepletionAndDonationReopenOnlyTheCurrentNavDifference() (gas: 14013274)
+[PASS] test_dustFillRollsBackCashBucketsNonceCooldownAndReward() (gas: 13377629)
+[PASS] test_gainPayoutRetainsBuybackInFullNavAndCountsAllActuallyMovedInventory() (gas: 13730205)
+[PASS] test_liveNavGrowthAndShrinkResizeBothLimitsWithoutRoundingUp() (gas: 13419394)
+[PASS] test_newTradingDateResetsBudgetAndCooldownPreviewMatchesCore() (gas: 13959526)
+[PASS] test_rewardTransferFailureRollsBackPercentageBudgetAndSwap() (gas: 13537672)
+[PASS] test_schemaAndGenericRegistryAppendPreserveExistingKindAndWords() (gas: 24654130)
+[PASS] test_sellPreviewAndExecuteUsePercentageAndAbsoluteListingChunk() (gas: 13624076)
+[PASS] test_staleOrUnhealthySnapshotHasNoReportedCapacity() (gas: 13194777)
+[PASS] test_stockDonationsAndBuybackAreIncludedWhileInventoryStaysIsolated() (gas: 13769585)
+[PASS] test_subMinRemainingDailyWaitDoesNotConsumeOrResetBudget() (gas: 13836946)
+[PASS] test_tinyNavWaitsUntilPercentCapMeetsMinLot() (gas: 13906681)
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 828.61ms (702.37ms CPU time)
+
+Ran 4 tests for test/V2AssetPercentFork.t.sol:V2AssetPercentForkTest
+[SKIP: set RH_FORK=1; pinned live-venue simulation, no broadcast] test_forkBuyBandAndCooldownWaitWithoutConsumingState() (gas: 0)
+[SKIP: set RH_FORK=1; pinned live-venue simulation, no broadcast] test_forkChunkAndDynamicDailyBudgetKeepAbsoluteUsed() (gas: 0)
+[SKIP: set RH_FORK=1; pinned live-venue simulation, no broadcast] test_forkOwnLpFeesCollectIntoBuybackWithoutDoubleCounting() (gas: 0)
+[SKIP: set RH_FORK=1; pinned live-venue simulation, no broadcast] test_forkSellUsesFullNavAndPaysActualOutputReward() (gas: 0)
+Suite result: ok. 0 passed; 0 failed; 4 skipped; finished in 1.35ms (43.92µs CPU time)
+
+Ran 9 tests for test/V2AssetPercentFundAssets.t.sol:V2AssetPercentFundAssetsTest
+[PASS] testFuzz_realLpBothStockOrdersUseCurrentOwnedPrincipalAndStockFees(bool) (runs: 256, μ: 15121516, ~: 15107478)
+[PASS] test_bbRelocationIsConservedAndDailyUsedDoesNotReset() (gas: 13700051)
+[PASS] test_feeDeliveryFailureParkedBalanceAndRetryPreserveFullNav() (gas: 14681422)
+[PASS] test_fullNavCapActuallyExceedsTradableCapButTargetRemainsTradable() (gas: 13981616)
+[PASS] test_funHoldingsAndFunFeesHaveZeroExternalAssetValue() (gas: 14542199)
+[PASS] test_missingUnseededOrMisboundVaultFailsClosedWithNoSmallerNavFallback() (gas: 13984371)
+[PASS] test_otherFundAndPoolManagerBalancesCannotInflateThisFund() (gas: 27397832)
+[PASS] test_stockQuantityOrNavOverflowFailsClosedBeforeBooking() (gas: 13469947)
+[PASS] test_unlockedManagerWaitsAndExecuteRollsBackWithoutConsumingState() (gas: 14003625)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 1.05s (915.52ms CPU time)
+
+Ran 8 tests for test/V2AssetPercentGuards.t.sol:V2AssetPercentGuardsTest
+[PASS] test_inheritedManualTradingEntryPointsRemainClosed() (gas: 13154820)
+[PASS] test_oversizedSellAndBuyAmountsAreIndependentlyClippedToPercentAndListing() (gas: 27737858)
+[PASS] test_policyCapabilityAndCodeHashCannotBeBypassedAtExecution() (gas: 26880813)
+[PASS] test_rewardCallbackSeesFinalNetInventoryAndCannotReenter() (gas: 14551530)
+[PASS] test_staticCallGasAndStateWriteBoundaries() (gas: 27393643)
+[PASS] test_totalNavOverflowAndBuyerDustFailClosedWithoutStateChange() (gas: 26709937)
+[PASS] test_unsupportedActionAndWrongReturnSizesFailByName() (gas: 40543397)
+[PASS] test_wrongNonceOrHashCannotConsumeBudgetOrAdvanceState() (gas: 27265488)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 171.23ms (36.58ms CPU time)
+
+Ran 9 tests for test/V2AdversarialTrading.t.sol:V2AdversarialTradingTest
+[PASS] testAttackerCannotPreinitializeGraduationPoolOrReleaseAnotherUsersReserve() (gas: 15472754)
+[PASS] testFuzz_sameBlockRoundTripCannotExtractStockWithoutAnExternalTrade(uint96,bool,bool) (runs: 256, μ: 14412567, ~: 13116903)
+[PASS] testFuzz_threeActorSequencesConserveBeforeAndAfterGraduation(uint256,bool,bool) (runs: 256, μ: 54046324, ~: 27466434)
+[PASS] testGraduationRaceTokenCurrency0() (gas: 16003418)
+[PASS] testGraduationRaceTokenCurrency1() (gas: 16193910)
+[PASS] testPermissiveVictimSlippageAllowsEconomicMevButConservationHolds() (gas: 13017262)
+[PASS] testRejectedGraduationPreservesAllActorsTokenCurrency0() (gas: 18933626)
+[PASS] testRejectedGraduationPreservesAllActorsTokenCurrency1() (gas: 19088181)
+[PASS] testTightVictimMinOutDefeatsCurveSandwichAndAttackerLosesUnwind() (gas: 12753432)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 14.09s (26.94s CPU time)
+
+Ran 7 tests for test/V2AssetPercentConfigPolicy.t.sol:V2AssetPercentConfigTest
+[PASS] test_allocationGeometryCooldownAndOptionalToolingMinimum() (gas: 171272)
+[PASS] test_constructorRejectsBadGeometryEvenWithoutEconomicBandMinimum() (gas: 463367)
+[PASS] test_constructorRejectsInvalidSchema2WordsByNameAndAcceptsRuntimeTinyCap() (gas: 13542858)
+[PASS] test_existingRegistryMetadataIsGenericAndInvalidWordsCannotDeploy() (gas: 2166141)
+[PASS] test_oneBpCreatorBandDeploysWithHighFrictionAndPreservesExecution() (gas: 13772787)
+[PASS] test_wordValidationEdgesAndFullWidthPercentageWords() (gas: 177257)
+[PASS] test_zeroCreatorBandDeploysWithHighFrictionAndPreservesExecution() (gas: 13772698)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 140.61ms (8.52ms CPU time)
+
+Ran 5 tests for test/V2StrategyEngineTradingDay.t.sol:V2StrategyEngineTradingDayTest
+[PASS] test_dstEndMovesTheRollAnHourLaterInUtc() (gas: 24485649)
+[PASS] test_dstStartMovesTheRollAnHourEarlierInUtc() (gas: 24580497)
+[PASS] test_summerBucketRollsAt2000NewYork() (gas: 12405139)
+[PASS] test_theUtcYearBoundaryIsNotABucketBoundary() (gas: 12160772)
+[PASS] test_winterBucketRollsAt2000NewYorkNotAtMidnightUtc() (gas: 12592651)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 155.57ms (24.62ms CPU time)
+
+Ran 2 tests for test/V2StrategyKinds.t.sol:V2LpShareTest
+[PASS] test_defaultIsHalfAndOnlyTheOwnerMovesItWithinBounds() (gas: 78429)
+[PASS] test_lpShareIsInTheTermsAndFrozenAtLaunch() (gas: 18323458)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 133.46ms (2.76ms CPU time)
+
+Ran 6 tests for test/V2StrategyKinds.t.sol:V2StrategyKindsTest
+[PASS] test_changingKindAfterQuoteRestatesTheLaunch() (gas: 12554703)
+[PASS] test_creatorCannotChooseAnUnregisteredKind() (gas: 12059)
+[PASS] test_kindIsPerCreatorSalt() (gas: 6090470)
+[PASS] test_kindOneLaunchDeploysKindOneCodeAndGraduates() (gas: 17412027)
+[PASS] test_onlyFactoryOwnerRegistersAKindAndKindsAreWriteOnce() (gas: 11616791)
+[PASS] test_shippedTreasuryIsKindZeroAndNeedsNoCall() (gas: 8925312)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 136.31ms (5.80ms CPU time)
+
+Ran 2 tests for test/V2AssetPercentInvariant.t.sol:V2AssetPercentInvariantTest
+[PASS] invariant_bucketsCoveredAndOnlySuccessfulActionsAdvanceState() (runs: 256, calls: 128000, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 10804 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 10777 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 10608 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 10728 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 10648 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 10532 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 10781 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 10655 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 10597 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 10611 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 10854 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 10405 | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_everyFillFitsItsOwnPreTradeNavLimitsAndCumulativeEpochLedger() (runs: 256, calls: 128000, reverts: 0)
+
+╭---------------------------+---------------------+-------+---------+----------╮
+| Contract                  | Selector            | Calls | Reverts | Discards |
++==============================================================================+
+| AssetPercentEngineHandler | advanceCooldownEdge | 10719 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceEpoch        | 10591 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | advanceLive         | 10725 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | attemptExecute      | 10646 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | book                | 10753 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateStock         | 10637 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | donateUsdg          | 10639 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | makeOracleStale     | 10576 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | refreshFeeds        | 10562 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setMarket           | 10766 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | setOraclePaused     | 10812 | 0       | 0        |
+|---------------------------+---------------------+-------+---------+----------|
+| AssetPercentEngineHandler | shoveVenue          | 10574 | 0       | 0        |
+╰---------------------------+---------------------+-------+---------+----------╯
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 24.52s (37.09s CPU time)
+
+Ran 6 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustStock0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 256, μ: 25146124, ~: 25146290)
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 257, μ: 1423865, ~: 1424074)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 257, μ: 1311878, ~: 1312009)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 257, μ: 1266465, ~: 1266568)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 256, μ: 1540089, ~: 1540342)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 256, μ: 7096860, ~: 7097112)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 34.77s (12.54s CPU time)
+
+Ran 5 tests for test/V2StrategyEngineInvariant.t.sol:V2StrategyEngineInvariantTest
+[PASS] invariant_bucketsRemainCovered() (runs: 256, calls: 128000, reverts: 0)
+
+╭-----------------------+---------------------+-------+---------+----------╮
+| Contract              | Selector            | Calls | Reverts | Discards |
++==========================================================================+
+| StrategyEngineHandler | advanceCooldownEdge | 10375 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceEpoch        | 10778 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceLive         | 10453 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | attemptExecute      | 10703 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | book                | 10717 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateStock         | 10886 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateUsdg          | 10676 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | makeOracleStale     | 10645 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | refreshFeeds        | 10696 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setMarket           | 10641 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setOraclePaused     | 10695 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | shoveVenue          | 10735 | 0       | 0        |
+╰-----------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_handlerChecksCannotFailSilently() (runs: 256, calls: 128000, reverts: 0)
+
+╭-----------------------+---------------------+-------+---------+----------╮
+| Contract              | Selector            | Calls | Reverts | Discards |
++==========================================================================+
+| StrategyEngineHandler | advanceCooldownEdge | 10786 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceEpoch        | 10787 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceLive         | 10637 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | attemptExecute      | 10773 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | book                | 10534 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateStock         | 10697 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateUsdg          | 10612 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | makeOracleStale     | 10548 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | refreshFeeds        | 10730 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setMarket           | 10591 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setOraclePaused     | 10665 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | shoveVenue          | 10640 | 0       | 0        |
+╰-----------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_onlySuccessfulExecutionsAdvanceState() (runs: 256, calls: 128000, reverts: 0)
+
+╭-----------------------+---------------------+-------+---------+----------╮
+| Contract              | Selector            | Calls | Reverts | Discards |
++==========================================================================+
+| StrategyEngineHandler | advanceCooldownEdge | 10587 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceEpoch        | 10653 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceLive         | 10788 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | attemptExecute      | 10715 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | book                | 10655 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateStock         | 10666 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateUsdg          | 10646 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | makeOracleStale     | 10828 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | refreshFeeds        | 10543 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setMarket           | 10713 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setOraclePaused     | 10576 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | shoveVenue          | 10630 | 0       | 0        |
+╰-----------------------+---------------------+-------+---------+----------╯
+
+[PASS] invariant_turnoverNeverExceedsTheEpochLimit() (runs: 256, calls: 128000, reverts: 0)
+
+╭-----------------------+---------------------+-------+---------+----------╮
+| Contract              | Selector            | Calls | Reverts | Discards |
++==========================================================================+
+| StrategyEngineHandler | advanceCooldownEdge | 10717 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceEpoch        | 10580 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | advanceLive         | 10909 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | attemptExecute      | 10590 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | book                | 10588 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateStock         | 10667 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | donateUsdg          | 10610 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | makeOracleStale     | 10720 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | refreshFeeds        | 10629 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setMarket           | 10621 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | setOraclePaused     | 10683 | 0       | 0        |
+|-----------------------+---------------------+-------+---------+----------|
+| StrategyEngineHandler | shoveVenue          | 10686 | 0       | 0        |
+╰-----------------------+---------------------+-------+---------+----------╯
+
+[PASS] test_handlerCoversSubMinFailureAndExactBoundarySuccess() (gas: 877271)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 32.06s (47.75s CPU time)
+
+Ran 6 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustUsdg0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 256, μ: 25139518, ~: 25139713)
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 257, μ: 1424090, ~: 1424286)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 257, μ: 1312790, ~: 1312913)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 257, μ: 1267467, ~: 1267588)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 256, μ: 1541098, ~: 1541358)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 256, μ: 7095434, ~: 7095684)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 7.45s (12.53s CPU time)
+
+Ran 1 test for test/V2CycleTreasury.t.sol:V2CycleKindTest
+[PASS] test_newKindUsesExistingConstructorLaunchAndGraduationWithoutChangingKindZero() (gas: 124563520)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 133.42ms (132.01ms CPU time)
+
+Ran 7 tests for test/V2AdversarialAccounting.t.sol:V2AdversarialAccountingTest
+[PASS] testCrossTransactionShoveAndBookingCannotReplaceToken0GraduationAnchor() (gas: 111770779)
+[PASS] testCrossTransactionShoveAndBookingCannotReplaceToken1GraduationAnchor() (gas: 111961346)
+[PASS] testFuzzTwoTraderLedger18DecimalsToken0(uint256) (runs: 256, μ: 115526178, ~: 115539030)
+[PASS] testFuzzTwoTraderLedger6DecimalsToken1(uint256) (runs: 256, μ: 115695667, ~: 115697043)
+[PASS] testGraduationStockAndTokenDonationsDoNotChangeLpOrAnchor() (gas: 113997878)
+[PASS] testMatureTwapBoundaryToken0() (gas: 115802451)
+[PASS] testMatureTwapBoundaryToken1() (gas: 115998615)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 71.67s (107.92s CPU time)
+
+Ran 87 test suites in 71.68s (206.02s CPU time): 839 tests passed, 0 failed, 35 skipped (874 total tests)

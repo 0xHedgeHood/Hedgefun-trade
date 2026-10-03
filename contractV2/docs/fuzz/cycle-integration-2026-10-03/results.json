@@ -1,0 +1,182 @@
+{
+  "implementationCommit": "2f990efbb506475deaddd714d897b37fba764e22",
+  "baseCommit": "d23de8779465620447406d356a35e1aee4c1b8a4",
+  "forgeVersion": "1.5.0",
+  "solcVersion": "0.8.26",
+  "pythonVersion": "3.9.6",
+  "fuzz": [
+    {
+      "seed": "0x2026100301",
+      "group": "dust",
+      "runs": 1024,
+      "exit": 0,
+      "log": "./0x2026100301-dust.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100301",
+        "--fuzz-runs",
+        "1024",
+        "--no-match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    },
+    {
+      "seed": "0x2026100301",
+      "group": "capacity",
+      "runs": 256,
+      "exit": 0,
+      "log": "./0x2026100301-capacity.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100301",
+        "--fuzz-runs",
+        "256",
+        "--match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    },
+    {
+      "seed": "0x2026100302",
+      "group": "dust",
+      "runs": 1024,
+      "exit": 0,
+      "log": "./0x2026100302-dust.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100302",
+        "--fuzz-runs",
+        "1024",
+        "--no-match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    },
+    {
+      "seed": "0x2026100302",
+      "group": "capacity",
+      "runs": 256,
+      "exit": 0,
+      "log": "./0x2026100302-capacity.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100302",
+        "--fuzz-runs",
+        "256",
+        "--match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    },
+    {
+      "seed": "0x2026100303",
+      "group": "dust",
+      "runs": 1024,
+      "exit": 0,
+      "log": "./0x2026100303-dust.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100303",
+        "--fuzz-runs",
+        "1024",
+        "--no-match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    },
+    {
+      "seed": "0x2026100303",
+      "group": "capacity",
+      "runs": 256,
+      "exit": 0,
+      "log": "./0x2026100303-capacity.txt",
+      "command": [
+        "forge",
+        "test",
+        "--offline",
+        "--threads",
+        "4",
+        "--match-contract",
+        "V2CycleDust",
+        "--fuzz-seed",
+        "0x2026100303",
+        "--fuzz-runs",
+        "256",
+        "--match-test",
+        "Capacity128",
+        "-vv"
+      ]
+    }
+  ],
+  "fuzzSamples": 32256,
+  "fuzzTestResults": 36,
+  "fullOffline": {
+    "passed": 839,
+    "failed": 0,
+    "skipped": 35
+  },
+  "cycleAndSchedulerSmoke": {
+    "passed": 163,
+    "failed": 0,
+    "skipped": 0
+  },
+  "cycleRuntimeBytes": 24514,
+  "cycleInitcodeBytes": 29236,
+  "runtimeMarginBytes": 62,
+  "pythonTests": 93,
+  "pythonToolTests": 20,
+  "evidenceSha256": {
+    "0x2026100301-capacity.txt": "d198b47e56a3448373f9daba4f4883fa6fbde96624200e52a1e01e029cb41148",
+    "0x2026100301-dust.txt": "bec399891fd00f380d27d881475e6d03b5d0ea43875e72f2b4b0888df691e318",
+    "0x2026100302-capacity.txt": "d8ebbc7d234ff094a643f59b6cc849c2f942121dd8393b45990e7523a205959e",
+    "0x2026100302-dust.txt": "835f3675976acbe8af4db16627bed00216aa9cf17de7fd2c732dc7dfc09e8db3",
+    "0x2026100303-capacity.txt": "307083d52a25ccbf7de4420ecc5037b7becfd88e4a92877b6d7b03e9bf15acd4",
+    "0x2026100303-dust.txt": "9714b5acc4162b7fbe7ebaa1cc5b3bb66bddd2b596912d8756789e2c6b63a9a5",
+    "cycle-regression.txt": "b3237ddf92cd877f1fa4220f05615f1ca0989970edd34db2ba7a578076804a2c",
+    "full-offline.txt": "910443d5628347e4f3250166d24fe63ce4de0ce71b6c40b50568ef506962eada",
+    "python-tests.txt": "7977136be6a0ec0f864bc4ab7ba27861b7cde546fe38c54cd61e98a2d0a397c9",
+    "python-tools.txt": "bc15aeb167d7f51afa42487d1c53d1902a7b718ee31b035de5420e0c4bd991d8",
+    "sizes.txt": "3d5d8302c4a2bcce5c195b3e41baf802c9190e080dcf9ffa37dcbdd78836ff2e"
+  },
+  "soliditySha256": {
+    "src/HedgeFunTreasuryBase.sol": "7ec94f34192c6a5e711f90d7128024b64acecfe6bbb9e544da8303e5db4f60f1",
+    "src/v2/HedgeFunV2Treasury.sol": "44a594875dccb4280c43c8eedf0e7993559643353b94f6e29cb8a7df7ef7145c",
+    "src/v2/HedgeFunV2CycleTreasury.sol": "bec6d157ce434539116bb81bce24f197d666d031d783ca430d2adf565f15c6d7"
+  }
+}

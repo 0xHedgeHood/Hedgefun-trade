@@ -1,0 +1,19 @@
+No files changed, compilation skipped
+
+Ran 5 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustUsdg0FuzzTest
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 1024, μ: 1424097, ~: 1424286)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 1024, μ: 1312766, ~: 1312913)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 1024, μ: 1267464, ~: 1267579)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 1024, μ: 1541090, ~: 1541358)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 1024, μ: 7095437, ~: 7095684)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 8.30s (15.36s CPU time)
+
+Ran 5 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustStock0FuzzTest
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 1024, μ: 1423881, ~: 1424074)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 1024, μ: 1311866, ~: 1312014)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 1024, μ: 1266442, ~: 1266556)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 1024, μ: 1540072, ~: 1540342)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 1024, μ: 7096860, ~: 7097112)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 10.38s (27.63s CPU time)
+
+Ran 2 test suites in 10.38s (18.68s CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)

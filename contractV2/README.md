@@ -15,6 +15,7 @@ permanently locked V4 full-range position and the strategy treasury, and the tre
 | `src/v2/HedgeFunBondingCurve.sol` | Per-launch fixed-product curve: buys, sells, launch-window buy tax, fee liabilities, the graduation trigger |
 | `src/v2/V2LiquidityVault.sol` | Owns the locked full-range V4 position; fee-only collection, no liquidity removal or upgrade path |
 | `src/v2/HedgeFunV2Treasury.sol`, `src/v2/HedgeFunV2AllInTreasury.sol`, `src/v2/V2TreasuryDeployer.sol` | Ordered `execute()` (stop first, then take-profit, then dip), dust handling, creator-selected ordinary rungs in new registries, and pluggable strategy kinds |
+| `src/v2/HedgeFunV2CycleTreasury.sol` | Optional registered lot strategy: after a qualifying actual sale, wait for cooldown and a newer stock report, then permit one bounded recovery buy (`BuyRecovery = 5`); preserves stop/TP priority and current dust handling |
 | `src/v2/HedgeFunV2BuybackTreasury.sol` | Kind 1: a pure buy-back treasury, opt-in (production must register its exact code chunks) |
 | `src/v2/HedgeFunV2EngineTreasury.sol`, `src/v2/strategy/IStrategyPolicy.sol` | The strategy engine: a treasury that executes a registered, stateless policy's intent (hold / buy / sell) under its own custody, cooldown, per-call and daily-turnover limits; the policy is pinned by runtime code hash and committed in the CREATE2 config |
 | `src/v2/strategy/V2RebalancePolicy.sol` | The first policy: keep stock at a target share of treasury value, act outside a deadband |
@@ -113,3 +114,9 @@ The isolated [testnet demo poll](./docs/TESTNET_DEMO_BALLOT.md), its `DemoBallot
 ## Historical deployment review (#100)
 
 The [2026-09-29 release review](./docs/V2_RELEASE_REVIEW_2026_09_29.md) archives source [#100](https://github.com/keyuyuan/hedgefund/pull/100) at `0b886b3ff8f1785c90f8bac4d538d0d103240b64`. Its deployment-verifier files were already present in the original V2 snapshot; later mirrors changed parts of the deployment flow. The old review's deployment status, tool counts and missing ETH venue describe that pinned source version. Use the current native launch and ETH runbooks above for current operator work.
+
+## Cycle integration (#110 / target #12)
+
+The optional [Cycle strategy](./docs/V2_SIMPLE_CYCLE.md) originates from source [#110](https://github.com/keyuyuan/hedgefund/pull/110) at `e6a6097ca622da1d7342b48fb0f1771b08832026`. Target [#12](https://github.com/0xHedgeHood/Hedgefun-trade/pull/12) integrates that snapshot with default `codex/contract-v1` at `d23de8779465620447406d356a35e1aee4c1b8a4`. The shared treasury, scheduler, Cycle implementation and regressions have target integration changes; they are not byte-identical copies of the original source PR. See [provenance](./docs/PR_SYNC_110.json) and the [current integration review](./docs/V2_CYCLE_INTEGRATION_REVIEW.md) for validation status. The [source audit](./docs/V2_SIMPLE_CYCLE_AUDIT.md) and [backtest](./docs/V2_SIMPLE_CYCLE_BACKTEST.md) retain their historical measurements.
+
+An operator must register the reviewed Cycle creation code and record the returned kind ID. A creator selects that ID before predicting and launching a new fund. Existing funds and kind 0 are unchanged; this integration does not register or deploy Cycle on a network.

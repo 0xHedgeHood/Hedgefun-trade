@@ -6,6 +6,7 @@
 
 - 基线是 `main` 的 V2 代码，包含已合并的 [#118 原生 ETH 发射并首购](https://github.com/keyuyuan/hedgefund/pull/118)、[#114 资产百分比引擎](https://github.com/keyuyuan/hedgefund/pull/114) 和 [#116 lot dust 修复](https://github.com/keyuyuan/hedgefund/pull/116)。**代码合并不等于链上部署或启用**；fork 测试须先读取目标链的真实地址、代码和 factory defaults。
 - #114 是新的可选 treasury/policy schema，须另行部署、注册和核验；#116 修改了新编译的 lot treasury，旧部署不会自动升级。本分支补上 #116 合并后发现的两个边界，并以双币序回归测试验证。
+- target [#12](https://github.com/0xHedgeHood/Hedgefun-trade/pull/12) 加入 source [#110](https://github.com/keyuyuan/hedgefund/pull/110) 的可选 Cycle lot 策略，并与当前 dust scheduler 集成。Cycle kind ID 由实际注册顺序决定；新 fund 才能选择，既有 fund 不自动切换。当前检查结果见 [集成记录](V2_CYCLE_INTEGRATION_REVIEW.md)。
 - 本仓库没有 `CA.sol.create()`。对应的发射入口是 [`HedgeFunV2Factory`](../src/v2/HedgeFunV2Factory.sol) 继承的 `launch()` / `launchWithMetadata()`；“发射 + ETH 首购”入口是 [`HedgeFunV2LaunchNativeRouter.launchAndBuy()`](../src/v2/HedgeFunV2LaunchNativeRouter.sol)。
 - 本文的 **stock** 是每个策略选中的股票/资产代币；**USDG** 是计价/结算代币；**FUN** 是该策略发行的 token。ETH 路由先转换支付资产，不改变 fund 的 stock 选择。
 
@@ -141,6 +142,7 @@ FUN holder 可调用 [`HedgeFunToken.burn()`](../src/HedgeFunToken.sol) 自烧�
 curve/hook 到账、毕业余款或用户单向 stock 捐赠
   → treasury.book() [把未入账 stock 纳入对应 treasury 的账本]
   → kind 0: execute() [健康检查 → stop → TP → dip → V3 实际成交/奖励]
+  → optional Cycle: execute() [同一 stop/TP/dust 优先级 → 原 dip 或一次受限 BuyRecovery=5]
   → schema-1 Engine: execute() [健康价 → policy intent → 固定 USDG 金额/日额度/冷却限制 → V3 实际成交记账]
   → schema-2 Engine: execute() [健康 NAV → policy intent → V3 买/卖 → 实际成交记账]
   → kind 1: 无 execute()，只维护 buyback 预算
@@ -152,6 +154,7 @@ vault.collectFees() → treasury.creditLiquidityFee() → buybackStock [无需 b
 | 分支 | 入口和关键事实 |
 |---|---|
 | 当前 lot 策略（kind 0） | 新 fund 的默认 kind 0 creation code 是 [`HedgeFunV2AllInTreasury`](../src/v2/HedgeFunV2AllInTreasury.sol)，继承 [`HedgeFunV2Treasury.book/execute`](../src/v2/HedgeFunV2Treasury.sol)，并覆写部分 TP dust/stop gate 行为。`execute()` 把 stop 放在 TP 和 dip 前，直接调用 `stopLoss/takeProfit/buyDip` 会拒绝。真实成交走 [`HedgeFunTreasuryBase`](../src/HedgeFunTreasuryBase.sol) → [`HedgeFunTreasury._swapStock`](../src/HedgeFunTreasury.sol) → [`PoolTrader._swapBounded`](../src/PoolTrader.sol)。最多 128 lot；stop 后再次 BuyDip 有新 oracle report、时间和价格 gate，TP 可以先发生并清除该 gate。测试链上已部署 registry 时仍须核对实际 kind 映射。 |
+| 可选 Cycle lot 策略（注册返回的 kind ID） | [`HedgeFunV2CycleTreasury.execute()`](../src/v2/HedgeFunV2CycleTreasury.sol) 继承 stop/TP 优先级和当前 dust 清理。足额实际 stock/USDG 销售建立回补锚点；至少 600 秒、更新的 stock report、达到锚点加 dipBps 后允许一次 `BuyRecovery = 5`。预算为 USDG reserve 比例与 sellChunkUsdg 的较小值，buybackStock 不参与。真正的后续 stop 更新独立恢复 gate；仅清 dust 不更新 sale、冷却或奖励。成功 dip/recovery 消费等待，失败不消费；`recoveryDue()` 仅是价格/时间/report 预检。 |
 | 当前 buyback treasury（kind 1） | `book()` 把 stock 纳入回购预算，不创建 kind 0 的 stop/TP lot；`execute()` 拒绝，调用 `buyback()`。与 kind 0 的状态断言不能混用。 |
 | kind 0 lot dust（已合并源码及本分支修复） | 无法经济性卖出的 stop 完整微 lot、TP 完整微 lot或 TP1 已卖过的最后微 tranche（阈值 **0.01 USDG**）退出相应 lot 账本，保留为 unbooked stock；不虚构 sale、keeper bounty、lastSale 或 stop gate。后续重记这些旧 stock 时，`totalStockReceived` 仅增加真正新到的部分。`execute()` 会继续找真正到期的动作，也可能只清 dust 后返回；即使 pending stock 补记后占满 128 个不同成本 lot，也保留清理与补记，不把无容量的 dip 回滚成全事务失败。stop dust 需 live oracle，profit dust 可走闭市的 pool-only 健康路径。旧部署的 treasury 不会自动变成此实现。 |
 | schema-1 固定金额 engine | [`HedgeFunV2EngineTreasury.preview()/book()/execute()`](../src/v2/HedgeFunV2EngineTreasury.sol)：policy 提议动作，core 校验 configHash、nonce、codehash；额度来自配置的固定 USDG 金额，而非 NAV 百分比；V3 实际成交决定库存、turnover 和奖励。需部署并注册对应 engine/policy，仅影响新 launch。 |
@@ -160,6 +163,21 @@ vault.collectFees() → treasury.creditLiquidityFee() → buybackStock [无需 b
 #116 合并后的两条回归路径已在本分支复现并修复：释放的 dust 再次 `book()` 不重复累计 `totalStockReceived`；128 个不同成本 lot 加 pending stock 时，清理后补记 lot 占满容量会保留清理结果，把 dip 留给后续有容量的调用。对应测试在 [`V2Execute.t.sol`](../test/V2Execute.t.sol) 覆盖 stop/profit dust、双币序、真实余额与无虚构 sale/bounty。源码和本地测试结果仍不等于目标链部署证明。
 
 健康检查涉及 [`PriceOracle.tryPrice()`](../src/PriceOracle.sol) 的两路 feed 年龄、stock pause 和日历，以及 [`PoolTrader`](../src/PoolTrader.sol) 的 V3 现价/600 秒 TWAP、偏差、ring 观测和 swap callback。`buyback()` 是另一条 V4 PoolManager `unlock → callback → swap → settle/take → burn → hook.noteEvent` 路径；不要用 V3 执行成功代替 V4 回购验证。
+
+### 可选 Cycle：creator 配置 → launch → keeper.execute
+
+```text
+admin → makeChunks(Cycle.creationCode) → registerKind() → 记录返回 kind ID
+creator → setStrategyKind(symbol, nonce, kind ID) → predict() 重新取得 terms
+creator → factory.launch() / LaunchNativeRouter.launchAndBuy()
+  → curve 买卖 → 原子 graduate → Curve/Hook 收款 → Cycle.book()
+任意 keeper → Cycle.execute()
+  → 清理 stop dust → 真 stop 优先 → 清理 TP dust → 真 TP 优先
+  → 原 dip 或满足等待/更新 report/回升阈值的一次 BuyRecovery=5
+  → V3 实际成交 → lot/现金/奖励记账 → 成功买入消费回补等待
+```
+
+`setStrategyKind()` 是 creator 的选择，不是 admin 替用户选；换 kind 后旧 terms 应失效。以上 Native 入口说明预期调用链，是否已有对应链上部署和该组合的测试证据须单独核验。直接 `stopLoss/takeProfit/buyDip` 仍拒绝，只有 `execute()` 采用调度顺序。若本次只有 dust 清理，返回 `Stop`/`TakeProfit` 也不代表成交，应同时读真实余额及 sale/cleanup 事件。
 
 ## 7. Admin：配置、权限和应急
 
@@ -185,6 +203,7 @@ factory 使用两步所有权转移，`renounceOwnership()` 被禁止。测试�
 | P0 | 曲线多买卖接近毕业阈值，再 V4 买卖 | 只毕业一次；末笔交易失败全回滚；曲线关闭后拒绝旧入口；stage race 无错路由 |
 | P0 | `curve/hook 到账 → book → kind0/Engine execute` 与 `vault.collectFees → buyback`，多 actor 交错 | 按收入来源走正确账本；收款人限制、真实 stock 覆盖账本、费用不双领、keeper 奖励按对应真实成交出 |
 | P0 | kind 0 StopDustReleased/ProfitDustReleased：raw USDG 1/2/76、阈值 `−1/= /+1`、TP1 最后 tranche、128 lot 加 pending stock、短成交、dust 重新 book | 仅对 lot treasury 断言 `sum(lot.qty) == bookedStock`；dust 到 unbooked，无虚构 sale/bounty/cooldown，后续真 stop 仍优先；重记 dust 不重复累计总收款；补记后无买入容量时保留清理结果，dip 待容量腾出再执行。现有 AllIn 的其他 dust 事件另按 buybackStock 分支断言 |
+| P0 | 可选 Cycle：真销售 → stop/TP dust → 恢复等待 → dip/recovery；阈值、时间/report 边界、128 lot 与 pending donation、双币序 | 清 dust 不 arm/refresh recovery，不虚构 sale/bounty/cooldown；真 stop 只按实际 fill 更新 gate，真 stop/TP 优先；满足恢复条件时可同笔继续，满容量时保留清理/补记与等待；成功买入恰好消费一次，旧 dust 重记不重复 totalStockReceived。参见 [`V2CycleDustFuzz.t.sol`](../test/V2CycleDustFuzz.t.sol) |
 | P1 | oracle/feed 更新、stale、pause、V3 TWAP ring 不足、价格偏差、闭市/开市 | stock 交易的 `execute` 在 health/live gate 失败时不改交易状态；恢复后可继续。kind1 `book` 与闭市使用缓存价的 `buyback` 分别测，不误当作全局停止 |
 | P1 | V4 直接 swap 与路由 swap、partial fill、fee conversion、collectFees | hook 双侧税一致；退款按实收；LP 本金不可提；fee 进入 buyback 不重复计 NAV |
 | P1 | schema-2 NAV：treasury/vault stock、自己的 LP principal/fee、捐赠、tick 边界、0/1 bps creator band、日切与 DST | 只计本 fund 外部资产；FUN/他人 LP 不计；百分比与 daily cap 基于执行前健康 NAV；used 不因 NAV 缩小而清零 |

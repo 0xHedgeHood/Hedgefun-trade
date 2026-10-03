@@ -11,6 +11,9 @@ natively.
 |---|---|
 | understand what this is and how the pieces fit | [ARCHITECTURE.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/ARCHITECTURE.md) |
 | integrate V2 curve launches, graduation and multi-asset trading | [V2_BONDING_CURVE.md](./V2_BONDING_CURVE.md) |
+| trace user, keeper and admin entries for V2 state-sequence testing | [V2_ACTOR_FLOW_FUZZ_MAP.md](./V2_ACTOR_FLOW_FUZZ_MAP.md) |
+| select the optional Cycle kind and follow its bounded recovery entry | [V2_SIMPLE_CYCLE.md](./V2_SIMPLE_CYCLE.md) |
+| review Cycle integration with current dust handling and its test evidence | [V2_CYCLE_INTEGRATION_REVIEW.md](./V2_CYCLE_INTEGRATION_REVIEW.md) |
 | integrate V2 buy/sell fee income and token-fee conversion | [V2_TWO_SIDED_FEES.md](./V2_TWO_SIDED_FEES.md) |
 | review V2 multi-user trading, callback defenses and economic boundaries | [V2_ADVERSARIAL_REVIEW.md](./V2_ADVERSARIAL_REVIEW.md) |
 | review V2 configurable graduation funding and fee-vault risks | [V2_DUAL_ENGINE_REVIEW.md](./V2_DUAL_ENGINE_REVIEW.md) |
@@ -60,6 +63,7 @@ they were written, and carry their dates.
 
 | Document | What it is |
 |---|---|
+| [V2_SIMPLE_CYCLE_AUDIT.md](./V2_SIMPLE_CYCLE_AUDIT.md), [V2_SIMPLE_CYCLE_BACKTEST.md](./V2_SIMPLE_CYCLE_BACKTEST.md) | Historical source #110 audit and frozen-price replay; their sizes and test counts describe the pinned source snapshot, with current target validation in the integration review |
 | [`../AUDIT.md`](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/AUDIT.md) | Security review, 2026-09-20: three adversarial passes, 43 Foundry reproductions, a go/no-go, and the measured chain facts each finding was sized against. Status banners record which rounds fixed what |
 | [STOCK_TOKEN_ASSESSMENT.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/STOCK_TOKEN_ASSESSMENT.md) | What the real Robinhood stock token can do to a holder: beacon proxy, upgrader, deny-list, pause, `adminBurn`. Every row VERIFIED or INFERRED |
 | [`../LISTING_CANDIDATES.md`](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/LISTING_CANDIDATES.md) | Which stocks can be listed (194 → 35 → 25), the first-wave decision, and what the feeds actually do across a weekend |

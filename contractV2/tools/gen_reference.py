@@ -51,6 +51,7 @@ CONTRACTS = [
     ("src/v2/CurveDeployer.sol", "CurveDeployer"),
     ("src/v2/V2LiquidityVault.sol", "V2LiquidityVault"),
     ("src/v2/HedgeFunV2Treasury.sol", "HedgeFunV2Treasury"),
+    ("src/v2/HedgeFunV2CycleTreasury.sol", "HedgeFunV2CycleTreasury"),
     ("src/v2/HedgeFunV2AllInTreasury.sol", "HedgeFunV2AllInTreasury"),
     ("src/v2/HedgeFunV2EngineTreasury.sol", "HedgeFunV2EngineTreasury"),
     ("src/v2/strategy/V2RebalancePolicy.sol", "V2RebalancePolicy"),
