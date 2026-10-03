@@ -8,6 +8,7 @@ import {PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {StateLibrary} from "v4-core/src/libraries/StateLibrary.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {HedgeFunMath} from "../libraries/HedgeFunMath.sol";
 
 /// @notice V2 parks fees and donations until graduation wires its permanent pool. Its stock
@@ -29,6 +30,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
     enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell }
     error UseExecute();
     event LotsCoalesced(uint256 indexed kept, uint256 indexed removed, uint256 qty, uint256 cost);
+    event ProfitDustReleased(uint256 indexed id, uint256 qty, uint256 cost, uint256 price);
 
     constructor(address usdg_, address stock_, address v3Pool_, address oracle_, address token_,
         address poolManager_, address factory_, Params memory p)
@@ -80,21 +82,41 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
     }
 
     /// @notice Execute one bounded strategy action. A later call rechecks the oracle and every lot.
-    ///         No new buy can jump over a due stop, including the remainder of a short fill.
+    ///         No new buy can jump over a due stop, including the remainder of a short fill. A microscopic
+    ///         unsellable tail first leaves the lot ledger as unbooked stock, without recording a sale.
     function execute() external virtual nonReentrant returns (Action action, uint256 id) {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         _book(); // at capacity, keep pending donations unbooked while urgent sales run
         (bool live,) = _oracle.tryPrice();
+        uint256 stopDustId = type(uint256).max;
         if (live && _params.stopBps != 0) {
+            // Remove non-economic due tails in the same transaction as the next real stop. A keeper can then
+            // collect that stop's ordinary bounty without first paying for a separate zero-reward cleanup.
+            for (uint256 i; i < lots.length;) {
+                if (HedgeFunMath.fellTo(p, lots[i].cost, _params.stopBps) && _releaseStopDust(i, p)) {
+                    stopDustId = i; // _shrink moved the last lot into i; inspect that slot next
+                } else {
+                    ++i;
+                }
+            }
             (bool found, uint256 stopId) = _dueStop(p);
             if (found) {
                 (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
                 if (!valid) revert Unhealthy();
-                _stopLoss(stopId);
-                (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (p, block.timestamp, updatedAt);
+                if (_stopLoss(stopId)) {
+                    (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (p, block.timestamp, updatedAt);
+                }
                 return (Action.Stop, stopId);
             }
+        }
+        uint256 profitDustId = type(uint256).max;
+        for (uint256 i; i < lots.length;) {
+            if (_releaseProfitDust(i, p)) {
+                profitDustId = i;
+                continue; // inspect a swapped-in lot or an advanced TP1 stage at this same index
+            }
+            ++i;
         }
         (bool foundTp, uint256 dueId) = _dueProfit(p);
         if (foundTp) {
@@ -103,6 +125,13 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
             // sale that just happened, not the stop. Without this the treasury could never buy back in.
             _clearStopGate();
             return (Action.TakeProfit, dueId);
+        }
+        // If a dip is ready, execute it in this transaction so a keeper can earn its ordinary bounty
+        // after cleaning tails. Otherwise keep the cleanup itself, without inventing a paid sale.
+        if ((stopDustId != type(uint256).max || profitDustId != type(uint256).max)
+            && !_dipReadyAfterDust(p, live)) {
+            if (stopDustId != type(uint256).max) return (Action.Stop, stopDustId);
+            return (Action.TakeProfit, profitDustId);
         }
 
         // During a scheduled closure the pool can supply a bounded price for TP, but not
@@ -117,7 +146,13 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
         // Only after ruling out all sales do we compact exact-matching lots for a buy.
         // A fresh booking costs p and cannot itself be stop- or profit-due at p.
         _bookV2();
-        if (lots.length == MAX_STRATEGY_LOTS && !_coalesceLots()) revert NotDue();
+        if (lots.length == MAX_STRATEGY_LOTS && !_coalesceLots()) {
+            // Booking pending stock after dust cleanup may fill the freed slot. Preserve the cleanup
+            // and booking, then leave the dip for a later call with capacity.
+            if (stopDustId != type(uint256).max) return (Action.Stop, stopDustId);
+            if (profitDustId != type(uint256).max) return (Action.TakeProfit, profitDustId);
+            revert NotDue();
+        }
         _buyDip();
         _clearStopGate();
         return (Action.BuyDip, lots.length - 1);
@@ -125,8 +160,22 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
 
     /// @dev The post-stop gate guards the first re-entry after a stop only. Once the treasury has sold at a
     ///      profit or bought again, `lastSalePrice` is a newer reference than the stop and the gate is done.
-    function _clearStopGate() private {
+    function _clearStopGate() internal virtual {
         if (lastStopAt != 0) (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (0, 0, 0);
+    }
+
+    /// @dev Only used after a dust cleanup. The ordinary buy path below retains its own checks.
+    function _dipReadyAfterDust(uint256 p, bool live) internal view returns (bool) {
+        if (!live && _params.stopBps != 0) return false;
+        if (lastSalePrice == 0 || !HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)) return false;
+        if (HedgeFunMath.bps(reserveUsdg(), _params.lotBps) < _params.minLotUsdg || !_canAddLot()) return false;
+        if (lastStopAt != 0) {
+            if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
+                || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) return false;
+            (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
+            if (!valid || updatedAt <= lastStopStockUpdatedAt) return false;
+        }
+        return true;
     }
 
     function _dueStop(uint256 p) internal view returns (bool found, uint256 id) {
@@ -156,6 +205,48 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
                 (found, tp2, id, selectedCost, selectedQty) = (true, second, i, L.cost, L.qty);
             }
         }
+    }
+
+    /// @dev Retire only a whole microscopic lot or the final microscopic slice of a TP1 that already sold
+    ///      a chunk. This is not a monetary sale; unbooked stock keeps the cost basis out of buyback profit.
+    function _releaseProfitDust(uint256 id, uint256 p) internal returns (bool cleared) {
+        Lot storage L = lots[id];
+        bool first = _params.tp2Bps != 0 && !L.half;
+        uint256 trigger = first ? _params.tp1Bps : (_params.tp2Bps != 0 ? _params.tp2Bps : _params.tp1Bps);
+        if (!HedgeFunMath.reached(p, L.cost, trigger)) return false;
+
+        uint256 offered = _ruleStockFor(_params.sellChunkUsdg, p);
+        uint256 q = offered;
+        uint256 left;
+        if (first) {
+            left = L.tp1Left;
+            if (left == 0) left = L.qty / 2;
+            if (left == 0) return false; // existing zero-quantity TP1 stage transition cannot revert
+            q = Math.min(q, left);
+        } else {
+            q = Math.min(q, L.qty);
+        }
+        // Both inherited TP implementations already handle a principal worth zero without entering V3.
+        // Intervene only where they would try a microscopic swap that can fail on output rounding.
+        if (q == 0 || _ruleValue(Math.mulDiv(q, L.cost, p), p) == 0) return false;
+        if (offered >= L.qty && _ruleValue(L.qty, p) < _DUST_VALUE_LIMIT) {
+            uint256 qty = L.qty;
+            uint256 dustCost = L.cost;
+            _shrink(id, qty);
+            _releasedDustStock += qty;
+            emit ProfitDustReleased(id, qty, dustCost, p);
+            return true;
+        }
+        if ((q != L.qty && (!first || L.tp1Left == 0 || q != left))
+            || _ruleValue(q, p) >= _DUST_VALUE_LIMIT) {
+            return false;
+        }
+        uint256 cost = L.cost;
+        if (first) { L.tp1Left = left - q; if (left == q) L.half = true; }
+        _shrink(id, q);
+        _releasedDustStock += q;
+        emit ProfitDustReleased(id, q, cost, p);
+        return true;
     }
 
     /// @notice The factory freezes the position owner before the first V4 pool is seeded.

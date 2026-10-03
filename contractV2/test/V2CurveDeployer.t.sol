@@ -47,7 +47,7 @@ contract V2CurveDeployerTest is V2FactoryFixture {
             protocol: curve.protocol(), creator: curve.creator(), supply: curve.initialSupply(),
             virtualStock: curve.virtualStock(), saleBps: 4400, taxBps: curve.taxBps(),
             protocolBps: curve.protocolBps(), creatorBps: curve.creatorBps(), snipeBps: curve.snipeBps(),
-            snipeSeconds: curve.snipeSeconds()
+            snipeSeconds: curve.snipeSeconds(), openingTaxExemptions: new address[](0)
         });
         CurveDeployer d = factory.curveDeployer();
         bytes32 salt = keccak256(abi.encode(q.symbol, q.creator, q.nonce));
@@ -109,7 +109,7 @@ contract V2CurveDeployerTest is V2FactoryFixture {
         d.bind();
         address treasuryDeployer = address(new V2TreasuryDeployer());
         address tokenDeployer = address(new TokenDeployer());
-        address freshHook = address(_deployHook(pm));
+        address freshHook = address(_deployV2Hook(pm));
         vm.expectRevert(BoundDeployer.AlreadyBound.selector);
         new HedgeFunV2Factory(owner, address(pm), address(v3f), address(usdg), protocol,
             treasuryDeployer, tokenDeployer, freshHook, address(d), _defaults());
@@ -119,7 +119,8 @@ contract V2CurveDeployerTest is V2FactoryFixture {
         p = HedgeFunBondingCurve.Init({
             factory: address(factory), token: address(usdg), stock: address(stock), treasury: address(this),
             protocol: protocol, creator: address(this), supply: 1_000_000e18, virtualStock: 50e18, saleBps: 8000,
-            taxBps: 1000, protocolBps: 2000, creatorBps: 1000, snipeBps: 9900, snipeSeconds: 3
+            taxBps: 1000, protocolBps: 2000, creatorBps: 1000, snipeBps: 9900, snipeSeconds: 3,
+            openingTaxExemptions: new address[](0)
         });
     }
 }

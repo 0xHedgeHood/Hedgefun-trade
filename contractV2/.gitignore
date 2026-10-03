@@ -1,3 +1,7 @@
+# Source #108's generated plans are not verified deployment evidence.
+deploy/testnet-v2-stock-extension.candidate.json
+deploy/testnet-v2-stock-extension.dryrun.json
+
 out/
 cache/
 out-curve/

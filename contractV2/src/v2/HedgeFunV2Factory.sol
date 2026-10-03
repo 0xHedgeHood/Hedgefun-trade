@@ -9,6 +9,7 @@ import {Currency} from "v4-core/src/types/Currency.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunFactory} from "../HedgeFunFactory.sol";
 import {HedgeFunHook} from "../hooks/HedgeFunHook.sol";
+import {HedgeFunV2Hook} from "../hooks/HedgeFunV2Hook.sol";
 import {HedgeFunToken} from "../HedgeFunToken.sol";
 import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {CurveDeployer} from "./CurveDeployer.sol";
@@ -37,7 +38,8 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         address treasuryDeployer_, address tokenDeployer_, address hook_, address curveDeployer_, Defaults memory d)
         HedgeFunFactory(owner_, poolManager_, v3Factory_, usdg_, protocol_, treasuryDeployer_, tokenDeployer_, hook_, d)
     {
-        if (curveDeployer_.code.length == 0 || V2TreasuryDeployer(treasuryDeployer_).version() != 2) revert BadRequest();
+        if (curveDeployer_.code.length == 0 || V2TreasuryDeployer(treasuryDeployer_).version() != 2
+            || HedgeFunV2Hook(hook_).version() != 2) revert BadRequest();
         curveDeployer = CurveDeployer(curveDeployer_);
         curveDeployer.bind();
     }
@@ -53,15 +55,17 @@ contract HedgeFunV2Factory is HedgeFunFactory {
     function predictCurve(Request memory q) external view returns (address) {
         address token = predictToken(q);
         address treasury = treasuryDeployer.predict(_salt(q), _treasuryArgs(q, token));
-        return curveDeployer.predict(_salt(q), abi.encode(_curveInit(q, token, treasury, getDefaults())));
+        return curveDeployer.predictConfigured(_salt(q), _curveInit(q, token, treasury, getDefaults()));
     }
 
     function _terms(Request memory q, address token, address treasury, Defaults memory d) internal view override returns (bytes32) {
         HedgeFunBondingCurve.Init memory p = _curveInit(q, token, treasury, d);
         uint16 lpBps = V2TreasuryDeployer(address(treasuryDeployer)).lpBps(q.stock);
         _preflight(p, d.tickSpacing, lpBps);
-        // The creator's two curve choices are in the curve's address, which `super._terms` does not cover: pin both.
-        return keccak256(abi.encode(super._terms(q, token, treasury, d), p.saleBps, p.snipeSeconds, p.virtualStock, lpBps));
+        // The predicted curve address pins every constructor input, including the creator's
+        // opening-tax whitelist. The LP share is separate because it is read at graduation.
+        return keccak256(abi.encode(super._terms(q, token, treasury, d),
+            curveDeployer.predictConfigured(_salt(q), p), lpBps));
     }
 
     /// @dev The ONE place a curve's parameters are assembled; `predictCurve`, `_terms` (so `predict` and `_preflight`)
@@ -71,16 +75,26 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         private view returns (HedgeFunBondingCurve.Init memory p)
     {
         (uint16 sale, uint8 window) = curveDeployer.curveConfig(_salt(q), d.snipeSeconds);
-        p = HedgeFunBondingCurve.Init({factory: address(this), token: token, stock: q.stock,
-            treasury: treasury, protocol: protocol, creator: q.creator, supply: d.supply,
-            virtualStock: Math.mulDiv(listings[q.stock].openPriceE18, d.supply, 1e18, Math.Rounding.Ceil),
-            saleBps: sale, taxBps: q.taxBps, protocolBps: d.protocolBps, creatorBps: q.creatorBps,
-            snipeBps: d.snipeBps, snipeSeconds: window});
+        p.factory = address(this);
+        p.token = token;
+        p.stock = q.stock;
+        p.treasury = treasury;
+        p.protocol = protocol;
+        p.creator = q.creator;
+        p.supply = d.supply;
+        p.virtualStock = Math.mulDiv(listings[q.stock].openPriceE18, d.supply, 1e18, Math.Rounding.Ceil);
+        p.saleBps = sale;
+        p.taxBps = q.taxBps;
+        p.protocolBps = d.protocolBps;
+        p.creatorBps = q.creatorBps;
+        p.snipeBps = d.snipeBps;
+        p.snipeSeconds = window;
+        p.openingTaxExemptions = new address[](0);
     }
 
     function _openAndSeed(Request memory q, address token, address treasury, uint256, Defaults memory d) internal override {
         HedgeFunBondingCurve.Init memory p = _curveInit(q, token, treasury, d);
-        address curve = curveDeployer.deploy(_salt(q), abi.encode(p));
+        address curve = curveDeployer.deployConfigured(_salt(q), p);
         uint256 id = strategies.length;
         curves[id] = curve;
         _curveIds[curve] = id;
@@ -91,6 +105,8 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         // The curve already provided price discovery; graduation is not another opening auction.
         rates.snipeBps = 0;
         rates.snipeSeconds = 0;
+        // Both phases split the entire base fee; no settlement tip dilutes the frozen shares.
+        rates.sweepTipBps = 0;
         // LP fees can fund permissionless buy-backs without any realised strategy profit.
         // They must not re-arm the sell spike for every new burst of trading volume.
         rates.spikeBps = 0;

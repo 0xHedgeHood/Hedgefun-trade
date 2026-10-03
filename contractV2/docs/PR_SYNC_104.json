@@ -1,0 +1,223 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/104",
+  "sourceHead": "64c0adc602bbcbb70c0b4511ac67ee2aa40fceca",
+  "sourceMergeBase": "d7f20e10a24646bcfb2c752d4fbf44d612445498",
+  "targetBase": "codex/sync-pr-103",
+  "targetBranch": "codex/sync-pr-104",
+  "parentSourcePullRequest": 103,
+  "mirroredPaths": [
+    "contractV2/abi/CurveDeployer.json",
+    "contractV2/abi/HedgeFunBondingCurve.json",
+    "contractV2/abi/HedgeFunV2Hook.json",
+    "contractV2/abi/HedgeFunV2TradeRouter.json",
+    "contractV2/abi/SURFACE.md",
+    "contractV2/deploy/tsla-stress-local.json",
+    "contractV2/deploy/tsla-stress-report.json",
+    "contractV2/deploy/tsla-stress-transactions.json",
+    "contractV2/deploy/tsla-stress-wallets.json",
+    "contractV2/docs/README.md",
+    "contractV2/docs/REFERENCE.md",
+    "contractV2/docs/TSLA_STRESS_2026-09-30.md",
+    "contractV2/docs/V2_BONDING_CURVE.md",
+    "contractV2/docs/V2_DEPLOYMENT_REHEARSAL.md",
+    "contractV2/docs/V2_DUAL_ENGINE_REVIEW.md",
+    "contractV2/docs/V2_LP_DEPTH_EXPERIMENT.md",
+    "contractV2/docs/V2_OPENING_TAX_WHITELIST.md",
+    "contractV2/docs/V2_TREND_SCENARIOS.md",
+    "contractV2/docs/V2_TWO_SIDED_FEES.md",
+    "contractV2/script/DeployV2Testnet.s.sol",
+    "contractV2/script/RehearseV2Launchpad.s.sol",
+    "contractV2/script/TestnetTSLAStressLaunch.s.sol",
+    "contractV2/src/hooks/HedgeFunHook.sol",
+    "contractV2/src/hooks/HedgeFunV2Hook.sol",
+    "contractV2/src/v2/HedgeFunBondingCurve.sol",
+    "contractV2/src/v2/HedgeFunV2Factory.sol",
+    "contractV2/test/BondingCurve.t.sol",
+    "contractV2/test/DeployV2Testnet.t.sol",
+    "contractV2/test/V2AdversarialAccounting.t.sol",
+    "contractV2/test/V2AdversarialTrading.t.sol",
+    "contractV2/test/V2CreatorCurveConfig.t.sol",
+    "contractV2/test/V2CurveDeployer.t.sol",
+    "contractV2/test/V2CurveSecurity.t.sol",
+    "contractV2/test/V2Factory.t.sol",
+    "contractV2/test/V2LiveVenueFork.t.sol",
+    "contractV2/test/V2LowFrequencyFork.t.sol",
+    "contractV2/test/V2MarketBuyScenarios.t.sol",
+    "contractV2/test/V2MarketSniperScenarios.t.sol",
+    "contractV2/test/V2NativeRouter.t.sol",
+    "contractV2/test/V2OpeningTaxDecay.t.sol",
+    "contractV2/test/V2OpeningTaxExemption.t.sol",
+    "contractV2/test/V2TSLAStress.t.sol",
+    "contractV2/test/V2TradeRouter.t.sol",
+    "contractV2/test/V2TwoSidedFees.t.sol",
+    "contractV2/test/utils/HookMiner.sol",
+    "contractV2/test/utils/V2FactoryFixture.sol",
+    "contractV2/tools/export_abi.py",
+    "contractV2/tools/gen_reference.py",
+    "contractV2/tools/tsla_stress_replay.py"
+  ],
+  "adaptations": [
+    {
+      "source": "README.md",
+      "target": "contractV2/README.md",
+      "reason": "Retain curated mirror instructions and link the original source README."
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/ARCHITECTURE.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/DEVELOPMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/SECURITY.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/DEPLOYMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/OPERATIONS.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/ROADMAP.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/LAUNCH_KIT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "emergency/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/SECURITY.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "AUDIT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/STOCK_TOKEN_ASSESSMENT.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "LISTING_CANDIDATES.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/rule-backtest/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "POOL_SELECTION.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/robinhood-chain/README.md"
+    },
+    {
+      "source": "docs/README.md",
+      "target": "contractV2/docs/README.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/research/PONS_TAX_ELASTICITY.md"
+    },
+    {
+      "source": "docs/V2_BONDING_CURVE.md",
+      "target": "contractV2/docs/V2_BONDING_CURVE.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "emergency/README.md"
+    },
+    {
+      "source": "docs/V2_DEPLOYMENT_REHEARSAL.md",
+      "target": "contractV2/docs/V2_DEPLOYMENT_REHEARSAL.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "audit/round-4-2026-09-27/ISSUES.md"
+    },
+    {
+      "source": "docs/V2_DEPLOYMENT_REHEARSAL.md",
+      "target": "contractV2/docs/V2_DEPLOYMENT_REHEARSAL.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/research/PONS_TAX_ELASTICITY.md"
+    },
+    {
+      "source": "docs/V2_TREND_SCENARIOS.md",
+      "target": "contractV2/docs/V2_TREND_SCENARIOS.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/LAUNCH_KIT.md"
+    },
+    {
+      "source": "docs/V2_TREND_SCENARIOS.md",
+      "target": "contractV2/docs/V2_TREND_SCENARIOS.md",
+      "reason": "Link omitted supporting content to pinned source.",
+      "link": "docs/rule-backtest/README.md"
+    }
+  ],
+  "byteIdenticalChangedSolidity": [
+    "script/DeployV2Testnet.s.sol",
+    "script/RehearseV2Launchpad.s.sol",
+    "script/TestnetTSLAStressLaunch.s.sol",
+    "src/hooks/HedgeFunHook.sol",
+    "src/hooks/HedgeFunV2Hook.sol",
+    "src/v2/HedgeFunBondingCurve.sol",
+    "src/v2/HedgeFunV2Factory.sol",
+    "test/BondingCurve.t.sol",
+    "test/DeployV2Testnet.t.sol",
+    "test/V2AdversarialAccounting.t.sol",
+    "test/V2AdversarialTrading.t.sol",
+    "test/V2CreatorCurveConfig.t.sol",
+    "test/V2CurveDeployer.t.sol",
+    "test/V2CurveSecurity.t.sol",
+    "test/V2Factory.t.sol",
+    "test/V2LiveVenueFork.t.sol",
+    "test/V2LowFrequencyFork.t.sol",
+    "test/V2MarketBuyScenarios.t.sol",
+    "test/V2MarketSniperScenarios.t.sol",
+    "test/V2NativeRouter.t.sol",
+    "test/V2OpeningTaxDecay.t.sol",
+    "test/V2OpeningTaxExemption.t.sol",
+    "test/V2TSLAStress.t.sol",
+    "test/V2TradeRouter.t.sol",
+    "test/V2TwoSidedFees.t.sol",
+    "test/utils/HookMiner.sol",
+    "test/utils/V2FactoryFixture.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}

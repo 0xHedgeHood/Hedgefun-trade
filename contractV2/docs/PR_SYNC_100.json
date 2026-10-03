@@ -24,5 +24,15 @@
     "script/SeedTestnet.s.sol",
     "test/DeployV2Testnet.t.sol"
   ],
-  "transitiveMergedSourcePullRequests": []
+  "transitiveMergedSourcePullRequests": [],
+  "integration": {
+    "targetBase": "hedgefun-trade/codex/contract-v1",
+    "baseCommit": "179c4a4c510d0f627440b41f644743d942c4e5c6",
+    "scope": "Historical source review, provenance and generated-file ignore rules. Deployment scripts were inherited from the original snapshot and later updated by other PRs.",
+    "preservedCurrentFiles": [
+      ".github/workflows/contract-v2.yml",
+      "contractV2/foundry.toml"
+    ],
+    "sourceByteIdentityAppliesTo": "Original pinned mirror only; current deployment scripts follow subsequent source mirrors."
+  }
 }

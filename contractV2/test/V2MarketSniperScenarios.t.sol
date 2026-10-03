@@ -166,7 +166,7 @@ contract V2MarketSniperScenariosTest is V2FactoryFixture {
         (uint256 botSpent, uint256 botTokens,) = _curveBuy(BOT, botBudget);
         vm.prank(USER);
         (uint256 userSpent, uint256 userOut) = curve.buy(USER_BUY, cleanOut * minOutBps / 10000, USER, block.timestamp);
-        assertEq(userSpent, USER_BUY, "victim's min-out order must actually execute");
+        assertApproxEqAbs(userSpent, USER_BUY, 1, "canonical fee rounding refunds at most one stock wei");
         assertLt(userOut, cleanOut, "front-running worsens the fill");
         vm.prank(BOT);
         uint256 botExit = curve.sell(botTokens, 1, BOT, block.timestamp);

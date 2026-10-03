@@ -49,7 +49,7 @@ contract V2CurveSecurityTest is Test {
             factory: address(this), token: address(token), stock: address(stock),
             treasury: role, protocol: role, creator: role, supply: 1_000_000e18, virtualStock: 100e18,
             saleBps: 8000, taxBps: 1000, protocolBps: 1000, creatorBps: 2000,
-            snipeBps: 0, snipeSeconds: 0
+            snipeBps: 0, snipeSeconds: 0, openingTaxExemptions: new address[](0)
         }));
         token.transfer(address(curve), 1_000_000e18);
         stock.mint(user, 10_000e18);
@@ -90,10 +90,10 @@ contract V2CurveSecurityTest is Test {
     }
     function test_releaseCallbackCannotConsumeRemainingFees() public {
         _buyAndSell();
-        uint256 owed = curve.claimable(role);
         stock.arm(address(curve));
         vm.prank(user);
         curve.buy(type(uint256).max, 1, user, block.timestamp);
+        uint256 owed = curve.claimable(role);
         assertGt(released, 0);
         assertFalse(stock.reentrySucceeded());
         assertEq(stock.rejection(), bytes4(keccak256("ReentrancyGuardReentrantCall()")));

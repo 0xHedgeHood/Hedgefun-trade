@@ -17,6 +17,7 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         address protocol; address creator; uint256 supply; uint256 virtualStock;
         uint16 saleBps; uint16 taxBps; uint16 protocolBps; uint16 creatorBps;
         uint16 snipeBps; uint8 snipeSeconds;
+        address[] openingTaxExemptions;
     }
     enum Status { Active, Ready, Graduated }
     address public immutable factory;
@@ -36,6 +37,10 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     uint16 public immutable snipeBps;
     uint8 public immutable snipeSeconds;
     uint40 public immutable launchedAt;
+    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 32;
+    /// @notice Additional wallets frozen into this curve at launch. The creator is exempt without using a slot.
+    address[] public openingTaxExemptions;
+    mapping(address => bool) public isOpeningTaxExempt;
     uint256 public tokenReserve;
     uint256 public realStockReserve;
     uint256 public totalFees;
@@ -52,9 +57,11 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     error GraduationFailed();
     event Bought(address indexed caller, address indexed recipient, uint256 stockSpent, uint256 tokensOut, uint256 burned);
     event Sold(address indexed caller, address indexed recipient, uint256 tokenIn, uint256 stockOut, uint256 fee);
+    event TradeFeesAccrued(bool indexed buying, uint256 fee, uint256 protocolFee, uint256 creatorFee, uint256 treasuryFee);
     event FeesClaimed(address indexed recipient, uint256 amount);
     event Ready();
     event Released(uint256 stockAmount, uint256 tokenAmount);
+    event OpeningTaxExemptionsFixed(address[] recipients);
 
     constructor(Init memory p) {
         if (p.factory == address(0) || p.token == address(0) || p.stock == address(0) || p.token == p.stock
@@ -62,7 +69,8 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
             || p.supply == 0 || p.supply > type(uint128).max || p.virtualStock == 0
             || p.virtualStock > type(uint128).max || p.saleBps < 1000 || p.saleBps > 9000
             || p.taxBps >= 10000 || p.snipeBps > 9900
-            || uint256(p.protocolBps) + p.creatorBps > 10000) revert BadConfig();
+            || uint256(p.protocolBps) + p.creatorBps > 10000
+            || p.openingTaxExemptions.length > MAX_OPENING_TAX_EXEMPTIONS) revert BadConfig();
         factory = p.factory; token = p.token; stock = p.stock;
         treasury = p.treasury; protocol = p.protocol; creator = p.creator;
         initialSupply = p.supply; tokenReserve = p.supply; virtualStock = p.virtualStock;
@@ -73,9 +81,18 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (terminalStock > type(uint128).max) revert BadConfig();
         taxBps = p.taxBps; protocolBps = p.protocolBps; creatorBps = p.creatorBps;
         snipeBps = p.snipeBps; snipeSeconds = p.snipeSeconds; launchedAt = uint40(block.timestamp);
+        // `creator` is also the creator-fee recipient in V2. Only the additional wallets use the 32 slots.
+        isOpeningTaxExempt[p.creator] = true;
+        for (uint256 i; i < p.openingTaxExemptions.length; ++i) {
+            address recipient = p.openingTaxExemptions[i];
+            if (recipient == address(0) || isOpeningTaxExempt[recipient]) revert BadConfig();
+            isOpeningTaxExempt[recipient] = true;
+            openingTaxExemptions.push(recipient);
+        }
+        emit OpeningTaxExemptionsFixed(p.openingTaxExemptions);
     }
 
-    /// @notice Current buy-side burn rate. The short opening window applies equally to every buyer.
+    /// @notice Combined nominal base fee and opening rate for a recipient without an exemption.
     /// @dev Falls linearly from `snipeBps` at launch to `taxBps` at `snipeSeconds`, rounded up, so every second inside
     ///      the window pays strictly more than the flat tax: `taxBps + ceil((snipeBps - taxBps) * (seconds - elapsed) / seconds)`.
     ///      A `snipeBps` at or below `taxBps` (0 is "off") is the flat tax throughout, never an underflow.
@@ -88,21 +105,53 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         return rate + Math.ceilDiv((snipeBps - rate) * (seconds_ - elapsed), seconds_);
     }
 
+    /// @notice The opening surcharge is waived for fixed recipients; the flat trade tax always remains.
+    function buyRateBpsFor(address recipient) public view returns (uint256) {
+        return isOpeningTaxExempt[recipient] ? taxBps : buyRateBps();
+    }
+
+    /// @notice Total stock payment, net tokens and opening-only token burn. The base fee is in stock.
+    /// @dev Quote for a recipient without an exemption. Use quoteBuyFor for a specific destination.
     function quoteBuy(uint256 maxStockIn) public view returns (uint256 stockSpent, uint256 tokensOut, uint256 taxTokens) {
+        return _quoteBuy(maxStockIn, buyRateBps());
+    }
+
+    function quoteBuyFor(uint256 maxStockIn, address recipient)
+        public view returns (uint256 stockSpent, uint256 tokensOut, uint256 taxTokens)
+    {
+        if (recipient == address(0) || recipient == address(this)) revert BadTrade();
+        return _quoteBuy(maxStockIn, buyRateBpsFor(recipient));
+    }
+
+    function _quoteBuy(uint256 maxStockIn, uint256 rate)
+        private view returns (uint256 stockSpent, uint256 tokensOut, uint256 taxTokens)
+    {
         if (status != Status.Active) revert Closed();
         if (maxStockIn == 0) return (0, 0, 0);
         uint256 x = tokenReserve;
         uint256 y = virtualStock + realStockReserve;
-        // Test the terminal cost first, so even an unlimited max input cannot overflow y + input.
+        // Only net principal prices the curve. Cap the actual total payment before charging a fee,
+        // so an unlimited offer cannot overflow and refunded stock never earns a fee.
         uint256 capCost = terminalStock - y;
-        uint256 budget = maxStockIn < capCost ? maxStockIn : capCost;
+        uint256 capPayment = _grossStock(capCost);
+        uint256 payment = maxStockIn < capPayment ? maxStockIn : capPayment;
+        uint256 budget = payment - Math.mulDiv(payment, taxBps, 10000);
         uint256 newReserve = budget == capCost ? minTokenReserve : Math.ceilDiv(invariant, y + budget);
         uint256 gross = x - newReserve;
-        // Canonicalize both sides to ceil(k/x). Charging only this cost refunds raw-unit rounding
-        // on every buy and prevents a later trader from extracting an earlier buyer's rounding.
-        stockSpent = Math.ceilDiv(invariant, newReserve) - y;
-        taxTokens = Math.mulDiv(gross, buyRateBps(), 10000);
+        // Canonicalize net principal to ceil(k/x), then invert the rounded base fee exactly.
+        // Charging the smallest payment for that principal refunds token-quantization rounding.
+        stockSpent = _grossStock(Math.ceilDiv(invariant, newReserve) - y);
+        // Base fee is already paid in stock. Normalize only the excess rate against the remaining
+        // 1-base fraction: (1-base) * (1-excess/(1-base)) = 1-rate before price impact/rounding.
+        // Floor the burn once, so an exempt or expired-window buy burns no base-fee tokens.
+        taxTokens = Math.mulDiv(gross, rate - taxBps, 10000 - taxBps);
         tokensOut = gross - taxTokens;
+    }
+
+    /// Smallest gross stock whose principal gross-floor(gross*tax/10000) equals `net`.
+    /// The principal is ceil(gross*(10000-tax)/10000), so ceil(net/(1-tax)) would overpay.
+    function _grossStock(uint256 net) private view returns (uint256) {
+        return net == 0 ? 0 : Math.mulDiv(net - 1, 10000, 10000 - taxBps) + 1;
     }
 
     function buy(uint256 maxStockIn, uint256 minTokensOut, address recipient, uint256 deadline)
@@ -122,11 +171,13 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     {
         _tradeChecks(recipient, deadline);
         uint256 tax;
-        (stockSpent, tokensOut, tax) = quoteBuy(maxStockIn);
+        (stockSpent, tokensOut, tax) = quoteBuyFor(maxStockIn, recipient);
         if (stockSpent == 0 || tokensOut == 0) revert BadTrade();
         if (tokensOut < minTokensOut) revert Slippage();
         tokenReserve -= tokensOut + tax;
-        realStockReserve += stockSpent;
+        uint256 stockFee = Math.mulDiv(stockSpent, taxBps, 10000);
+        realStockReserve += stockSpent - stockFee;
+        _accrueFees(stockFee, true);
         if (tokenReserve == minTokenReserve) { status = Status.Ready; emit Ready(); }
         _receive(stock, stockSpent);
         if (tax != 0) ICurveBurnable(token).burn(tax);
@@ -156,16 +207,22 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (stockOut < minStockOut) revert Slippage();
         tokenReserve += tokenIn;
         realStockReserve -= stockOut + tax;
-        uint256 protocolFee = Math.mulDiv(tax, protocolBps, 10000);
-        uint256 creatorFee = Math.mulDiv(tax, creatorBps, 10000);
-        claimable[protocol] += protocolFee;
-        claimable[creator] += creatorFee;
-        claimable[treasury] += tax - protocolFee - creatorFee;
-        totalFees += tax;
+        _accrueFees(tax, false);
         _receive(token, tokenIn);
         _sendStock(recipient, stockOut);
         _solvent();
         emit Sold(msg.sender, recipient, tokenIn, stockOut, tax);
+    }
+
+    function _accrueFees(uint256 fee, bool buying) private {
+        uint256 protocolFee = Math.mulDiv(fee, protocolBps, 10000);
+        uint256 creatorFee = Math.mulDiv(fee, creatorBps, 10000);
+        uint256 treasuryFee = fee - protocolFee - creatorFee;
+        claimable[protocol] += protocolFee;
+        claimable[creator] += creatorFee;
+        claimable[treasury] += treasuryFee;
+        totalFees += fee;
+        emit TradeFeesAccrued(buying, fee, protocolFee, creatorFee, treasuryFee);
     }
 
     /// @notice Anyone may deliver a recipient's fees, but never redirect them. A rejected transfer rolls back only this claim.

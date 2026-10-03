@@ -1,5 +1,11 @@
 # V2 release review — 2026-09-29
 
+> **Historical source review.** This records the pinned development snapshot below. Its tool counts, old
+> deployment flow, account-billing status and missing ETH venue are observations from 2026-09-29. Current
+> release work is described in the [roadmap](./ROADMAP.md), [native launch](./V2_NATIVE_LAUNCH.md) and
+> [ETH market runbook](./TESTNET_V2_ETH_MARKET.md). This archive does not verify a current deployment or
+> claim that later deployment scripts still match this snapshot's candidate/verifier workflow.
+
 ## Decision
 
 **Conditional GO for the public testnet contract pilot; NO-GO for a mainnet or complete website release.**

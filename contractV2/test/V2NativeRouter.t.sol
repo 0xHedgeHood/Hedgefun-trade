@@ -85,6 +85,30 @@ contract V2NativeRouterTest is V2FactoryFixture {
         _assertClean();
     }
 
+    function testNativeBuyUsesCallerAsOpeningTaxRecipient() public {
+        HedgeFunFactory.Request memory q = _request();
+        q.nonce = lastNonce + 1;
+        factory.curveDeployer().setCurveConfig(q.symbol, q.nonce, 8000, 60);
+        address[] memory list = new address[](1);
+        list[0] = alice;
+        factory.curveDeployer().setOpeningTaxExemptions(q.symbol, q.nonce, list);
+        (,, bytes32 terms) = factory.predict(q);
+        id = factory.launch(q, terms);
+        curve = HedgeFunBondingCurve(factory.curves(id));
+        token = IERC20(curve.token());
+        uint256 stockGot = 10 ether * 997 / 1000;
+        (, uint256 exemptOut,) = curve.quoteBuyFor(stockGot, alice);
+        (, uint256 normalOut,) = curve.quoteBuyFor(stockGot, address(nativeRouter));
+        assertGt(exemptOut, normalOut);
+        Router.TradeParams memory p = _params(10 ether, 0);
+        p.minFinalOut = exemptOut;
+        vm.prank(alice);
+        (uint256 got,) = nativeRouter.buy{value: 10 ether}(p, _path(true));
+        assertEq(got, exemptOut);
+        assertEq(token.balanceOf(alice), exemptOut);
+        _assertClean();
+    }
+
     function testNativeStockSlippageFloorRollsBackWrappingAndGraduation() public {
         Router.TradeParams memory p = _params(500 ether, 0);
         // The final curve output is capped at 400 stock; the upstream floor protects the refund too.
@@ -166,7 +190,7 @@ contract V2NativeRouterTest is V2FactoryFixture {
         HedgeFunToken t = new HedgeFunToken("Wrapped quote", "WQ", 1_000_000e18, address(this), address(this));
         HedgeFunBondingCurve c = new HedgeFunBondingCurve(HedgeFunBondingCurve.Init(
             address(registry), address(t), address(wrapped), address(0x71), address(0x72), address(0x73),
-            1_000_000e18, 100 ether, 8000, 1000, 2000, 1000, 0, 0));
+            1_000_000e18, 100 ether, 8000, 1000, 2000, 1000, 0, 0, new address[](0)));
         t.transfer(address(c), 1_000_000e18);
         registry.set(address(t), address(wrapped), address(0), address(c));
         trade = new Router(HedgeFunFactory(address(registry)));
@@ -174,10 +198,15 @@ contract V2NativeRouterTest is V2FactoryFixture {
         wrapped.transfer(address(nativeRouter), 11 ether);
         vm.deal(address(nativeRouter), 7 ether);
         Router.Hop[] memory empty = new Router.Hop[](0);
+        (uint256 expectedSpent, uint256 expectedTokens, uint256 burned) = c.quoteBuyFor(500 ether, alice);
+        assertEq(burned, 0, "this curve has no opening surcharge");
+        assertApproxEqAbs(expectedSpent * 9000, 400 ether * 10_000, 10_000,
+            "a 400-stock principal cap requires the gross 10%-fee payment");
         vm.prank(alice);
         (uint256 got, uint256 refund) = nativeRouter.buy{value: 500 ether}(_params(500 ether, 0), empty);
-        assertEq(refund, 100 ether);
-        assertEq(alice.balance, 600 ether);
+        assertEq(refund, 500 ether - expectedSpent);
+        assertEq(alice.balance, 500 ether + refund);
+        assertEq(got, expectedTokens);
         assertEq(t.balanceOf(alice), got);
         assertEq(wrapped.balanceOf(address(nativeRouter)), 11 ether);
         assertEq(address(nativeRouter).balance, 7 ether);
