@@ -27,7 +27,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
 
     /// @dev The first three values are the deployed V2 ABI. New engine actions append only,
     ///      so existing return values and indexers keep their meaning.
-    enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell }
+    enum Action { Stop, TakeProfit, BuyDip, RebalanceBuy, RebalanceSell, BuyRecovery }
     error UseExecute();
     event LotsCoalesced(uint256 indexed kept, uint256 indexed removed, uint256 qty, uint256 cost);
     event ProfitDustReleased(uint256 indexed id, uint256 qty, uint256 cost, uint256 price);
@@ -106,6 +106,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
                 if (!valid) revert Unhealthy();
                 if (_stopLoss(stopId)) {
                     (lastStopPrice, lastStopAt, lastStopStockUpdatedAt) = (p, block.timestamp, updatedAt);
+                    _afterStop();
                 }
                 return (Action.Stop, stopId);
             }
@@ -137,12 +138,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
         // During a scheduled closure the pool can supply a bounded price for TP, but not
         // prove that no stop is due. A stop-enabled treasury therefore cannot add risk.
         if (!live && _params.stopBps != 0) revert NotDue();
-        if (lastStopAt != 0) {
-            if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
-                || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) revert NotDue();
-            (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
-            if (!valid || updatedAt <= lastStopStockUpdatedAt) revert NotDue();
-        }
+        if (!_canBuyAfterStop(p, live)) revert NotDue();
         // Only after ruling out all sales do we compact exact-matching lots for a buy.
         // A fresh booking costs p and cannot itself be stop- or profit-due at p.
         _bookV2();
@@ -153,10 +149,25 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
             if (profitDustId != type(uint256).max) return (Action.TakeProfit, profitDustId);
             revert NotDue();
         }
-        _buyDip();
+        Action buyAction = _executeBuy(p, live);
         _clearStopGate();
-        return (Action.BuyDip, lots.length - 1);
+        return (buyAction, lots.length - 1);
     }
+
+    function _canBuyAfterStop(uint256 p, bool live) internal view virtual returns (bool) {
+        if (lastStopAt == 0) return true;
+        if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
+            || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) return false;
+        (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
+        return valid && updatedAt > lastStopStockUpdatedAt;
+    }
+
+    function _executeBuy(uint256, bool) internal virtual returns (Action) {
+        _buyDip();
+        return Action.BuyDip;
+    }
+
+    function _afterStop() internal virtual {}
 
     /// @dev The post-stop gate guards the first re-entry after a stop only. Once the treasury has sold at a
     ///      profit or bought again, `lastSalePrice` is a newer reference than the stop and the gate is done.
@@ -165,17 +176,11 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
     }
 
     /// @dev Only used after a dust cleanup. The ordinary buy path below retains its own checks.
-    function _dipReadyAfterDust(uint256 p, bool live) internal view returns (bool) {
+    function _dipReadyAfterDust(uint256 p, bool live) internal view virtual returns (bool) {
         if (!live && _params.stopBps != 0) return false;
         if (lastSalePrice == 0 || !HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)) return false;
         if (HedgeFunMath.bps(reserveUsdg(), _params.lotBps) < _params.minLotUsdg || !_canAddLot()) return false;
-        if (lastStopAt != 0) {
-            if (!live || block.timestamp - lastStopAt < STOP_REENTRY_COOLDOWN
-                || !HedgeFunMath.fellTo(p, lastStopPrice, _params.dipBps)) return false;
-            (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
-            if (!valid || updatedAt <= lastStopStockUpdatedAt) return false;
-        }
-        return true;
+        return _canBuyAfterStop(p, live);
     }
 
     function _dueStop(uint256 p) internal view returns (bool found, uint256 id) {

@@ -1,0 +1,243 @@
+{
+  "baseCommit": "c9f2cda93c720d03db7fe0c0af3e21b75630da0e",
+  "files": [
+    {
+      "path": "contractV2/src/options/CashSecuredPutDesk.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "4c889a40a05350022569e2004bd3dc852194728a7456cce9eda48326e4a1dad3",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/options/CoveredCallDesk.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "24b7b6657af6d5c9013e8372c75e846e53f1b391e497e941338470023220538d",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/options/EarnVault.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "24d81296401f00df8ff830a9415bb84e91c18fe75825addcf9a006cabbab3ddd",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/options/EarnVaultV3SwapAdapter.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "cc8c45e198db33e2fc05566182d4bf07101d70221f3133c7bdea5c0202241e65",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/options/IAggregatorV3Rounds.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "9f563382b977edba23a20a71ba010d84f657751d7372521d09cbbda012d51225",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/options/PhysicalCallDesk.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "63879143f0f1d9515155122e2fe56cf991da65c1e2205706720e8d0384afd8a3",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/CashSecuredPutDesk.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "7ffa8bc7be5febac7b385ed65dd7774f7adad96f90f95d02c0aef36d3270c488",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/CoveredCallDesk.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "6c493e243d0216bec08ca88110391a089be94211ff0620075754b3104228e352",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/CoveredCallDeskAudit.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "fa052788e3ce501dcfc55b3837c6582105224f14c8585800a2e3823605341aae",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/CoveredCallDeskAudit2.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "09748642f28705ff08eb1af2f4dea36dd75986dfb774478ad53adad0078effc1",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/CoveredCallDeskFork.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "cf15d028ae4ec3e6581611fa0d2f4327b5fc315de5dd62b0fbe06d1f13b26a48",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/EarnVault.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "042cf8a4b48e2d9a98f704c9c5a92a11df01b062cd95085f257d443b949eaed3",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/EarnVaultPhysicalCall.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "7e5fdbffa5aba80a2aca50ed3cde0d0e86f91e3e16326b716680692ddd61c8bb",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/EarnVaultV3SwapAdapter.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "cdb19ee3726a23d0da9a64b6ae81b61c065e961349b3775238d17efc705865f4",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/EarnWheelVault.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "5150d808337b92c06e7b66dd85560e5d4bc4fcf7adb7fd42bd4dd50a8ecb9c3b",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/PhysicalCallDesk.t.sol",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "aa94a950c594138ee680fb27c3cd8f83b9e022e1f4d75d3880b43561eb4f4e0b",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/COVERED_CALL_DESK.md",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "e5291c4f63a2c90bf42fd6013dafe72816d42e5b253d0a8d94fe7076e606e136",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/CASH_SECURED_PUT_WHEEL.md",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "f31a48ae015e051366dd5bfcb4d9f1ef6c6cefacde96737b7eac0b14865bc9ec",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/EARN_RFQ_LAUNCH.md",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "7f50234c12a59c99ed79848711ef4dc882756864fdb52b6d110f3986bfe81125",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/EARN_VAULT_IMPLEMENTATION.md",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "32d2cedf2725c29debee9881fc417cb25c9bbb34e569e0869206b0953a2d8823",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/EARN_VAULT_PROPOSAL.md",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "e5b14a0a5e2cde1ee41c3a8b2b8bd46862ab13fcea5ff1e255e82dac27cce14d",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/tools/cc_round_at.py",
+      "sourceRef": "origin/codex/sync-pr-119-rhnvda-earn",
+      "sourceCommit": "6359bba110d773ff027cb0e531abf99a057087d9",
+      "sha256": "37d0f5b847734d607d0fec809612c99661ae8edd7fc2bfab4f78be9ff3218cdb",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/src/HedgeFunTreasuryBase.sol",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "7ec94f34192c6a5e711f90d7128024b64acecfe6bbb9e544da8303e5db4f60f1",
+      "overwritesExisting": true
+    },
+    {
+      "path": "contractV2/src/v2/HedgeFunV2Treasury.sol",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "44a594875dccb4280c43c8eedf0e7993559643353b94f6e29cb8a7df7ef7145c",
+      "overwritesExisting": true
+    },
+    {
+      "path": "contractV2/src/v2/HedgeFunV2CycleTreasury.sol",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "bec6d157ce434539116bb81bce24f197d666d031d783ca430d2adf565f15c6d7",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/V2CycleTreasury.t.sol",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "f8f2134bb01def6c383a7f64dbd6c2467472d3ae21c737bbe9b706d6b329c87b",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/test/V2CycleDustFuzz.t.sol",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "d0c7f40ab376517d38b94ea8ef4ef5077201d4d4ca53ecde5408329bacfd7510",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/tools/v2_cycle_keeper.py",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "7e8fb8290fcb4eaaf2afdff958c543b55a0e39bb9e97872aeb135e989bb1cdb7",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/tools/v2_cycle_backtest.py",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "150c5e34048d401749cc0f9c9bb1d53b8a6fc204e4042907f526168e092b25d0",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/tests/test_v2_cycle_keeper.py",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "d5edd17400d35784f479e57fed023838302c52986ab7cf3683b35ac5b52f7332",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/tests/test_v2_cycle_backtest.py",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "65ebc9e99edb1e0483125ce9de71b2f522b2560a8a8ed12d5d572d5fb38e44c6",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/V2_SIMPLE_CYCLE.md",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "60135e33df05ccb1f6397443d8903027d64e1576f5983d1c4d31f94765c55c37",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/docs/V2_SIMPLE_CYCLE_AUDIT.md",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "71012883d29fd4162caa0c8876bbc64c54d17b909231e83fa755d2844f1d1d08",
+      "overwritesExisting": false
+    },
+    {
+      "path": "contractV2/data/v2-cycle-prices.json",
+      "sourceRef": "origin/codex/sync-pr-110",
+      "sourceCommit": "04e4b3e8d92c9d7bb2543079468ee895f28f33a4",
+      "sha256": "d9a716c3a0ee8310ee9af39da9e3db39ec106a86e40207dd436bf180b342867f",
+      "overwritesExisting": false
+    }
+  ]
+}

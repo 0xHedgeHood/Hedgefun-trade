@@ -1,0 +1,248 @@
+{
+  "baseCommit": "c9f2cda93c720d03db7fe0c0af3e21b75630da0e",
+  "compiler": {
+    "version": "0.8.26+commit.8a97fa7a"
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 1
+    },
+    "evmVersion": "cancun",
+    "metadata": {
+      "bytecodeHash": "none"
+    }
+  },
+  "sources": [
+    {
+      "path": "src/HedgeFunDeployers.sol",
+      "sha256": "7c174f919c1dc55c59ba05bd2a73525132bac2f68ad9136a0eb7689c91529976",
+      "compilerKeccak256": "0xb3c67cd9558635761d2c9ff24069de96e0d1ff02589a53a2b108b2ad9412ab50"
+    },
+    {
+      "path": "src/HedgeFunFactory.sol",
+      "sha256": "72a67b8b9bb08cab3dbd36c73635037c858a95c7dee19b7d15f729e4d4491917",
+      "compilerKeccak256": "0x8f7c0ee607874033ab8f20cbdd6735a8899589d730c34a21a49785f776811297"
+    },
+    {
+      "path": "src/HedgeFunToken.sol",
+      "sha256": "ab343a61af31a283c71c32067f3712c5a91bd11f91b678fc52ebed15e7eebaad",
+      "compilerKeccak256": "0x9a0f057e30cc6e7cead1c3f09cf8408d8b13928df23ec8c878797c408919cd4c"
+    },
+    {
+      "path": "src/HedgeFunTreasury.sol",
+      "sha256": "dc372a3102ec09cb788e9477520777ea7eab92c367517fa2eb0d667369f15a1e",
+      "compilerKeccak256": "0xfd97ee434835822a16aaff25fa56e50bfd82b8aad31bf40377b46940a2ec3901"
+    },
+    {
+      "path": "src/HedgeFunTreasuryBase.sol",
+      "sha256": "7ec94f34192c6a5e711f90d7128024b64acecfe6bbb9e544da8303e5db4f60f1",
+      "compilerKeccak256": "0x1c59eae98e8260dd1a9c3ef6506d70db504a0939f563ac32788cfc75f23f2355"
+    },
+    {
+      "path": "src/PoolTrader.sol",
+      "sha256": "f55800d349fe7d8cd7e8ee733f55333f886e49f01b0042d15d75cf9214bc3168",
+      "compilerKeccak256": "0x7d92d3995abcde64696528427b35150a7c6b16363c746008ef836571990b13b7"
+    },
+    {
+      "path": "src/PriceOracle.sol",
+      "sha256": "67c86b98a8fd3797ab0f24e78372c5e37d63e107e377f6000547d54d327077f8",
+      "compilerKeccak256": "0x1c65b7ff1e3505ca178a2d47d994644804b0905cb426b9511b8e39b163b2e3fd"
+    },
+    {
+      "path": "src/experimental/FunStakingIncome.sol",
+      "sha256": "3c6bad28560c395aa91d2a7744ce89ad161433e12111a4e97c363e237156fbfc",
+      "compilerKeccak256": "0xcf4bd1a9531c1c20343842631c192f14282f1019d565446dcb48b83a5272c1fd"
+    },
+    {
+      "path": "src/hooks/HedgeFunHook.sol",
+      "sha256": "c42f6f0d4851f57b3a58d49afc35ba4070acb098dc1dd13403df4091216a94c3",
+      "compilerKeccak256": "0xdd1a92c8003e8a7616dc34719944c2addbfc510c2208c6ab849cca3be0a7324d"
+    },
+    {
+      "path": "src/hooks/HedgeFunV2Hook.sol",
+      "sha256": "9c523957c9b8afa8ca4d84ae25a48f66f44ca7f991eb88a1db74e0e2217039bf",
+      "compilerKeccak256": "0x943cbfca3b8dc839b9b8a4b207493433c8ce66285ef0888031e2945dc8c2113a"
+    },
+    {
+      "path": "src/interfaces/IAggregatorV3.sol",
+      "sha256": "990ef5a8529e28019208128ead34d81498092ab4c2a16c26a0bfd1304b3c6bdb",
+      "compilerKeccak256": "0xd9112244993caa271933c5a701c87ff1b59ac2d66bd46aa6496f8ebfd19897ed"
+    },
+    {
+      "path": "src/interfaces/IHedgeFunHook.sol",
+      "sha256": "5e03f6436c5d4f14bfebfd9a2e6a56e21f4894a6a346b13573467792f97d3058",
+      "compilerKeccak256": "0xdb2b2125ef46cd27b4b4d6740c94caeb07f30f49c425700c9ebd4b7b7fd03f8e"
+    },
+    {
+      "path": "src/interfaces/IHedgeFunToken.sol",
+      "sha256": "ff084bfd2d054da24f23db80fc501718bfdfa48f126d7f7c3cba599dc99eca95",
+      "compilerKeccak256": "0x33ad04046edfed3f8e15b8a5014bdedf082511213c026cf9a079ebd6f4b050bc"
+    },
+    {
+      "path": "src/interfaces/IHedgeFunTreasury.sol",
+      "sha256": "c7356b0f711e8fa09ab71c41d03b6977e70c5e88930e3bc530bb924086298568",
+      "compilerKeccak256": "0xc330602a7e22142fadc4492ac955876e405395de955eae59ebd4c334e93a6435"
+    },
+    {
+      "path": "src/interfaces/IOwned.sol",
+      "sha256": "ba0635178442201ff7820f912b6c4c9e43d5fb15895288bb2a0e7f70bedb5e8b",
+      "compilerKeccak256": "0xa53ff40758505e7844699719d9d32451e3b02f60ba562c4df4b4b00700e6be35"
+    },
+    {
+      "path": "src/interfaces/IStockToken.sol",
+      "sha256": "8ae12304306b7a18be8c006f7fe00c23669e8d0fe58abd7f54cd92a7b7e9fa1b",
+      "compilerKeccak256": "0x4e1f153a57e76bd6b7eb48955c7aa9013c551d64f50447e65b7a9e5397c2356b"
+    },
+    {
+      "path": "src/interfaces/ITradingCalendar.sol",
+      "sha256": "fdf4ce0145664d168bd4102390fa2bb4f3ee397765d8f37b91d5c1e816eb465e",
+      "compilerKeccak256": "0xc5a85ab19c4ded8c1563d402a7d55216c64056428dc407f8ae3f0ee2dede5209"
+    },
+    {
+      "path": "src/interfaces/IUniswapV3.sol",
+      "sha256": "3439b9af40fa9d9cce62e6a8fe7eb2b6b61d52a81071c754ed1434cea1121a81",
+      "compilerKeccak256": "0x61bf8706997edb25181fd6b241484df5bceadb9df80381cdb5f782687e7ade3a"
+    },
+    {
+      "path": "src/libraries/HedgeFunLimits.sol",
+      "sha256": "ea8fcc9624a8b9ebbd2c2a1a87f07a628811fa7b2782097b893ef76bfc060546",
+      "compilerKeccak256": "0xeb190c39cd04e982f36fa839f6b9a33ce3cf603b90ff2a8c177231f39c604992"
+    },
+    {
+      "path": "src/libraries/HedgeFunMath.sol",
+      "sha256": "91b340c6c7464e0bad2e5cb7f800e047a9ed8702da11b396a25367e119e579f1",
+      "compilerKeccak256": "0xc50b3f06583b6479ada27637f9fa4131b1ff0b364fae19f310f7556377c5ba19"
+    },
+    {
+      "path": "src/libraries/TwapRing.sol",
+      "sha256": "39e7486e55f709775ece8864af224c6be69c7e56f73ba907bfe7a3d4a1eba164",
+      "compilerKeccak256": "0x2fc4a4033827e3be48809edd202276fa438b4f6352acab27436e1941526a89a7"
+    },
+    {
+      "path": "src/options/CoveredCallDesk.sol",
+      "sha256": "24b7b6657af6d5c9013e8372c75e846e53f1b391e497e941338470023220538d",
+      "compilerKeccak256": "0x2a25912cf222cdd22b1fd10f9119f9dacc720af4986715f3c45e76226c9aa86b"
+    },
+    {
+      "path": "src/options/IAggregatorV3Rounds.sol",
+      "sha256": "9f563382b977edba23a20a71ba010d84f657751d7372521d09cbbda012d51225",
+      "compilerKeccak256": "0xb22f551a1b24f147e009f6fc6a931d65f9d5acd280c2b15a1d1df802b921da63"
+    },
+    {
+      "path": "src/v2/CurveDeployer.sol",
+      "sha256": "617c6092f7f1c3c015cbf388eabec616a873e3129cb76c1b6546a4361bf3769c",
+      "compilerKeccak256": "0xd1754f33f67bc2275a7fba74d6d2c879c54804a71f7f5dc943d3f5391fdefb63"
+    },
+    {
+      "path": "src/v2/HedgeFunBondingCurve.sol",
+      "sha256": "ed049236519ab7b1d0e5bd7157f6d93fbcf94dc6a13456b2817734ddf3267e68",
+      "compilerKeccak256": "0xa9c0db9d51c207fb7b4d08b6eb192f202b9b5245d862ffcc656bb278e6785643"
+    },
+    {
+      "path": "src/v2/HedgeFunV2AllInTreasury.sol",
+      "sha256": "8fa87598ebf34a6f32cd7b341d117ee6681157d62b7bbacc1f4ee6edcf5c9f47",
+      "compilerKeccak256": "0x80d9d9348e61e652ec42583786f5146cedd2e6cab507cfcd1b0cc4b4ba84821a"
+    },
+    {
+      "path": "src/v2/HedgeFunV2AssetPercentEngineTreasury.sol",
+      "sha256": "cd67d154cfa1583743a40d41cb575cbb2bc879094f5c14805e6658444b549d83",
+      "compilerKeccak256": "0xbccdf93fd1665d54b5b0768eacfa139e31527c81fc737464f9029d8bbe2a1f62"
+    },
+    {
+      "path": "src/v2/HedgeFunV2BuybackTreasury.sol",
+      "sha256": "8787d6f5115e30532e739c1069ecdaae8fe4f69fa13077f05f509791082f0603",
+      "compilerKeccak256": "0x23233dd1cd7e3ee5f515bcd78456ab95fd721fef89c073715d303bc81dac2084"
+    },
+    {
+      "path": "src/v2/HedgeFunV2CycleTreasury.sol",
+      "sha256": "bec6d157ce434539116bb81bce24f197d666d031d783ca430d2adf565f15c6d7",
+      "compilerKeccak256": "0x1a041bbeec8c75ab20583db8d35859888cf4ee872f3a36155fdcd6527978973e"
+    },
+    {
+      "path": "src/v2/HedgeFunV2EngineTreasury.sol",
+      "sha256": "b7d008e02b3143b377e42078424101714f8a770481b6fcd0c7393709341930db",
+      "compilerKeccak256": "0xe0054d33f1c20733ef4b588d0c0ef6da5ce4be5d832aa261cb08b2050da5ca01"
+    },
+    {
+      "path": "src/v2/HedgeFunV2Factory.sol",
+      "sha256": "a1796170524f28a70741b49ba4e106fca84947cb05ab3b572a6705e5212fea8d",
+      "compilerKeccak256": "0x27a91fadcffa81ee01c142a6f189be5163d0e0259c4381ec25f4a034daf49d33"
+    },
+    {
+      "path": "src/v2/HedgeFunV2TradeRouter.sol",
+      "sha256": "61d1d67e953379cbddf0539e0f2568f3f5f01d7686b4f8097879fb4d6f78a6e3",
+      "compilerKeccak256": "0x793bd9dfa30ac7b7914c31bf7ba38b1ba492682d9792e316b59c8fa2c0716669"
+    },
+    {
+      "path": "src/v2/HedgeFunV2Treasury.sol",
+      "sha256": "44a594875dccb4280c43c8eedf0e7993559643353b94f6e29cb8a7df7ef7145c",
+      "compilerKeccak256": "0x87cafc764a28c19aad887e18015d2b28a20368964ff11bb8d5ce84972211d706"
+    },
+    {
+      "path": "src/v2/V2FundAssetReader.sol",
+      "sha256": "3f32549073008ee4efdfe7dc59f0a1809618f2094b15e02aa2460228922f2a41",
+      "compilerKeccak256": "0xb5e3af0d50b2e275c16d4efe7425121f7213e9d5d6ac1762925fd001942bd1f6"
+    },
+    {
+      "path": "src/v2/V2LiquidityVault.sol",
+      "sha256": "c07f703f7cc19178f9bb45ca1e17769b1176390857541098e45be06ccbbb43d6",
+      "compilerKeccak256": "0x7115b47f96d3c1a640c8537686bb059887ef87911d918942528f9ef25cf5c734"
+    },
+    {
+      "path": "src/v2/V2TreasuryDeployer.sol",
+      "sha256": "f9f2fc24ca13ba7e017890931a5506c39397983e43123f22df1e817d3bd3b870",
+      "compilerKeccak256": "0x21e3ba567c8dd4f5523c8bb0570909e7a27ade247af525d1f765ba578a5bd25a"
+    },
+    {
+      "path": "src/v2/strategy/AssetPercentEngineConfig.sol",
+      "sha256": "52415a20c0483db4e7f52d97b7b244759191b1c9802d44bad101bab6fc942028",
+      "compilerKeccak256": "0x1ba38af30c55e313d238a577dd1105b1054cb90f42671859f68d516b6837f328"
+    },
+    {
+      "path": "src/v2/strategy/IStrategyPolicy.sol",
+      "sha256": "f9939451a05979deafeed109428b006069ab6e22b6737f283593ecde9a447c18",
+      "compilerKeccak256": "0xb12d7a91c5edd58159ec582a4b419d6f947b3ffdabaf9d561164751cfef3a76c"
+    },
+    {
+      "path": "src/v2/strategy/SpotEngineConfig.sol",
+      "sha256": "55e0f0b6724b367b63342041776d731840b223864eace7e811f1dfa4ab2cc9a6",
+      "compilerKeccak256": "0x1db6754bb204b092a5abd2d8cb164316e2d8aaa1b06c8808874db9b4a349a696"
+    },
+    {
+      "path": "src/v2/strategy/V2AssetPercentRebalancePolicy.sol",
+      "sha256": "3d34c205159fdce70e4a56b04676f51fc71f8709a7d43bb09896cf851e66c637",
+      "compilerKeccak256": "0x1a3ffae003c3d249ce8995a7536f6b2077565b5f9ac65d0959a21c421b180d08"
+    },
+    {
+      "path": "src/v2/strategy/V2CreatorParams.sol",
+      "sha256": "84a61385630608c74ee7454cc2dfef77a540184fa8f0425285e2ec003fd42166",
+      "compilerKeccak256": "0x7c4d263ec78ab270e07d5a5ea22e4fe060244004748f6f191c74f338b8d2687a"
+    },
+    {
+      "path": "src/v2/strategy/V2RebalancePolicy.sol",
+      "sha256": "971dc35b0efedeb62b4d5b0456b251ecadace83976b1d4ef2e42007e173acb61",
+      "compilerKeccak256": "0xb0d02bc2721e27642646f24d6a39897f1c71a353eb6764740461dc7ceaa31a51"
+    },
+    {
+      "path": "test/AllStrategyHistoricalReplayFork.t.sol",
+      "sha256": "b5135bd5dba27f79fa55517f34fc2178d164d37f273017b0091ae075387dec90",
+      "compilerKeccak256": "0xbf368653931090d8f3f606170ba220873900a6e8788559633729f17ecfc9f325"
+    },
+    {
+      "path": "test/CoveredCallDesk.t.sol",
+      "sha256": "6c493e243d0216bec08ca88110391a089be94211ff0620075754b3104228e352",
+      "compilerKeccak256": "0x6bca8965330065256cc103a0f0d8ce6f04691695bb1af0fb57c2833497ec101e"
+    },
+    {
+      "path": "test/IncomeAllocationFork.t.sol",
+      "sha256": "0bb1a071586e07b3bd94c8ce4582fb9028ee21ce39ec54ef63d80a8fee8c8066",
+      "compilerKeccak256": "0x898db5ccca5a8262df24019d172e9faa2c6524ad03b0d24ed62d3b1003498f6c"
+    }
+  ],
+  "priceDataSha256": "9042271c25a5d3e53a9b1ce09e88e87ae2544d5ce50a665c0bb8f31d11b5eea0",
+  "executionLogSha256": "4588ab963272025d80b481cca19161eee6b227a71fe58bde2fe7eb8046540b65",
+  "command": "ALL_STRATEGY_REPLAY=true forge test --offline --threads 2 --match-contract ^IncomeAllocationForkTest$ --match-test testIncomeAllocation_ --gas-limit 4000000000 -vv",
+  "publicTransactions": 0,
+  "scope": "External independent sponsor, not native deployed FUN treasury integration"
+}
