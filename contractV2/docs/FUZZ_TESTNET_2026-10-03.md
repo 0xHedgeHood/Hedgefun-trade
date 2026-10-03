@@ -8,7 +8,7 @@
 
 最新追加：已在分支 `codex/testnet-launch-20261003` 部署新 creator 核心（源码提交 `d7e686123362f58583b6e0662701e8e19fa0c9c9`），40 笔部署交易和 19 笔 HFLATEST / ID 0 生命周期交易全部成功，包括 owner 转换 V4 token fees 与最终分配。TP1/TP2/dip/stop 使用 1/2/1/1 bps，saleBps=4000。新增部署回归 19 通过、creator 参数套件 162 通过、部署后完整流程 fork 1 通过。前端应采用 [最新交接及边界说明](TESTNET_LAUNCH_HANDOFF_2026-10-03.md)，下文 HFFRESH 及旧地址保留为历史证据。
 
-证据已加入本分支：本文原 `artifacts/fuzz-2026-10-03/`、`artifacts/pr19-review/`、`artifacts/testnet-live-2026-10-03/` 分别复制到 `deploy/verification-2026-10-03/` 下同名目录；最新部署与完整流程在 `deploy/verification-2026-10-03/fresh-creator/`。历史日志和 patch 保留原始内容。PR #19 的确切 head 已合入本地分支；此前 GitHub API 的远程 PR 合并仍因 403 未执行。
+证据已加入本分支：本文原 `artifacts/fuzz-2026-10-03/`、`artifacts/pr19-review/`、`artifacts/testnet-live-2026-10-03/` 分别复制到 `deploy/verification-2026-10-03/` 下同名目录；最新部署与完整流程在 `deploy/verification-2026-10-03/fresh-creator/`。历史日志和 patch 保留原始内容。PR #19 的确切 head 已合入本地分支；此前 GitHub API 合并曾因 403 未执行；2026-10-03 已通过用户配置的 SSH 身份正常快进合并，GitHub 确认为 merged，合并提交 `719cbd3ff92ef79b83b58ef9aafe4bfc99b412e5`。归档 review-summary 保留当时的失败记录。
 
 ## 测试结果
 
@@ -96,7 +96,7 @@
 
 ## PR #19 独立复核
 
-审查 `codex/v2-fuzz-three-gaps` 的确切 head `cff3001b825614c39634c80d4c5cdbd5e59208fe`，未发现阻止合并的问题。隔离工作区重放三个固定种子：**99 次测试结果通过、76,800 fuzz 样本、393,216 handler 调用、0 失败、0 跳过**；相同 head 的 CI 全部成功。证据：`artifacts/pr19-review/review-summary.json` 及 `supplement/`。已尝试按用户授权合并，GitHub connector 返回 403 `Resource not accessible by integration`，该次合并未执行。
+审查 `codex/v2-fuzz-three-gaps` 的确切 head `cff3001b825614c39634c80d4c5cdbd5e59208fe`，未发现阻止合并的问题。隔离工作区重放三个固定种子：**99 次测试结果通过、76,800 fuzz 样本、393,216 handler 调用、0 失败、0 跳过**；相同 head 的 CI 全部成功。证据：`artifacts/pr19-review/review-summary.json` 及 `supplement/`。已尝试按用户授权合并，GitHub connector 返回 403 `Resource not accessible by integration`，该次合并未执行。后续已于 2026-10-03 成功合并，见本文开头更新；精确 reviewed head 未变。
 
 ## 联调交接与剩余工作
 

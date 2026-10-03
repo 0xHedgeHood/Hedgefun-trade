@@ -1,0 +1,147 @@
+{
+  "schema": "hedgefun-tsla-history-evidence-manifest-v1",
+  "branch": "codex/tsla-history-backtest-20261003",
+  "parentCommit": "7bbc7b06c5fd7ec89ddf0dab3863340d2c7b9692",
+  "targetBranch": "codex/contract-v1",
+  "targetHead": "719cbd3ff92ef79b83b58ef9aafe4bfc99b412e5",
+  "clientDate": "2026-10-03",
+  "localOnly": true,
+  "publicTransactions": 0,
+  "independentReview": "PASS",
+  "tests": {
+    "forkPassed": 12,
+    "toolsUnitPassed": 42,
+    "newDataGuards": 8,
+    "newReportSemantics": 7,
+    "dailySnapshots": 3009,
+    "keeperActions": 225,
+    "buybacks": 86
+  },
+  "note": "Manifest excludes itself and SHA256SUMS to avoid circular hashes. Prior evidence manifests describe their original committed snapshots; this manifest covers current historical-replay sources and evidence. No secrets included.",
+  "files": {
+    ".gitattributes": {
+      "sha256": "ee622df2682662f1a5f8dc4ef5e22290cf5c3eb08d84aed06fab02d6da8b0f3c",
+      "bytes": 992
+    },
+    "contractV2/README.md": {
+      "sha256": "921ce5c3818624c0db831a4ca26cafdba59cbd416fff73a83217302472589688",
+      "bytes": 13581
+    },
+    "contractV2/data/tsla-history-2022-2025-source.json": {
+      "sha256": "4dc21458ad5d6dba9b66b214a4da65cdd082b645f933831df87b4f4e7b3e4d77",
+      "bytes": 109484
+    },
+    "contractV2/data/tsla-history-2022-2025.csv": {
+      "sha256": "8f5a04d38cc63090a30c766d183afe6c1b5adcd96f36079dadd406e9810322b6",
+      "bytes": 154434
+    },
+    "contractV2/data/tsla-history-2022-2025.json": {
+      "sha256": "a4b8f96e7f22d253a20787764de98ff98810ca4a3add10d2e2583cb81b68e7e1",
+      "bytes": 462479
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/GENERATED_REPORT.md": {
+      "sha256": "ad6f182d1560efcba751283a97547cd77e5a6eecbebce7b5954f52b5d1dd29d7",
+      "bytes": 7111
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/chart-dependencies.txt": {
+      "sha256": "afcc9a6c6143ccc107654170083bd42bc4af2c06585903f3b9a230d672d31601",
+      "bytes": 189
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/annual-window-summary.png": {
+      "sha256": "1a125202f007a7e9e73490506b7f31b595e2269d0066e2a5c77b9b9cbaea858c",
+      "bytes": 382603
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/annual-window-summary.svg": {
+      "sha256": "1df303cade5e6b5e5209a5833b9acb9f463121877dcc8508cf62243ff3dd4140",
+      "bytes": 317044
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/fun-oracle-mark-by-year.png": {
+      "sha256": "58f892341d3ec2ad0909fe490de66fe69c37a4cbb29302149f29c695617e6080",
+      "bytes": 538528
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/fun-oracle-mark-by-year.svg": {
+      "sha256": "e96999c0665ce6c3aaf2313393df08cefc67c8e982ee067f69ff446e6bf1119b",
+      "bytes": 338825
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/treasury-nav-by-year.png": {
+      "sha256": "234bde524154996e101750f215a57a2a224cb8cb08f10f92ec2b7d95d27324aa",
+      "bytes": 382675
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/charts/treasury-nav-by-year.svg": {
+      "sha256": "cf600782808f228d3d83fa7fe3a86e63d860136d4795fb8aab056aa32589e490",
+      "bytes": 298962
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/daily.csv": {
+      "sha256": "aa8fbdc9c0df92863a74f9a9c3ecfd2d48fa5aad9a36c27e64c032169c35b8ad",
+      "bytes": 2453203
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/data-tests.log": {
+      "sha256": "d5a59aba21b9fdaaaa8b8abf7e8bce15353c7eec8df0f631783d96c814b1c050",
+      "bytes": 870
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/forge.log": {
+      "sha256": "d74e31b65c41ee20aeea3d91fa5c2fd7a7afedcb04b7df134bc8164c629660aa",
+      "bytes": 4045611
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/fork-block.json": {
+      "sha256": "ace2e2a191046971bad0b36d8006b61b8a4779ec67beb91ea883df1f4bfcec1c",
+      "bytes": 1718
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/independent-review.json": {
+      "sha256": "4cab1538cedc3ac59fea7ee17124a48e949ef17c565b70c5411a18ff7ac61d2e",
+      "bytes": 62235
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/pr19-merge.json": {
+      "sha256": "1fd1b0a904def7da820af9f135bfda9326731171188260a7ab195da0871d558d",
+      "bytes": 600
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/results.json": {
+      "sha256": "13df262ab132df748112862dc7203f508f7796eb912b82dab454d78a37bff2e8",
+      "bytes": 8421209
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/run-metadata.json": {
+      "sha256": "7e3c6bda79f984e9fe6a6141844c0a05133edac17f00f8ff125b90343d11c635",
+      "bytes": 1981
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/summary.csv": {
+      "sha256": "d810759f1ee2cf656d4de2d1e7a266412d283c8ca0261f52006d77f1c59eec57",
+      "bytes": 7443
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/tools-tests-system-python-failed.log": {
+      "sha256": "33e184119a1ba43fb34bbdce0120896d9d4b4e413ca9e8a1ffbea691e606833c",
+      "bytes": 37485
+    },
+    "contractV2/deploy/tsla-history-2026-10-03/tools-tests.log": {
+      "sha256": "b2f1fe4c36cf0ad22ed37c409a5ed3224c5faf4ea632e9e3e46491dc26b94ae8",
+      "bytes": 141
+    },
+    "contractV2/docs/FUZZ_TESTNET_2026-10-03.md": {
+      "sha256": "fba05dfb0403712f5e5db299a13d24e776acc28c915a35fbc20eb2f390b28537",
+      "bytes": 14140
+    },
+    "contractV2/docs/TSLA_HISTORICAL_REPLAY_2026-10-03.md": {
+      "sha256": "718f70d5f86839991eee69b03d8788488bef0080b604c0df7a738b0579678ff6",
+      "bytes": 8764
+    },
+    "contractV2/test/TslaHistoricalReplayFork.t.sol": {
+      "sha256": "a44b5a2e16ecf4badd296a5085becc559d104f2761f7e19092f2e2476bf8c475",
+      "bytes": 20876
+    },
+    "contractV2/tools/tests/test_tsla_history_data.py": {
+      "sha256": "94b987ca7488671d43f91621f21bb988b1b668217c87d9571b00ea250e7144c1",
+      "bytes": 2967
+    },
+    "contractV2/tools/tests/test_tsla_history_report.py": {
+      "sha256": "3d5725e47d0b7049a6ec5161f58b141e561e4cb41e8a8a512fd951e48114cadc",
+      "bytes": 4277
+    },
+    "contractV2/tools/tsla_history_data.py": {
+      "sha256": "b70b998b0ed501f74b4e95efa60f0b32058753b01e9a3de6abdc14713d0fdd45",
+      "bytes": 5823
+    },
+    "contractV2/tools/tsla_history_report.py": {
+      "sha256": "23a7c44202105b60a88b7eb915142eba79be752075d8bd3d90dfbcb426376d5b",
+      "bytes": 36179
+    }
+  }
+}

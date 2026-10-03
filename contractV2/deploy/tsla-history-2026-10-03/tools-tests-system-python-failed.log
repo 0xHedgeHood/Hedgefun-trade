@@ -1,0 +1,427 @@
+EEEEEEEEEEEEEEEEEE...............
+======================================================================
+ERROR: test_changed_book_and_source_revision_are_rejected (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_chunk_artifact_is_checked_independently (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_chunk_constructor_is_checked_after_plan_matches (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_compiler_settings_and_stale_artifact_source_are_rejected (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_complete_public_fixture_reaches_exact_constructor_proof (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_constructor_hash_uses_all_frozen_params_and_address_order (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_graduation_seed_and_capital_transfers_must_both_conserve (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_missing_or_reordered_phase_is_rejected_before_rpc (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_missing_receipt_and_archived_calldata_mismatch_are_rejected (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_phase_path_cannot_escape_archive (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_phase_symlink_target_is_also_protected_evidence (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_pin_and_before_block_reorg_are_rejected_after_all_accounting_checks (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_rejects_overwriting_inputs_and_reserved_books (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_runtime_match_does_not_allow_differences_outside_immutable_slots (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_strategy_address_word_must_be_canonical_uint160 (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_truncated_abi_and_duplicate_binding_event_are_rejected (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_unreviewed_creation_and_wrong_chain_are_rejected (test_audit_v2_all_in_floor.AllInAuditGuards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 268, in setUp
+    self.f = PublicFixture(self.temp.name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in __init__
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_audit_v2_all_in_floor.py", line 79, in <listcomp>
+    self.hashes = [audit.digest(bytes([i + 1, 0])) for i in range(4)] + [audit.digest(self.creation)]
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 41, in digest
+    return cast("keccak", "0x" + data.hex()).lower()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/audit_v2_keeper_reward.py", line 37, in cast
+    return subprocess.check_output(["cast", *args], text=True).strip()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 424, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 505, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 951, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1821, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'cast'
+
+======================================================================
+ERROR: test_native_testnet_config (unittest.loader._FailedTest)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_native_testnet_config
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/tests/test_native_testnet_config.py", line 5, in <module>
+    import tomllib
+ModuleNotFoundError: No module named 'tomllib'
+
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.117s
+
+FAILED (errors=18)

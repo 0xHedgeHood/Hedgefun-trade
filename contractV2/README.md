@@ -6,6 +6,8 @@ Latest verified creator testnet deployment: [2026-10-03 frontend handoff](docs/T
 
 Follow-up: [eight-wallet persona campaign and TSLA price-path experiments](docs/PERSONA_TSLA_EXPERIMENT_2026-10-03.md) distinguish public testnet trades from isolated-fork price shocks, and marked portfolio values from independent liquidation quotes.
 
+Historical input replay: [2022–2025 TSLA daily closes](docs/TSLA_HISTORICAL_REPLAY_2026-10-03.md), with 1,003 source bars, 12 passing fork experiments and 3,009 daily snapshots. These use current testnet liquidity and daily keeper opportunities; they do not establish historical executable returns or intraday 1 bps performance.
+
 ## What V2 adds
 
 A launch no longer opens straight into a Uniswap V4 pool. It starts on a stock-denominated **bonding curve**, and the

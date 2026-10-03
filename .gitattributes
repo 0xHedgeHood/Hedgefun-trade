@@ -5,3 +5,9 @@ contractV2/deploy/persona-2026-10-03/**/*.log whitespace=-blank-at-eof
 # Keep the exact bytes emitted by Matplotlib and Python's CSV writer.
 contractV2/deploy/persona-2026-10-03/charts/*.svg whitespace=-blank-at-eol
 contractV2/deploy/persona-2026-10-03/price-impact/*.csv whitespace=cr-at-eol
+# Preserve native historical-replay exports and exact Foundry output.
+contractV2/deploy/tsla-history-2026-10-03/**/*.log whitespace=-blank-at-eof
+contractV2/deploy/tsla-history-2026-10-03/*.log whitespace=-blank-at-eof
+contractV2/deploy/tsla-history-2026-10-03/**/*.svg whitespace=-blank-at-eol
+contractV2/deploy/tsla-history-2026-10-03/*.svg whitespace=-blank-at-eol
+contractV2/deploy/tsla-history-2026-10-03/*.csv whitespace=cr-at-eol
