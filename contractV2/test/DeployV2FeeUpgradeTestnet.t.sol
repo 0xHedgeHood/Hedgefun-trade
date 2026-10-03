@@ -21,6 +21,13 @@ import {MockToken} from "./mocks/Mocks.sol";
 
 /// Eight real synthetic V3 venues, plus an already-bound factory. Only the test fixture overrides addresses.
 contract EightStockFeeFixture is DeployV2Testnet {
+    function appendNinth(Deployment memory x, address operator) external returns (Line memory l) {
+        x.operator = operator;
+        vm.startBroadcast(operator);
+        l = _deployLine(x, StockSpec("EXTRA", "Additional test stock", 100e18, 100_000_000_000, 3000, 100e18));
+        vm.stopBroadcast();
+    }
+
     function deployEight(address operator) external returns (Deployment memory x) {
         x = deploy(operator, operator, 0);
         Line[] memory lines = new Line[](8);
@@ -234,6 +241,38 @@ contract DeployV2FeeUpgradeTestnetTest is Test {
     function test_refusesBrokenOldBindingBeforeDeploying() public {
         vm.mockCall(address(base.factory), abi.encodeWithSignature("owner()"), abi.encode(alice));
         vm.expectRevert(abi.encodeWithSelector(DeployV2FeeUpgradeTestnet.BadBinding.selector, "base venue"));
+        FeeUpgradeOperatorInvoker(OPERATOR).deploy(upgrade);
+    }
+
+    function test_appendedNinthMarketDoesNotBlockOrExpandReviewedDeployment() public {
+        DeployV2Testnet.Line memory extra = new EightStockFeeFixture().appendNinth(base, OPERATOR);
+        assertEq(base.market.poolCount(), 9);
+        bytes32 beforeState = _venueState();
+        uint256 extraStock = extra.stock.balanceOf(extra.pool);
+        uint256 extraUsdg = base.usdg.balanceOf(extra.pool);
+        _deploy();
+        assertEq(x.lines.length, 8);
+        assertEq(base.market.poolCount(), 9);
+        assertEq(base.market.pools(8), extra.pool);
+        assertEq(_venueState(), beforeState);
+        assertEq(extra.stock.balanceOf(extra.pool), extraStock);
+        assertEq(base.usdg.balanceOf(extra.pool), extraUsdg);
+        (address oracle, address pool,, bool enabled) = x.factory.listings(address(extra.stock));
+        assertEq(oracle, address(0));
+        assertEq(pool, address(0));
+        assertFalse(enabled, "unreviewed ninth asset is not implicitly listed");
+    }
+
+    function test_extraMarketCannotReplaceAnOriginalReviewedPool() public {
+        DeployV2Testnet.Line memory extra = new EightStockFeeFixture().appendNinth(base, OPERATOR);
+        vm.mockCall(address(base.market), abi.encodeWithSignature("pools(uint256)", 0), abi.encode(extra.pool));
+        vm.expectRevert(abi.encodeWithSelector(DeployV2FeeUpgradeTestnet.BadBinding.selector, "market line"));
+        FeeUpgradeOperatorInvoker(OPERATOR).deploy(upgrade);
+    }
+
+    function test_fewerThanEightMarketsStillRefusedBeforeDeployment() public {
+        vm.mockCall(address(base.market), abi.encodeWithSignature("poolCount()"), abi.encode(uint256(7)));
+        vm.expectRevert(abi.encodeWithSelector(DeployV2FeeUpgradeTestnet.BadBinding.selector, "eight markets"));
         FeeUpgradeOperatorInvoker(OPERATOR).deploy(upgrade);
     }
 

@@ -200,7 +200,10 @@ contract DeployV2FeeUpgradeTestnet is Script {
         }
         x.defaults.sweepTipBps = 0;
         Seed[] memory seeds = _seeds();
-        if (seeds.length != 8 || x.venue.market.poolCount() != 8) revert BadBinding("eight markets");
+        // The shared test market is append-only. New, unrelated lines must not
+        // block a fresh core for these eight reviewed seeds. _readPool still
+        // verifies every original pool in the first eight registry entries.
+        if (seeds.length != 8 || x.venue.market.poolCount() < 8) revert BadBinding("eight markets");
         x.lines = new Line[](8);
         for (uint256 i; i < seeds.length; ++i) {
             for (uint256 j; j < i; ++j) {
