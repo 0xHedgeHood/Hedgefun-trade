@@ -30,6 +30,7 @@ contract AssetPercentEngineHandler is Test {
     uint256 public tradeAtLastSuccess;
     uint256 public consumedAtLastSuccess;
     uint256 public usedAtLastSuccess;
+
     struct BeforeFill {
         uint256 tradeLimit;
         uint256 dailyLimit;
@@ -143,7 +144,8 @@ contract AssetPercentEngineHandler is Test {
         uint256 turnoverBefore = treasury.turnoverInEpoch();
         bytes32 digestBefore = _stateDigest();
 
-        (bool ok, bytes memory data) = address(treasury).call(abi.encodeCall(HedgeFunV2AssetPercentEngineTreasury.execute, ()));
+        (bool ok, bytes memory data) =
+            address(treasury).call(abi.encodeCall(HedgeFunV2AssetPercentEngineTreasury.execute, ()));
         if (!ok) {
             ++failedExecutions;
             if (_stateDigest() != digestBefore) violation = true;
@@ -168,10 +170,15 @@ contract AssetPercentEngineHandler is Test {
         }
         uint256 actualTurnover = action == HedgeFunV2Treasury.Action.RebalanceBuy
             ? before_.cashBalance - treasury.reserveUsdg()
-            : Math.mulDiv(before_.stockBalance - stock.balanceOf(address(treasury))
-                + treasury.buybackStock() - before_.buyback, before_.price, 1e30);
-        if (consumed != actualTurnover || consumed < MIN_LOT || consumed > before_.tradeLimit
-            || turnoverNow > before_.dailyLimit) {
+            : Math.mulDiv(
+                before_.stockBalance - stock.balanceOf(address(treasury)) + treasury.buybackStock() - before_.buyback,
+                before_.price,
+                1e30
+            );
+        if (
+            consumed != actualTurnover || consumed < MIN_LOT || consumed > before_.tradeLimit
+                || turnoverNow > before_.dailyLimit
+        ) {
             violation = true;
         }
 
@@ -230,12 +237,29 @@ contract AssetPercentEngineHandler is Test {
 contract V2AssetPercentInvariantTest is V2AssetPercentEngineFixture {
     HedgeFunV2AssetPercentEngineTreasury internal treasury;
     AssetPercentEngineHandler internal handler;
+
     function setUp() public override {
         super.setUp();
-        vm.prank(owner); factory.setListingGates(address(stock), 50, 100, 50e6);
+        vm.prank(owner);
+        factory.setListingGates(address(stock), 50, 100, 50e6);
         treasury = _launchPercent(1100, 1000, 5000, 5000);
         handler = new AssetPercentEngineHandler(treasury, venue, stock, usdg, stockFeed, usdgFeed);
         targetContract(address(handler));
+        // Select mutations explicitly: public counter getters must not inflate the reported handler-call count.
+        bytes4[] memory selectors = new bytes4[](12);
+        selectors[0] = handler.donateStock.selector;
+        selectors[1] = handler.donateUsdg.selector;
+        selectors[2] = handler.setMarket.selector;
+        selectors[3] = handler.shoveVenue.selector;
+        selectors[4] = handler.setOraclePaused.selector;
+        selectors[5] = handler.refreshFeeds.selector;
+        selectors[6] = handler.advanceCooldownEdge.selector;
+        selectors[7] = handler.advanceLive.selector;
+        selectors[8] = handler.advanceEpoch.selector;
+        selectors[9] = handler.makeOracleStale.selector;
+        selectors[10] = handler.book.selector;
+        selectors[11] = handler.attemptExecute.selector;
+        targetSelector(FuzzSelector({addr: address(handler), selectors: selectors}));
     }
 
     /// forge-config: default.invariant.fail-on-revert = true

@@ -1,0 +1,19 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24968574, ~: 24968716)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.52s (6.52s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularUsdg0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24869428, ~: 24869567)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.52s (6.52s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressRegularStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24875867, ~: 24876006)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.52s (6.52s CPU time)
+
+Ran 1 test for test/V2DustProgressFuzz.t.sol:V2DustProgressAllInStock0FuzzTest
+[PASS] testFuzz_capacity128PendingBookingRetainsCleanup(uint256,uint256) (runs: 256, μ: 24975013, ~: 24975155)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.52s (6.52s CPU time)
+
+Ran 4 test suites in 6.52s (26.08s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

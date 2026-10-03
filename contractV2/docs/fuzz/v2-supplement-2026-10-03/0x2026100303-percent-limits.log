@@ -1,0 +1,10 @@
+No files changed, compilation skipped
+
+Ran 4 tests for test/V2AssetPercentLimitsFuzz.t.sol:V2AssetPercentLimitsFuzzTest
+[PASS] testFuzz_schema2MinimumPercentageCapWaitsWithoutInflatingBudget(uint8,uint96) (runs: 1024, μ: 14336418, ~: 14336487)
+[PASS] testFuzz_schema2MixedFillsRespectPreActionNavAndTradingDate(uint256,uint16,uint16,bool) (runs: 1024, μ: 20583947, ~: 20571232)
+[PASS] testFuzz_schema2NavShrinkCannotEraseSpendAndGrowthReopensOnlyDifference(uint16,uint96) (runs: 1024, μ: 15017077, ~: 15016924)
+[PASS] test_schema2NonVacuousCoverageWitness() (gas: 20603895)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 20.53s (30.46s CPU time)
+
+Ran 1 test suite in 20.53s (20.53s CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

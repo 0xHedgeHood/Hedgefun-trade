@@ -1,0 +1,55 @@
+No files changed, compilation skipped
+
+Ran 3 tests for test/V2EngineCostInvariant.t.sol:V2EngineCostInvariantTest
+[PASS] invariant_costAndBucketsMatchExternalAccountingModel() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3656  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3643  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3642  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3589  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3686  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3613  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3662  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3638  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3639  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] invariant_everyExecuteAttemptIsClassified() (runs: 256, calls: 32768, reverts: 0)
+
+╭-------------------+-----------------+-------+---------+----------╮
+| Contract          | Selector        | Calls | Reverts | Discards |
++==================================================================+
+| EngineCostHandler | advanceCooldown | 3656  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | advanceEpoch    | 3643  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | attemptExecute  | 3642  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | book            | 3589  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateStock     | 3686  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | donateUsdg      | 3613  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | makeOracleStale | 3662  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setMarket       | 3638  | 0       | 0        |
+|-------------------+-----------------+-------+---------+----------|
+| EngineCostHandler | setOraclePaused | 3639  | 0       | 0        |
+╰-------------------+-----------------+-------+---------+----------╯
+
+[PASS] testFuzz_costTransitionsExerciseBooksPartialBuysAndProfitLossSells(uint96,uint16,uint32) (runs: 1024, μ: 4042311, ~: 4042258)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 8.69s (20.56s CPU time)
+
+Ran 1 test suite in 8.69s (8.69s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
