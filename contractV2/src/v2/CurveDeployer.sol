@@ -43,6 +43,8 @@ contract CurveDeployer is BoundDeployer {
     uint16 public constant MAX_SALE_BPS = 9000;
     /// @notice The longest opening window a creator may choose. 0 is "off": the flat tax from the first second.
     uint8 public constant MAX_SNIPE_SECONDS = 180;
+    /// @notice Additional recipient wallets a creator may exempt from only the opening buy surcharge.
+    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 32;
 
     struct CurveChoice {
         uint16 saleBps;      // share of supply sold on the curve; 0 = nothing registered
@@ -53,15 +55,18 @@ contract CurveDeployer is BoundDeployer {
     /// @dev Read only through external calls to this deployer, never inside `executeGraduation`'s delegatecall,
     ///      where this contract's storage slots would be the factory's.
     mapping(bytes32 => CurveChoice) public curveConfigOf;
+    mapping(bytes32 => address[]) private _openingTaxExemptionsOf;
 
     /// @notice A creator registered or changed the curve choices for their own salt (symbol, creator, nonce).
     event CurveConfigSet(address indexed creator, string symbol, uint96 nonce, uint16 saleBps, uint8 snipeSeconds);
+    event OpeningTaxExemptionsSet(address indexed creator, string symbol, uint96 nonce, address[] recipients);
     error CurveDeployFailed();
     error VaultDeployFailed();
     error Unseedable();
     error InexactTransfer();
     /// @notice `saleBps` outside [MIN_SALE_BPS, MAX_SALE_BPS], or `snipeSeconds` over MAX_SNIPE_SECONDS.
     error BadCurveConfig();
+    error BadOpeningTaxExemptions();
     struct GraduationCtx {
         PoolKey key;
         HedgeFunHook.Rates rates;
@@ -91,6 +96,29 @@ contract CurveDeployer is BoundDeployer {
         if (saleBps < MIN_SALE_BPS || saleBps > MAX_SALE_BPS || snipeSeconds > MAX_SNIPE_SECONDS) revert BadCurveConfig();
         curveConfigOf[keccak256(abi.encode(symbol, msg.sender, nonce))] = CurveChoice(saleBps, snipeSeconds);
         emit CurveConfigSet(msg.sender, symbol, nonce, saleBps, snipeSeconds);
+    }
+
+    /// @notice Register the final token recipients exempt from the opening surcharge for a future launch.
+    /// @dev Only the salt's creator may register. Replacing this list after a quote changes the launch terms and
+    ///      predicted curve address. Once launched, the curve copies it into its own immutable launch policy.
+    ///      The creator is exempt automatically and must not consume one of the 32 additional slots.
+    function setOpeningTaxExemptions(string calldata symbol, uint96 nonce, address[] calldata recipients) external {
+        if (recipients.length > MAX_OPENING_TAX_EXEMPTIONS) revert BadOpeningTaxExemptions();
+        bytes32 salt = keccak256(abi.encode(symbol, msg.sender, nonce));
+        delete _openingTaxExemptionsOf[salt];
+        for (uint256 i; i < recipients.length; ++i) {
+            address recipient = recipients[i];
+            if (recipient == address(0) || recipient == msg.sender) revert BadOpeningTaxExemptions();
+            for (uint256 j; j < i; ++j) {
+                if (recipient == recipients[j]) revert BadOpeningTaxExemptions();
+            }
+            _openingTaxExemptionsOf[salt].push(recipient);
+        }
+        emit OpeningTaxExemptionsSet(msg.sender, symbol, nonce, recipients);
+    }
+
+    function openingTaxExemptions(bytes32 salt) external view returns (address[] memory) {
+        return _openingTaxExemptionsOf[salt];
     }
 
     /// @notice The values a launch under `salt` is built with: the creator's registration, else `DEFAULT_SALE_BPS`
@@ -164,6 +192,16 @@ contract CurveDeployer is BoundDeployer {
     }
     function deploy(bytes32 salt, bytes calldata args) external returns (address a) {
         _onlyFactory();
+        return _deploy(salt, args);
+    }
+    /// @dev Attach the creator's registered list here to keep the factory below EIP-170.
+    function deployConfigured(bytes32 salt, HedgeFunBondingCurve.Init calldata base) external returns (address) {
+        _onlyFactory();
+        HedgeFunBondingCurve.Init memory p = base;
+        p.openingTaxExemptions = _openingTaxExemptionsOf[salt];
+        return _deploy(salt, abi.encode(p));
+    }
+    function _deploy(bytes32 salt, bytes memory args) private returns (address a) {
         bytes memory code = _curveCode(args);
         assembly { a := create2(0, add(code, 0x20), mload(code), salt) }
         if (a == address(0)) revert CurveDeployFailed();
@@ -171,14 +209,19 @@ contract CurveDeployer is BoundDeployer {
     function predict(bytes32 salt, bytes calldata args) external view returns (address) {
         return _at(salt, keccak256(_curveCode(args)));
     }
+    function predictConfigured(bytes32 salt, HedgeFunBondingCurve.Init calldata base) external view returns (address) {
+        HedgeFunBondingCurve.Init memory p = base;
+        p.openingTaxExemptions = _openingTaxExemptionsOf[salt];
+        return _at(salt, keccak256(_curveCode(abi.encode(p))));
+    }
     /// @dev `type(HedgeFunBondingCurve).creationCode ++ args`, the creation code copied from `curveChunk`.
-    function _curveCode(bytes calldata args) private view returns (bytes memory code) {
+    function _curveCode(bytes memory args) private view returns (bytes memory code) {
         address chunk = curveChunk;
         uint256 len = chunk.code.length;
         code = new bytes(len + args.length);
         assembly ("memory-safe") {
             extcodecopy(chunk, add(code, 0x20), 0, len)
-            calldatacopy(add(add(code, 0x20), len), args.offset, args.length)
+            mcopy(add(add(code, 0x20), len), add(args, 0x20), mload(args))
         }
     }
     function deployVault(bytes32 salt, bytes calldata args) external returns (address a) {

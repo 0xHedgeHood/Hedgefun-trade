@@ -431,8 +431,8 @@ abstract contract V2CycleBase is V2ExecuteBase {
 
         vm.warp(saleAt + 601);
         _px(120e18);
-        _fundAndBook(0.05 ether); // Do not execute the old tail's profit yet.
-        _px(94e18);
+        _fundAndBook(0.042 ether); // Book at $5.04, then make a real sub-minimum stop without retiring the old tail.
+        _px(113e18);
         (action,) = cycle.execute(); // Highest-cost lot stops first, below $5, leaving the one-wei lot.
         assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.Stop));
         uint256 stoppedAt = cycle.lastStopAt();
@@ -456,20 +456,26 @@ abstract contract V2CycleBase is V2ExecuteBase {
         assertEq(cycle.buybackStock(), burnStock);
         assertEq(cycle.reentrySaleAt(), saleAt);
         assertFalse(cycle.recoveryDue(), "a zero-sale TP1 must not erase the later stop's recovery cooldown");
+        _px(112e18); // TP2 is due, while the ordinary 5% dip from the $113 stop is not.
+        (action,) = cycle.execute(); // The current scheduler retires the microscopic TP2 tail without a sale.
+        assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.TakeProfit));
+        assertEq(cycle.lotCount(), 0);
+        assertEq(cycle.reentrySaleAt(), saleAt);
+        assertFalse(cycle.recoveryDue());
         vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
         cycle.execute();
 
         vm.warp(stoppedAt + 599);
-        _px(106e18);
+        _px(112e18);
         assertFalse(cycle.recoveryDue());
         vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
         cycle.execute();
         vm.warp(stoppedAt + 600);
-        stockFeed.setAt(106e8, stoppedReportAt);
+        stockFeed.setAt(112e8, stoppedReportAt);
         assertFalse(cycle.recoveryDue(), "a zero-sale TP cannot remove the latest stop's newer-report requirement");
         vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
         cycle.execute();
-        _px(106e18);
+        _px(112e18);
         assertTrue(cycle.recoveryDue());
         (action,) = cycle.execute();
         assertEq(uint256(action), uint256(HedgeFunV2Treasury.Action.BuyRecovery));

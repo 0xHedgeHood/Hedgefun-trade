@@ -40,14 +40,13 @@ contract HedgeFunV2NativeRouter is ReentrancyGuard {
         external payable nonReentrant returns (uint256 tokensOut, uint256 stockRefund)
     {
         if (p.asset != address(wrappedNative) || msg.value != p.amountIn) revert BadPayment();
-        (address token,,,address stock,) = router.factory().strategies(p.id);
+        (,,,address stock,) = router.factory().strategies(p.id);
         uint256 beforeWrapped = wrappedNative.balanceOf(address(this));
         wrappedNative.deposit{value: msg.value}();
         if (wrappedNative.balanceOf(address(this)) != beforeWrapped + msg.value) revert TransferMismatch();
         IERC20(address(wrappedNative)).forceApprove(address(router), p.amountIn);
-        (tokensOut, stockRefund) = router.buy(p, path);
+        (tokensOut, stockRefund) = router.buyFor(p, path, msg.sender);
         IERC20(address(wrappedNative)).forceApprove(address(router), 0);
-        _send(token, msg.sender, tokensOut);
         if (stockRefund != 0) {
             if (stock == address(wrappedNative)) _unwrapToCaller(stockRefund);
             else _send(stock, msg.sender, stockRefund);

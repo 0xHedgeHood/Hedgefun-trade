@@ -15,7 +15,8 @@ Already deployed treasuries and the existing kind registrations cannot be change
 | Sale priority | The inherited scheduler processes a due stop, then a due take-profit, before any buy. A remaining due partial sale still wins. |
 | Recovery reference | A real stock/USDG sale whose actual stock input is worth at least `minLotUsdg` at the sale's oracle price, and which returns positive USDG, opens or refreshes recovery. The reference is the oracle price used by that sale, not its average fill price. |
 | Recovery trigger | The live price reaches `saleReference × (1 + dipBps/10,000)`. `dipBps` also keeps its original meaning for ordinary dip buys. |
-| Waiting | Recovery requires at least 600 seconds since the qualifying sale and a stock-report timestamp newer than that sale's report. A later stop also requires its own 600 seconds and newer report, even when too small to refresh recovery. Its independent recovery gate survives a later small or zero-sale TP; the inherited TP-to-dip gate keeps its original behavior. |
+| Waiting | Recovery requires at least 600 seconds since the qualifying sale and a stock-report timestamp newer than that sale's report. A later actual stop sale also requires its own 600 seconds and newer report, even when too small to refresh recovery. Its independent recovery gate survives a later small or zero-sale TP; the inherited TP-to-dip gate keeps its original behavior. Ledger-only dust retirement creates no stop observation. |
+| Dust cleanup | The current scheduler can retire an uneconomic stop/profit tail into unbooked stock without a sale, bounty or new recovery/cooldown reference. It continues to an actual due sale or an eligible dip/recovery buy in the same call. If no dip/recovery passes the readiness checks, including when pending stock fills all 128 lot slots, cleanup and booking are retained and recovery stays pending. An actual swap or minimum-fill failure still reverts the whole call. |
 | Recovery sizing | Offer `min(USDG reserve × lotBps/10,000, sellChunkUsdg)`, less the existing bounty provision. The normal venue/slippage, minimum actual fill and 128-lot checks still apply. |
 | Successful buy | Both dip and recovery buys consume the recovery reference after a real buy passes the minimum-fill check. The purchased lot uses its actual fill cost and follows the same stop/TP rules. A successful partial fill consumes the entry once; it does not promise to fill an allocation target. |
 | Repeated calls | Recovery cannot buy again until another qualifying sale opens it. Ordinary dip rungs remain available under the existing rules. |
@@ -74,6 +75,10 @@ Without `--once` it checks every 60 seconds (override with `--interval`) and pri
 checker and transaction-payload producer, not a signer. No background service is started by this change.
 
 ## Evidence and limits
+
+Source #110's [audit](V2_SIMPLE_CYCLE_AUDIT.md) and [backtest](V2_SIMPLE_CYCLE_BACKTEST.md) are historical records. Target #12 integrates Cycle with the current dust scheduler on `codex/contract-v1`; current build sizes, fuzz and regression results are recorded separately in [V2_CYCLE_INTEGRATION_REVIEW.md](V2_CYCLE_INTEGRATION_REVIEW.md).
+
+The [dust/recovery fuzz suite](../test/V2CycleDustFuzz.t.sol) defines six properties in each asset order: sale-free cleanup, unchanged recovery cooldown, same-call recovery progress, actual-fill stop observations and rewards, ordinary dip gates, and capacity-128 cleanup/booking. Local fills use a real concentrated-liquidity PoolManager through a V3-ABI mirror; tokens and feeds are synthetic.
 
 The [cycle suite](../test/V2CycleTreasury.t.sol) exercises both asset orders, exact recovery threshold and
 cooldown, newer report requirements, repeated calls, two complete cycles, sale priority, preservation of ordinary

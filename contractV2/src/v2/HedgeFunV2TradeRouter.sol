@@ -30,7 +30,8 @@ interface ICurveTrade {
 /// @notice Same-chain ERC20 entry/exit for a stock-denominated curve and its graduated V4 pool.
 /// @dev Each route uses at most three exact-input canonical V3 pools. Empty paths trade stock directly.
 ///      Wrapped-native tokens work like any other ERC20; this router never accepts native currency.
-///      No owner, arbitrary call target, custody, or persistent token approvals. Taxes apply normally.
+///      No owner, arbitrary call target, custody, or persistent token approvals. Curve buys
+///      deliver directly to the final recipient so opening-tax exemptions cannot attach to this router.
 contract HedgeFunV2TradeRouter is IUnlockCallback, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
@@ -58,7 +59,7 @@ contract HedgeFunV2TradeRouter is IUnlockCallback, ReentrancyGuard {
     bytes32 private _unlockHash;
 
     event Bought(uint256 indexed id, address indexed buyer, address indexed paymentAsset,
-        uint256 paymentIn, uint256 tokensOut, uint256 stockRefund);
+        address recipient, uint256 paymentIn, uint256 tokensOut, uint256 stockRefund);
     event Sold(uint256 indexed id, address indexed seller, address indexed outputAsset,
         uint256 tokensSpent, uint256 outputAmount, uint256 tokenRefund);
 
@@ -91,6 +92,22 @@ contract HedgeFunV2TradeRouter is IUnlockCallback, ReentrancyGuard {
     function buy(TradeParams calldata p, Hop[] calldata path)
         external nonReentrant returns (uint256 tokensOut, uint256 stockRefund)
     {
+        return _buy(p, path, msg.sender);
+    }
+
+    /// @notice Buy for a designated final recipient. The payer cannot claim that recipient's
+    ///         exemption while holding the tokens in this router: delivery is direct and checked.
+    /// @dev Used by the native wrapper to identify its caller. Anyone may fund a recipient's buy.
+    function buyFor(TradeParams calldata p, Hop[] calldata path, address recipient)
+        external nonReentrant returns (uint256 tokensOut, uint256 stockRefund)
+    {
+        return _buy(p, path, recipient);
+    }
+
+    function _buy(TradeParams calldata p, Hop[] calldata path, address recipient)
+        private returns (uint256 tokensOut, uint256 stockRefund)
+    {
+        if (recipient == address(0) || recipient == address(this)) revert BadPath();
         Strategy memory s = _strategy(p);
         _checkPath(path, p.asset, s.stock, s.token);
         _pull(p.asset, p.amountIn);
@@ -98,15 +115,15 @@ contract HedgeFunV2TradeRouter is IUnlockCallback, ReentrancyGuard {
         if (stockGot < p.minStockReceived) revert TooLittleStock(stockGot);
         uint256 spent;
         if (p.expectedStage == ACTIVE) {
-            (spent, tokensOut) = _curveBuy(s, stockGot, p.deadline);
+            (spent, tokensOut) = _curveBuy(s, stockGot, p.deadline, recipient);
         } else {
             (spent, tokensOut) = _v4(s, s.stock, s.token, stockGot);
         }
         stockRefund = stockGot - spent;
         _checkFill(p, spent, stockRefund, tokensOut);
-        _send(s.token, msg.sender, tokensOut);
+        if (p.expectedStage == GRADUATED) _send(s.token, recipient, tokensOut);
         if (stockRefund != 0) _send(s.stock, msg.sender, stockRefund);
-        emit Bought(p.id, msg.sender, p.asset, p.amountIn, tokensOut, stockRefund);
+        emit Bought(p.id, msg.sender, p.asset, recipient, p.amountIn, tokensOut, stockRefund);
     }
 
     /// @notice Sell strategy tokens for any normal ERC20 reachable from stock over the supplied V3 path.
@@ -176,14 +193,19 @@ contract HedgeFunV2TradeRouter is IUnlockCallback, ReentrancyGuard {
         return amount;
     }
 
-    function _curveBuy(Strategy memory s, uint256 amount, uint256 deadline) private returns (uint256 spent, uint256 out) {
+    function _curveBuy(Strategy memory s, uint256 amount, uint256 deadline, address recipient)
+        private returns (uint256 spent, uint256 out)
+    {
         uint256 beforeIn = IERC20(s.stock).balanceOf(address(this));
-        uint256 beforeOut = IERC20(s.token).balanceOf(address(this));
+        uint256 beforeOut = IERC20(s.token).balanceOf(recipient);
+        uint256 routerTokens = IERC20(s.token).balanceOf(address(this));
         IERC20(s.stock).forceApprove(s.curve, amount);
-        (spent, out) = ICurveTrade(s.curve).buy(amount, 0, address(this), deadline);
+        (spent, out) = ICurveTrade(s.curve).buy(amount, 0, recipient, deadline);
         IERC20(s.stock).forceApprove(s.curve, 0);
         if (spent > amount) revert BadCallback();
-        _checkDeltas(s.stock, s.token, beforeIn, beforeOut, spent, out);
+        if (IERC20(s.stock).balanceOf(address(this)) + spent != beforeIn
+            || IERC20(s.token).balanceOf(recipient) != beforeOut + out
+            || IERC20(s.token).balanceOf(address(this)) != routerTokens) revert TransferMismatch();
     }
 
     function _curveSell(Strategy memory s, uint256 amount, uint256 deadline) private returns (uint256 out) {

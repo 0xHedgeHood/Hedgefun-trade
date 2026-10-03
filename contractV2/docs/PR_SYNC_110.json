@@ -3,7 +3,7 @@
   "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/110",
   "sourceHead": "e6a6097ca622da1d7342b48fb0f1771b08832026",
   "sourceMergeBase": "9b872a2e7467f5ec7970b91ef9dca8214f218fd8",
-  "targetBase": "hedgefun-trade/codex/contract-v2",
+  "targetBase": "hedgefun-trade/codex/contract-v1",
   "targetBranch": "codex/sync-pr-110",
   "parentSourcePullRequest": null,
   "mirroredPaths": [
@@ -27,12 +27,32 @@
     "contractV2/tools/v2_cycle_backtest.py",
     "contractV2/tools/v2_cycle_keeper.py"
   ],
-  "adaptations": [],
-  "byteIdenticalChangedSolidity": [
+  "adaptations": [
+    "Integrate the pinned source Cycle implementation with the target default branch at targetBaseCommit; sourceHead and sourceMergeBase remain original source provenance.",
+    "Preserve the current stop/profit dust retirement, released-stock accounting and 128-lot cleanup/booking behavior in the shared treasury and V2 scheduler.",
+    "Invoke the Cycle stop observation only after an actual stop sale, and extend post-dust readiness to allow an eligible bounded recovery buy.",
+    "Pass the scheduler health-price and live-feed snapshot to the Cycle buy helper; preserve ordinary dip behavior and the existing action values, appending BuyRecovery = 5.",
+    "Adapt local Cycle regressions and add six dust/recovery fuzz properties exercised in both asset orders; validation results are recorded separately in V2_CYCLE_INTEGRATION_REVIEW.md.",
+    "Keep current native and percentage Engine CI and publication tools, append Cycle to the ABI/reference contract lists, and regenerate outputs from the integrated source.",
+    "Keep source audit and backtest evidence labeled as historical; update target documentation and actor paths for the separately registered Cycle kind."
+  ],
+  "byteIdenticalChangedSolidity": [],
+  "transitiveMergedSourcePullRequests": [],
+  "targetBaseCommit": "d23de8779465620447406d356a35e1aee4c1b8a4",
+  "originalByteIdenticalChangedSolidity": [
     "src/HedgeFunTreasuryBase.sol",
     "src/v2/HedgeFunV2CycleTreasury.sol",
     "src/v2/HedgeFunV2Treasury.sol",
     "test/V2CycleTreasury.t.sol"
   ],
-  "transitiveMergedSourcePullRequests": []
+  "integrationChangedSolidity": [
+    "src/HedgeFunTreasuryBase.sol",
+    "src/v2/HedgeFunV2Treasury.sol",
+    "src/v2/HedgeFunV2CycleTreasury.sol",
+    "test/V2CycleTreasury.t.sol"
+  ],
+  "integrationAddedTests": [
+    "test/V2CycleDustFuzz.t.sol"
+  ],
+  "integrationReview": "contractV2/docs/V2_CYCLE_INTEGRATION_REVIEW.md"
 }

@@ -1,0 +1,37 @@
+{
+  "sourceRepository": "keyuyuan/hedgefund",
+  "sourcePullRequest": "https://github.com/keyuyuan/hedgefund/pull/103",
+  "sourceHead": "d7f20e10a24646bcfb2c752d4fbf44d612445498",
+  "sourceMergeBase": "3244fbf6b3108798e4227c863b1cddf7c1ac1267",
+  "targetBase": "codex/sync-pr-102",
+  "targetBranch": "codex/sync-pr-103",
+  "parentSourcePullRequest": 102,
+  "mirroredPaths": [
+    "contractV2/broadcast/DeployV2Testnet.s.sol/46630/run-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/curveBuy-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/curveSell-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/graduate-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/launch-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/ordinaryBuy-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/v4Buy-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/v4Sell-latest.json",
+    "contractV2/broadcast/TestnetV2Journey.s.sol/46630/whitelistBuy-latest.json",
+    "contractV2/deploy/testnet-v2-whitelist.journey.json",
+    "contractV2/deploy/testnet-v2-whitelist.json",
+    "contractV2/deploy/testnet-v2-whitelist.verification.json",
+    "contractV2/docs/TESTNET_V2_JOURNEY.md",
+    "contractV2/foundry.toml",
+    "contractV2/script/DeployV2Testnet.s.sol",
+    "contractV2/script/TestnetV2Journey.s.sol",
+    "contractV2/test/TestnetV2JourneyFork.t.sol",
+    "contractV2/tools/report_testnet_v2_whitelist_journey.py",
+    "contractV2/tools/verify_testnet_whitelist.py"
+  ],
+  "adaptations": [],
+  "byteIdenticalChangedSolidity": [
+    "script/DeployV2Testnet.s.sol",
+    "script/TestnetV2Journey.s.sol",
+    "test/TestnetV2JourneyFork.t.sol"
+  ],
+  "transitiveMergedSourcePullRequests": []
+}

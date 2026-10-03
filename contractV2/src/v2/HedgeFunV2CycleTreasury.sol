@@ -81,26 +81,34 @@ contract HedgeFunV2CycleTreasury is HedgeFunV2Treasury {
         (bool valid,, uint256 updatedAt) = _oracle.lastPriceAt();
         return
             valid && updatedAt > reentryStockUpdatedAt
-                && (_recoveryStopAt == 0 || updatedAt > _recoveryStopStockUpdatedAt);
+                && updatedAt > _recoveryStopStockUpdatedAt;
     }
 
     function _canBuyAfterStop(uint256 p, bool live) internal view override returns (bool) {
         return super._canBuyAfterStop(p, live) || _recoveryDue(p, live);
     }
 
-    function _executeBuy() internal override returns (Action action) {
-        (bool healthy, uint256 p) = health();
-        if (!healthy) revert Unhealthy();
+    function _dipReadyAfterDust(uint256 p, bool live) internal view override returns (bool) {
+        // Both entries need the same cash/capacity gates. A recovery also always needs a live feed.
+        if ((!live && _params.stopBps != 0)
+            || HedgeFunMath.bps(reserveUsdg(), _params.lotBps) < _params.minLotUsdg || !_canAddLot()) return false;
+        if (lastSalePrice != 0 && HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)
+            && _canBuyAfterStop(p, live)) return true;
+        return _params.sellChunkUsdg >= _params.minLotUsdg && _recoveryDue(p, live);
+    }
+
+    function _executeBuy(uint256 p, bool live) internal override returns (Action action) {
+        uint256 maxSpend;
         if (lastSalePrice != 0 && HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)) {
-            _buyDip();
+            maxSpend = type(uint256).max;
             action = Action.BuyDip;
         } else {
-            (bool live,) = _oracle.tryPrice();
             if (!_recoveryDue(p, live)) revert NotDue();
             // The existing cash fraction is also bounded by the listing's stock trade chunk for this new entry.
-            _buyWithReserve(p, _params.sellChunkUsdg);
+            maxSpend = _params.sellChunkUsdg;
             action = Action.BuyRecovery;
         }
+        _buyWithReserve(p, maxSpend);
         bool pending = reentryPending();
         _clearReentry();
         if (pending) emit RecoveryConsumed(action == Action.BuyRecovery);

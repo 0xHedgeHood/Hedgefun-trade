@@ -138,7 +138,7 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
     /// whoever bound this hook -- the factory. Only it may register a pool. V1 permits that factory to initialize
     /// and seed; V2 freezes one per-pool vault for those two operations before initialization.
     address public factory;
-    bool private _distributing;
+    bool internal _distributing;
 
     mapping(PoolId => Pool) internal pools;
     /// @notice V2 pools seed through a fee-only vault which owns the locked position.
@@ -457,7 +457,7 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
         poolManager.unlock(abi.encode(id, msg.sender));
     }
 
-    function unlockCallback(bytes calldata data) external override returns (bytes memory) {
+    function unlockCallback(bytes calldata data) public virtual override returns (bytes memory) {
         if (msg.sender != address(poolManager)) revert NotPoolManager();
         (PoolId id, address caller) = abi.decode(data, (PoolId, address));
         // Every leg is independent. A stock that can pause or blocklist its own transfers refuses the `take`, and
@@ -472,7 +472,7 @@ contract HedgeFunHook is IHooks, IUnlockCallback {
     /// @dev external only so the leg above can be `try`ed. Burns exactly what this pool's buys were taxed, less the
     ///      tip -- never "the token balance": the hook is shared, and nothing here stops a strategy token from one
     ///      day being listed as another pool's stock.
-    function settleToken(PoolId id, address caller) external {
+    function settleToken(PoolId id, address caller) public virtual {
         if (msg.sender != address(this)) revert NotPoolManager();
         Pool storage p = pools[id];
         uint256 t = p.accruedToken;
