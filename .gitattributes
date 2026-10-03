@@ -1,0 +1,3 @@
+# Preserve exact historical command output and patch bytes in the evidence archive.
+contractV2/deploy/verification-2026-10-03/**/*.log whitespace=-blank-at-eof
+contractV2/deploy/verification-2026-10-03/fuzz-2026-10-03/working-tree.patch whitespace=-blank-at-eol

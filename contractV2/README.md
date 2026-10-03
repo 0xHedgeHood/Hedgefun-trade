@@ -2,6 +2,8 @@
 
 This directory began as the self-contained V2 contract snapshot from source main at `9b872a2` (including PR #99's public-testnet harness), plus the deployment-manifest verification fix at `1d42241` and expanded testnet scenarios at `c414374`. The stacked mirrors below add later V2 source changes. V2 is a **separate deployment**: nothing launched under V1 changes. Compiler settings and pinned dependency revisions remain unchanged.
 
+Latest verified creator testnet deployment: [2026-10-03 frontend handoff](docs/TESTNET_LAUNCH_HANDOFF_2026-10-03.md), [address book](deploy/testnet-v2-fresh-creator.json), and [launch parameter profile](deploy/fresh-creator-launch-profile.json). The stock/tUSDG lifecycle, including graduation and fee conversion, was broadcast and verified; Native ETH launch remains gated off for this deployment.
+
 ## What V2 adds
 
 A launch no longer opens straight into a Uniswap V4 pool. It starts on a stock-denominated **bonding curve**, and the

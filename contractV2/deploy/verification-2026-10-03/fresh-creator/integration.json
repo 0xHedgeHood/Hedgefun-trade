@@ -1,0 +1,337 @@
+{
+  "schema": "hedgefun-testnet-live-journey-v1",
+  "broadcast": true,
+  "chainId": 46630,
+  "factory": "0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF",
+  "tradeRouter": "0xEF6bE3C3A19F33C0F62beC3FFb37228e8c47F755",
+  "creator": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+  "strategyId": 0,
+  "name": "Hedgefun Latest Creator Testnet",
+  "symbol": "HFLATEST",
+  "token": "0x4d7e94f18e2d08406a392811a4f79e2945c8555f",
+  "treasury": "0x7d2bf810edc4de1ce6fb7b3e187caf91a7391b24",
+  "curve": "0x870f784aa0f1e1a2154582174ba17b40776aa1c1",
+  "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+  "usdg": "0x539574139BB4Ac74Fd2183ba0E38ed777E30B58d",
+  "stockUsdgPool": "0x04083643FF9E8c27f66C9dD99947743A9B777244",
+  "poolId": "0x71ce665224519e392c8891058f0581f5f837dba79bd6420aa083c615324d7154",
+  "poolKey": {
+    "currency0": "0x4d7e94f18e2d08406a392811a4f79e2945c8555f",
+    "currency1": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+    "fee": 3000,
+    "tickSpacing": 60,
+    "hooks": "0x99c9b8a1b890727ba85d954909646278591a2844"
+  },
+  "stage": 2,
+  "stageLabel": "Graduated",
+  "successCount": 19,
+  "failureCount": 0,
+  "verifiedAtBlock": 128015755,
+  "gasSpentWei": "144074610000000",
+  "final": {
+    "blockNumber": "128015608",
+    "blockHash": "0xb129e21c7372bb999cb110ee298fb6c925ad79b3522b306878ee9b3be623a044",
+    "stage": "2",
+    "walletBalances": {
+      "nativeWei": "9212797250000000",
+      "tUSDG6": "626039199",
+      "TSLA18": "995787515688598704",
+      "FUN18": "402545348571578733504715301"
+    },
+    "treasury": {
+      "bookedStock": "0",
+      "buybackStock": "0",
+      "unbookedStock": "9224471047528745562",
+      "totalStockReceived": "0",
+      "heldStock": "9224471047528745562"
+    },
+    "routerBalancesZero": true,
+    "routerAllowancesZero": true,
+    "nativeSpentWei": "144074610000000"
+  },
+  "fees": {
+    "curveClaimsDelivered": true,
+    "curveTotalFees": "0",
+    "v4AccruedBeforeSweep": [
+      "109649955822022685712844",
+      "2322314625350450"
+    ],
+    "v4AccruedAfterSweep": [
+      "0",
+      "0"
+    ],
+    "v4StockOwedAfterSweep": "0",
+    "pendingTokenFees": "0",
+    "pendingTokenConversion": "Completed by new core owner",
+    "conversionAndFinalSweepComplete": true
+  },
+  "quoteGuards": {
+    "staleActiveQuoteRejected": {
+      "verified": true,
+      "revertData": "0x273467820000000000000000000000000000000000000000000000000000000000000002",
+      "mode": "eth_call only"
+    },
+    "expiredQuoteRejected": {
+      "verified": true,
+      "revertData": "0x203d82d8",
+      "mode": "eth_call only"
+    }
+  },
+  "graduationEvents": {
+    "Graduated": {
+      "sqrtPriceX96": "21495684062139016607864370",
+      "liquidity": "32557641192199419292061",
+      "stockSeeded": "8833333333333333332",
+      "tokenSeeded": "120000000000000024021021392",
+      "tokenBurned": "479999999999999975978978608"
+    },
+    "GraduationCapitalSplit": {
+      "lpStock": "8833333333333333332",
+      "treasuryStock": "8833333333333333335",
+      "treasuryBooked": false
+    }
+  },
+  "transactions": [
+    {
+      "label": "curve-config",
+      "hash": "0xbd73e6f92330fe5e893b6b9c7588fc36145872bfae6107d34ad8012b35f7bfd3",
+      "blockNumber": 128010897,
+      "status": 1,
+      "gasCostWei": "596640000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xbd73e6f92330fe5e893b6b9c7588fc36145872bfae6107d34ad8012b35f7bfd3"
+    },
+    {
+      "label": "approve-launch",
+      "hash": "0x7f35d23fc151a8965f23cc39afff4471703f87d521523247b38480cf38b7c189",
+      "blockNumber": 128010917,
+      "status": 1,
+      "gasCostWei": "543450000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x7f35d23fc151a8965f23cc39afff4471703f87d521523247b38480cf38b7c189"
+    },
+    {
+      "label": "launch",
+      "hash": "0x5b8ee397d047864d745b344ce859a23e83522159baa2ce161cb23060f12a78d8",
+      "blockNumber": 128010938,
+      "status": 1,
+      "gasCostWei": "87567880000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x5b8ee397d047864d745b344ce859a23e83522159baa2ce161cb23060f12a78d8"
+    },
+    {
+      "label": "approve-curve-buy",
+      "hash": "0x6ae64306b211f7638f1fa8a65ff29756ae4b5d3e9ab8450c2b9497e14287e2e8",
+      "blockNumber": 128011265,
+      "status": 1,
+      "gasCostWei": "543330000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x6ae64306b211f7638f1fa8a65ff29756ae4b5d3e9ab8450c2b9497e14287e2e8"
+    },
+    {
+      "label": "curve-buy",
+      "hash": "0xee7dc12df59864d2b314adf1fab34fce48fbed0c95a6a8855f7ca1a7716326ac",
+      "blockNumber": 128011291,
+      "status": 1,
+      "gasCostWei": "4665670000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xee7dc12df59864d2b314adf1fab34fce48fbed0c95a6a8855f7ca1a7716326ac"
+    },
+    {
+      "label": "approve-curve-sell",
+      "hash": "0x24321b41ba041510a0fcb2422e670bedb4c545c58ae2cc6bfb344cf5628960cb",
+      "blockNumber": 128011538,
+      "status": 1,
+      "gasCostWei": "543590000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x24321b41ba041510a0fcb2422e670bedb4c545c58ae2cc6bfb344cf5628960cb"
+    },
+    {
+      "label": "curve-sell",
+      "hash": "0x0f04101560882488f893f15719430178f6716d06353ba72a63887d3cf6ae8768",
+      "blockNumber": 128011560,
+      "status": 1,
+      "gasCostWei": "3730430000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x0f04101560882488f893f15719430178f6716d06353ba72a63887d3cf6ae8768"
+    },
+    {
+      "label": "approve-graduate",
+      "hash": "0x40f0215639488275fc68352c988b0be76a01247cb38d4b60b5e2b04fd6e91e76",
+      "blockNumber": 128012071,
+      "status": 1,
+      "gasCostWei": "543690000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x40f0215639488275fc68352c988b0be76a01247cb38d4b60b5e2b04fd6e91e76"
+    },
+    {
+      "label": "graduate",
+      "hash": "0x362862f93a2162570e257ec50816ab480feb541d3d71b19ebc76ab92f6a1e6e6",
+      "blockNumber": 128012097,
+      "status": 1,
+      "gasCostWei": "26447220000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x362862f93a2162570e257ec50816ab480feb541d3d71b19ebc76ab92f6a1e6e6"
+    },
+    {
+      "label": "approve-v4-buy",
+      "hash": "0xd9c40eed6d987f23db89da3b4c7e8d39c81202a852a73d2b50c918a39e4f3c9d",
+      "blockNumber": 128012482,
+      "status": 1,
+      "gasCostWei": "543330000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xd9c40eed6d987f23db89da3b4c7e8d39c81202a852a73d2b50c918a39e4f3c9d"
+    },
+    {
+      "label": "v4-buy",
+      "hash": "0xed483ecfddfb916939bf694cd413a963b3adb68ba9df5b9d34b2791788aa63cd",
+      "blockNumber": 128012505,
+      "status": 1,
+      "gasCostWei": "4916630000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xed483ecfddfb916939bf694cd413a963b3adb68ba9df5b9d34b2791788aa63cd"
+    },
+    {
+      "label": "approve-v4-sell",
+      "hash": "0xcc9ff94565c0a045fd2c58b995bc747eb6f4685a5fd0fbc2fc339419f529cb2b",
+      "blockNumber": 128014815,
+      "status": 1,
+      "gasCostWei": "520840000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xcc9ff94565c0a045fd2c58b995bc747eb6f4685a5fd0fbc2fc339419f529cb2b"
+    },
+    {
+      "label": "v4-sell",
+      "hash": "0x18153fdffdf8479828294432f201013a416430580d86a08ffe933262ed32f554",
+      "blockNumber": 128014838,
+      "status": 1,
+      "gasCostWei": "4441640000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x18153fdffdf8479828294432f201013a416430580d86a08ffe933262ed32f554"
+    },
+    {
+      "label": "claim-curve-creator",
+      "hash": "0x571a8edb28b290c7373f4a02700489a58b6a2be91051e5d21771563829b5f084",
+      "blockNumber": 128015030,
+      "status": 1,
+      "gasCostWei": "683870000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x571a8edb28b290c7373f4a02700489a58b6a2be91051e5d21771563829b5f084"
+    },
+    {
+      "label": "claim-curve-treasury",
+      "hash": "0x9446bae0a1e0cdf477fc991f20ec457bde52b589ef3bd4fb9ff89cf774bb0891",
+      "blockNumber": 128015057,
+      "status": 1,
+      "gasCostWei": "683870000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x9446bae0a1e0cdf477fc991f20ec457bde52b589ef3bd4fb9ff89cf774bb0891"
+    },
+    {
+      "label": "claim-curve-protocol",
+      "hash": "0x7b542f8013478232a2d1fb364d36635bfb5a4f27b70c4a26c14d7180c4ebefb8",
+      "blockNumber": 128015080,
+      "status": 1,
+      "gasCostWei": "617230000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x7b542f8013478232a2d1fb364d36635bfb5a4f27b70c4a26c14d7180c4ebefb8"
+    },
+    {
+      "label": "sweep-v4-fees",
+      "hash": "0x04475f128ffc6db387de84b312688a4a442c87b55c0a181a3ca1a7066e2f3f8d",
+      "blockNumber": 128015101,
+      "status": 1,
+      "gasCostWei": "2209920000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x04475f128ffc6db387de84b312688a4a442c87b55c0a181a3ca1a7066e2f3f8d"
+    },
+    {
+      "label": "convert-v4-token-fees",
+      "hash": "0x23f5d9197e2f1c00fc0b2822fba1e46f35621204fb020e39ead1cd021aa3b361",
+      "blockNumber": 128015367,
+      "status": 1,
+      "gasCostWei": "2234310000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0x23f5d9197e2f1c00fc0b2822fba1e46f35621204fb020e39ead1cd021aa3b361"
+    },
+    {
+      "label": "sweep-converted-v4-fees",
+      "hash": "0xec6479154a8f8ce4913cd96200a29ab071b6376d71999b5ba0d81ed69fb19878",
+      "blockNumber": 128015384,
+      "status": 1,
+      "gasCostWei": "2041070000000",
+      "explorer": "https://explorer.testnet.chain.robinhood.com/tx/0xec6479154a8f8ce4913cd96200a29ab071b6376d71999b5ba0d81ed69fb19878"
+    }
+  ],
+  "limitations": [
+    "Stock/tUSDG route on fresh creator core; no native ETH bridge used.",
+    "Equity calendar is closed; treasury stock remains funded but not yet booked.",
+    "V4 buy-token fees were owner-converted and delivered; keeper strategies wait for market opening.",
+    "This verifies fresh-core chain integration; browser UI acceptance is performed in the mainsite chat."
+  ],
+  "treasuryParams": {
+    "tp1Bps": "1",
+    "tp2Bps": "2",
+    "dipBps": "1",
+    "stopBps": "1",
+    "lotBps": "2000",
+    "bountyBps": "50",
+    "maxSlippageBps": "100",
+    "maxDeviationBps": "50",
+    "maxBuybackImpactBps": "300",
+    "buybackCooldown": "60",
+    "minLotUsdg": "5000000",
+    "buybackChunkUsdg": "500000000",
+    "sellChunkUsdg": "2000000000",
+    "bandBpsPerHour": "0"
+  },
+  "launchProfile": {
+    "schema": "hedgefun-creator-testnet-launch-profile-v1",
+    "chainId": 46630,
+    "addressBook": "testnet-v2-fresh-creator.json",
+    "testOnly": true,
+    "name": "Hedgefun Latest Creator Testnet",
+    "symbol": "HFLATEST",
+    "creator": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+    "stockSymbol": "TSLA",
+    "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+    "kind": 0,
+    "taxBps": 300,
+    "creatorBps": 1000,
+    "tp1Bps": 1,
+    "tp2Bps": 2,
+    "dipBps": 1,
+    "stopBps": 1,
+    "lotBps": 2000,
+    "bandBpsPerHour": 0,
+    "nonce": "2026100302",
+    "maxFee": "25000000",
+    "expectedOpenPriceE18": "26500000000",
+    "curve": {
+      "saleBps": 4000,
+      "snipeSeconds": 180
+    },
+    "execution": {
+      "slippageBps": 100,
+      "deadlineSeconds": 300
+    },
+    "creatorParameterBounds": {
+      "appliesTo": "kind 0 with the verified creator-selected all-in creation code; other kinds retain their own schemas",
+      "tp1Bps": {
+        "min": 1,
+        "max": 4294967295
+      },
+      "tp2Bps": {
+        "max": 4294967295,
+        "rule": "0 or strictly greater than tp1Bps"
+      },
+      "dipBps": {
+        "min": 1,
+        "max": 9999
+      },
+      "stopBps": {
+        "min": 0,
+        "max": 9999,
+        "zeroMeaning": "stop disabled"
+      },
+      "saleBps": {
+        "min": 1000,
+        "max": 9000
+      },
+      "snipeSeconds": {
+        "min": 0,
+        "max": 180
+      }
+    },
+    "notes": [
+      "1 bps = 0.01%; this profile exercises the accepted lower boundary, not a trading recommendation.",
+      "Creator rungs do not remove oracle/calendar, slippage, minimum-lot, keeper-reward or cooldown execution checks.",
+      "Creator fee is a share of collected tax, not an additional percentage of the trade.",
+      "Factory defaults, fees, listing gates and opening price must be read again before predicting launch terms.",
+      "This profile uses stock/tUSDG only; Native ETH launch is not enabled by this deployment."
+    ]
+  },
+  "deploymentAddressBook": "testnet-v2-fresh-creator.json"
+}

@@ -1,0 +1,43 @@
+Compiling 5 files with Solc 0.8.26
+Solc 0.8.26 finished in 9.75s
+Compiler run successful!
+
+Ran 2 tests for test/DeployV2CreatorTestnet.t.sol:DeployV2CreatorTestnetTest
+[PASS] test_creatorCandidateHasSeparateFeatureAndFortyUnverifiedTransactions() (gas: 47773233)
+Logs:
+  unverified candidate deploy/testnet-v2-creator.dryrun.json
+
+[PASS] test_publicChunkNonceInterferenceCannotChangeCreatorRegistrations() (gas: 114998093)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 5.62ms (5.13ms CPU time)
+
+Ran 6 tests for test/DeployV2Testnet.t.sol:DeployV2TestnetTest
+[PASS] test_deploysListsAndOpens() (gas: 368942)
+[PASS] test_launchBuyGraduateTradeWithTestUsdg() (gas: 13462992)
+[PASS] test_pokeMakesTheRingLive_andKeepsThePrice() (gas: 858107)
+[PASS] test_refusesOtherChains() (gas: 52340938)
+[PASS] test_rolesAndDrip() (gas: 195931)
+[PASS] test_setPriceMovesPoolAndFeedTogether() (gas: 243489)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 37.69ms (6.12ms CPU time)
+
+Ran 11 tests for test/DeployV2FeeUpgradeTestnet.t.sol:DeployV2FeeUpgradeTestnetTest
+[PASS] test_appendedNinthMarketDoesNotBlockOrExpandReviewedDeployment() (gas: 382429768)
+[PASS] test_candidateCannotBecomePublishedAndRequiresCommit() (gas: 312065678)
+Logs:
+  unverified candidate deploy/testnet-v2-fees.dryrun.json
+  new fee factory 0x9F2FCe6997cFA69eF9675a170121Fff533288210
+  new fee hook 0x99c9b8A1B890727ba85D954909646278591a2844
+  new fee router 0xB15D34FC30292DeDb070875074e7b56FD34a1da2
+  reused stocks 8
+
+[PASS] test_extraMarketCannotReplaceAnOriginalReviewedPool() (gas: 76385818)
+[PASS] test_fewerThanEightMarketsStillRefusedBeforeDeployment() (gas: 206735)
+[PASS] test_freshDeploymentRejectsLegacyOperatorBeforeVenueAccess() (gas: 47641637)
+[PASS] test_freshSignerOwnsOnlyNewCreatorCore() (gas: 354258360)
+[PASS] test_newBindingsAndEightMarketsPreserveOldState() (gas: 306640544)
+[PASS] test_refusesBrokenOldBindingBeforeDeploying() (gas: 49873)
+[PASS] test_refusesEmptyPoolBeforeDeploying() (gas: 298754)
+[PASS] test_refusesWrongChainAndSender() (gas: 33567)
+[PASS] test_tslaLaunchCurveTradesGraduateV4AndSettleFees() (gas: 318846020)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 112.68ms (353.15ms CPU time)
+
+Ran 3 test suites in 113.74ms (155.99ms CPU time): 19 tests passed, 0 failed, 0 skipped (19 total tests)

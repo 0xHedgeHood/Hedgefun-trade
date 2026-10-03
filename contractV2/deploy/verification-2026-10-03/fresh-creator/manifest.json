@@ -1,0 +1,39 @@
+{
+  "schema": "hedgefun-fresh-creator-evidence-v1",
+  "deploymentSourceCommit": "d7e686123362f58583b6e0662701e8e19fa0c9c9",
+  "chainId": 46630,
+  "deploymentTransactions": 40,
+  "lifecycleTransactions": 19,
+  "failedTransactions": 0,
+  "deploymentGasWei": "506085760000000",
+  "journeyGasWei": "144074610000000",
+  "verificationBlock": 128015755,
+  "checks": {
+    "deploymentRegression": 19,
+    "creatorParameters": 162,
+    "creatorFuzzRuns": 4096,
+    "forkLifecycle": 1,
+    "compiledFrontendAbisEqual": 8
+  },
+  "sha256": {
+    "deploy/fresh-creator-launch-profile.json": "29b974aca7da68ce5b51f29a997ae036bdd85e65916a5d34d999bec854242910",
+    "deploy/testnet-v2-fresh-creator.json": "8e39b7db9947babdd9b939c9b263ed9a669fd52da3c2166f08d2979c9dfb322b",
+    "deploy/verification-2026-10-03/fresh-creator/deployment-broadcast.json": "852334b3a60f0685b755822e9e4d311c56620e313baa6c0239b18ca248aea496",
+    "deploy/verification-2026-10-03/fresh-creator/deployment-fresh-creator-regression.log": "2890e7805e879655cf9979b43fad6956eed3a4369467f70f73791bf8ea80f8ce",
+    "deploy/verification-2026-10-03/fresh-creator/deployment-unverified-candidate.json": "2121246d0928ef33a942b2cc64658ae74ec84860d39b9cedf1c3ec4583b408e6",
+    "deploy/verification-2026-10-03/fresh-creator/final-snapshot.log": "4a13db6ccd2cddc1f2d42255da823603b9f5223c50b0174551e678b9edc1d8f4",
+    "deploy/verification-2026-10-03/fresh-creator/fresh-creator-deploy-broadcast.log": "219b6d8f0b0a9a028184438e9184c68c38959b0bf8263adb1f9180525db47ea9",
+    "deploy/verification-2026-10-03/fresh-creator/fresh-creator-deploy-dryrun.log": "3250a9a54da02cc93d6967e0e3dd196113ac281ff591f66010372fe37b50ef69",
+    "deploy/verification-2026-10-03/fresh-creator/fresh-creator-lifecycle-fork.log": "69604149d0324369272ccccae8a577b36923b7f3b4752b479ae27df04810603f",
+    "deploy/verification-2026-10-03/fresh-creator/fresh-creator-verification.log": "7bd30d3273f68108f487e77d26e4510814625a515362878c9105e90f6306f28b",
+    "deploy/verification-2026-10-03/fresh-creator/graduation-events.json": "ed65a5d67f41a743b7e693418b3da730a9af7a9ad70ecd450cda9bdb2a8cb5db",
+    "deploy/verification-2026-10-03/fresh-creator/integration.json": "a97a5a5ac0d6946d7afd99b67f6a5d75c2ab7fe16ccbfbdb300c16e44efa4345",
+    "deploy/verification-2026-10-03/fresh-creator/journey-verification.log": "4e4fd89723c7da88e8583a3cf098a5cd1e415d4ec1b759e035278cd973e46c1e",
+    "deploy/verification-2026-10-03/fresh-creator/journey.json": "e7ec3da0d4a0e7e3f82e62a0e06456733daaf553774a82746ef11a6a65fbbf15",
+    "deploy/verification-2026-10-03/fresh-creator/latest-creator-parameters.log": "82a7efc372939dbba2682fead5bdac44a3d2d0f659752aca1dca3770be72aad6",
+    "test/TestnetV2FreshCreatorLifecycle.t.sol": "e46f129770ca7cc9a83ecffd0c8d1099d54f2a4d8258096ec3906e22fa8e3919",
+    "tools/testnet_creator_journey.py": "e58b4d75e216bd9f8ae5be909887a6499c8b9f2367306c69e4940b4cff26556e",
+    "tools/verify_fresh_creator_deployment.py": "5d760be3b67d1cce5f6569a1413afa1cf2dc1312e6af4f5fa0def666ddd4d9b3",
+    "tools/verify_testnet_creator_journey.py": "7abe96c56be33dbd1eddead960b96a054cf1c5d362d9fa94de41c05456269510"
+  }
+}

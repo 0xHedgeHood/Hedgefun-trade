@@ -1,0 +1,11 @@
+{
+  "strategyId": 0,
+  "token": "0x4d7e94f18e2d08406a392811a4f79e2945c8555f",
+  "curve": "0x870f784aa0f1e1a2154582174ba17b40776aa1c1",
+  "stage": 2,
+  "successCount": 19,
+  "failureCount": 0,
+  "gasSpentWei": "144074610000000",
+  "verifiedAtBlock": 128015755
+}
+Verified canonical receipts, exact calldata, signer, zero native values, gas sum, five trade balance checks, expired/stale-stage quote rejection.

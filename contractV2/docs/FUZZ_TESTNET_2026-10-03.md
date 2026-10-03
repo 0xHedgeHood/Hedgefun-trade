@@ -6,6 +6,10 @@
 
 后续实网更新：用户已为专用钱包补充 0.01 test ETH，公共测试网完整交易闭环现已完成。见下文“公共测试网实际交易”；早期只读快照和 fork 结果仍保留原始时点及范围。
 
+最新追加：已在分支 `codex/testnet-launch-20261003` 部署新 creator 核心（源码提交 `d7e686123362f58583b6e0662701e8e19fa0c9c9`），40 笔部署交易和 19 笔 HFLATEST / ID 0 生命周期交易全部成功，包括 owner 转换 V4 token fees 与最终分配。TP1/TP2/dip/stop 使用 1/2/1/1 bps，saleBps=4000。新增部署回归 19 通过、creator 参数套件 162 通过、部署后完整流程 fork 1 通过。前端应采用 [最新交接及边界说明](TESTNET_LAUNCH_HANDOFF_2026-10-03.md)，下文 HFFRESH 及旧地址保留为历史证据。
+
+证据已加入本分支：本文原 `artifacts/fuzz-2026-10-03/`、`artifacts/pr19-review/`、`artifacts/testnet-live-2026-10-03/` 分别复制到 `deploy/verification-2026-10-03/` 下同名目录；最新部署与完整流程在 `deploy/verification-2026-10-03/fresh-creator/`。历史日志和 patch 保留原始内容。PR #19 的确切 head 已合入本地分支；此前 GitHub API 的远程 PR 合并仍因 403 未执行。
+
 ## 测试结果
 
 最终加强轮已结束：**739 项通过、0 失败、35 项显式 opt-in 跳过**。46 个 fuzz property 共报告 **188417** 组输入（每项 4096，另重放 1 个已保存样例）；6 个状态不变量各运行 512×500，共 **1536000** 次 handler 调用，未出现 handler revert。双账户会计套件耗时约 802 秒。
