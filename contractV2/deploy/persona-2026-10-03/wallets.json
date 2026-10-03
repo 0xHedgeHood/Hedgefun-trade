@@ -1,0 +1,34 @@
+{
+  "sniper": {
+    "address": "0xAea82156C9Da6A408C5BddC8AC15a5C673989d34",
+    "role": "sniper"
+  },
+  "opening_buyer": {
+    "address": "0xE36378C682e883F042DE4bA3fd2513F2ac93a411",
+    "role": "opening_buyer"
+  },
+  "diamond_hands": {
+    "address": "0x0120ddc49B1E3cff525A85e630395eC433c4cCc0",
+    "role": "diamond_hands"
+  },
+  "paper_hands": {
+    "address": "0xd278ACD351566B75c380203fB805374CF404f4F6",
+    "role": "paper_hands"
+  },
+  "kol": {
+    "address": "0x714EDB707635423bBFdbDC59544cf44fD7E80482",
+    "role": "kol"
+  },
+  "follower_1": {
+    "address": "0x2449063654E747e9907F84DE22443df7baED057d",
+    "role": "follower_1"
+  },
+  "follower_2": {
+    "address": "0xf91261C8258c9501EB6aadbcC544b641A0bC8E3f",
+    "role": "follower_2"
+  },
+  "late_fomo": {
+    "address": "0xCf61Cf91957B245b811aDbd9EfEE27717f460640",
+    "role": "late_fomo"
+  }
+}

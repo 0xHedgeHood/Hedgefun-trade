@@ -1,0 +1,191 @@
+{
+  "schema": "hedgefun-persona-evidence-manifest-v1",
+  "testOnly": true,
+  "branch": "codex/testnet-persona-tsla-20261003",
+  "baselineCommit": "ac1f55de14c40070b993f6d71f03168cef5cd8df",
+  "publicChainId": 46630,
+  "testResults": {
+    "planUnitTests": 7,
+    "priceForkTests": 6,
+    "priceScenarioGroups": 20,
+    "priceSnapshots": 116,
+    "strictAuditSuccessfulTransactions": 80,
+    "publicPersonaTrades": 19
+  },
+  "secretMaterialIncluded": false,
+  "note": "Hashes cover archived public evidence and supporting sources; manifest excludes itself. Source contracts and ABI unchanged. Journal hashes are cross-checked in independent-verification.json.",
+  "files": {
+    ".gitattributes": {
+      "sha256": "37472fa522d09ffb98552dca8b62bc8ba61cc91c3229500b6cd539f5dff7d750",
+      "bytes": 555
+    },
+    "contractV2/README.md": {
+      "sha256": "56f1e44e46656c35aab8cb0e03194356e76e2a145d54d1e9ad12abfd0e8d0d62",
+      "bytes": 13249
+    },
+    "contractV2/deploy/persona-2026-10-03/chart-dependencies.txt": {
+      "sha256": "afcc9a6c6143ccc107654170083bd42bc4af2c06585903f3b9a230d672d31601",
+      "bytes": 189
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/persona-outcomes.png": {
+      "sha256": "0aa536d7073a889bcb9448596080422d5be998104eac631146e23ff0f1aa69ad",
+      "bytes": 200147
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/persona-outcomes.svg": {
+      "sha256": "4ef31c747541bad30fb1c9a5a9bd7d2849c1ea781a9caf10f4d094deb77ec7e1",
+      "bytes": 256843
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/treasury-nav-vs-token.png": {
+      "sha256": "07c787dd195e6249c215dc717fa1eab7e6a19c84ad8789c9701ff975fdfa224d",
+      "bytes": 212710
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/treasury-nav-vs-token.svg": {
+      "sha256": "79edf0399b124b2cb58688e68b509afc0440656494ae8720ab9ed8ce36961440",
+      "bytes": 227056
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/tsla-fun-price-paths.png": {
+      "sha256": "0b713118d8487bfc1adbf95e198e4b4cabdae61aced4bdc2897612243db3fc0c",
+      "bytes": 354559
+    },
+    "contractV2/deploy/persona-2026-10-03/charts/tsla-fun-price-paths.svg": {
+      "sha256": "fd803cf5b149564a352890581d6268da3dce4ec1c50fc8a9565e9019b459fea1",
+      "bytes": 245726
+    },
+    "contractV2/deploy/persona-2026-10-03/independent-verification.json": {
+      "sha256": "b02407fe3596327a3d48b81cd804709bc3a6c8636db96c6bc4200efd5bceb4b4",
+      "bytes": 74663
+    },
+    "contractV2/deploy/persona-2026-10-03/integration.json": {
+      "sha256": "a08ef4a8661b5fe0af1b3d7163540cdb2ea9a1edc655e8e85a989d1ecbcd7de2",
+      "bytes": 4296
+    },
+    "contractV2/deploy/persona-2026-10-03/journal.json": {
+      "sha256": "e7eab0d5b9305d2656efd25bf2ca957d363f870eec892c7735413c1d515ab5fb",
+      "bytes": 430754
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-after-window-resumed.log": {
+      "sha256": "bc3fac48ec7ea6cd540925665f8126db05c4bd69c02709c81a857375c6ea82bf",
+      "bytes": 909
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-after-window.log": {
+      "sha256": "866934db039d67edb490c58ccc9684c21056557f26eb5eb990134bd11156be91",
+      "bytes": 2266
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-finish.log": {
+      "sha256": "ceb1c770e0a430052ea6130e4c6848ea151156387e4faa230710bdbeac82b534",
+      "bytes": 3014
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-graduate.log": {
+      "sha256": "3e32c1175841292e65ca56414890cf4e268a9bf7c7dc3bae3ac3cd7901a7694d",
+      "bytes": 190
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-independent-verification-drpc-first-attempt.log": {
+      "sha256": "acca53bc7304321020b09cb0b6ae618990453428a4805a26fa13765855d18612",
+      "bytes": 1169
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-independent-verification-drpc-getlogs-unavailable.log": {
+      "sha256": "c2915a3e1579952ce1e819b5cc01a208350ff57282b6bfe8d11f72ab5b2d81e9",
+      "bytes": 1030
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-independent-verification-first-attempt.log": {
+      "sha256": "036e09f8338121b2b204e73edf0b6b4375f72c567dd2d1c880f261296c21648e",
+      "bytes": 1742
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-independent-verification-official-history-unavailable.log": {
+      "sha256": "d7230e7e38da4c50b321280117270ab7e921a4f89d8dddeab1307e51e2e4c723",
+      "bytes": 1742
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-independent-verification.log": {
+      "sha256": "efed3a8b9f5b1a98140cc7c21fd607a0f93777c2cbc54ecac660164728bdd5f5",
+      "bytes": 335
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-opening-final.log": {
+      "sha256": "7934529dd2dfc5eed0fe97dc268a0863307d9d045240e9c092cf4cc68b9ba78c",
+      "bytes": 1233
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-opening.log": {
+      "sha256": "8891026f079f8204682362a50aefa87ab4f228214e815a96e0f09610e03ba2a4",
+      "bytes": 1892
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-plan-tests.log": {
+      "sha256": "0d29e329fbbc3b4a5e7adc9bcf0495a0c6e204a84aa26dd546654b9ed62aa8dd",
+      "bytes": 1218
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-post-graduation.log": {
+      "sha256": "d2d4b9915d0de50060dbb8bff3ed32ed3247b519d4c36180c90ee944a149b6d9",
+      "bytes": 2404
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-setup-final.log": {
+      "sha256": "91466a0c587ce07c4bebf423d5dee30ccd4f0b7ffe1b50b483e2673d3b2403a5",
+      "bytes": 4218
+    },
+    "contractV2/deploy/persona-2026-10-03/logs/persona-setup.log": {
+      "sha256": "27afa66a7c6e9e08ba8df0ba8bff93aac4ac7e7d8054719eaad0039fe25786f4",
+      "bytes": 2434
+    },
+    "contractV2/deploy/persona-2026-10-03/plan.json": {
+      "sha256": "fadec0d1a1ef914cd51f2c4defdc579dca871d80f36299f6a0bb0277deed2f7d",
+      "bytes": 19532
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/REPORT.md": {
+      "sha256": "1b466014b975cdf3d81c0a764cbb9cd12a5e579ee304f825818eb087594d1daa",
+      "bytes": 4072
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/chart-data.csv": {
+      "sha256": "10df4f973b3f1f9c60d8b7fe14041fd49ef2c1ea8292d1dfa5c68444edeb2071",
+      "bytes": 35755
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/forge.log": {
+      "sha256": "09f22b85eae0516ebd8b87f378b8af99e0cb91b157e1965907331f2abf452b13",
+      "bytes": 140064
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/fork-block.json": {
+      "sha256": "ace2e2a191046971bad0b36d8006b61b8a4779ec67beb91ea883df1f4bfcec1c",
+      "bytes": 1718
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/results.json": {
+      "sha256": "ecaeeb43ff80d90c225657f8f4996ff666a4057920fa36682235b4e5de4089d2",
+      "bytes": 309425
+    },
+    "contractV2/deploy/persona-2026-10-03/price-impact/summary.csv": {
+      "sha256": "3d645b679d237cf9b23cf5a390d53263c060f5a77b681860b06fb0e6236800dc",
+      "bytes": 2516
+    },
+    "contractV2/deploy/persona-2026-10-03/wallets.json": {
+      "sha256": "141118e9f810bd8394e5ffcf34e691d5e138439096441da89cade5e3c7fa5dd6",
+      "bytes": 865
+    },
+    "contractV2/docs/PERSONA_TSLA_EXPERIMENT_2026-10-03.md": {
+      "sha256": "7e3c58c3e0c29e65ee597b0593c9337743a4acf6032467f3f09f856a859e8e49",
+      "bytes": 11625
+    },
+    "contractV2/test/PersonaPriceImpactFork.t.sol": {
+      "sha256": "efb54136d99f4fa79d46ad3b030554e14af078910d8461ddcc7097d7f644817f",
+      "bytes": 17189
+    },
+    "contractV2/tools/persona_charts.py": {
+      "sha256": "202ec7f19195314db612629be0edbc581f30984dfcc5c4346659c28f5d1f0533",
+      "bytes": 7472
+    },
+    "contractV2/tools/persona_live.py": {
+      "sha256": "3dbe5cc6427ad3ffdedd66bda2c9c95c8ddb21c90b1d463aa1ff7f144d82ccd9",
+      "bytes": 22116
+    },
+    "contractV2/tools/persona_price_impact_report.py": {
+      "sha256": "0bb2cf926bc2807484806a4c667954b31af956e6a46847e9d634422145605cde",
+      "bytes": 12318
+    },
+    "contractV2/tools/persona_scenarios.py": {
+      "sha256": "c10a9cee92ffb59234d09f3fb52cf43582348876f0f22fd18ee613db0ebf526f",
+      "bytes": 15442
+    },
+    "contractV2/tools/tests/test_persona_scenarios.py": {
+      "sha256": "e188e04766a1fb6395eda1d39eb570bdc26bff33412ef13d53132cf8bfe9e246",
+      "bytes": 7646
+    },
+    "contractV2/tools/verify_persona_campaign.py": {
+      "sha256": "aecee3034a77cf12db10990bfb4df8ff61bd13253e6a508a58240a7772a9d40d",
+      "bytes": 41139
+    }
+  }
+}

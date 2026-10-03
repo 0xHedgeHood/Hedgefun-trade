@@ -1,0 +1,32 @@
+WAIT 05-diamond_hands-buy: earliest elapsed 181s
+Signing 05-diamond_hands-buy: diamond_hands nonce=2
+Confirmed 05-diamond_hands-buy: 0x6261a59ab3c06777c6380acfc8be77d3d0b40777612a6b06180d7e0d65d3c3a8
+Verified 05-diamond_hands-buy; stage=0
+WAIT 06-paper_hands-buy: earliest elapsed 190s
+Signing 06-paper_hands-buy: paper_hands nonce=2
+Confirmed 06-paper_hands-buy: 0x5b5aac5ec307491b6668df06900a3db78fcede3b2fd33899b0983e5042770e76
+Verified 06-paper_hands-buy; stage=0
+WAIT 07-kol-buy: earliest elapsed 200s
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 383, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 380, in main
+    else:phase(plan,a.phase)
+         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 304, in phase
+    if action['action'] in ('buy','sell'):trade(action)
+                                          ^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 260, in trade
+    before={name:balance(token,role,before_block) for name,token in [('stock',STOCK),('usdg',USDG),('fun',s['token'])]}
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 66, in balance
+    def balance(token,role,block='latest'): return read(token,'balanceOf(address)',who(role),block=block)[0]
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 65, in read
+    return words(rpc('eth_call',[{'from':who(role),'to':target,'data':cast('calldata',sig,*args)},block]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 49, in rpc
+    if 'error' in value: raise RpcError(value['error'])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RpcError: {'code': -32000, 'message': 'unsupported block number 128178949'}

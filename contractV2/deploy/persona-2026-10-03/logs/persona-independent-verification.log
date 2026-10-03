@@ -1,0 +1,8 @@
+{
+  "strategyId": 3,
+  "finalBlock": 128181690,
+  "successCount": 80,
+  "tradeCount": 19,
+  "totalGasPaidWei": "279522740000000"
+}
+Independent receipt, actual tax, faucet-excluded balance, stage and same-block price audit passed: /Users/leo/Documents/ChatGPT/hedgefun/contractV2/deploy/persona-2026-10-03/independent-verification.json

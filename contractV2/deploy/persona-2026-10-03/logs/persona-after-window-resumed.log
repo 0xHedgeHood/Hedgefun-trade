@@ -1,0 +1,15 @@
+Signing 07-kol-buy: kol nonce=2
+Confirmed 07-kol-buy: 0x699da9a8a3db77dfbdd17cbb180cac704ad42fb8709557239ef1e9447149e166
+Verified 07-kol-buy; stage=0
+Signing 09-follower_2-buy: follower_2 nonce=2
+Confirmed 09-follower_2-buy: 0xac5f39f9c3a1ccd1eca4817c99542e5c6ce8a71c57e8a251ad3a718c8e25de5b
+Verified 09-follower_2-buy; stage=0
+Signing 10-follower_1-buy: follower_1 nonce=2
+Confirmed 10-follower_1-buy: 0xd8b306eb8d5b967c87a12f5c2ed2f6ace770d11d1d1835f0a645d3010ed28286
+Verified 10-follower_1-buy; stage=0
+Signing approve-11-paper_hands-sell: paper_hands nonce=3
+Confirmed approve-11-paper_hands-sell: 0xbc825ec1bc6538f110044e61e1b792fc976c1d3691a90828bcf8afee63c8578a
+Signing 11-paper_hands-sell: paper_hands nonce=4
+Confirmed 11-paper_hands-sell: 0xbe83ca23ca7ae7d669b7835a4fed7f4d6bdf25a5efee87fddc460c7fe471f83a
+Verified 11-paper_hands-sell; stage=0
+Verified quote-only rejection impossible_min_final_out

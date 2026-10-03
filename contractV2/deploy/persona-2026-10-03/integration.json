@@ -1,0 +1,136 @@
+{
+  "schema": "hedgefun-persona-frontend-integration-v1",
+  "testOnly": true,
+  "chainId": 46630,
+  "publicRpc": "https://rpc.testnet.chain.robinhood.com",
+  "explorer": "https://explorer.testnet.chain.robinhood.com",
+  "addressBook": "../testnet-v2-fresh-creator.json",
+  "name": "Hedgefun Persona TSLA Test",
+  "symbol": "HFPERS2",
+  "strategyId": 3,
+  "factory": "0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF",
+  "router": "0xEF6bE3C3A19F33C0F62beC3FFb37228e8c47F755",
+  "token": "0x50be1af353c3a9d3732be8c03fe2b321812c6f3c",
+  "treasury": "0x4f283de372f7b4b7452f4737d83987e83ed07c82",
+  "curve": "0xb12fd0058ed769fbed328bd6cf75a5e9cd697ed4",
+  "poolKey": {
+    "currency0": "0x50be1af353c3a9d3732be8c03fe2b321812c6f3c",
+    "currency1": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+    "fee": 3000,
+    "tickSpacing": 60,
+    "hooks": "0x99c9b8a1b890727ba85d954909646278591a2844"
+  },
+  "poolId": "0x3c8ba20ca44181cd284db8ba52813facfc1352dfb02d10cde363ed88a0baedf9",
+  "stage": {
+    "value": 2,
+    "label": "Graduated",
+    "asOfBlock": 128181690,
+    "blockHash": "0x14f3d3fed33cd5258b8236f95d3e2f1e9a64970430bec371834ceb4a92114f01"
+  },
+  "launchTransaction": "0x199cc20fccbe0e01dd8c60c8be0e5bcccf366bc0f141158f517ae7b69a808730",
+  "graduationTransaction": "0xde15d345314f390fc6d74b8f5c05f21be31c6188c01cfe5cdfbad63a9fd4aae2",
+  "publicPersonaLaunchProfile": {
+    "schema": "hedgefun-creator-testnet-launch-profile-v1",
+    "chainId": 46630,
+    "addressBook": "testnet-v2-fresh-creator.json",
+    "testOnly": true,
+    "name": "Hedgefun Persona TSLA Test",
+    "symbol": "HFPERS2",
+    "creator": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+    "stockSymbol": "TSLA",
+    "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+    "kind": 0,
+    "taxBps": 300,
+    "creatorBps": 1000,
+    "tp1Bps": 500,
+    "tp2Bps": 1000,
+    "dipBps": 500,
+    "stopBps": 500,
+    "lotBps": 2000,
+    "bandBpsPerHour": 0,
+    "nonce": "2026100304",
+    "maxFee": "25000000",
+    "expectedOpenPriceE18": "26500000000",
+    "curve": {
+      "saleBps": 4000,
+      "snipeSeconds": 180
+    },
+    "execution": {
+      "slippageBps": 100,
+      "deadlineSeconds": 300
+    },
+    "openingTaxExemptions": []
+  },
+  "actualTreasuryParams": {
+    "tp1Bps": 500,
+    "tp2Bps": 1000,
+    "dipBps": 500,
+    "stopBps": 500,
+    "lotBps": 2000,
+    "bountyBps": 50,
+    "maxSlippageBps": 100,
+    "maxDeviationBps": 50,
+    "maxBuybackImpactBps": 300,
+    "buybackCooldown": 60,
+    "minLotUsdg": 5000000,
+    "buybackChunkUsdg": 500000000,
+    "sellChunkUsdg": 2000000000,
+    "bandBpsPerHour": 0
+  },
+  "isolatedPriceExperiment": {
+    "broadcast": false,
+    "profile": {
+      "tp1Bps": 1,
+      "tp2Bps": 2,
+      "dipBps": 1,
+      "stopBps": 1
+    },
+    "results": "price-impact/results.json"
+  },
+  "paymentRoutes": {
+    "TSLA": true,
+    "tUSDG": true,
+    "nativeETH": false
+  },
+  "treasurySnapshot": {
+    "booked": false,
+    "balancesRaw": {
+      "bookedStock": 0,
+      "buybackStock": 0,
+      "unbookedStock": 8833333333333333335,
+      "heldStock": 8833333333333333335
+    },
+    "note": "Weekend/unhealthy oracle state at final block; refresh live state before presenting strategy availability."
+  },
+  "feesAtFinal": {
+    "curveStockClaimableTotal": "627497531395857647",
+    "hookAccrued": [
+      "294762776118237674276343",
+      "49241832883811553"
+    ],
+    "hookPendingTokenFees": "0",
+    "note": "Fee settlement not executed in persona campaign; preserves post-trader price observation."
+  },
+  "buyGuards": {
+    "allowStockRefund": true,
+    "allowPartialFill": true,
+    "minFinalOutRequired": true,
+    "minStockReceivedRequiredForRoutedInput": true,
+    "deadlineRequired": true,
+    "observedRoundingRefundWei": "1"
+  },
+  "valuation": {
+    "personaPnl": "same-block pool spot mark",
+    "priceExperimentPnl": "oracle scenario input mark; actual spot mark also exported",
+    "exitQuote": "each wallet independently; remaining FUN -> TSLA only, then mark portfolio in tUSDG",
+    "gasSeparate": true,
+    "faucetFundingExcluded": true
+  },
+  "verification": {
+    "mode": "strict historical state and canonical receipts",
+    "successfulTransactions": 80,
+    "roleTrades": 19,
+    "totalGasPaidWei": "279522740000000",
+    "report": "independent-verification.json"
+  }
+}

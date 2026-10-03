@@ -1,0 +1,27 @@
+Signing curve-config: owner nonce=87
+Confirmed curve-config: 0x5ef0ec6aae8ee9cc980a1b6fb552ca816b16e03f3540b4ecf2ceed6d61a75f63
+Signing approve-launch: owner nonce=88
+Confirmed approve-launch: 0xf7f3462f578b9c49cee75656c511c1ebb0cedd6ca0e8ba0862f5498479e5bcc1
+Signing launch: owner nonce=89
+Confirmed launch: 0x182b7ef1d004ae506054f2e9b39657eacf34acc0fd313dc1e4994e0d0150ad61
+Launched HFPERSONA id=2; opening window ends 1791034503
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 383, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 380, in main
+    else:phase(plan,a.phase)
+         ^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 304, in phase
+    if action['action'] in ('buy','sell'):trade(action)
+                                          ^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 257, in trade
+    quote=read(ROUTER,sig,params(minstock,1),path,role=role)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 65, in read
+    return words(rpc('eth_call',[{'from':who(role),'to':target,'data':cast('calldata',sig,*args)},block]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/persona_live.py", line 49, in rpc
+    if 'error' in value: raise RpcError(value['error'])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RpcError: {'code': 3, 'message': 'execution reverted', 'data': '0xbd4c547b00000000000000000000000000000000000000000000000006e4748b2bb29fff'}

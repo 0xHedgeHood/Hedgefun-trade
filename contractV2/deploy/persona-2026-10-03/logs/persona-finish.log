@@ -1,0 +1,40 @@
+Signing quote-approve-opening_buyer: opening_buyer nonce=6
+Confirmed quote-approve-opening_buyer: 0x2a2ede82b9c97aeeff10fc5b33d3074ec056b2507144489abb17028a75e998f7
+Signing quote-approve-diamond_hands: diamond_hands nonce=5
+Confirmed quote-approve-diamond_hands: 0x7c9e2e0d2aa92d4525ec108c27014b9e0ee0cb9006a4c202fcff26fba6a79adc
+Signing quote-approve-kol: kol nonce=5
+Confirmed quote-approve-kol: 0x159646b52dd2f096c3e7f55944ecfc64f20cab22b3e1df19a3c2c6659695a6f7
+Signing quote-approve-follower_1: follower_1 nonce=5
+Confirmed quote-approve-follower_1: 0xdf7cfe19d8aeb5365cdf209a7b5ad8531d946311301413d9ba5b03b330761a98
+Signing quote-approve-follower_2: follower_2 nonce=3
+Confirmed quote-approve-follower_2: 0xb80a08ee8199504c1986b9bd159287f63c20235959fcc546e86b32450bb21e44
+Signing quote-approve-late_fomo: late_fomo nonce=8
+Confirmed quote-approve-late_fomo: 0x3b9ff5edb5416e1aac45c9b589fc5f4f827539aba84fb9518bde523f08acced5
+Signing clear-stock-sniper: sniper nonce=7
+Confirmed clear-stock-sniper: 0xc5f761b74f7bd38565ede11fa0dadf512d14f786e90cd34f6f1d32fa8c4a6c3e
+Signing clear-stock-opening_buyer: opening_buyer nonce=7
+Confirmed clear-stock-opening_buyer: 0x269df0accba68335193e7bb8669ae2cd9c749a70548c4c6a5298478e7342250f
+Signing clear-fun-opening_buyer: opening_buyer nonce=8
+Confirmed clear-fun-opening_buyer: 0x5de1f699903974d173b45065f436aead7fef89d51fc303fa1e8a065e4af15c0c
+Signing clear-stock-diamond_hands: diamond_hands nonce=6
+Confirmed clear-stock-diamond_hands: 0x3f622adb160d0121b4ab51381ddba07f40a2ea84285145a4755d526d996de3f8
+Signing clear-fun-diamond_hands: diamond_hands nonce=7
+Confirmed clear-fun-diamond_hands: 0xfcb8d84cf9e8c7226db986e2a0a51a009e027d4547f33b637db78d4a30dd0b80
+Signing clear-stock-paper_hands: paper_hands nonce=7
+Confirmed clear-stock-paper_hands: 0x7f0127bbd14a366652a8c4fbae0935446125cc1e51dadeaa53325f3aa2b59cf3
+Signing clear-stock-kol: kol nonce=6
+Confirmed clear-stock-kol: 0x17df0a69503732ef64b21e60d91cb482a981edf6c5de23ef207f7884cd776c82
+Signing clear-fun-kol: kol nonce=7
+Confirmed clear-fun-kol: 0xe0253d2f66e5cdf56d815ed9a482a0af7ee6294f9dfe0832f2dba462038660e0
+Signing clear-stock-follower_1: follower_1 nonce=6
+Confirmed clear-stock-follower_1: 0x1bdb903eb9e1960d8166b4a6ffa4249af6d310cb5f21e3d1a3915834ced64032
+Signing clear-fun-follower_1: follower_1 nonce=7
+Confirmed clear-fun-follower_1: 0x8f6c3b3cf4a87a4256e1aedf556ae5fc585f46174334d822424499d4a554b528
+Signing clear-stock-follower_2: follower_2 nonce=4
+Confirmed clear-stock-follower_2: 0x6166184643b2e82107d60c725501e45bbed5305f12c4e8bffbcab4df07ddbdec
+Signing clear-fun-follower_2: follower_2 nonce=5
+Confirmed clear-fun-follower_2: 0xc862c795765d3e0145cfef31cce78e61f9e5a94324bd4ab95d75082e4a38ab4a
+Signing clear-stock-late_fomo: late_fomo nonce=9
+Confirmed clear-stock-late_fomo: 0x240b07676eec4116fc61f27ae267004b1c125edc0acf6d7ae58be2c5b4c9623a
+Signing clear-fun-late_fomo: late_fomo nonce=10
+Confirmed clear-fun-late_fomo: 0xd484f81e42b0c9375f9c0a7f8ba863804470a7267833ec9db1fb120e9ac8f20e

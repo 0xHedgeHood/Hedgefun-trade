@@ -1,0 +1,669 @@
+{
+  "schema": "hedgefun-persona-plan-v1",
+  "seed": 20261003,
+  "chain_id": 46630,
+  "test_only": true,
+  "execution_mode": "public_testnet_separate_wallets",
+  "deployment": {
+    "factory": "0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF",
+    "tradeRouter": "0xEF6bE3C3A19F33C0F62beC3FFb37228e8c47F755",
+    "curveDeployer": "0x2a5aA00A1B9Dd43536cB645335704dD45e3da1A8",
+    "hook": "0x99c9b8A1B890727ba85D954909646278591a2844",
+    "owner": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B"
+  },
+  "assets": {
+    "STOCK": {
+      "address": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+      "decimals": 18
+    },
+    "USDG": {
+      "address": "0x539574139BB4Ac74Fd2183ba0E38ed777E30B58d",
+      "decimals": 6
+    },
+    "FUN": {
+      "address": null,
+      "decimals": 18
+    }
+  },
+  "launch": {
+    "schema": "hedgefun-creator-testnet-launch-profile-v1",
+    "chainId": 46630,
+    "addressBook": "testnet-v2-fresh-creator.json",
+    "testOnly": true,
+    "name": "Hedgefun Persona TSLA Test",
+    "symbol": "HFPERS2",
+    "creator": "0xCeCAd0eBB0CAb4fbB2fe6213E3cd6dE82e4D164B",
+    "stockSymbol": "TSLA",
+    "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+    "kind": 0,
+    "taxBps": 300,
+    "creatorBps": 1000,
+    "tp1Bps": 500,
+    "tp2Bps": 1000,
+    "dipBps": 500,
+    "stopBps": 500,
+    "lotBps": 2000,
+    "bandBpsPerHour": 0,
+    "nonce": "2026100304",
+    "maxFee": "25000000",
+    "expectedOpenPriceE18": "26500000000",
+    "curve": {
+      "saleBps": 4000,
+      "snipeSeconds": 180
+    },
+    "execution": {
+      "slippageBps": 100,
+      "deadlineSeconds": 300
+    },
+    "openingTaxExemptions": []
+  },
+  "actors": [
+    {
+      "id": "sniper",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "496650000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 3
+    },
+    {
+      "id": "opening_buyer",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 1,
+        "usdg_amount": "10000000000"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "1004300000000000000",
+        "USDG": "25000000"
+      },
+      "trade_count": 2
+    },
+    {
+      "id": "diamond_hands",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "150000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "14750000000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 3
+    },
+    {
+      "id": "paper_hands",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "1256375000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 3
+    },
+    {
+      "id": "kol",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "1487700000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 2
+    },
+    {
+      "id": "follower_1",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "751500000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 2
+    },
+    {
+      "id": "follower_2",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 0,
+        "usdg_amount": "0"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "757350000000000000",
+        "USDG": "0"
+      },
+      "trade_count": 1
+    },
+    {
+      "id": "late_fomo",
+      "requires_distinct_wallet": true,
+      "opening_exempt": false,
+      "native_funding_wei": "60000000000000",
+      "funding": {
+        "stock_drips": 1,
+        "stock_amount": "15000000000000000000",
+        "usdg_drips": 1,
+        "usdg_amount": "10000000000"
+      },
+      "maximum_gross_buy_budget": {
+        "STOCK": "504300000000000000",
+        "USDG": "25000000"
+      },
+      "trade_count": 3
+    }
+  ],
+  "actions": [
+    {
+      "id": "01-sniper-buy",
+      "actor": "sniper",
+      "phase": "opening",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 0,
+      "latest_elapsed_seconds": 45,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "positive",
+        "recipient_exempt": false
+      },
+      "asset": "STOCK",
+      "amount_in": "496650000000000000"
+    },
+    {
+      "id": "02-opening_buyer-buy",
+      "actor": "opening_buyer",
+      "phase": "opening",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 30,
+      "latest_elapsed_seconds": 100,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "positive",
+        "recipient_exempt": false
+      },
+      "asset": "STOCK",
+      "amount_in": "1004300000000000000"
+    },
+    {
+      "id": "03-sniper-sell",
+      "actor": "sniper",
+      "phase": "opening",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 100,
+      "latest_elapsed_seconds": 175,
+      "allow_partial_fill": false,
+      "expected": {
+        "sell_tax_bps": 300,
+        "note": "Opening surcharge affects buys; early resale does not recover burned FUN."
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 8000
+    },
+    {
+      "id": "04-opening_buyer-probe",
+      "actor": "opening_buyer",
+      "phase": "opening",
+      "action": "probe",
+      "execution": "eth_call",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "revert": "Expired",
+        "broadcast": false
+      },
+      "probe": "expired_deadline"
+    },
+    {
+      "id": "05-diamond_hands-buy",
+      "actor": "diamond_hands",
+      "phase": "after_window",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 181,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "zero"
+      },
+      "asset": "STOCK",
+      "amount_in": "1900000000000000000"
+    },
+    {
+      "id": "06-paper_hands-buy",
+      "actor": "paper_hands",
+      "phase": "after_window",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 190,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "zero"
+      },
+      "asset": "STOCK",
+      "amount_in": "1256375000000000000"
+    },
+    {
+      "id": "07-kol-buy",
+      "actor": "kol",
+      "phase": "after_window",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 200,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "zero"
+      },
+      "asset": "STOCK",
+      "amount_in": "1487700000000000000"
+    },
+    {
+      "id": "08-kol-signal",
+      "actor": "kol",
+      "phase": "after_window",
+      "action": "signal",
+      "execution": "record_only",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 205,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "audience": "simulation_only",
+        "external_post": false,
+        "message": "Synthetic attention event; subsequent follower buys model demand."
+      }
+    },
+    {
+      "id": "09-follower_2-buy",
+      "actor": "follower_2",
+      "phase": "after_window",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 210,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "zero",
+        "trigger": "internal_kol_signal"
+      },
+      "asset": "STOCK",
+      "amount_in": "757350000000000000"
+    },
+    {
+      "id": "10-follower_1-buy",
+      "actor": "follower_1",
+      "phase": "after_window",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 220,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "opening_burn": "zero",
+        "trigger": "internal_kol_signal"
+      },
+      "asset": "STOCK",
+      "amount_in": "751500000000000000"
+    },
+    {
+      "id": "11-paper_hands-sell",
+      "actor": "paper_hands",
+      "phase": "after_window",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 235,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "trigger": "simulated_profit_taking"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 9000
+    },
+    {
+      "id": "12-diamond_hands-hold",
+      "actor": "diamond_hands",
+      "phase": "after_window",
+      "action": "hold",
+      "execution": "record_only",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 240,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "token_balance_must_not_decrease": true
+      }
+    },
+    {
+      "id": "13-follower_1-probe",
+      "actor": "follower_1",
+      "phase": "after_window",
+      "action": "probe",
+      "execution": "eth_call",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "revert_required": true,
+        "broadcast": false
+      },
+      "probe": "impossible_min_final_out"
+    },
+    {
+      "id": "14-diamond_hands-buy",
+      "actor": "diamond_hands",
+      "phase": "graduate",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 0,
+      "earliest_elapsed_seconds": 250,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "stage_after": 2,
+        "stock_refund": "positive",
+        "graduation_atomic": true,
+        "opening_burn": "zero"
+      },
+      "asset": "STOCK",
+      "amount_in": "12750000000000000000"
+    },
+    {
+      "id": "15-sniper-probe",
+      "actor": "sniper",
+      "phase": "post_graduation",
+      "action": "probe",
+      "execution": "eth_call",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "revert": "StageChanged(2)",
+        "broadcast": false
+      },
+      "probe": "stale_curve_stage"
+    },
+    {
+      "id": "16-late_fomo-buy",
+      "actor": "late_fomo",
+      "phase": "post_graduation",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "trade_venue": "V4",
+        "opening_burn": "zero"
+      },
+      "asset": "STOCK",
+      "amount_in": "504300000000000000"
+    },
+    {
+      "id": "17-opening_buyer-buy",
+      "actor": "opening_buyer",
+      "phase": "post_graduation",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "trade_venue": "V3_then_V4",
+        "opening_burn": "zero"
+      },
+      "asset": "USDG",
+      "amount_in": "25000000"
+    },
+    {
+      "id": "18-late_fomo-buy",
+      "actor": "late_fomo",
+      "phase": "post_graduation",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "trade_venue": "V3_then_V4",
+        "opening_burn": "zero"
+      },
+      "asset": "USDG",
+      "amount_in": "25000000"
+    },
+    {
+      "id": "19-kol-sell",
+      "actor": "kol",
+      "phase": "post_graduation",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "output_asset": "STOCK",
+        "trade_venue": "V4"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 2500
+    },
+    {
+      "id": "20-follower_1-sell",
+      "actor": "follower_1",
+      "phase": "post_graduation",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "output_asset": "STOCK",
+        "trade_venue": "V4"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 5000
+    },
+    {
+      "id": "21-paper_hands-sell",
+      "actor": "paper_hands",
+      "phase": "post_graduation",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "output_asset": "STOCK",
+        "trade_venue": "V4"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 10000
+    },
+    {
+      "id": "22-sniper-sell",
+      "actor": "sniper",
+      "phase": "post_graduation",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "output_asset": "STOCK",
+        "trade_venue": "V4"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 10000
+    },
+    {
+      "id": "23-late_fomo-sell",
+      "actor": "late_fomo",
+      "phase": "post_graduation",
+      "action": "sell",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "output_asset": "STOCK",
+        "trade_venue": "V4"
+      },
+      "asset": "FUN",
+      "sell_fraction_bps": 2500
+    },
+    {
+      "id": "24-diamond_hands-buy",
+      "actor": "diamond_hands",
+      "phase": "post_graduation",
+      "action": "buy",
+      "execution": "broadcast",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": true,
+      "expected": {
+        "trigger": "accumulate_after_other_actors_sell",
+        "trade_venue": "V4"
+      },
+      "asset": "STOCK",
+      "amount_in": "100000000000000000"
+    },
+    {
+      "id": "25-diamond_hands-hold",
+      "actor": "diamond_hands",
+      "phase": "post_graduation",
+      "action": "hold",
+      "execution": "record_only",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "token_balance_positive": true,
+        "mark_to_market_required": true
+      }
+    },
+    {
+      "id": "26-follower_2-hold",
+      "actor": "follower_2",
+      "phase": "post_graduation",
+      "action": "hold",
+      "execution": "record_only",
+      "expected_stage": 2,
+      "earliest_elapsed_seconds": null,
+      "latest_elapsed_seconds": null,
+      "allow_partial_fill": false,
+      "expected": {
+        "token_balance_positive": true,
+        "mark_to_market_required": true
+      }
+    }
+  ],
+  "parameter_rationale": "Use the latest creator-selectable mechanism with 500/1000/500/500 bps rungs for observable persona behavior. The separate price experiment also tests the 1/2/1/1 bps boundary profile; no global defaults are changed.",
+  "execution": {
+    "slippage_bps": 100,
+    "deadline_seconds": 300,
+    "sell_fraction_basis": "current FUN balance immediately before quoting",
+    "sell_output_asset": "STOCK",
+    "direct_stock_path": [],
+    "gas_funding_total_wei": "570000000000000",
+    "gas_topup_policy": "Before each signature require native balance >= gasLimit * gasPrice. Diamond receives 0.00015 ETH because the prior canonical graduation used 2,644,722 gas with a 3,783,494 gas limit; each other actor receives 0.00006 ETH.",
+    "expected_supply": "1000000000000000000000000000",
+    "expected_snipe_bps": 9900,
+    "verify_live_defaults_before_launch": true,
+    "missed_opening_deadline": "Stop the opening scenario; do not label a late trade as a sniper trade.",
+    "preapprove_before_launch": "Approve each actor's bounded STOCK budget and optional USDG budget before launch.",
+    "quote_policy": "Requote immediately before every trade and check receipt deltas; never reuse another actor's quote.",
+    "partial_fill_policy": "All buys permit STOCK refunds, including a 1 wei exact-in curve rounding refund. Compute and enforce an absolute minFinalOut from the fresh quote; a refund never waives the token-output floor. Record actual STOCK spent and returned separately.",
+    "ordering": "Sequential confirmed receipts; no promise of same-block inclusion or front-running.",
+    "completion": "Graduate buy must produce stage 2 before any post_graduation action."
+  },
+  "opening_control": {
+    "method": "At one historical block call quoteBuyFor with equal STOCK input for sniper and creator.",
+    "creator_exempt": true,
+    "base_stock_fee_bps": 300,
+    "opening_surcharge": "Burned FUN, not an additional STOCK fee; record Bought.taxTokens.",
+    "nominal_rate_examples": {
+      "0": 9900,
+      "30": 8300,
+      "90": 5100,
+      "179": 354,
+      "180": 300
+    }
+  },
+  "evidence": [
+    "Separate canonical receipt and public wallet address for each broadcast action.",
+    "Record block timestamp, opening rate, gross stock spent, stock fee, FUN output and FUN burned.",
+    "Record FUN/STOCK spot and executable quote, TSLA/tUSDG spot and oracle, and FUN/tUSDG product separately.",
+    "Report realized and unrealized actor results including remaining STOCK, FUN and native gas.",
+    "Record quote-only failures separately from mined transactions.",
+    "Weekend treasury funding is not booked strategy execution; retain calendar state in snapshots."
+  ]
+}

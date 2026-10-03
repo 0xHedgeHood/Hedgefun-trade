@@ -4,6 +4,8 @@ This directory began as the self-contained V2 contract snapshot from source main
 
 Latest verified creator testnet deployment: [2026-10-03 frontend handoff](docs/TESTNET_LAUNCH_HANDOFF_2026-10-03.md), [address book](deploy/testnet-v2-fresh-creator.json), and [launch parameter profile](deploy/fresh-creator-launch-profile.json). The stock/tUSDG lifecycle, including graduation and fee conversion, was broadcast and verified; Native ETH launch remains gated off for this deployment.
 
+Follow-up: [eight-wallet persona campaign and TSLA price-path experiments](docs/PERSONA_TSLA_EXPERIMENT_2026-10-03.md) distinguish public testnet trades from isolated-fork price shocks, and marked portfolio values from independent liquidation quotes.
+
 ## What V2 adds
 
 A launch no longer opens straight into a Uniswap V4 pool. It starts on a stock-denominated **bonding curve**, and the

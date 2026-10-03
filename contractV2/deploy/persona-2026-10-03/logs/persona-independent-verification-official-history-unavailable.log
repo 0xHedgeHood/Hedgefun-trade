@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 136, in reject_call
+    read(to, signature, args, block, sender)
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 86, in read
+    return words(rpc('eth_call', [tx, tag(block)]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 52, in rpc
+    raise RpcError(data['error'])
+RpcError: {'code': -32000, 'message': 'historical state 8f501d7af1d0e6349c43f0f27a8a9823582e11324392eac3ea802c2997dc6d28 is not available'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 641, in <module>
+    main()
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 637, in main
+    verify(args.directory.resolve())
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 276, in verify
+    refusal = reject_call(router, f'buy({PTYPE},(address,address)[])',
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/leo/Documents/ChatGPT/hedgefun/contractV2/tools/verify_persona_campaign.py", line 139, in reject_call
+    assert isinstance(raw, str) and raw.lower().startswith(prefix.lower()), error
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'code': -32000, 'message': 'historical state 8f501d7af1d0e6349c43f0f27a8a9823582e11324392eac3ea802c2997dc6d28 is not available'}
