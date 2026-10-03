@@ -1,0 +1,9 @@
+ticker,medianEquityDollarVolumeUsd,averageEquityDollarVolumeUsd,dailyLogReturnSampleStdDevPercent,annualizedDailyLogReturnVolatilityPercent,logReturnSamples,passesThresholds,exclusionReasons,selected,eligibleVolatilityRank,dividendEvents,closeDifferentFromAdjustedDays
+AAPL,11095688495.94573940439,12396287970.542669704851,2.024670383527,32.140645930137,249,True,"[""eligible_but_outside_top_three_volatility_rank""]",False,6,4,250
+AMZN,8601242838.562011953035,9594506314.343713375625,2.162690136069,34.331641577589,249,True,"[""eligible_but_outside_top_three_volatility_rank""]",False,4,0,0
+GME,170315785.986328124314,242497428.278334808233,3.660799698676,58.113393613895,249,False,"[""median_equity_dollar_volume_below_2b""]",False,,0,0
+GOOGL,6549160428.4080506721,7608458260.223522927158,2.034383776348,32.29484126089,249,True,"[""eligible_but_outside_top_three_volatility_rank""]",False,5,4,250
+META,8876135427.29187014551,10178981440.44927974456,2.380153100584,37.783759118432,249,True,[],True,3,4,250
+MSFT,9295465496.926880185982,10227209594.330725143329,1.517067129546,24.08269408182,249,False,"[""annualized_daily_log_volatility_below_30_percent""]",False,,4,250
+NVDA,30233059752.14462103267,32504661531.742455980437,3.139731009321,49.841684605812,249,True,[],True,2,4,250
+TSLA,32153079041.265869140625,33751808252.964080781663,3.970175255683,63.024578327282,249,True,[],True,1,0,0

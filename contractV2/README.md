@@ -8,6 +8,8 @@ Follow-up: [eight-wallet persona campaign and TSLA price-path experiments](docs/
 
 Historical input replay: [2022–2025 TSLA daily closes](docs/TSLA_HISTORICAL_REPLAY_2026-10-03.md), with 1,003 source bars, 12 passing fork experiments and 3,009 daily snapshots. These use current testnet liquidity and daily keeper opportunities; they do not establish historical executable returns or intraday 1 bps performance.
 
+One-year comparison: [2025 TSLA/NVDA/META parameters and full fee processing](docs/EQUITY_PARAMETER_FEES_2025_2026-10-03.md), with 39 passing fork cases, 9,750 daily snapshots, matched LP-fee collection controls and independently checked asset accounting. [Competitor mechanics](docs/COMPETITOR_MECHANICS_2026-10-03.md) distinguish observable Long/StonkFun features from unproven performance claims. These experiments use synthetic funded order flow and do not change deployed parameters.
+
 ## What V2 adds
 
 A launch no longer opens straight into a Uniswap V4 pool. It starts on a stock-denominated **bonding curve**, and the

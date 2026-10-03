@@ -1,0 +1,585 @@
+{
+  "schema": "hedgefun-equity-history-independent-data-review-v1",
+  "status": "PASS_DATA_AND_SCREENING",
+  "reviewedAtUtc": "2026-10-03T18:54:40.527568+00:00",
+  "method": "Independent Decimal parse, raw OHLCV/range/timestamp checks and HALF_EVEN quantization; no producer imports or network mutations",
+  "symbolCount": 8,
+  "sourceBarCount": 2000,
+  "matchingSessionDatesAcrossSymbols": true,
+  "symbols": {
+    "AAPL": {
+      "source": "contractV2/data/equity-history-2025-sources/AAPL.json",
+      "sourceSha256": "c141844aa24019efdabe6128f37be5c08b3a02c8c999f7aa82e2c6885550d85b",
+      "symbol": "AAPL",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 250,
+      "dividends": [
+        {
+          "amount": "0.25",
+          "date": 1739197800
+        },
+        {
+          "amount": "0.26",
+          "date": 1747056600
+        },
+        {
+          "amount": "0.26",
+          "date": 1754919000
+        },
+        {
+          "amount": "0.26",
+          "date": 1762785000
+        }
+      ],
+      "dividendAmountSumPerShare": "1.03",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.9219E-9",
+      "firstToLastCloseChangePercent": "11.486560814829955491512975245625499920653781275295818635097194340771761832782240",
+      "firstToLastAdjustedCloseChangePercent": "11.990771607237649940087302164920405135607075122197818910800966961916574404878520"
+    },
+    "AMZN": {
+      "source": "contractV2/data/equity-history-2025-sources/AMZN.json",
+      "sourceSha256": "39a126542a40cfb203658bd232ba2c35316814d4a276a5062c0bc099ebb8893c",
+      "symbol": "AMZN",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 0,
+      "dividends": [],
+      "dividendAmountSumPerShare": "0",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.21875E-9",
+      "firstToLastCloseChangePercent": "4.8133711946047850559795282682608990409850311809307263833465525382914688732344200",
+      "firstToLastAdjustedCloseChangePercent": "4.8133711946047850559795282682608990409850311809307263833465525382914688732344200"
+    },
+    "GME": {
+      "source": "contractV2/data/equity-history-2025-sources/GME.json",
+      "sourceSha256": "1c210576c52538a7a09d8c1d8cef871184fdbdbd075e16ed0c6de91ab0acef6f",
+      "symbol": "GME",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 0,
+      "dividends": [],
+      "dividendAmountSumPerShare": "0",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.82422E-9",
+      "firstToLastCloseChangePercent": "-34.507501553686638983978015778113151792856947596926246107486835589110549423329606",
+      "firstToLastAdjustedCloseChangePercent": "-34.507501553686638983978015778113151792856947596926246107486835589110549423329606"
+    },
+    "GOOGL": {
+      "source": "contractV2/data/equity-history-2025-sources/GOOGL.json",
+      "sourceSha256": "34342b719023d388e0af9db7ad7a14ef97a78af67bbc0cd53357f16fe739eb1e",
+      "symbol": "GOOGL",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 250,
+      "dividends": [
+        {
+          "amount": "0.2",
+          "date": 1741613400
+        },
+        {
+          "amount": "0.21",
+          "date": 1749475800
+        },
+        {
+          "amount": "0.21",
+          "date": 1757338200
+        },
+        {
+          "amount": "0.21",
+          "date": 1765204200
+        }
+      ],
+      "dividendAmountSumPerShare": "0.83",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.9219E-9",
+      "firstToLastCloseChangePercent": "65.232546113072440223854652356070538251932178574639107030143177920242194520529410",
+      "firstToLastAdjustedCloseChangePercent": "65.879657706644263550215186647186969447630510290277289663010791955073546720858720"
+    },
+    "META": {
+      "source": "contractV2/data/equity-history-2025-sources/META.json",
+      "sourceSha256": "13879fffbc8f837bcdcedc3840739b1c70aa0911f3a4d3dae49a97d886539ba8",
+      "symbol": "META",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 250,
+      "dividends": [
+        {
+          "amount": "0.525",
+          "date": 1741959000
+        },
+        {
+          "amount": "0.525",
+          "date": 1750080600
+        },
+        {
+          "amount": "0.525",
+          "date": 1758547800
+        },
+        {
+          "amount": "0.525",
+          "date": 1765809000
+        }
+      ],
+      "dividendAmountSumPerShare": "2.100",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.5312E-9",
+      "firstToLastCloseChangePercent": "10.154535346897343713778072566691125273835225038877777718928639670937348619080080",
+      "firstToLastAdjustedCloseChangePercent": "10.501892295139634177462386563102542659007640119873227620998172374268467010788020"
+    },
+    "MSFT": {
+      "source": "contractV2/data/equity-history-2025-sources/MSFT.json",
+      "sourceSha256": "b5b9f2d9b36fbc6830485ca9ecb73845475473d13f39d9ae5c43a2a6486ce463",
+      "symbol": "MSFT",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 250,
+      "dividends": [
+        {
+          "amount": "0.83",
+          "date": 1740061800
+        },
+        {
+          "amount": "0.83",
+          "date": 1747315800
+        },
+        {
+          "amount": "0.83",
+          "date": 1755783000
+        },
+        {
+          "amount": "0.91",
+          "date": 1763649000
+        }
+      ],
+      "dividendAmountSumPerShare": "3.40",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.9219E-9",
+      "firstToLastCloseChangePercent": "15.538250903377361964525967395281456560034430534855913032861442196860618807389040",
+      "firstToLastAdjustedCloseChangePercent": "16.390556694526744536522984822931739926683071990813728024914569769709042751257710"
+    },
+    "NVDA": {
+      "source": "contractV2/data/equity-history-2025-sources/NVDA.json",
+      "sourceSha256": "cfd9aad600aa826a57c503865d1be4b8ba4ddf361e4785e01572a5cc4cafdcee",
+      "symbol": "NVDA",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 250,
+      "dividends": [
+        {
+          "amount": "0.01",
+          "date": 1741786200
+        },
+        {
+          "amount": "0.01",
+          "date": 1749648600
+        },
+        {
+          "amount": "0.01",
+          "date": 1757597400
+        },
+        {
+          "amount": "0.01",
+          "date": 1764858600
+        }
+      ],
+      "dividendAmountSumPerShare": "0.04",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.82422E-9",
+      "firstToLastCloseChangePercent": "34.842023925993492701684986922298551104532911810794983917097037118430975904991500",
+      "firstToLastAdjustedCloseChangePercent": "34.878893123957539865128158675075870364535962440962160509474325285181134703533270"
+    },
+    "TSLA": {
+      "source": "contractV2/data/equity-history-2025-sources/TSLA.json",
+      "sourceSha256": "28177379c1b10ac4551f17ee1f277a79776ac9bcc25e8a8d1d1cbe36143a9ae9",
+      "symbol": "TSLA",
+      "observations": 250,
+      "firstDate": "2025-01-02",
+      "lastDate": "2025-12-31",
+      "sourceTimestampMeaning": "09:30 America/New_York session OPEN; Close is not available then",
+      "closeAdjustedCloseDifferentCount": 0,
+      "dividends": [],
+      "dividendAmountSumPerShare": "0",
+      "splits": [],
+      "maximumEightDecimalRoundingErrorUsd": "4.9219E-9",
+      "firstToLastCloseChangePercent": "18.572031920511381930677065777424275715581426337441904219935083714347812932039360",
+      "firstToLastAdjustedCloseChangePercent": "18.572031920511381930677065777424275715581426337441904219935083714347812932039360"
+    }
+  },
+  "canonical": {
+    "path": "contractV2/data/equity-history-2025.json",
+    "sha256AtReview": "9042271c25a5d3e53a9b1ce09e88e87ae2544d5ce50a665c0bb8f31d11b5eea0",
+    "all2000RowsExact": true,
+    "allEightWindowsExact": true
+  },
+  "independentScreening": {
+    "AAPL": {
+      "annualizedVolatilityPercent": "32.140645930136615981371995022839217086765133254044608231833174022665666520780556",
+      "medianEquityDollarVolumeUsd": "11095688495.9457394043900",
+      "eligible": true
+    },
+    "AMZN": {
+      "annualizedVolatilityPercent": "34.331641577589193716860430295224631484080400956416019722660174880619406845151462",
+      "medianEquityDollarVolumeUsd": "8601242838.56201195303500",
+      "eligible": true
+    },
+    "GME": {
+      "annualizedVolatilityPercent": "58.113393613895381165643755401831371979482178676932603168214548814767230534326960",
+      "medianEquityDollarVolumeUsd": "170315785.986328124313600",
+      "eligible": false
+    },
+    "GOOGL": {
+      "annualizedVolatilityPercent": "32.294841260889637652774482705727669957200915286670187351185964619017449624313083",
+      "medianEquityDollarVolumeUsd": "6549160428.40805067210000",
+      "eligible": true
+    },
+    "META": {
+      "annualizedVolatilityPercent": "37.783759118432038100741686945873114167771922444484981224900941291844935356655009",
+      "medianEquityDollarVolumeUsd": "8876135427.2918701455100",
+      "eligible": true
+    },
+    "MSFT": {
+      "annualizedVolatilityPercent": "24.082694081819597857103382645326713225732684349333034255998361569540987494768666",
+      "medianEquityDollarVolumeUsd": "9295465496.92688018598250",
+      "eligible": false
+    },
+    "NVDA": {
+      "annualizedVolatilityPercent": "49.841684605811903676136898831216644316551641811192618636908711130206453320590437",
+      "medianEquityDollarVolumeUsd": "30233059752.1446210326700",
+      "eligible": true
+    },
+    "TSLA": {
+      "annualizedVolatilityPercent": "63.024578327282344283520736586467963854776224626340079936951471577200666129702312",
+      "medianEquityDollarVolumeUsd": "32153079041.2658691406250",
+      "eligible": true
+    }
+  },
+  "selectedTickers": [
+    "TSLA",
+    "NVDA",
+    "META"
+  ],
+  "screeningInterpretation": "Full-year 2025 volatility and volume select the universe in-sample. A fixed formula is auditable but not a prospective universe selection or out-of-sample validation.",
+  "depthAlgebraReview": {
+    "status": "PASS",
+    "path": "contractV2/data/equity-depth-snapshot.json",
+    "sha256": "e4c180982d4747573f8a4bce51b1762702e0b3296b3bd80ac620bf4790cb5afe",
+    "block": 128288416,
+    "blockHash": "0x168adbec2112bcec4202b6e2534e7942029b51890151595a28c95c47cfcaa05f",
+    "probeCount": 48,
+    "allRawIntegerOutputsExact": true,
+    "probes": [
+      {
+        "ticker": "AAPL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "294837469463617162"
+      },
+      {
+        "ticker": "AAPL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99949902"
+      },
+      {
+        "ticker": "AAPL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "2948348716527548647"
+      },
+      {
+        "ticker": "AAPL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "999490214"
+      },
+      {
+        "ticker": "AAPL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "5896639704998632191"
+      },
+      {
+        "ticker": "AAPL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1998960859"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "498499514185387629"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99699902"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "4984951418964866020"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "996990283"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "9969805677753220532"
+      },
+      {
+        "ticker": "AMZN",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1993961135"
+      },
+      {
+        "ticker": "GME",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "4162919940364580205"
+      },
+      {
+        "ticker": "GME",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99949902"
+      },
+      {
+        "ticker": "GME",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "41628832716806565422"
+      },
+      {
+        "ticker": "GME",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "999490217"
+      },
+      {
+        "ticker": "GME",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "83256850589122974242"
+      },
+      {
+        "ticker": "GME",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1998960871"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "499749511157756646"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99949902"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "4997451116206016239"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "999490223"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "9994804466736702831"
+      },
+      {
+        "ticker": "GOOGL",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1998960893"
+      },
+      {
+        "ticker": "META",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "166166504598287072"
+      },
+      {
+        "ticker": "META",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99699902"
+      },
+      {
+        "ticker": "META",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "1661650459970970075"
+      },
+      {
+        "ticker": "META",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "996990275"
+      },
+      {
+        "ticker": "META",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "3323268507182814387"
+      },
+      {
+        "ticker": "META",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1993961104"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "199399806063833462"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99699903"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "1993980606553104591"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "996990303"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "3987922426966886016"
+      },
+      {
+        "ticker": "MSFT",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1993961213"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "438376764155512879"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99949902"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "4383729047507768246"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "999490222"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "8767372332059843222"
+      },
+      {
+        "ticker": "NVDA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1998960891"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "278284772114268122"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 100,
+        "independentEstimatedOutputRaw": "99699902"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "2782823314925793708"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 1000,
+        "independentEstimatedOutputRaw": "996990284"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "USDG_to_stock",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "5565592394818226345"
+      },
+      {
+        "ticker": "TSLA",
+        "direction": "stock_to_USDG",
+        "notionalUsd": 2000,
+        "independentEstimatedOutputRaw": "1993961138"
+      }
+    ],
+    "scope": "Independent constant-L integer swap algebra on supplied pinned state. Not actual swap execution; does not independently prove absence of other initialized ticks. Historical harness must validate actual execution and constant L across its full path."
+  },
+  "requiredInterpretation": [
+    "Replay split-adjusted Close prices, not dividend-adjusted Close as a tradable price.",
+    "Adjusted Close may be shown only as a separately labeled dividend-adjusted benchmark; it is not the stock-token's achieved return without distributions.",
+    "If no dividend cash is credited, both strategy and Close-price benchmark are explicitly price-only; dividends are not silently reinvested.",
+    "First observed Close to last observed Close is not a standard previous-year-end annual return.",
+    "Daily timestamps label session opens. An after-close plus synthetic 601-second holding assumption must not be represented as morning execution."
+  ]
+}

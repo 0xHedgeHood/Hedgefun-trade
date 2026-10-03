@@ -1,0 +1,203 @@
+{
+  "schema": "hedgefun-equity-replay-run-v1",
+  "recordedOn": "2026-10-03",
+  "broadcast": false,
+  "chainId": 46630,
+  "forkBlock": 128172359,
+  "depthScreeningBlock": 128288416,
+  "sourceBaseCommitBeforeThisEvidenceCommit": "1fc527406235f3bb9ec11e12244aa0e1e2a4fac7",
+  "branch": "codex/tsla-history-backtest-20261003",
+  "foundryVersion": "1.5.0",
+  "runWorkingDirectory": "contractV2",
+  "runCommand": "EQUITY_FEE_REPLAY=true ../.local/bin/forge test --offline --gas-limit 4000000000 --threads 4 --match-path test/EquityHistoricalFeeReplayFork.t.sol -vv > ../artifacts/equity-fee-history-20261003/forge.log 2>&1",
+  "rpc": "https://robinhood-testnet.drpc.org",
+  "compiledHarnessSha256": "61161a5b25928b0468e5667cc81504f50ec896d15020923479b317521770cdff",
+  "compiledHarnessKeccak256": "0xa2ac697277392ead8bb41fcf7036999cf6a386972a432f7db49128039db30149",
+  "rawLogSha256": "0ba1de343ab04bcda76a5fd6f5fb23e6d2f5b90a8944aa0420e2587b8379fdcf",
+  "forgeResult": {
+    "passed": 39,
+    "failed": 0,
+    "skipped": 0
+  },
+  "pythonTests": {
+    "passed": 53,
+    "failed": 0,
+    "command": "python3 -m unittest discover -s contractV2/tools/tests -p 'test_*.py'",
+    "runtime": "Python 3.11+; cast available on PATH"
+  },
+  "independentReview": {
+    "status": "PASS",
+    "assertionCount": 1779681,
+    "checkCategories": 99,
+    "totals": {
+      "cases": 39,
+      "snapshots": 9750,
+      "actions": 2886,
+      "buybacks": 5503,
+      "externalRoundtripPairs": 8964,
+      "ownerFeeConversions": 8964,
+      "actualDepthProbes": 312
+    }
+  },
+  "visualReview": "Three PNG figures visually inspected; corresponding SVG files archived.",
+  "compressedLogReexport": "Eight core non-chart evidence outputs reproduced byte-for-byte from forge.log.gz, verified by exporter agent.",
+  "scope": "Local historical daily-price and funded synthetic order-flow experiment. No production source, ABI, public deployment, oracle or parameter changes. Not historical executable returns, redeemable NAV or validation of future optimal parameters.",
+  "files": {
+    "contractV2/data/equity-depth-snapshot.json": {
+      "sha256": "e4c180982d4747573f8a4bce51b1762702e0b3296b3bd80ac620bf4790cb5afe",
+      "bytes": 37203
+    },
+    "contractV2/data/equity-history-2025-sources/AAPL.json": {
+      "sha256": "c141844aa24019efdabe6128f37be5c08b3a02c8c999f7aa82e2c6885550d85b",
+      "bytes": 28702
+    },
+    "contractV2/data/equity-history-2025-sources/AMZN.json": {
+      "sha256": "39a126542a40cfb203658bd232ba2c35316814d4a276a5062c0bc099ebb8893c",
+      "bytes": 28670
+    },
+    "contractV2/data/equity-history-2025-sources/GME.json": {
+      "sha256": "1c210576c52538a7a09d8c1d8cef871184fdbdbd075e16ed0c6de91ab0acef6f",
+      "bytes": 28369
+    },
+    "contractV2/data/equity-history-2025-sources/GOOGL.json": {
+      "sha256": "34342b719023d388e0af9db7ad7a14ef97a78af67bbc0cd53357f16fe739eb1e",
+      "bytes": 28733
+    },
+    "contractV2/data/equity-history-2025-sources/META.json": {
+      "sha256": "13879fffbc8f837bcdcedc3840739b1c70aa0911f3a4d3dae49a97d886539ba8",
+      "bytes": 26893
+    },
+    "contractV2/data/equity-history-2025-sources/MSFT.json": {
+      "sha256": "b5b9f2d9b36fbc6830485ca9ecb73845475473d13f39d9ae5c43a2a6486ce463",
+      "bytes": 28017
+    },
+    "contractV2/data/equity-history-2025-sources/NVDA.json": {
+      "sha256": "cfd9aad600aa826a57c503865d1be4b8ba4ddf361e4785e01572a5cc4cafdcee",
+      "bytes": 29050
+    },
+    "contractV2/data/equity-history-2025-sources/TSLA.json": {
+      "sha256": "28177379c1b10ac4551f17ee1f277a79776ac9bcc25e8a8d1d1cbe36143a9ae9",
+      "bytes": 27869
+    },
+    "contractV2/data/equity-history-2025.json": {
+      "sha256": "9042271c25a5d3e53a9b1ce09e88e87ae2544d5ce50a665c0bb8f31d11b5eea0",
+      "bytes": 1193484
+    },
+    "contractV2/data/equity-screening-2025.csv": {
+      "sha256": "a869d02ad51f8ab1ed8c78789c8b576fc2d6da739431c3f095c132cc9297c8cc",
+      "bytes": 1390
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/GENERATED_REPORT.md": {
+      "sha256": "9fde3b8de86521a74941cbb06e24b40ac49b51f23f87e1918135b326e467c9e5",
+      "bytes": 8349
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/SHA256SUMS": {
+      "sha256": "f7ae852aee148e63d068bf4fc8110a78cacdc27d659b7a5dea3178897381edd8",
+      "bytes": 1284
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/daily-harvest-on-paths.png": {
+      "sha256": "ae054f71f9f27f1829d544c1c8447f8c08a5354444f5f983f49f7e2efb0b2ddd",
+      "bytes": 1041179
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/daily-harvest-on-paths.svg": {
+      "sha256": "1076fba8bd6fb4de043a8e36b79ba70c8c301b093ca91acac5ca1782ee855157",
+      "bytes": 525411
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/full-parameter-matrix.png": {
+      "sha256": "4e1271d43b569bb972133b64c69046d368fb4dd680495db09b27aa85f9b79b2d",
+      "bytes": 530107
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/full-parameter-matrix.svg": {
+      "sha256": "5051dd989a794830dbfe69f94f0f1dafa24f16c31652741c0439d4ee82dc5ac3",
+      "bytes": 383460
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/matched-lp-harvest-difference.png": {
+      "sha256": "c50971d6bbc49d305abd1a31f227b27a25752e92973c0cdf5722de69331d68e8",
+      "bytes": 153161
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/charts/matched-lp-harvest-difference.svg": {
+      "sha256": "e727b005e0481484060e431f1fe68e80a66e0e09de7500d9b24f86876218610d",
+      "bytes": 201673
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/daily.csv": {
+      "sha256": "6106c272e4659cc4ceae80214aedd68e1f79723fa8cfc9e300d9686acd4f16f6",
+      "bytes": 11049368
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/daily.jsonl.gz": {
+      "sha256": "8e09df2292215d9020ec1cb67ad8dbc6df99f12b7a6c299dca94979b1bf0fb9f",
+      "bytes": 4483537
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/forge.log.gz": {
+      "sha256": "09da51dae7a87849e58c27c6606f731ff501f72c3606aeac19f452dce5985441",
+      "bytes": 3626657
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/harvestMatchedPairs.csv": {
+      "sha256": "e038b6c4c18c8040f1f9d35d15d22afb6c9084e0f8d0444863b5ac368b2d60df",
+      "bytes": 2070
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/independent-data-review.json": {
+      "sha256": "96f31e2aa0665f366f39e9e101276468f09d8e250f8b51b839888948b539fb75",
+      "bytes": 20530
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/independent-review.json": {
+      "sha256": "01320bedd00d1c896eaed2d26e78432508c80a94cf9aee48d4b202fc62d5c36e",
+      "bytes": 186052
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/python-tests.log": {
+      "sha256": "c0790c652046b59a9139c16031c75597d9040b18a187132394f08c8cc1ab3354",
+      "bytes": 152
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/results.json": {
+      "sha256": "2adabb8f45439a72762dd865397a8aec4bed054e2a3c5bcd4768600fd5de4f47",
+      "bytes": 411655
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/strategyVersusMatchedFlowControl.csv": {
+      "sha256": "f2db074f5e399b68b4984c3c433e526d32a5b77956d2756f3d91e7ad230da24f",
+      "bytes": 3837
+    },
+    "contractV2/deploy/equity-history-2025-2026-10-03/summary.csv": {
+      "sha256": "33389b2779ada72a4f522dd98b6f8a6c7b0d16cef1bfc864948cee654142ae8e",
+      "bytes": 25766
+    },
+    "contractV2/docs/COMPETITOR_MECHANICS_2026-10-03.md": {
+      "sha256": "54baa0bacce9ee91c06bb2b51b4359717e60dcfbb53eda1dd3c4c0e73814a73d",
+      "bytes": 5853
+    },
+    "contractV2/docs/EQUITY_PARAMETER_FEES_2025_2026-10-03.md": {
+      "sha256": "378589f54c018f9657003e250eedf3fb35b645fe8a8caf57b170a8a33efc0576",
+      "bytes": 11931
+    },
+    "contractV2/test/EquityHistoricalFeeReplayFork.t.sol": {
+      "sha256": "61161a5b25928b0468e5667cc81504f50ec896d15020923479b317521770cdff",
+      "bytes": 47920
+    },
+    "contractV2/tools/equity_depth_snapshot.py": {
+      "sha256": "1ad3d63b4da4ec7f561542fad6db7d6adad3bdd208ab13cbe9f6637502f6aee4",
+      "bytes": 10740
+    },
+    "contractV2/tools/equity_history_data.py": {
+      "sha256": "75c11af1f4a3f888f21ad8f45ed95e179e3abbc848b702866bc1011929b711a6",
+      "bytes": 12054
+    },
+    "contractV2/tools/equity_history_report.py": {
+      "sha256": "64ac602e33a43838d428ee8fdea58e545b87881fa4e9f453213257e4033b357f",
+      "bytes": 40589
+    },
+    "contractV2/tools/tests/test_equity_history_data.py": {
+      "sha256": "c77144f4c842d161bf56462b57876b256cc01a03ccd46d408bdd19b69b96e099",
+      "bytes": 3898
+    },
+    "contractV2/tools/tests/test_equity_history_report.py": {
+      "sha256": "74ad64af8b304b2ff2fcf24b8f14891a08e82751fcc0736ace0005f4f7360512",
+      "bytes": 5554
+    },
+    "contractV2/tools/verify_equity_history_data_independent.py": {
+      "sha256": "a4440d9d598eb3690fab71d6c02529d890b69049ec75e0a5aaf616a4dfd66dc1",
+      "bytes": 13609
+    },
+    "contractV2/tools/verify_equity_history_replay_independent.py": {
+      "sha256": "76edb29dc0060a832ee770d805f4a11391d41fadd93f61d3873c90b747112db0",
+      "bytes": 37342
+    }
+  }
+}

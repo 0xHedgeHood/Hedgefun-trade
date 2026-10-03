@@ -1,0 +1,846 @@
+{
+  "schema": "hedgefun-equity-depth-snapshot-v1",
+  "chainId": 46630,
+  "block": 128288416,
+  "blockHash": "0x168adbec2112bcec4202b6e2534e7942029b51890151595a28c95c47cfcaa05f",
+  "blockTimestamp": "0x6ac14908",
+  "rpc": "https://rpc.testnet.chain.robinhood.com",
+  "factory": "0x2363B102D37BBa1dc3f9aBEdC4d6121C8e90B9cF",
+  "market": "0xc1AF2f52980F8A7AA4E90A8E30D5c3FaF0375f21",
+  "marketPoolCount": 9,
+  "universeProof": "Listed events are replayed from a block where the factory had no code through the pinned block; their final enabled set exactly matches the eight verified address-book listings. All registered market pools were also enumerated; extra stock lines are not enabled in this factory.",
+  "listingHistoryFromBlock": 128006225,
+  "factoryCodeAtListingHistoryStart": "0x",
+  "listingEvents": [
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x0000000000000000000000007efca82ce9f4596230743b767260f55b9673affe"
+      ],
+      "data": "0x000000000000000000000000800180c0097e25cfb6313af08289e2c8cd1411a5000000000000000000000000cd596f59d8ea2c3577d5a7cb7aafc6b46bb8fd0600000000000000000000000000000000000000000000000000000006f037ea000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0xb866c5b220e9b490f087142124e40305fb73b77ccef05531252f229853a86142",
+      "blockNumber": "0x7a139ee",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x806d8a71daef2fed2192a403fcaf877c368af64fcc9eb7083d74fed165f2fafc",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x000000000000000000000000dd301669340232f283b1e91a7c4571591d86bd85"
+      ],
+      "data": "0x000000000000000000000000e9858c468fc2b17840cfed7379d0c25737b1e4b00000000000000000000000009f978fa32e3dc5d61d92be85644c867dcee692c0000000000000000000000000000000000000000000000000000000627cc3c6000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x992b69134d78d00c5771de1719b00108347d4636ecb0dfaa9505e5df24cc31a1",
+      "blockNumber": "0x7a13a1b",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x64fc48610c8dad2ea16dbd690ddd6e82352876cac21da2389f9f5ed94e1581f0",
+      "transactionIndex": "0x2",
+      "logIndex": "0x1",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x0000000000000000000000007b6a95e6c97a212d5307e8b50290dc1ac2715b84"
+      ],
+      "data": "0x000000000000000000000000878daf3a1565ecb16c50904ddaf2476a17e5429600000000000000000000000052e6b4d22c7e1cdff8329dab4017a73f607b487e0000000000000000000000000000000000000000000000000000000a4a867a000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x7f4f1c27de3797fcabad240682d39a511ad2abbd163a88fed6ff8aec1f6c50ba",
+      "blockNumber": "0x7a13a49",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x4dce7d10b0655869fd42630e4aae0b90c74547a6cf68789758276b99c3cb39b6",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x000000000000000000000000cee322837f181bd93ac2d71e4ddf334bff565b98"
+      ],
+      "data": "0x0000000000000000000000005001c9c8b278425129c36c8099520abaa70aa4ae00000000000000000000000004083643ff9e8c27f66c9dd99947743a9b777244000000000000000000000000000000000000000000000000000000062b85e9000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x82905ed0028247f2314b8734d031ff0acbd7fceda84ad4b4aa3bf14ec7a66551",
+      "blockNumber": "0x7a13a7b",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x372372b5a8e766a4feae8914678a5145b04f59dc2e5a622ed6dcde8050f21273",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x0000000000000000000000008abbdc97c8d4c8b950cb80488606d27b09a3e9ce"
+      ],
+      "data": "0x000000000000000000000000cd81f9041f6e56cb734f580676e3a3b0bffd9d34000000000000000000000000f94fda49fd23f11116644ff5880522ef0409769900000000000000000000000000000000000000000000000000000004a817c8000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0xf4be5bcd3a4df4eb4a149bd8f32047392226ebb25a6f927d2b9fdbab0f192b6f",
+      "blockNumber": "0x7a13aae",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x8a74844a231a08b77102fbe98bbcd95cf03875f9c32d33867a988a9bb493c3cd",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x000000000000000000000000ebecc6d4ee7ad6d58870c82770389f7cf2eedd88"
+      ],
+      "data": "0x000000000000000000000000a81f110fa29c9335ce7b4a289cce98ed1a44a1bb00000000000000000000000086fd810f5b4c769e9fbad9a38e1e92bed89096520000000000000000000000000000000000000000000000000000000ba43b74000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x370137920b62bc832f3c408dc4981727361c389b65706bf79072736762c14389",
+      "blockNumber": "0x7a13ae0",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x6ad7f978105d82d2d7a5c4977514d997b941384cfb502c893574399401948c6f",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x0000000000000000000000003027527030cfae82e93119eae3b1372d07064dfe"
+      ],
+      "data": "0x00000000000000000000000079847509969fb5ca678836563a49c770defcd58500000000000000000000000087f94ac256b0108c09e7281402b127fd1b9324810000000000000000000000000000000000000000000000000000000ba43b74000000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x874bcfe7c4e1ccce62489c16a1b1d88bd55b57a79f22d7ba6013f78b5e790509",
+      "blockNumber": "0x7a13b0b",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0x52db016c1019bc6419d35f9af8541b1609df3369f7834d2a7265fc0ef22c7150",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    },
+    {
+      "address": "0x2363b102d37bba1dc3f9abedc4d6121c8e90b9cf",
+      "topics": [
+        "0x25a3941d2ceb0e61692d72c42e9daf9db49adb5679a4ccd5e79aec8e3317edf8",
+        "0x000000000000000000000000ea3de3a8064278227760760e72e9a1c215f89903"
+      ],
+      "data": "0x00000000000000000000000014f9867471039f91a106276c9736df66c92bda80000000000000000000000000d638256044b6eb3cc0a4617f704c6df8bf1a685600000000000000000000000000000000000000000000000000000003e16926ab0000000000000000000000000000000000000000000000000000000000000001",
+      "blockHash": "0x6d8ae263b7b18fce398a69ee13507478c3b0476a050c51a6e9c725dcf8b5cddf",
+      "blockNumber": "0x7a13b3b",
+      "blockTimestamp": "0x0",
+      "transactionHash": "0xa4cf3a57d25efb9b22855d8870d865303f52285f454b76e8f16c05556551c84b",
+      "transactionIndex": "0x1",
+      "logIndex": "0x0",
+      "removed": false
+    }
+  ],
+  "listingHistoryArchiveRpc": "https://robinhood-testnet.drpc.org",
+  "listingHistoryStartBlockHash": "0x9bc57a4cdf6d3868c0fbb77f74adeb3cfb953325e4c5c09cf1e6b6beb9a08f85",
+  "extraRegisteredMarketPools": [
+    {
+      "pool": "0xe43c2d7d1214ecc68d4835d2819cd6c7defc5894",
+      "stock": "0xcb4820d3c59ec8a6b78312693d09d620f4277643",
+      "factoryListingEnabled": false,
+      "factoryListingPool": "0x0000000000000000000000000000000000000000"
+    }
+  ],
+  "measurementDefinition": "Pinned onchain state plus constant-active-liquidity exact-input algebra, including V3 fees. Quotes are analytical and assume no initialized tick crossed within the local seeded range; this is not a live eth_call swap execution. Historical fork actual probes are separately reported.",
+  "notEquityVolume": "Nasdaq/NYSE daily dollar turnover never determines these pool-depth estimates.",
+  "pools": {
+    "AAPL": {
+      "stock": "0x7efCa82CE9f4596230743b767260f55B9673AffE",
+      "pool": "0xcd596f59D8ea2c3577d5a7cB7aAFC6B46Bb8Fd06",
+      "oracle": "0x800180c0097e25CfB6313af08289e2C8cd1411a5",
+      "enabled": true,
+      "feeMillionths": 500,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0x7efca82ce9f4596230743b767260f55b9673affe",
+      "sqrtPriceX96": "4303083114834763385207786476576376",
+      "tick": 218061,
+      "activeLiquidity": "5544933648818501111",
+      "seedPositionLiquidity": "5544933648818501111",
+      "seedTickLower": 211100,
+      "seedTickUpper": 225020,
+      "stockSpotUsd": "339",
+      "poolStockBalanceRaw": "88519229756779452249903",
+      "poolUsdgBalanceRaw": "30000000000000",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "294837469463617162",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.949902148166217918",
+          "estimatedFeeAndAverageImpactBps": "5.009785183378",
+          "estimatedPostSwapSpotChangeBps": "0.019580185589",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "294985250737463126",
+          "estimatedOutputRaw": "99949902",
+          "inputUsdAtInitialSpot": "99.999999999999999714",
+          "outputUsdAtInitialSpot": "99.949902",
+          "estimatedFeeAndAverageImpactBps": "5.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.01958014725",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "2948348716527548647",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "999.490214902838991333",
+          "estimatedFeeAndAverageImpactBps": "5.09785097161",
+          "estimatedPostSwapSpotChangeBps": "0.195802718498",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "2949852507374631268",
+          "estimatedOutputRaw": "999490214",
+          "inputUsdAtInitialSpot": "999.999999999999999852",
+          "outputUsdAtInitialSpot": "999.490214",
+          "estimatedFeeAndAverageImpactBps": "5.09786",
+          "estimatedPostSwapSpotChangeBps": "-0.195798884702",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "5896639704998632191",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1998.960859994536312749",
+          "estimatedFeeAndAverageImpactBps": "5.195700027318",
+          "estimatedPostSwapSpotChangeBps": "0.391607353912",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "5899705014749262536",
+          "estimatedOutputRaw": "1998960859",
+          "inputUsdAtInitialSpot": "1999.999999999999999704",
+          "outputUsdAtInitialSpot": "1998.960859",
+          "estimatedFeeAndAverageImpactBps": "5.195705",
+          "estimatedPostSwapSpotChangeBps": "-0.39159201888",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "AMZN": {
+      "stock": "0xebecC6d4ee7aD6d58870c82770389F7Cf2Eedd88",
+      "pool": "0x86fd810f5b4c769E9FBad9A38E1e92bed8909652",
+      "oracle": "0xA81F110FA29c9335ce7B4a289CcE98ED1a44A1bB",
+      "enabled": true,
+      "feeMillionths": 3000,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0xebecc6d4ee7ad6d58870c82770389f7cf2eedd88",
+      "sqrtPriceX96": "5602277097478613991873193822745817",
+      "tick": 223338,
+      "activeLiquidity": "7233930408619105019",
+      "seedPositionLiquidity": "7233930408619105019",
+      "seedTickLower": 216360,
+      "seedTickUpper": 230280,
+      "stockSpotUsd": "200",
+      "poolStockBalanceRaw": "150657521466790251036426",
+      "poolUsdgBalanceRaw": "30000012256145",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "498499514185387629",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.6999028370775258",
+          "estimatedFeeAndAverageImpactBps": "30.009716292247",
+          "estimatedPostSwapSpotChangeBps": "0.01949108616",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "500000000000000000",
+          "estimatedOutputRaw": "99699902",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.699902",
+          "estimatedFeeAndAverageImpactBps": "30.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.01949104817",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "4984951418964866020",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.990283792973204",
+          "estimatedFeeAndAverageImpactBps": "30.097162070268",
+          "estimatedPostSwapSpotChangeBps": "0.194911716384",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "5000000000000000000",
+          "estimatedOutputRaw": "996990283",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.990283",
+          "estimatedFeeAndAverageImpactBps": "30.09717",
+          "estimatedPostSwapSpotChangeBps": "-0.194907917401",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "9969805677753220532",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.9611355506441064",
+          "estimatedFeeAndAverageImpactBps": "30.194322246779",
+          "estimatedPostSwapSpotChangeBps": "0.389825332279",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "10000000000000000000",
+          "estimatedOutputRaw": "1993961135",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.961135",
+          "estimatedFeeAndAverageImpactBps": "30.194325",
+          "estimatedPostSwapSpotChangeBps": "-0.389810136492",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "GME": {
+      "stock": "0xDD301669340232F283b1e91a7c4571591d86bd85",
+      "pool": "0x9f978fa32e3dc5D61D92Be85644c867DCee692c0",
+      "oracle": "0xe9858C468FC2B17840cFed7379d0C25737B1E4b0",
+      "enabled": true,
+      "feeMillionths": 500,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0xdd301669340232f283b1e91a7c4571591d86bd85",
+      "sqrtPriceX96": "16169158803658870229564275060076454",
+      "tick": 244537,
+      "activeLiquidity": "20841627805058302912",
+      "seedPositionLiquidity": "20841627805058302912",
+      "seedTickLower": 237580,
+      "seedTickUpper": 251500,
+      "stockSpotUsd": "24.009566268083508396",
+      "poolStockBalanceRaw": "1249722858812193512685118",
+      "poolUsdgBalanceRaw": "30020356961589",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "4162919940364580205",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.949902176909635278",
+          "estimatedFeeAndAverageImpactBps": "5.009782309036",
+          "estimatedPostSwapSpotChangeBps": "0.019574434012",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "4165006517961650792",
+          "estimatedOutputRaw": "99949902",
+          "inputUsdAtInitialSpot": "99.999999999999999986",
+          "outputUsdAtInitialSpot": "99.949902",
+          "estimatedFeeAndAverageImpactBps": "5.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.019574395697",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "41628832716806565422",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "999.490217777130066873",
+          "estimatedFeeAndAverageImpactBps": "5.097822228699",
+          "estimatedPostSwapSpotChangeBps": "0.19574520223",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "41650065179616507925",
+          "estimatedOutputRaw": "999490217",
+          "inputUsdAtInitialSpot": "999.999999999999999977",
+          "outputUsdAtInitialSpot": "999.490217",
+          "estimatedFeeAndAverageImpactBps": "5.09783",
+          "estimatedPostSwapSpotChangeBps": "-0.195741370686",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "83256850589122974242",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1998.96087149147553609",
+          "estimatedFeeAndAverageImpactBps": "5.195642542622",
+          "estimatedPostSwapSpotChangeBps": "0.39149232025",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "83300130359233015851",
+          "estimatedOutputRaw": "1998960871",
+          "inputUsdAtInitialSpot": "1999.999999999999999977",
+          "outputUsdAtInitialSpot": "1998.960871",
+          "estimatedFeeAndAverageImpactBps": "5.195645",
+          "estimatedPostSwapSpotChangeBps": "-0.391476994227",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "GOOGL": {
+      "stock": "0x3027527030CFaE82e93119EAE3B1372D07064Dfe",
+      "pool": "0x87f94AC256B0108c09e7281402b127fd1b932481",
+      "oracle": "0x79847509969fB5ca678836563a49C770DEFCD585",
+      "enabled": true,
+      "feeMillionths": 500,
+      "stockIsToken0": true,
+      "token0": "0x3027527030cfae82e93119eae3b1372d07064dfe",
+      "token1": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "sqrtPriceX96": "1120455419495722798374638",
+      "tick": -223339,
+      "activeLiquidity": "7225226234085865780",
+      "seedPositionLiquidity": "7225226234085865780",
+      "seedTickLower": -230290,
+      "seedTickUpper": -216370,
+      "stockSpotUsd": "200",
+      "poolStockBalanceRaw": "150295937006863515648161",
+      "poolUsdgBalanceRaw": "30000000520487",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "499749511157756646",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.9499022315513292",
+          "estimatedFeeAndAverageImpactBps": "5.009776844867",
+          "estimatedPostSwapSpotChangeBps": "0.019563500175",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "500000000000000000",
+          "estimatedOutputRaw": "99949902",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.949902",
+          "estimatedFeeAndAverageImpactBps": "5.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.019563461902",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "4997451116206016239",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "999.4902232412032478",
+          "estimatedFeeAndAverageImpactBps": "5.097767587968",
+          "estimatedPostSwapSpotChangeBps": "0.195635862889",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "5000000000000000000",
+          "estimatedOutputRaw": "999490223",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "999.490223",
+          "estimatedFeeAndAverageImpactBps": "5.09777",
+          "estimatedPostSwapSpotChangeBps": "-0.195632035625",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "9994804466736702831",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1998.9608933473405662",
+          "estimatedFeeAndAverageImpactBps": "5.195533263297",
+          "estimatedPostSwapSpotChangeBps": "0.391273639428",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "10000000000000000000",
+          "estimatedOutputRaw": "1998960893",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1998.960893",
+          "estimatedFeeAndAverageImpactBps": "5.195535",
+          "estimatedPostSwapSpotChangeBps": "-0.391258330521",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "META": {
+      "stock": "0xEa3de3A8064278227760760e72e9A1c215F89903",
+      "pool": "0xD638256044b6EB3CC0a4617F704C6df8BF1a6856",
+      "oracle": "0x14f9867471039f91A106276C9736Df66c92BDa80",
+      "enabled": true,
+      "feeMillionths": 3000,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0xea3de3a8064278227760760e72e9a1c215f89903",
+      "sqrtPriceX96": "3234476190304153087556629471536762",
+      "tick": 212351,
+      "activeLiquidity": "4173157035921873558",
+      "seedPositionLiquidity": "4173157035921873558",
+      "seedTickLower": 205380,
+      "seedTickUpper": 219300,
+      "stockSpotUsd": "600",
+      "poolStockBalanceRaw": "50138727634547733426755",
+      "poolUsdgBalanceRaw": "30000007205127",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "166166504598287072",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.6999027589722432",
+          "estimatedFeeAndAverageImpactBps": "30.009724102776",
+          "estimatedPostSwapSpotChangeBps": "0.019506754267",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "166666666666666666",
+          "estimatedOutputRaw": "99699902",
+          "inputUsdAtInitialSpot": "99.9999999999999996",
+          "outputUsdAtInitialSpot": "99.699902",
+          "estimatedFeeAndAverageImpactBps": "30.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.019506716216",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "1661650459970970075",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.990275982582045",
+          "estimatedFeeAndAverageImpactBps": "30.09724017418",
+          "estimatedPostSwapSpotChangeBps": "0.195068398824",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "1666666666666666666",
+          "estimatedOutputRaw": "996990275",
+          "inputUsdAtInitialSpot": "999.9999999999999996",
+          "outputUsdAtInitialSpot": "996.990275",
+          "estimatedFeeAndAverageImpactBps": "30.09725",
+          "estimatedPostSwapSpotChangeBps": "-0.19506459373",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "3323268507182814387",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.9611043096886322",
+          "estimatedFeeAndAverageImpactBps": "30.194478451557",
+          "estimatedPostSwapSpotChangeBps": "0.390138700213",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "3333333333333333333",
+          "estimatedOutputRaw": "1993961104",
+          "inputUsdAtInitialSpot": "1999.9999999999999998",
+          "outputUsdAtInitialSpot": "1993.961104",
+          "estimatedFeeAndAverageImpactBps": "30.19448",
+          "estimatedPostSwapSpotChangeBps": "-0.390123479986",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "MSFT": {
+      "stock": "0x8ABbdc97C8D4c8b950cb80488606D27b09A3e9ce",
+      "pool": "0xf94Fda49fD23F11116644Ff5880522EF04097699",
+      "oracle": "0xcD81F9041f6e56CB734F580676e3A3B0BffD9d34",
+      "enabled": true,
+      "feeMillionths": 3000,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0x8abbdc97c8d4c8b950cb80488606d27b09a3e9ce",
+      "sqrtPriceX96": "3543191142285914205922034323214520",
+      "tick": 214174,
+      "activeLiquidity": "4584332199940353334",
+      "seedPositionLiquidity": "4584332199940353334",
+      "seedTickLower": 207180,
+      "seedTickUpper": 221100,
+      "stockSpotUsd": "500",
+      "poolStockBalanceRaw": "60504315951859216362530",
+      "poolUsdgBalanceRaw": "30000002495193",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "199399806063833462",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.699903031916731",
+          "estimatedFeeAndAverageImpactBps": "30.009696808327",
+          "estimatedPostSwapSpotChangeBps": "0.01945200095",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "200000000000000000",
+          "estimatedOutputRaw": "99699903",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.699903",
+          "estimatedFeeAndAverageImpactBps": "30.0097",
+          "estimatedPostSwapSpotChangeBps": "-0.019451963112",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "1993980606553104591",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.9903032765522955",
+          "estimatedFeeAndAverageImpactBps": "30.096967234477",
+          "estimatedPostSwapSpotChangeBps": "0.194520860855",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "2000000000000000000",
+          "estimatedOutputRaw": "996990303",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.990303",
+          "estimatedFeeAndAverageImpactBps": "30.09697",
+          "estimatedPostSwapSpotChangeBps": "-0.194517077092",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "3987922426966886016",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.961213483443008",
+          "estimatedFeeAndAverageImpactBps": "30.193932582785",
+          "estimatedPostSwapSpotChangeBps": "0.389043613609",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "4000000000000000000",
+          "estimatedOutputRaw": "1993961213",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.961213",
+          "estimatedFeeAndAverageImpactBps": "30.193935",
+          "estimatedPostSwapSpotChangeBps": "-0.389028478704",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "NVDA": {
+      "stock": "0x7b6a95E6c97a212d5307e8B50290DC1ac2715B84",
+      "pool": "0x52e6b4d22c7e1cDFf8329Dab4017A73f607B487E",
+      "oracle": "0x878DaF3a1565Ecb16C50904Ddaf2476a17E54296",
+      "enabled": true,
+      "feeMillionths": 500,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0x7b6a95e6c97a212d5307e8b50290dc1ac2715b84",
+      "sqrtPriceX96": "5247013242047544523417184911082496",
+      "tick": 222027,
+      "activeLiquidity": "6766760994443365622",
+      "seedPositionLiquidity": "6766760994443365622",
+      "seedTickLower": 215060,
+      "seedTickUpper": 228980,
+      "stockSpotUsd": "228",
+      "poolStockBalanceRaw": "131827512303747457718027",
+      "poolUsdgBalanceRaw": "30000000000000",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "438376764155512879",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.949902227456936412",
+          "estimatedFeeAndAverageImpactBps": "5.009777254306",
+          "estimatedPostSwapSpotChangeBps": "0.019564319465",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "438596491228070175",
+          "estimatedOutputRaw": "99949902",
+          "inputUsdAtInitialSpot": "99.9999999999999999",
+          "outputUsdAtInitialSpot": "99.949902",
+          "estimatedFeeAndAverageImpactBps": "5.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.019564281189",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "4383729047507768246",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "999.490222831771160088",
+          "estimatedFeeAndAverageImpactBps": "5.097771682288",
+          "estimatedPostSwapSpotChangeBps": "0.195644055867",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "4385964912280701754",
+          "estimatedOutputRaw": "999490222",
+          "inputUsdAtInitialSpot": "999.999999999999999912",
+          "outputUsdAtInitialSpot": "999.490222",
+          "estimatedFeeAndAverageImpactBps": "5.09778",
+          "estimatedPostSwapSpotChangeBps": "-0.195640228283",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "8767372332059843222",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1998.960891709644254616",
+          "estimatedFeeAndAverageImpactBps": "5.195541451779",
+          "estimatedPostSwapSpotChangeBps": "0.391290025546",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "8771929824561403508",
+          "estimatedOutputRaw": "1998960891",
+          "inputUsdAtInitialSpot": "1999.999999999999999824",
+          "outputUsdAtInitialSpot": "1998.960891",
+          "estimatedFeeAndAverageImpactBps": "5.195545",
+          "estimatedPostSwapSpotChangeBps": "-0.391274715356",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    },
+    "TSLA": {
+      "stock": "0xcee322837F181Bd93AC2d71e4dDf334BFF565b98",
+      "pool": "0x04083643FF9E8c27f66C9dD99947743A9B777244",
+      "oracle": "0x5001C9C8b278425129C36C8099520aBAA70aa4ae",
+      "enabled": true,
+      "feeMillionths": 3000,
+      "stockIsToken0": false,
+      "token0": "0x539574139bb4ac74fd2183ba0e38ed777e30b58d",
+      "token1": "0xcee322837f181bd93ac2d71e4ddf334bff565b98",
+      "sqrtPriceX96": "4185785192189057434679077790972945",
+      "tick": 217508,
+      "activeLiquidity": "5405299530135571866",
+      "seedPositionLiquidity": "5405299530135571866",
+      "seedTickLower": 210540,
+      "seedTickUpper": 224460,
+      "stockSpotUsd": "358.265750896140810111",
+      "poolStockBalanceRaw": "84010743909454971732192",
+      "poolUsdgBalanceRaw": "30038071117469",
+      "constantActiveLiquidityProbes": [
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 100,
+          "inputRaw": "100000000",
+          "estimatedOutputRaw": "278284772114268122",
+          "inputUsdAtInitialSpot": "100",
+          "outputUsdAtInitialSpot": "99.699902844479695554",
+          "estimatedFeeAndAverageImpactBps": "30.00971555203",
+          "estimatedPostSwapSpotChangeBps": "0.019489601267",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 100,
+          "inputRaw": "279122410528684410",
+          "estimatedOutputRaw": "99699902",
+          "inputUsdAtInitialSpot": "99.999999999999999753",
+          "outputUsdAtInitialSpot": "99.699902",
+          "estimatedFeeAndAverageImpactBps": "30.0098",
+          "estimatedPostSwapSpotChangeBps": "-0.019489563283",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 1000,
+          "inputRaw": "1000000000",
+          "estimatedOutputRaw": "2782823314925793708",
+          "inputUsdAtInitialSpot": "1000",
+          "outputUsdAtInitialSpot": "996.990284533177216976",
+          "estimatedFeeAndAverageImpactBps": "30.097154668228",
+          "estimatedPostSwapSpotChangeBps": "0.194896867324",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 1000,
+          "inputRaw": "2791224105286844106",
+          "estimatedOutputRaw": "996990284",
+          "inputUsdAtInitialSpot": "999.999999999999999683",
+          "outputUsdAtInitialSpot": "996.990284",
+          "estimatedFeeAndAverageImpactBps": "30.09716",
+          "estimatedPostSwapSpotChangeBps": "-0.194893068919",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "USDG_to_stock",
+          "notionalUsd": 2000,
+          "inputRaw": "2000000000",
+          "estimatedOutputRaw": "5565592394818226345",
+          "inputUsdAtInitialSpot": "2000",
+          "outputUsdAtInitialSpot": "1993.961138511402452603",
+          "estimatedFeeAndAverageImpactBps": "30.194307442988",
+          "estimatedPostSwapSpotChangeBps": "0.389795633869",
+          "staysInsideKnownPositionRange": true
+        },
+        {
+          "direction": "stock_to_USDG",
+          "notionalUsd": 2000,
+          "inputRaw": "5582448210573688213",
+          "estimatedOutputRaw": "1993961138",
+          "inputUsdAtInitialSpot": "1999.999999999999999724",
+          "outputUsdAtInitialSpot": "1993.961138",
+          "estimatedFeeAndAverageImpactBps": "30.19431",
+          "estimatedPostSwapSpotChangeBps": "-0.389780440398",
+          "staysInsideKnownPositionRange": true
+        }
+      ]
+    }
+  }
+}
