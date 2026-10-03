@@ -379,6 +379,7 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         buybackStock += profit - bounty;
         lastSalePrice = p;
         emit ProfitTaken(q, cost, p, got, profit - bounty);
+        _afterStockSale(p, principal, got);
         if (bounty != 0) _stock.safeTransfer(msg.sender, bounty);             // last: every effect is already written
     }
 
@@ -423,9 +424,13 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         uint256 bounty = HedgeFunMath.bps(got, _params.bountyBps);
         lastSalePrice = p;
         emit Stopped(q, cost, p);
+        _afterStockSale(p, q, got);
         if (bounty != 0) _usdg.safeTransfer(msg.sender, bounty);              // last: every effect is already written
         return true;
     }
+
+    /// @dev Extensions observe only actual stock/USDG fills, before the keeper reward is transferred.
+    function _afterStockSale(uint256 price, uint256 stockSold, uint256 usdgReceived) internal virtual {}
 
     function buyDip() public virtual nonReentrant { _buyDip(); }
 
@@ -433,7 +438,12 @@ abstract contract HedgeFunTreasuryBase is ReentrancyGuard, IUnlockCallback {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
         if (lastSalePrice == 0 || !HedgeFunMath.fellTo(p, lastSalePrice, _params.dipBps)) revert NotDue();
-        uint256 spend = HedgeFunMath.bps(reserveUsdg(), _params.lotBps);
+        _buyWithReserve(p, type(uint256).max);
+    }
+
+    /// @dev Callers validate the price trigger; this helper preserves actual-fill and inventory accounting.
+    function _buyWithReserve(uint256 p, uint256 maxSpendUsdg) internal {
+        uint256 spend = Math.min(HedgeFunMath.bps(reserveUsdg(), _params.lotBps), maxSpendUsdg);
         if (spend < _params.minLotUsdg || !_canAddLot()) revert NotDue();
         _notePrice(p); _noteTokenSpot();
         (uint256 spent, uint256 got) = _swapStock(true, spend - HedgeFunMath.bps(spend, _params.bountyBps), p);

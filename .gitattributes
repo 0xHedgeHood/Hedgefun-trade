@@ -16,3 +16,6 @@ contractV2/deploy/equity-history-2025-2026-10-03/charts/*.svg whitespace=-blank-
 contractV2/deploy/equity-history-2025-2026-10-03/*.csv whitespace=cr-at-eol
 contractV2/deploy/equity-history-2025-2026-10-03/*.log whitespace=-blank-at-eof
 contractV2/data/equity-screening-2025.csv whitespace=cr-at-eol
+# Preserve generated replay evidence, including native Matplotlib and CSV bytes.
+contractV2/deploy/all-strategy-income-2026-10-03/**/*.svg whitespace=-blank-at-eol
+contractV2/deploy/all-strategy-income-2026-10-03/**/*.csv whitespace=cr-at-eol

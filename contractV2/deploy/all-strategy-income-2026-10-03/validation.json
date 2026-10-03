@@ -1,0 +1,42 @@
+{
+  "offlineFoundry": {
+    "passed": 1055,
+    "failed": 0,
+    "skippedOptIn": 43,
+    "total": 1098
+  },
+  "annualSpot": {
+    "cases": 51,
+    "dailyRows": 12750,
+    "failed": 0,
+    "skipped": 0
+  },
+  "annualOptions": {
+    "cases": 20,
+    "dailyRows": 5000,
+    "directedRiskAndBridgeTests": 7,
+    "failed": 0
+  },
+  "annualIncome": {
+    "cases": 9,
+    "dailyRows": 2250,
+    "failed": 0,
+    "skipped": 0
+  },
+  "pythonTests": 93,
+  "pythonToolTests": 64,
+  "stakingIndependentFuzz": {
+    "seeds": 3,
+    "sequencesPerSeed": 1024,
+    "stepsPerSequence": 96,
+    "actors": 3,
+    "randomOperations": 294912
+  },
+  "runtimeBytes": {
+    "EarnVault": 24523,
+    "HedgeFunV2CycleTreasury": 24514,
+    "FunStakingIncome": 4583
+  },
+  "buildSizeLimitRaised": false,
+  "networkWrites": false
+}

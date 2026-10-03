@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "contracts": [
+    {
+      "contract": "FunStakingIncome",
+      "abi": "FunStakingIncome.abi.json",
+      "sha256": "933b7900c204328060a6ea70369b2d177ffb4b5ba66d94add311204921a6249b",
+      "source": {
+        "src/experimental/FunStakingIncome.sol": "FunStakingIncome"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "HedgeFunV2CycleTreasury",
+      "abi": "HedgeFunV2CycleTreasury.abi.json",
+      "sha256": "8f98566af45978720f278bd82958def49b7a7e431659eda1d26695e9d108169e",
+      "source": {
+        "src/v2/HedgeFunV2CycleTreasury.sol": "HedgeFunV2CycleTreasury"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "CoveredCallDesk",
+      "abi": "CoveredCallDesk.abi.json",
+      "sha256": "0db7790a0a23954d5bb0167977431a9671f5c9dc9aeaca516b990b93d28fad11",
+      "source": {
+        "src/options/CoveredCallDesk.sol": "CoveredCallDesk"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "PhysicalCallDesk",
+      "abi": "PhysicalCallDesk.abi.json",
+      "sha256": "9c274570c7664d0843c315e31f84da36d4883787991b9541064961eca148b630",
+      "source": {
+        "src/options/PhysicalCallDesk.sol": "PhysicalCallDesk"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "CashSecuredPutDesk",
+      "abi": "CashSecuredPutDesk.abi.json",
+      "sha256": "b79cf894dc9b3708bde8c5eff1fe3fdf993fdab3d00aeabb37158609d00369aa",
+      "source": {
+        "src/options/CashSecuredPutDesk.sol": "CashSecuredPutDesk"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "EarnVault",
+      "abi": "EarnVault.abi.json",
+      "sha256": "7530e77f4a8f4fc13042d3eed16f133273c9aa537688420215b37f3cb9f7fd9a",
+      "source": {
+        "src/options/EarnVault.sol": "EarnVault"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    },
+    {
+      "contract": "EarnVaultV3SwapAdapter",
+      "abi": "EarnVaultV3SwapAdapter.abi.json",
+      "sha256": "84c7bfcb334ee170a43479119643bc4f72e3d3870de10fe449e0dfcda01af1fd",
+      "source": {
+        "src/options/EarnVaultV3SwapAdapter.sol": "EarnVaultV3SwapAdapter"
+      },
+      "deploymentAddress": null,
+      "status": "candidate local source; no new public deployment"
+    }
+  ],
+  "cycleActionEnum": {
+    "Stop": 0,
+    "TakeProfit": 1,
+    "BuyDip": 2,
+    "RebalanceBuy": 3,
+    "RebalanceSell": 4,
+    "BuyRecovery": 5
+  }
+}

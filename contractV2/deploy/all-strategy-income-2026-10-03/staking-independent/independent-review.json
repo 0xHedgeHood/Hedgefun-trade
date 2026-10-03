@@ -1,0 +1,76 @@
+{
+  "schema": "hedgefun-fun-staking-independent-review-v1",
+  "status": "PASS_TESTED_SCOPE",
+  "reviewedAtUtc": "2026-10-03T21:07:50.241784+00:00",
+  "source": {
+    "path": "contractV2/src/experimental/FunStakingIncome.sol",
+    "sha256": "3c6bad28560c395aa91d2a7744ce89ad161433e12111a4e97c363e237156fbfc"
+  },
+  "independentTests": {
+    "path": "contractV2/test/FunStakingIncomeIndependentReview.t.sol",
+    "sha256": "83b64c16aa2d8aafc18d3318ba2986a21ea6b591660c48c30c1ea67e2a350304"
+  },
+  "runs": [
+    {
+      "seed": "0x2026100301",
+      "path": "artifacts/all-strategy-income-20261003/staking-independent/seed-01.log",
+      "sha256": "efb36ae84208f14cc916a418e6aba1f7a8e70ff795ca1254d908e7811d293790",
+      "testsPassed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "statefulFuzzCases": 1024,
+      "stepsPerCase": 96
+    },
+    {
+      "seed": "0x2026100302",
+      "path": "artifacts/all-strategy-income-20261003/staking-independent/seed-02.log",
+      "sha256": "6a4e63eee9047340801185b273177d323eaee4b24851fa25ed1b30cfe0c6e2b4",
+      "testsPassed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "statefulFuzzCases": 1024,
+      "stepsPerCase": 96
+    },
+    {
+      "seed": "0x2026100303",
+      "path": "artifacts/all-strategy-income-20261003/staking-independent/seed-03.log",
+      "sha256": "e3c64a431c7e94d8c10905da9c4a5733df8e1368ecaf59bba1c6f68967fb7cce",
+      "testsPassed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "statefulFuzzCases": 1024,
+      "stepsPerCase": 96
+    }
+  ],
+  "totals": {
+    "testPassResults": 27,
+    "distinctTests": 9,
+    "statefulFuzzSequences": 3072,
+    "randomizedOperations": 294912,
+    "fuzzAccounts": 3
+  },
+  "independentChecks": [
+    "Exact analytic overlap/late-entry time-weighted payout",
+    "Zero TVL queues full unvested rewards; re-entry earns only future time",
+    "Last exit preserves vested claims and queues only unvested rewards",
+    "Sub-cent six-decimal reward streams using scaled rate",
+    "Blocked reward transfer cannot prevent matured FUN principal withdrawal; claim state rolls back",
+    "Inexact stake/fund/claim/withdraw all revert atomically",
+    "Token callbacks to all four mutation entrypoints fail reentrancy guard",
+    "Unauthorized funding, invalid recipient and exact principal lock boundary",
+    "At every randomized step token custody equals summed stake, cash paid plus cash held equals independently accumulated funding, and all accrued plus unvested/queued promises fit cash",
+    "After randomized final withdrawals/claims, unallocated loss bounded by global/account integer-floor count"
+  ],
+  "resolvedFinding": {
+    "original": "Whole-raw-unit per-second rate queued every reward below 604800 raw USDG for a seven-day stream.",
+    "resolution": "Root changed rate and queue to 1e18-scaled raw units; independently retested latest source.",
+    "smallestGuaranteedAllocation": "No guarantee to transfer sub-raw units; conservative integer rounding remains reserved."
+  },
+  "limits": [
+    "This contract validates actual funding and allocation only, not that incomeSource earned a realized net profit.",
+    "No existing treasury integration or public deployment established by these local tests.",
+    "Seven-day schedule and lock, exact-transfer FUN 18 decimals and reward 6 decimals tested. Arbitrary rebases/issuer confiscation are outside the asset model.",
+    "Each account settlement floors rewards; per-update raw dust is retained, not counted as investor cash received.",
+    "Repeated income funding intentionally extends remaining stream; source controls timing but cannot reclaim accrued rewards."
+  ]
+}
