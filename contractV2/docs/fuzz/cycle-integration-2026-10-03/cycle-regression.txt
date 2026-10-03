@@ -1,0 +1,212 @@
+Compiling 23 files with Solc 0.8.26
+Solc 0.8.26 finished in 16.00s
+Compiler run successful with warnings:
+Warning (2519): This declaration shadows an existing declaration.
+   --> test/V2CycleDustFuzz.t.sol:141:14:
+    |
+141 |             (HedgeFunV2Treasury.Action action,) = cycle.execute();
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Note: The shadowed declaration is here:
+   --> test/V2CycleDustFuzz.t.sol:151:10:
+    |
+151 |         (HedgeFunV2Treasury.Action action,) = cycle.execute();
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+Ran 28 tests for test/V2Execute.t.sol:V2ExecuteStockCurrency0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179394)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6281887)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469011)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648047)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338532)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231285)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868547)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23366829)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12870595)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12982799)
+Logs:
+  Full distinct-cost execute gas: 816963
+
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973389)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644761)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5704887)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215628)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1346824)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5831862)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982771)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1047297)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904676)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1015773)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146192)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1142017)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213325)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845722)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078676)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215804)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526523)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216178)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 123.72ms (121.73ms CPU time)
+
+Ran 47 tests for test/V2CycleTreasury.t.sol:V2CycleStock0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179990)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282250)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469264)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648454)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6338861)
+[PASS] test_closedProfitCancelsOldRecoveryAndClosedRecoveryCannotBuy() (gas: 12162523)
+[PASS] test_cycleRequiresSaleBeforeRecoveryAndUsesNoInitialRiseEntry() (gas: 5767351)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1404232)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17868920)
+[PASS] test_dueProfitStillWinsOverAnEligibleRecovery() (gas: 984193)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23367071)
+[PASS] test_forgedSwapCallbackCannotSpendTreasury() (gas: 5971686)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 13004975)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 13116982)
+Logs:
+  Full distinct-cost execute gas: 939639
+
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22973916)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 690251)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705261)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1351553)
+[PASS] test_noCashAndZeroFillDoNotConsumePendingOrChangeLedger() (gas: 6443261)
+[PASS] test_oneWeiProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 1918877)
+[PASS] test_originalDipLadderStillWorksAfterRecoveryIsConsumed() (gas: 11605412)
+[PASS] test_originalProfitDipNeedsNoNewCooldownAndConsumesRecovery() (gas: 6162443)
+[PASS] test_pausedOrStaleReportCannotRecoverAndPendingSurvives() (gas: 6064870)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1395504)
+[PASS] test_realDustRecoveryRollsBackPoolTransfersAndState() (gas: 6289714)
+[PASS] test_realPartialRecoveryConsumesOneEntryAndBooksOnlyActualFill() (gas: 6318989)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832114)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 1106778)
+[PASS] test_recoveryBudgetUsesBothCashFractionAndSellChunk() (gas: 11392399)
+[PASS] test_recoveryConsumesOnceAndUsesActualCostWithoutSpendingBuybackStock() (gas: 6231652)
+[PASS] test_recoveryNeedsCooldownNewStockReportAndExactRiseThreshold() (gas: 6432452)
+[PASS] test_smallProfitAfterLaterStopStillAllowsImmediateOriginalDipAndConsumesRecovery() (gas: 2269762)
+[PASS] test_stopCanRecoverUpAfterCooldownInsteadOfOnlyBuyingDeeperDip() (gas: 1066020)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1130638)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 1029189)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1100516)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1281399)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1277732)
+[PASS] test_subMinimumProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 2829811)
+[PASS] test_subMinimumStopDoesNotArmAndCannotBypassLatestStopGate() (gas: 2044864)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213841)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5846239)
+[PASS] test_twoFullCyclesRearmOnlyOnLaterActualSale() (gas: 12028776)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6079184)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1351839)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5527050)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1352323)
+Suite result: ok. 47 passed; 0 failed; 0 skipped; finished in 166.98ms (164.34ms CPU time)
+
+Ran 28 tests for test/V2Execute.t.sol:V2ExecuteUsdgCurrency0Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6179668)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282029)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469344)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648184)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339641)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1231608)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862334)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360252)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12863682)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 12975580)
+Logs:
+  Full distinct-cost execute gas: 816523
+
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22966564)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 644654)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705005)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1215704)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1348520)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832006)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 982961)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1048333)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 904922)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1016242)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1146906)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1141727)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213391)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5845889)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6078950)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1215880)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5526754)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1216254)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 122.85ms (120.93ms CPU time)
+
+Ran 47 tests for test/V2CycleTreasury.t.sol:V2CycleStock1Test
+[PASS] test_allInProfitDustDoesNotBlockLaterProfit() (gas: 6180264)
+[PASS] test_allInStopDustDoesNotBlockLaterStop() (gas: 6282392)
+[PASS] test_cannotBypassExecuteThroughOldSelectors() (gas: 469597)
+[PASS] test_closedMarketWithStopConfiguredAllowsProfitButNotDip() (gas: 6648591)
+[PASS] test_closedMarketWithoutStopKeepsPoolOnlyDipPolicy() (gas: 6339970)
+[PASS] test_closedProfitCancelsOldRecoveryAndClosedRecoveryCannotBuy() (gas: 12163113)
+[PASS] test_cycleRequiresSaleBeforeRecoveryAndUsesNoInitialRiseEntry() (gas: 5767720)
+[PASS] test_dipAfterStopRetiresTheGateForTheNextRung() (gas: 1404600)
+[PASS] test_donatedLotsAtCapacityCoalesceWithoutBlockingBookingOrDip() (gas: 17862707)
+[PASS] test_dueProfitStillWinsOverAnEligibleRecovery() (gas: 984375)
+[PASS] test_dustCleanupSurvivesPendingBookingAtLotCapacity() (gas: 23360494)
+[PASS] test_forgedSwapCallbackCannotSpendTreasury() (gas: 5971804)
+[PASS] test_fullBookCannotEraseDistinctCostStopBeforeBuy() (gas: 12998062)
+[PASS] test_fullDistinctCostLotsHaveBoundedStopScanGas() (gas: 13109763)
+Logs:
+  Full distinct-cost execute gas: 939199
+
+[PASS] test_fullDistinctCostLotsRejectBuyWithinGasBudget() (gas: 22967091)
+[PASS] test_minimumBookedLotStillExecutesStop() (gas: 690144)
+[PASS] test_minimumBookedLotStillExecutesTp1() (gas: 5705379)
+[PASS] test_minimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1351629)
+[PASS] test_noCashAndZeroFillDoNotConsumePendingOrChangeLedger() (gas: 6444528)
+[PASS] test_oneWeiProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 1921186)
+[PASS] test_originalDipLadderStillWorksAfterRecoveryIsConsumed() (gas: 11607991)
+[PASS] test_originalProfitDipNeedsNoNewCooldownAndConsumesRecovery() (gas: 6163688)
+[PASS] test_pausedOrStaleReportCannotRecoverAndPendingSurvives() (gas: 6065423)
+[PASS] test_profitAfterStopReopensDipAtTheProfitRung() (gas: 1396906)
+[PASS] test_realDustRecoveryRollsBackPoolTransfersAndState() (gas: 6290636)
+[PASS] test_realPartialRecoveryConsumesOneEntryAndBooksOnlyActualFill() (gas: 6319911)
+[PASS] test_rebookingReleasedProfitDustDoesNotCountItAsNewStock() (gas: 5832258)
+[PASS] test_rebookingReleasedStopDustDoesNotCountItAsNewStock() (gas: 1106968)
+[PASS] test_recoveryBudgetUsesBothCashFractionAndSellChunk() (gas: 11393873)
+[PASS] test_recoveryConsumesOnceAndUsesActualCostWithoutSpendingBuybackStock() (gas: 6233004)
+[PASS] test_recoveryNeedsCooldownNewStockReportAndExactRiseThreshold() (gas: 6433853)
+[PASS] test_smallProfitAfterLaterStopStillAllowsImmediateOriginalDipAndConsumesRecovery() (gas: 2273477)
+[PASS] test_stopCanRecoverUpAfterCooldownInsteadOfOnlyBuyingDeeperDip() (gas: 1062970)
+[PASS] test_stopDustAndDueDipExecuteInTheSameCall() (gas: 1131520)
+[PASS] test_stopDustWithoutAnotherDueLotDoesNotClaimASale() (gas: 1029435)
+[PASS] test_stopNeedsNewReportCooldownAndDeeperPriceBeforeReentry() (gas: 1101030)
+[PASS] test_stopTailThatReboundsToTp1DoesNotBlockAnotherProfit() (gas: 1282113)
+[PASS] test_stopWinsOverProfitAndDip_andShortFillStillBlocksBuy() (gas: 1277442)
+[PASS] test_subMinimumProfitAfterLaterStopCannotEraseRecoveryCooldownOrReportGate() (gas: 2837626)
+[PASS] test_subMinimumStopDoesNotArmAndCannotBypassLatestStopGate() (gas: 2047590)
+[PASS] test_tinyStopRejectedBeforeDeployment() (gas: 213907)
+[PASS] test_tinyTp1RemainderAdvancesStageWithoutClaimingSale() (gas: 5846406)
+[PASS] test_twoFullCyclesRearmOnlyOnLaterActualSale() (gas: 12033512)
+[PASS] test_unexecutableProfitDustDoesNotBlockLaterProfit() (gas: 6079458)
+[PASS] test_unexecutableStopDustDoesNotBlockLaterStop() (gas: 1351915)
+[PASS] test_unrepresentableChunkCannotClaimAStop() (gas: 5527281)
+[PASS] test_widerMinimumOutputRoundingDustDoesNotBlockLaterStop() (gas: 1352399)
+Suite result: ok. 47 passed; 0 failed; 0 skipped; finished in 167.66ms (165.09ms CPU time)
+
+Ran 1 test for test/V2CycleTreasury.t.sol:V2CycleKindTest
+[PASS] test_newKindUsesExistingConstructorLaunchAndGraduationWithoutChangingKindZero() (gas: 124563520)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 134.26ms (132.75ms CPU time)
+
+Ran 6 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustStock0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 16, μ: 25146180, ~: 25146292)
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 17, μ: 1423954, ~: 1424076)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 17, μ: 1311958, ~: 1312040)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 17, μ: 1266539, ~: 1266585)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 16, μ: 1539945, ~: 1539948)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 16, μ: 7096983, ~: 7097112)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 484.66ms (816.90ms CPU time)
+
+Ran 6 tests for test/V2CycleDustFuzz.t.sol:V2CycleDustUsdg0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 16, μ: 25139528, ~: 25139713)
+[PASS] testFuzz_cycleCleanupBeforeRealStopUsesOnlyActualFill(uint256,uint256) (runs: 17, μ: 1424152, ~: 1424286)
+[PASS] testFuzz_cycleCleanupDoesNotRenewRecoveryCooldown(uint256,uint256,uint256) (runs: 17, μ: 1312795, ~: 1312899)
+[PASS] testFuzz_cycleDustCleanupMakesSameCallRecoveryProgress(uint256,uint256,uint256) (runs: 17, μ: 1267441, ~: 1267576)
+[PASS] testFuzz_cycleDustCleanupPreservesOriginalDipGates(uint256,uint256,uint256) (runs: 16, μ: 1541146, ~: 1541364)
+[PASS] testFuzz_cyclePureStopCleanupCannotArmRecovery(uint256,uint256) (runs: 16, μ: 7095445, ~: 7095684)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 529.92ms (813.56ms CPU time)
+
+Ran 7 test suites in 530.49ms (1.73s CPU time): 163 tests passed, 0 failed, 0 skipped (163 total tests)

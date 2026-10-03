@@ -1,0 +1,11 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/V2CycleDustFuzz.t.sol:V2CycleDustUsdg0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 256, μ: 25139562, ~: 25139713)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.43s (6.43s CPU time)
+
+Ran 1 test for test/V2CycleDustFuzz.t.sol:V2CycleDustStock0FuzzTest
+[PASS] testFuzz_cycleCapacity128BookingPreservesCleanupAndPending(uint256,uint256) (runs: 256, μ: 25146144, ~: 25146290)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.44s (6.44s CPU time)
+
+Ran 2 test suites in 6.45s (12.87s CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
