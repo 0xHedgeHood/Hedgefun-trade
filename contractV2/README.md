@@ -109,3 +109,7 @@ The native launch router and new creator registry require separate operator depl
 ## Historical hackathon demo (#117)
 
 The isolated [testnet demo poll](./docs/TESTNET_DEMO_BALLOT.md), its `DemoBallot` contract and the demo script mirror source [#117](https://github.com/keyuyuan/hedgefund/pull/117). The script pins the earlier `0xACEB…` fees factory and a 25 USDG launch fee. It documents that completed demo and is not an activation path for the new native ETH launch default. Deployments and the source repository's roadmap remain outside this mirror.
+
+## Historical deployment review (#100)
+
+The [2026-09-29 release review](./docs/V2_RELEASE_REVIEW_2026_09_29.md) archives source [#100](https://github.com/keyuyuan/hedgefund/pull/100) at `0b886b3ff8f1785c90f8bac4d538d0d103240b64`. Its deployment-verifier files were already present in the original V2 snapshot; later mirrors changed parts of the deployment flow. The old review's deployment status, tool counts and missing ETH venue describe that pinned source version. Use the current native launch and ETH runbooks above for current operator work.

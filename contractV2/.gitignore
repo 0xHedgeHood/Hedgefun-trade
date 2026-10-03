@@ -1,3 +1,40 @@
 # Source #108's generated plans are not verified deployment evidence.
 deploy/testnet-v2-stock-extension.candidate.json
 deploy/testnet-v2-stock-extension.dryrun.json
+
+out/
+cache/
+out-curve/
+cache-curve/
+broadcast/
+.env
+.claude/
+backtest/results.csv
+broadcast/
+cache/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# local secrets: wallet key files, keystores, env files. Never commit these.
+stockfundwk.txt
+*wk.txt
+*.key
+*.keystore
+.env
+.env.*
+
+# the assembled internal docs site (tools/docs_site.py)
+.docs_site/
+
+# pons launch study: raw log cache is ~530 MB and the full per-launch CSV ~75 MB;
+# tools/pons_elasticity.py rebuilds both. data/pons/launches_extract.csv.gz is committed instead.
+data/pons/logs/
+data/pons/curve_meta.json
+data/pons/block_times.json
+data/pons/launches.csv
+
+# the testnet deployment script's dry-run address book (simulated addresses, never real)
+deploy/testnet-v2.dryrun.json
+deploy/testnet-v2.candidate.json
