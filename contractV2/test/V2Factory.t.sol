@@ -46,15 +46,15 @@ contract V2FactoryTest is V2FactoryFixture, IUnlockCallback {
         uint256 pmStock = stock.balanceOf(address(pm));
         uint256 pmToken = IERC20(curve.token()).balanceOf(address(pm));
         assertApproxEqAbs(pmStock, targetStock / 2, 2, "half real stock principal seeds V4 except rounding dust");
-        assertApproxEqAbs(pmToken, Math.mulDiv(remaining, targetStock / 2, curve.terminalStock()),
-            Math.max(100_000_000, 2 * remaining / curve.terminalStock()),
-            "excess virtual-liquidity tokens must not enter LP");
+        address vault = hook.liquidityVaultOf(key.toId());
+        assertEq(pmToken + IERC20(curve.token()).balanceOf(vault), remaining,
+            "all unsold tokens enter locked LP or its rounding residue");
+        assertGt(V2LiquidityVault(vault).surplusLiquidity(), 0);
         assertApproxEqAbs(stock.balanceOf(curve.treasury()), targetStock - pmStock, 2,
             "other half becomes strategy capital");
-        address vault = hook.liquidityVaultOf(key.toId());
         assertEq(HedgeFunTreasuryBase(curve.treasury()).hook(), address(hook));
         assertGt(vault.code.length, 0);
-        assertLt(IERC20(curve.token()).totalSupply(), supplyBefore);
+        assertEq(IERC20(curve.token()).totalSupply(), supplyBefore, "graduation never burns project tokens");
         assertEq(stock.balanceOf(address(factory)), 0);
         assertEq(IERC20(curve.token()).balanceOf(address(factory)), 0);
         assertEq(stock.balanceOf(address(curve)), curve.totalFees(), "graduation retains segregated buy-fee claims");

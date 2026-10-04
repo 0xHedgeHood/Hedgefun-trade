@@ -15,6 +15,7 @@ import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunBondingCurve as Curve} from "../src/v2/HedgeFunBondingCurve.sol";
 import {HedgeFunV2TradeRouter as Router} from "../src/v2/HedgeFunV2TradeRouter.sol";
 import {HedgeFunTreasuryBase} from "../src/HedgeFunTreasuryBase.sol";
+import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
 import {V2FactoryFixture} from "./utils/V2FactoryFixture.sol";
 
 /// Blue-team accounting oracle: the expected balances are accumulated from individual executed trades,
@@ -242,7 +243,8 @@ contract V2AdversarialAccountingTest is V2FactoryFixture {
     function _checkMigratedTokenSupply(Curve curve, uint256 donatedTokens) private view {
         IERC20 token = IERC20(curve.token());
         uint256 held = token.balanceOf(ALICE) + token.balanceOf(BOB) + token.balanceOf(address(this))
-            + token.balanceOf(address(pm)) + donatedTokens;
+            + token.balanceOf(address(pm)) + donatedTokens
+            + token.balanceOf(HedgeFunV2Treasury(curve.treasury()).liquidityVault());
         assertEq(token.totalSupply(), held, "all surviving strategy tokens accounted after burns and LP migration");
     }
 

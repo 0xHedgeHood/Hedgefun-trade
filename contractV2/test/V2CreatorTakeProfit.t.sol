@@ -94,7 +94,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         assertEq(reward, (q - sold) * 200 / 10000);
         assertLt(t.reserveUsdg() - before[2] + Math.mulDiv(retained, p, SCALE), Math.mulDiv(q, 100e18, SCALE),
             "a lawful creator-selected TP can lose value; this is deliberately not a runtime veto");
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_creator180TriggerSucceedsOnSmallHealthyActualFill() public {
@@ -104,7 +104,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         vm.prank(KEEPER); t.execute();
         assertEq(t.lotCount(), 0);
         assertGt(t.reserveUsdg(), 0); assertGt(t.buybackStock(), 0); assertGt(stock.balanceOf(KEEPER), 0);
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_creatorOneBpsStopActuallyExecutesAndPaysOnlyActualUsdGReward() public {
@@ -115,7 +115,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         assertEq(uint8(action), uint8(HedgeFunV2Treasury.Action.Stop)); assertEq(id, 0);
         assertGt(t.reserveUsdg(), 0); assertGt(usdg.balanceOf(KEEPER), 0); assertEq(stock.balanceOf(KEEPER), 0);
         assertEq(t.lastStopPrice(), 99.99e18); assertEq(t.lastStopAt(), block.timestamp);
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_creatorOneBpsDipActuallyExecutesWithActualFillCost() public {
@@ -126,7 +126,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         (uint256 qty, uint256 cost,,) = t.lots(1);
         uint256 reward = usdg.balanceOf(KEEPER); uint256 spent = 100e6 - t.reserveUsdg() - reward;
         assertEq(reward, spent * 200 / 10000); assertEq(cost, Math.mulDiv(spent, SCALE, qty));
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_noMonetaryFillRevertsAtomicallyWithoutRewardOrStopGateChange() public {
@@ -162,7 +162,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         assertEq(uint8(action), uint8(HedgeFunV2Treasury.Action.TakeProfit)); assertEq(id, 0);
         Vm.Log[] memory logs = vm.getRecordedLogs();
         assertEq(logs.length, 1); assertEq(logs[0].topics[0], keccak256("DustCleared(uint256,uint256)"));
-        assertEq(t.lotCount(), 127); assertEq(t.buybackStock(), 1);
+        assertEq(t.lotCount(), 127); assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 1);
         assertEq(t.lastSalePrice(), 100e18); assertEq(t.lastGoodPrice(), lastGood); assertEq(t.lastGoodPriceAt(), lastAt);
         assertEq(t.lastStopPrice(), 100e18); assertEq(t.lastStopAt(), block.timestamp); assertEq(t.lastStopStockUpdatedAt(), block.timestamp);
         assertEq(stock.balanceOf(KEEPER), 0); assertEq(usdg.balanceOf(KEEPER), 0);
@@ -170,7 +170,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         // A genuine new donation books into the released slot; the remaining distinct-cost tails still clear.
         stock.mint(address(t), 0.1 ether); assertTrue(t.book()); assertEq(t.lotCount(), 128);
         for (uint256 i; i < 127; ++i) { vm.prank(KEEPER); t.execute(); }
-        assertEq(t.lotCount(), 1); assertEq(t.bookedStock(), 0.1 ether); assertEq(t.buybackStock(), 128);
+        assertEq(t.lotCount(), 1); assertEq(t.bookedStock(), 0.1 ether + 1); assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 127);
         assertEq(t.lastStopAt(), block.timestamp);
         usdg.mint(address(t), 100e6);
         vm.warp(block.timestamp + 601); _px(97e18);
@@ -178,7 +178,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         assertEq(uint8(action), uint8(HedgeFunV2Treasury.Action.BuyDip));
         assertEq(t.lastStopAt(), 0); assertEq(t.lastStopPrice(), 0); assertEq(t.lastStopStockUpdatedAt(), 0);
         assertGt(usdg.balanceOf(KEEPER), 0, "the consumed dust flag does not leak into a real buy");
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_oneWeiTp1StageAdvanceThenDustCleanupMovesNoRewardOrPriceReference() public {
@@ -190,7 +190,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         (uint256 qty,, bool half, uint256 left) = t.lots(0);
         assertEq(qty, 1); assertTrue(half); assertEq(left, 0); assertEq(t.bookedStock(), 1); assertEq(t.buybackStock(), 0);
         vm.prank(KEEPER); t.execute();
-        assertEq(t.lotCount(), 0); assertEq(t.bookedStock(), 0); assertEq(t.buybackStock(), 1);
+        assertEq(t.lotCount(), 0); assertEq(t.bookedStock(), 0); assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 1);
         assertEq(beforeRefs, keccak256(abi.encode(t.lastSalePrice(), t.lastGoodPrice(), t.lastGoodPriceAt(), t.lastStopPrice(), t.lastStopAt(), t.lastStopStockUpdatedAt())));
         assertEq(stock.balanceOf(KEEPER), 0); assertEq(usdg.balanceOf(KEEPER), 0);
     }
@@ -204,12 +204,12 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         Vm.Log[] memory logs = vm.getRecordedLogs(); assertEq(logs.length, 1);
         assertEq(logs[0].topics[0], keccak256("RemainderReclassified(uint256,uint256)"));
         assertEq(abi.decode(logs[0].data, (uint256)), 1e10);
-        assertEq(t.lotCount(), 0); assertEq(t.reserveUsdg(), 0); assertEq(t.unbookedStock(), 0);
-        assertEq(t.buybackStock(), 1e10); assertEq(stock.balanceOf(KEEPER), 0); assertEq(usdg.balanceOf(KEEPER), 0);
+        assertEq(t.lotCount(), 0); assertEq(t.reserveUsdg(), 0); assertEq(t.unbookedStock(), 1e10);
+        assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 1e10); assertEq(stock.balanceOf(KEEPER), 0); assertEq(usdg.balanceOf(KEEPER), 0);
         assertEq(t.lastSalePrice(), 100e18); assertEq(t.lastGoodPrice(), good); assertEq(t.lastGoodPriceAt(), at);
         assertEq(t.lastStopPrice(), 100e18); assertEq(t.lastStopAt(), block.timestamp); assertEq(t.lastStopStockUpdatedAt(), block.timestamp);
         vm.prank(KEEPER); vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector); t.execute();
-        assertEq(t.buybackStock(), 1e10); assertEq(stock.balanceOf(KEEPER), 0, "no repeated free reward");
+        assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 1e10); assertEq(stock.balanceOf(KEEPER), 0, "no repeated free reward");
     }
 
     function test_partialTp1RemainderReclassificationProgressesTwoCallsThenTp2WithoutEconomicSideEffects() public {
@@ -221,7 +221,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
             vm.recordLogs(); vm.prank(KEEPER); t.execute();
             Vm.Log[] memory logs = vm.getRecordedLogs(); assertEq(logs.length, 1);
             assertEq(logs[0].topics[0], keccak256("RemainderReclassified(uint256,uint256)"));
-            assertEq(t.buybackStock(), (i + 1) * 1e10); assertEq(t.bookedStock() + t.buybackStock(), 4e10);
+            assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), (i + 1) * 1e10); assertEq(t.bookedStock() + t.unbookedStock(), 4e10);
             assertEq(t.lastSalePrice(), 100e18); assertEq(t.lastStopAt(), block.timestamp); assertEq(t.lastStopPrice(), 100e18);
             if (i < 3) {
                 (uint256 qty,, bool half, uint256 left) = t.lots(0);
@@ -236,13 +236,13 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         for (uint256 i; i < 128; ++i) t.seedLot(1e10, 1e18 + i * 1e15);
         stock.mint(address(t), 128e10); t.seedReferences(100e18, block.timestamp);
         for (uint256 i; i < 128; ++i) { vm.prank(KEEPER); t.execute(); }
-        assertEq(t.lotCount(), 0); assertEq(t.bookedStock(), 0); assertEq(t.buybackStock(), 128e10);
+        assertEq(t.lotCount(), 0); assertEq(t.bookedStock(), 0); assertEq(t.buybackStock(), 0); assertEq(t.unbookedStock(), 128e10);
         assertEq(stock.balanceOf(KEEPER), 0); assertEq(usdg.balanceOf(KEEPER), 0); assertEq(t.lastStopAt(), block.timestamp);
         stock.mint(address(t), 0.1 ether); assertTrue(t.book()); assertEq(t.lotCount(), 1);
         usdg.mint(address(t), 100e6); vm.warp(block.timestamp + 601); _px(99e18);
         vm.prank(KEEPER); (HedgeFunV2Treasury.Action action,) = t.execute();
         assertEq(uint8(action), uint8(HedgeFunV2Treasury.Action.BuyDip));
-        assertEq(t.lastStopAt(), 0); assertGt(usdg.balanceOf(KEEPER), 0); assertLt(t.reserveUsdg(), 100e6); assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.lastStopAt(), 0); assertGt(usdg.balanceOf(KEEPER), 0); assertLt(t.reserveUsdg(), 100e6); assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 
     function test_exactCostCoalescedLotsConserveInventory_andNormalFillClearsStopGate() public {
@@ -256,7 +256,7 @@ abstract contract V2CreatorTakeProfitBase is V2ExecuteBase {
         assertEq(t.lotCount(), 0); assertEq(t.lastStopAt(), 0); assertEq(t.lastStopPrice(), 0);
         uint256 basis = Math.mulDiv(qty, cost + 1, SCALE, Math.Rounding.Ceil);
         assertGt(t.reserveUsdg() + Math.mulDiv(t.buybackStock(), 101.8e18, SCALE), basis + Math.mulDiv(basis, 50, 10000, Math.Rounding.Ceil));
-        assertEq(t.bookedStock() + t.buybackStock(), stock.balanceOf(address(t)));
+        assertEq(t.bookedStock() + t.buybackStock() + t.unbookedStock(), stock.balanceOf(address(t)));
     }
 }
 

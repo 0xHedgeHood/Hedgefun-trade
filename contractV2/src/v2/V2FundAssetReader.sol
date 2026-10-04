@@ -69,7 +69,17 @@ contract V2FundAssetReader {
                 || (Currency.unwrap(key.currency1) == address(stock) && Currency.unwrap(key.currency0) == token))) {
             revert UnavailableAssets();
         }
-        (lpStock, uncollectedStockFee) = _positionStock(key, vaultAddress);
+        (lpStock, uncollectedStockFee) = _positionStock(key, vaultAddress,
+            TickMath.minUsableTick(key.tickSpacing), TickMath.maxUsableTick(key.tickSpacing), bytes32(0));
+        // Older immutable vaults have only the base position and no surplus getter.
+        try vault.surplusLiquidity() returns (uint128 extraLiquidity) {
+            if (extraLiquidity != 0) {
+                (uint256 extraStock, uint256 extraFees) = _positionStock(key, vaultAddress,
+                    vault.surplusTickLower(), vault.surplusTickUpper(), bytes32(uint256(1)));
+                lpStock += extraStock;
+                uncollectedStockFee += extraFees;
+            }
+        } catch {}
         treasuryStock = stock.balanceOf(treasury);
         vaultStock = stock.balanceOf(vaultAddress);
         cash = usdg.balanceOf(treasury);
@@ -83,20 +93,22 @@ contract V2FundAssetReader {
         navUsdg = Math.mulDiv(held + parked + principal + fees, price, scale) + cash;
     }
 
-    function _positionStock(PoolKey memory key, address vault) private view returns (uint256 principal, uint256 fees) {
+    function _positionStock(PoolKey memory key, address vault, int24 lower, int24 upper, bytes32 salt)
+        private view returns (uint256 principal, uint256 fees)
+    {
         PoolId id = key.toId();
-        int24 lower = TickMath.minUsableTick(key.tickSpacing);
-        int24 upper = TickMath.maxUsableTick(key.tickSpacing);
-        (uint128 liquidity, uint256 last0, uint256 last1) = poolManager.getPositionInfo(id, vault, lower, upper, bytes32(0));
-        (uint160 sqrtPrice,,,) = poolManager.getSlot0(id);
-        if (sqrtPrice == 0 || liquidity == 0) revert UnavailableAssets();
-        uint160 sqrtLower = TickMath.getSqrtPriceAtTick(lower);
-        uint160 sqrtUpper = TickMath.getSqrtPriceAtTick(upper);
+        (uint128 liquidity, uint256 last0, uint256 last1) = poolManager.getPositionInfo(id, vault, lower, upper, salt);
         bool stockIs0 = Currency.unwrap(key.currency0) == address(stock);
-        if (stockIs0 && sqrtPrice < sqrtUpper) {
-            principal = SqrtPriceMath.getAmount0Delta(sqrtPrice > sqrtLower ? sqrtPrice : sqrtLower, sqrtUpper, liquidity, false);
-        } else if (!stockIs0 && sqrtPrice > sqrtLower) {
-            principal = SqrtPriceMath.getAmount1Delta(sqrtLower, sqrtPrice < sqrtUpper ? sqrtPrice : sqrtUpper, liquidity, false);
+        {
+            (uint160 sqrtPrice,,,) = poolManager.getSlot0(id);
+            if (sqrtPrice == 0 || liquidity == 0) revert UnavailableAssets();
+            uint160 sqrtLower = TickMath.getSqrtPriceAtTick(lower);
+            uint160 sqrtUpper = TickMath.getSqrtPriceAtTick(upper);
+            if (stockIs0 && sqrtPrice < sqrtUpper) {
+                principal = SqrtPriceMath.getAmount0Delta(sqrtPrice > sqrtLower ? sqrtPrice : sqrtLower, sqrtUpper, liquidity, false);
+            } else if (!stockIs0 && sqrtPrice > sqrtLower) {
+                principal = SqrtPriceMath.getAmount1Delta(sqrtLower, sqrtPrice < sqrtUpper ? sqrtPrice : sqrtUpper, liquidity, false);
+            }
         }
         (uint256 inside0, uint256 inside1) = poolManager.getFeeGrowthInside(id, lower, upper);
         uint256 growth;

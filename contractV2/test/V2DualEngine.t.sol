@@ -67,12 +67,12 @@ contract V2DualEngineTest is V2FactoryFixture {
         assertEq(hook.liquidityVaultOf(key.toId()), predicted);
         assertApproxEqAbs(stock.balanceOf(address(pm)), realReserve / 2, 2);
         assertEq(stock.balanceOf(predicted), 3e18);
-        assertEq(IERC20(curve.token()).balanceOf(predicted), 1e18);
+        assertEq(IERC20(curve.token()).balanceOf(predicted), 1e18 + V2LiquidityVault(predicted).lockedSeedTokens());
         (uint256 stockFee, uint256 funFee) = V2LiquidityVault(predicted).collectFees();
         assertEq(stockFee, 0);
         assertEq(funFee, 0);
         assertEq(stock.balanceOf(predicted), 3e18);
-        assertEq(IERC20(curve.token()).balanceOf(predicted), 1e18);
+        assertEq(IERC20(curve.token()).balanceOf(predicted), 1e18 + V2LiquidityVault(predicted).lockedSeedTokens());
     }
 
     function test_stockSideLpFeeCreditsBuybackWithoutCreatingStrategyLot() public {
@@ -98,7 +98,12 @@ contract V2DualEngineTest is V2FactoryFixture {
         assertEq(funBurned, 0);
         assertEq(treasury.buybackStock(), stockFee);
         assertEq(treasury.bookedStock(), principal, "LP income is not strategy cost basis");
-        assertEq(pm.getLiquidity(key.toId()), liquidityBefore, "fee collection cannot remove principal");
+        (uint128 baseAfter,,) = pm.getPositionInfo(key.toId(), address(vault),
+            TickMath.minUsableTick(key.tickSpacing), TickMath.maxUsableTick(key.tickSpacing), bytes32(0));
+        (uint128 surplusAfter,,) = pm.getPositionInfo(key.toId(), address(vault),
+            vault.surplusTickLower(), vault.surplusTickUpper(), bytes32(uint256(1)));
+        assertEq(baseAfter, liquidityBefore, "fee collection cannot remove base principal");
+        assertEq(surplusAfter, vault.surplusLiquidity(), "fee collection cannot remove surplus principal");
         assertEq(stock.allowance(address(vault), address(treasury)), 0);
         assertEq(stock.balanceOf(address(vault)), 0);
         (uint256 repeatStock, uint256 repeatToken) = vault.collectFees();

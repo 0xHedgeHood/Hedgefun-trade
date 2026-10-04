@@ -13,6 +13,7 @@ import {PoolId} from "v4-core/src/types/PoolId.sol";
 import {PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
 import {SwapParams} from "v4-core/src/types/PoolOperation.sol";
 import {StateLibrary} from "v4-core/src/libraries/StateLibrary.sol";
+import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunToken} from "../src/HedgeFunToken.sol";
 import {V2LiquidityVault} from "../src/v2/V2LiquidityVault.sol";
 import {MockToken} from "./mocks/Mocks.sol";
@@ -108,9 +109,12 @@ contract V2LiquidityVaultTest is Test {
         assertGt(used0, 0);
         assertGt(used1, 0);
         assertEq(stock.balanceOf(address(this)), stockBefore + 1000e18 - (address(stock) < address(fun) ? used0 : used1));
-        assertEq(fun.balanceOf(address(this)), funBefore + 1000e18 - (address(fun) < address(stock) ? used0 : used1));
+        assertEq(fun.balanceOf(address(this)), funBefore, "unused project tokens are never returned to the factory");
         assertEq(stock.balanceOf(address(vault)), 0);
-        assertEq(fun.balanceOf(address(vault)), 0);
+        assertEq(fun.balanceOf(address(vault)), vault.lockedSeedTokens());
+        assertEq(fun.balanceOf(address(pm)) + vault.lockedSeedTokens(), 1000e18);
+        assertEq(fun.totalSupply(), 1_000_000e18, "seeding does not burn supply");
+        assertGt(vault.surplusLiquidity(), 0);
         PoolId id = key.toId();
         assertGt(pm.getLiquidity(id), 0);
         vm.expectRevert(V2LiquidityVault.AlreadySeeded.selector);
@@ -136,13 +140,13 @@ contract V2LiquidityVaultTest is Test {
         assertEq(stock.balanceOf(address(sink)) - treasuryBefore, stockFee);
         assertEq(sink.credited(), stockFee);
         assertEq(supplyBefore - fun.totalSupply(), burned);
-        assertEq(pm.getLiquidity(id), lpBefore);
+        _assertLockedPositions(lpBefore);
         assertEq(stock.balanceOf(address(vault)), 0);
-        assertEq(fun.balanceOf(address(vault)), 0);
+        assertEq(fun.balanceOf(address(vault)), vault.lockedSeedTokens());
         (uint256 secondStock, uint256 secondToken) = vault.collectFees();
         assertEq(secondStock, 0);
         assertEq(secondToken, 0);
-        assertEq(pm.getLiquidity(id), lpBefore);
+        _assertLockedPositions(lpBefore);
     }
 
     function test_stockCreditFailureParksFeeButStillBurnsTokenFee() public {
@@ -165,7 +169,7 @@ contract V2LiquidityVaultTest is Test {
         assertEq(sink.credited(), 0);
         assertEq(stock.allowance(address(vault), address(sink)), 0);
         assertEq(fun.totalSupply(), supplyBefore - burned);
-        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+        _assertLockedPositions(lpBefore);
 
         sink.setRejectStock(false);
         (delivered, burned) = vault.collectFees();
@@ -174,7 +178,7 @@ contract V2LiquidityVaultTest is Test {
         assertEq(sink.credited(), delivered);
         assertEq(stock.balanceOf(address(vault)), 0);
         assertEq(stock.allowance(address(vault), address(sink)), 0);
-        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+        _assertLockedPositions(lpBefore);
     }
 
     function test_callbackCannotBeCalledByOutsider() public {
@@ -199,7 +203,7 @@ contract V2LiquidityVaultTest is Test {
         assertGt(burned, 0);
         assertEq(sink.credited(), 0);
         assertEq(fun.totalSupply(), supplyBefore - burned);
-        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+        _assertLockedPositions(lpBefore);
     }
 
     function test_stockCallbackCannotReenterFeeCollection() public {
@@ -219,6 +223,15 @@ contract V2LiquidityVaultTest is Test {
         assertEq(stock.balanceOf(address(sink)), stockFee);
         assertEq(sink.credited(), stockFee);
         assertEq(stock.allowance(address(vault), address(sink)), 0);
-        assertEq(pm.getLiquidity(key.toId()), lpBefore);
+        _assertLockedPositions(lpBefore);
+    }
+
+    function _assertLockedPositions(uint128 baseLiquidity) private view {
+        (uint128 base,,) = pm.getPositionInfo(key.toId(), address(vault),
+            TickMath.minUsableTick(key.tickSpacing), TickMath.maxUsableTick(key.tickSpacing), bytes32(0));
+        (uint128 extra,,) = pm.getPositionInfo(key.toId(), address(vault),
+            vault.surplusTickLower(), vault.surplusTickUpper(), bytes32(uint256(1)));
+        assertEq(base, baseLiquidity, "fee collection preserves base position principal");
+        assertEq(extra, vault.surplusLiquidity(), "fee collection preserves surplus position principal");
     }
 }

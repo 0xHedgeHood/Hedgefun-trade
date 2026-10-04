@@ -62,6 +62,7 @@ contract V2MarketSellScenariosTest is V2FactoryFixture {
         sum += asset.balanceOf(address(pm)) + asset.balanceOf(address(hook));
         sum += asset.balanceOf(address(router)) + asset.balanceOf(curve.treasury());
         sum += asset.balanceOf(protocol) + asset.balanceOf(address(stockPool));
+        sum += asset.balanceOf(hook.liquidityVaultOf(key.toId())); // locked token rounding residue
     }
 
     function _assertConservation() private view {

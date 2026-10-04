@@ -8,7 +8,7 @@ import {DeployV2FeeUpgradeTestnet} from "../script/DeployV2FeeUpgradeTestnet.s.s
 import {HedgeFunFactory} from "../src/HedgeFunFactory.sol";
 import {HedgeFunV2Factory} from "../src/v2/HedgeFunV2Factory.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
-import {HedgeFunV2AllInTreasury} from "../src/v2/HedgeFunV2AllInTreasury.sol";
+import {HedgeFunV2UpgradeableTreasury} from "../src/v2/HedgeFunV2UpgradeableTreasury.sol";
 import {HedgeFunBondingCurve} from "../src/v2/HedgeFunBondingCurve.sol";
 
 contract CreatorCoreRoleInvoker {
@@ -39,7 +39,7 @@ contract TestnetV2CreatorCoreTest is Test {
         assertEq(x.lines.length, 8);
         assertTrue(address(x.factory) != OLD_FEE_FACTORY);
         assertTrue(address(x.treasury) != OLD_FEE_REGISTRY);
-        assertEq(x.treasury.allInTriggerCodeHash(), keccak256(type(HedgeFunV2AllInTreasury).creationCode));
+        assertEq(x.treasury.allInTriggerCodeHash(), keccak256(type(HedgeFunV2UpgradeableTreasury).creationCode));
         _launchAndGraduate(x);
         assertEq(OLD_FEE_FACTORY.codehash, oldFactoryHash);
         assertEq(OLD_FEE_REGISTRY.codehash, oldRegistryHash);

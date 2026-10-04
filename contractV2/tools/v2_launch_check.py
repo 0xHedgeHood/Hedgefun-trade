@@ -18,7 +18,7 @@ hour, so they are re-measured here, on a fork of the live chain, immediately bef
   in the thinner of the two directions.
 
 saleBps is each creator's own choice (CurveDeployer.setCurveConfig, 1000..9000); a launch that registers none gets
-CurveDeployer.DEFAULT_SALE_BPS = 4400. No owner limit on it exists on chain, and every listed stock is available, so
+CurveDeployer.DEFAULT_SALE_BPS = 7931. No owner limit on it exists on chain, and every listed stock is available, so
 for a creator's value the verdict is ADVISORY: the front end shows PASS or FAIL as a warning and nothing refuses
 the launch. A rule 1(a) FAIL is the one it must surface: that raise can never graduate, and its buyers can only
 sell back to the curve (round 3 M-3). Check a creator's raise with --sale-bps, or give a plan entry its own saleBps.
@@ -71,7 +71,7 @@ ZERO = "0x" + "0" * 40
 
 BPS = 10_000
 SALE_BPS_MIN, SALE_BPS_MAX = 1000, 9000       # HedgeFunBondingCurve constructor bounds = CurveDeployer's MIN/MAX_SALE_BPS
-DEFAULT_SALE_BPS = 4400                       # CurveDeployer.DEFAULT_SALE_BPS: a launch whose creator registered none
+DEFAULT_SALE_BPS = 7931                       # CurveDeployer.DEFAULT_SALE_BPS: a launch whose creator registered none
 CHUNK_RULE_FEE = 500                          # M4-1 applies to 0.05% pools only
 CHUNK_RULE_BPS = 1000                         # sellChunkUsdg <= 10% of USDG depth per 1% move
 RATE_LIMIT = re.compile(r"HTTP error 429|429 Too Many|rate.?limit|retry_after|Too Many Requests|compute units", re.I)

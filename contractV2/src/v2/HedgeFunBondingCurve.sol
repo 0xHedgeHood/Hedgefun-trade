@@ -37,7 +37,7 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
     uint16 public immutable snipeBps;
     uint8 public immutable snipeSeconds;
     uint40 public immutable launchedAt;
-    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 32;
+    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 40;
     /// @notice Additional wallets frozen into this curve at launch. The creator is exempt without using a slot.
     address[] public openingTaxExemptions;
     mapping(address => bool) public isOpeningTaxExempt;
@@ -81,7 +81,7 @@ contract HedgeFunBondingCurve is ReentrancyGuard {
         if (terminalStock > type(uint128).max) revert BadConfig();
         taxBps = p.taxBps; protocolBps = p.protocolBps; creatorBps = p.creatorBps;
         snipeBps = p.snipeBps; snipeSeconds = p.snipeSeconds; launchedAt = uint40(block.timestamp);
-        // `creator` is also the creator-fee recipient in V2. Only the additional wallets use the 32 slots.
+        // `creator` is also the creator-fee recipient in V2. Only the additional wallets use the 40 slots.
         isOpeningTaxExempt[p.creator] = true;
         for (uint256 i; i < p.openingTaxExemptions.length; ++i) {
             address recipient = p.openingTaxExemptions[i];

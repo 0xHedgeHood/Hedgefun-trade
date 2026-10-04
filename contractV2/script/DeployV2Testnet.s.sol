@@ -47,11 +47,15 @@ contract DeployV2Testnet is Script {
     uint16 internal constant MAX_SLIPPAGE_BPS = 100;
     uint64 internal constant SELL_CHUNK_USDG = 2_000e6;
     uint16 internal constant LP_BPS = 5000;                     // V2TreasuryDeployer.DEFAULT_LP_BPS, set explicitly
+    /// New-deployment reference FDV with supply-preserving graduation, at the mock price and with no opening burn.
+    /// The calibration uses the chosen sale fraction and unchanged post-graduation supply.
+    uint256 public constant TARGET_GRADUATION_FDV_USD_E18 = 50_000e18;
+    uint16 public constant REFERENCE_SALE_BPS = 7931;
     /// PriceOracle ages, as mainnet's (script/DeployPriceOracles.s.sol)
     uint256 internal constant MAX_STOCK_AGE = 26 hours;
     uint256 internal constant MAX_USDG_AGE = 26 hours;
     /// Each pool's position spans about half to double the opening price, and holds this much tUSDG on its USDG side:
-    /// roughly 500,000 tUSDG per 1% move, so a default 4400 raise (~8,000 USDG) moves it a few bps and a creator's
+    /// roughly 500,000 tUSDG per 1% move, so the default 7931 raise (~8,205 USDG) moves it a few bps and a creator's
     /// 9000 stays inside the 50 bps gate. The market mints the other side.
     int24 internal constant RANGE_TICKS = 6960;
     uint256 internal constant USDG_SIDE = 30_000_000e6;
@@ -67,7 +71,7 @@ contract DeployV2Testnet is Script {
         string symbol;
         string name;
         uint256 priceE18;         // USDG per whole token, near the mainnet oracle on 2026-09-28
-        uint256 openPriceE18;     // the planned mainnet listing's openPriceE18 (deploy/v2-listings-plan.json)
+        uint256 openPriceE18;     // calibrated for this fresh testnet deployment; not a historical address-book value
         uint24 fee;               // the mainnet listing pool's fee tier
         uint256 dripAmount;
     }
@@ -149,6 +153,19 @@ contract DeployV2Testnet is Script {
         s[1] = StockSpec("TSLA", "Tesla test stock (testnet, no value)", 358e18, 26_500_000_000, 3000, 15e18);
         s[2] = StockSpec("GME", "GameStop test stock (testnet, no value)", 24e18, 423_000_000_000, 500, 200e18);
         s[3] = StockSpec("AAPL", "Apple test stock (testnet, no value)", 339e18, 29_800_000_000, 500, 15e18);
+        for (uint256 i; i < s.length; ++i) s[i].openPriceE18 = referenceOpenPriceE18(s[i].priceE18);
+    }
+
+    /// @notice 18-decimal stock units per token, scaled by 1e18. Recalibrate if supply or sale changes.
+    /// @dev A reference target, not a USD cap enforced by the curve: stock prices and opening burns can change FDV.
+    function referenceOpenPriceE18(uint256 stockUsdE18) public pure returns (uint256) {
+        uint256 sale = REFERENCE_SALE_BPS;
+        uint256 remaining = 10_000 - sale;
+        // Graduation preserves total supply. The remaining tokens enter locked LP positions.
+        uint256 openingFdv = Math.mulDiv(
+            TARGET_GRADUATION_FDV_USD_E18, remaining * remaining, 10_000 * 10_000
+        );
+        return Math.mulDiv(openingFdv, 1e18, stockUsdE18 * 1_000_000_000);
     }
 
     function _deployVenue(Deployment memory x) internal {
@@ -252,7 +269,7 @@ contract DeployV2Testnet is Script {
     }
 
     /// @dev the rehearsal's Defaults (docs/V2_DEPLOYMENT_REHEARSAL.md, decisions of 2026-09-28): creators choose tax
-    ///      1-15%, raise size (default saleBps 4400) and opening window (default 3 s); 25 USDG launch fee.
+    ///      1-15%, raise size (default saleBps 7931) and opening window (default 3 s); 25 USDG launch fee.
     function _defaults() internal pure returns (HedgeFunFactory.Defaults memory d) {
         d.supply = 1_000_000_000e18;
         d.lpFee = 3000;

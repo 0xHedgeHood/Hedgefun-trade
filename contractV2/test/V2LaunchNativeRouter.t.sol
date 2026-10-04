@@ -277,7 +277,7 @@ contract V2LaunchNativeRouterTest is V2FactoryFixture {
     function testCurveCapRefundsStockToCreator() public {
         HedgeFunFactory.Request memory q = _requestForCreator();
         (,, bytes32 terms) = factory.predict(q);
-        uint256 offer = 100 ether;
+        uint256 offer = _graduationOffer(q, terms);
         LaunchRouter.BuyParams memory p = _params(offer);
         vm.prank(creator);
         (uint256 id, uint256 out, uint256 refund) =
@@ -389,7 +389,7 @@ contract V2LaunchNativeRouterTest is V2FactoryFixture {
         q.stock = address(wrapped);
         q.symbol = "WETHSTOCK";
         (,, bytes32 terms) = factory.predict(q);
-        uint256 offer = 100 ether;
+        uint256 offer = _graduationOffer(q, terms);
         LaunchRouter.BuyParams memory p = _params(offer);
         p.minStockReceived = offer;
         TradeRouter.Hop[] memory emptyPath = new TradeRouter.Hop[](0);
@@ -528,9 +528,10 @@ contract V2LaunchNativeRouterTest is V2FactoryFixture {
     }
 
     function testFuzz_nativeGraduationRefundRequiresOptIn(uint96 offerSeed) public {
-        uint256 offer = bound(uint256(offerSeed), 100 ether, 200 ether);
         HedgeFunFactory.Request memory q = _requestForCreator();
         (,, bytes32 terms) = factory.predict(q);
+        uint256 minimum = _graduationOffer(q, terms);
+        uint256 offer = bound(uint256(offerSeed), minimum, minimum * 2);
         (uint256 spent,, bool graduates) = _fuzzQuote(q, terms, offer);
         assertTrue(graduates);
         assertLt(spent, offer * 997 / 1000);
@@ -541,6 +542,12 @@ contract V2LaunchNativeRouterTest is V2FactoryFixture {
         vm.expectPartialRevert(TradeRouter.PartialFill.selector);
         launcher.launchAndBuy{value: FEE + offer}(q, terms, _info(), p, _path());
         _assertFuzzRollback(q, creatorBefore);
+    }
+
+    function _graduationOffer(HedgeFunFactory.Request memory q, bytes32 terms) private returns (uint256) {
+        (uint256 needed,, bool graduates) = _fuzzQuote(q, terms, type(uint128).max);
+        assertTrue(graduates);
+        return (needed * 1000 + 996) / 997 + 1 ether;
     }
 
     function testFuzz_nativeLaunchPreservesDonatedAssets(uint96 offerSeed, uint96 donationSeed) public {

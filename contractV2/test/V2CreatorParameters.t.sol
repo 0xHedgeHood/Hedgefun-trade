@@ -6,6 +6,7 @@ import {HedgeFunFactory} from "../src/HedgeFunFactory.sol";
 import {HedgeFunTreasuryBase} from "../src/HedgeFunTreasuryBase.sol";
 import {HedgeFunV2Treasury} from "../src/v2/HedgeFunV2Treasury.sol";
 import {HedgeFunV2AllInTreasury} from "../src/v2/HedgeFunV2AllInTreasury.sol";
+import {HedgeFunV2UpgradeableTreasury} from "../src/v2/HedgeFunV2UpgradeableTreasury.sol";
 import {HedgeFunV2BuybackTreasury} from "../src/v2/HedgeFunV2BuybackTreasury.sol";
 import {V2TreasuryDeployer} from "../src/v2/V2TreasuryDeployer.sol";
 import {V2CreatorParams} from "../src/v2/strategy/V2CreatorParams.sol";
@@ -56,8 +57,8 @@ contract V2CreatorParametersTest is V2FactoryFixture {
 
     function test_defaultKindBindsExactCreatorSelectedCode() public view {
         (,, bytes32 codeHash,) = deployer.kindManifest(0);
-        assertEq(codeHash, keccak256(type(HedgeFunV2AllInTreasury).creationCode));
-        assertEq(codeHash, deployer.allInTriggerCodeHash());
+        assertEq(codeHash, keccak256(type(HedgeFunV2UpgradeableTreasury).creationCode));
+        assertEq(deployer.allInTriggerCodeHash(), keccak256(type(HedgeFunV2UpgradeableTreasury).creationCode));
     }
 
     function test_oneBpsTpDipAndStopAreAccepted_evenWithMaximumBounty() public {
@@ -116,7 +117,7 @@ contract V2CreatorParametersTest is V2FactoryFixture {
     }
 
     function test_sameCodeRegisteredAtAnotherKindAlsoUsesCreatorRungs() public {
-        (address a, address b) = deployer.makeChunks(type(HedgeFunV2AllInTreasury).creationCode);
+        (address a, address b) = deployer.makeChunks(type(HedgeFunV2UpgradeableTreasury).creationCode);
         vm.prank(owner); uint8 kind = deployer.registerKind(a, b);
         deployer.setStrategyKind("REPEAT", 0, kind);
         bytes32 salt = keccak256(abi.encode("REPEAT", address(this), uint96(0)));

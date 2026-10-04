@@ -28,8 +28,8 @@ previous holders can still sell to the Active curve if the stock itself remains 
 `graduate(id)` entry point cannot graduate an Active curve early or release another curve's reserves.
 
 The canonical V4 pool uses a new singleton hook bound to the V2 factory. The factory registers a per-pool
-`V2LiquidityVault` as the only initializer/seeder. That vault owns the full-range position and has no
-liquidity-removal, arbitrary-call or upgrade path; anyone may trigger fee-only collection. Deployed V1
+`V2LiquidityVault` as the only initializer/seeder. That vault owns both the full-range position and a
+single-sided surplus-token position in the same pool, and has no liquidity-removal, arbitrary-call or upgrade path; anyone may trigger fee-only collection. Deployed V1
 factories, hooks, tokens and treasuries are unchanged. The V2 factory delegates its one-time graduation
 execution to its bound `CurveDeployer` module because the inherited factory is near the EIP-170 limit;
 the module accepts execution only in that bound factory's context.
@@ -42,7 +42,9 @@ the graduation condition is fixed in raw stock/token units and never depends on 
 
 The listing, treasury rule and execution bounds, supply, opening price, curve allocation, the creator's raise size
 and opening window, fees and V4 pool settings are committed by `predict(Request)` and checked by `launch`. A
-defaults change invalidates a pending launch quote. After launch, its terms remain frozen even if that stock is delisted or future defaults change.
+defaults change invalidates a pending launch quote. After launch, curve and fee terms remain frozen even if that stock is delisted or future defaults change.
+The new default treasury starts with the committed strategy parameters but can later change logic through the
+48-hour upgrade controller described below; its upgradeability is part of the chosen treasury code.
 The protocol payout address inherited from V1 is immutable. Hook payout administration after graduation retains
 V1's existing rules; curve-era fee recipients are immutable.
 
@@ -51,7 +53,7 @@ Let initial supply be `S`, virtual stock be `V`, and accounted token inventory b
 - `V = ceil(openPriceE18 * S / 1e18)`; opening price uses raw stock units per token unit, scaled by 1e18.
 - Fixed product `K = S * V`; effective stock `Y = ceil(K / T)`; real reserve `R = Y - V`.
 - Minimum inventory `Tmin = floor(S * (10000 - saleBps) / 10000)`.
-- `saleBps` is the creator's choice for their own launch, 1000 through 9000, and 4400 when they register none
+- `saleBps` is the creator's choice for their own launch, 1000 through 9000, and 7931 when they register none
   ([below](#raise-size-and-opening-window-the-creators-choice)).
 - Terminal effective stock `Yg = ceil(K / Tmin)`; net stock graduation target `Rg = Yg - V`, which is
   `ceil(V * saleBps / (10000 - saleBps))` whenever `S * (10000 - saleBps)` divides by 10,000.
@@ -66,18 +68,27 @@ Graduation initializes V4 at the terminal curve price `Yg / Tmin`, rounded to it
 Only the **real** stock reserve `Rg` is capital: `floor(Rg * lpBps / 10000)` is the V4 stock budget and the balance
 goes to the strategy treasury. `lpBps` is per stock in `V2TreasuryDeployer` (`setLpBps`, factory owner, 10–100%, default
 50%), is part of a launch's `terms`, and is frozen per treasury at launch (`lpBpsOfTreasury`); neither the factory nor
-the curve deployer has the bytes for it. The worked example below uses the 50% default. The vault refunds unused LP budget to the factory, which forwards it to the treasury.
-At the terminal price, approximately `Tmin * floor(Rg / 2) / Yg` tokens enter LP; the excess is burned.
-The split and actual amounts are emitted in `GraduationCapitalSplit`. Preflight uses the **configured LP budget**
-budget and rejects zero/tiny, overflowing or unseedable configurations before launch.
+the curve deployer has the bytes for it. The worked example below uses the 50% default. The vault refunds unused **stock** budget to the factory, which forwards it to the treasury.
+At the terminal price, approximately `Tmin * floor(Rg / 2) / Yg` tokens enter the full-range LP. The remaining
+tokens seed a second, single-sided position on the token-only side of spot in the same pool (`salt = 1`). The
+nearest range boundary is the next usable tick above spot for token0, or the usable tick at/below spot for token1.
+The far boundary is the corresponding usable extreme tick. Both positions belong to the immutable vault.
+Tiny token rounding leftovers stay in `lockedSeedTokens`; they are neither refundable nor fee income.
+**Graduation burns zero project tokens and performs no principal-funded buyback.** The `Graduated` event retains
+its ABI and emits zero in its burn field. V4 positions are owned directly by the vault: there is no transferable
+LP token to burn. Permanent inability to remove liquidity provides the intended LP lock.
+The split and actual amounts are emitted in `GraduationCapitalSplit`. Preflight checks both positions against
+the configured budget and their aggregate per-tick liquidity limit before launch.
 
 For example, `S = 1,000,000`, `V = 100` stock and an 80% sale give `Tmin = 200,000`, `Yg = 500`, and
 `Rg = 400` stock. At roughly `0.0025` stock/FUN, the split seeds about 200 stock with 80,000 FUN, sends
-200 stock to the treasury, and burns about 120,000 unused FUN. Without the split, about 160,000 FUN paired
-with all 400 stock. Thus the new design preserves terminal **spot** but cuts starting V4 depth; execution
-also includes the V4 LP fee and hook tax and need not equal the final curve execution price.
+200 stock to the treasury, and deposits about 120,000 remaining FUN into the locked single-sided position.
+Total supply remains 1,000,000 FUN, absent earlier opening-premium burns. Initial **spot** is preserved, while the
+second position changes active liquidity as the price enters its range. It must be included in post-graduation
+simulations and asset accounting. Execution includes the V4 LP fee and hook tax.
 
-The following historical depth example ignores fees and opening burns. The pool opens with 200 stock against a
+The following historical depth example used the former single-position/burn design and ignores fees and opening burns;
+it is not a simulation of the new two-position pool. The pool opens with 200 stock against a
 float of 800,000 FUN funded by 400 stock of net principal; base fees are additional payments. Selling 1% of that float
 (8,000 FUN) into it returns about 18 stock and moves the price about −17%;
 selling 10% moves it about −75%. The pool absorbs roughly 100 stock of selling before the price halves, so early
@@ -104,7 +115,7 @@ Before 2026-09-28 the curve decayed the opening rate toward zero and only floore
 window early, at `snipeSeconds * (1 - taxBps / snipeBps)`: 99% / 66% / 33% at the shipped defaults, and the flat 10%
 from second 54 of a 60-second window. The deployed V1 hook keeps that formula; see
 [the V1 opening window](./V2_DEPLOYMENT_REHEARSAL.md#deployment-parameters-decided-after-audit-round-4).
-V2 creators can freeze up to 32 additional opening-premium exemptions; the creator is automatically exempt.
+V2 creators can freeze up to 40 additional opening-premium exemptions; the creator is automatically exempt.
 Use `quoteBuyFor(amount, recipient)` for recipient-specific output. Exempt recipients still pay the base stock fee;
 see [the whitelist guide](./V2_OPENING_TAX_WHITELIST.md). The sell-side stock tax stays flat during this window. Graduation starts neither a second
 snipe window nor a launch sell spike. Graduated V2 pools freeze `spikeBps = 0`: LP fees fund
@@ -138,10 +149,31 @@ the salt the factory derives from `(q.symbol, q.creator, q.nonce)`, the same pat
 `setEngineConfig`. A registration from any other address lands under that address's own salt and reaches only a
 launch in which it is the creator. A pending quote cannot be moved by a stranger.
 
-**Defaults.** A launch whose creator registered nothing gets `DEFAULT_SALE_BPS = 4400` and the factory's
+**Defaults.** A launch whose creator registered nothing gets `DEFAULT_SALE_BPS = 7931` and the factory's
 `Defaults.snipeSeconds` at quote time. `curveConfig(salt, defaultSnipeSeconds)` returns the values a launch is built
 with; `curveConfigOf(salt)` returns the raw registration, where a `saleBps` of 0 means none. A registration can be
-changed until the launch but not deleted: to return to the defaults, register 4400 and the factory's window.
+changed until the launch but not deleted: to return to the defaults, register 7931 and the factory's window.
+
+**2026-10-03 fresh-deployment reference.** The default is now 79.31%; existing immutable deployments
+and explicitly registered choices do not change. The frontend uses 79.31% for new drafts and keeps saved choices.
+`DeployV2Testnet` calibrates its four initial stock listings for a **$50,000 post-graduation FDV** at their
+reference mock stock prices, with 1 billion initial tokens, a 79.31% curve sale, 50% of net principal assigned to
+LP, and no opening-surcharge token burn. This is not a hard USD cap or a live-oracle adjustment. Other sale/LP
+choices, stock-price moves, or opening burns change the resulting FDV. Existing deployment address books and
+the historical mainnet listing plan retain their original values; deploying this script is a separate action.
+
+At this reference setting, terminal price and post-graduation FDV are about 23.360332 times their opening values.
+79.31% of original supply is sold; all remaining 20.69% goes into the two locked LP positions and tiny locked
+rounding residue. About 8.2046195% seeds the full-range position and about 12.4853805% seeds the single-sided
+position. Graduation does not reduce total supply. Reference opening FDV is $2,140.3805; the test script calibrates
+this from the configured $50,000 target and reference stock prices, without treating market cap as redeemable cash.
+`test_default7931GraduatesNear50kAcrossReferenceStocks` verifies actual V4 seeding, total-supply conservation,
+fees, terminal-price continuity and FDV for all four stock listings. It does not trade to a target valuation.
+
+The 79.31% allocation matches the documented Pump ordinary-curve allocation (793.1 million of 1 billion) and
+the StonkFun pricing API's `totalSellA / supply`. It does not copy their full curve: Pump's documented virtual
+token reserve is 1.073 billion, whereas this curve starts with the actual 1 billion. Matching the sale fraction
+does not match the opening-to-terminal price multiple, liquidity distribution or fee behavior.
 
 **Both choices are in `terms`.** `_curveInit` is the one place a curve's parameters are assembled, and `predictCurve`,
 `predict`, `_preflight` and `launch` all go through it, so they all read the same registration. V2's `_terms` hashes
@@ -173,7 +205,7 @@ the factory's.
 ## Fees and treasury activation
 
 Curve buy and sell base fees are denominated in stock and split between protocol, creator and treasury.
-The recommended release configuration is 3% with a 20%/10%/70% split. Opening buy premiums burn tokens separately.
+The fresh-deployment reference base fee is 1% with a 20%/10%/70% split. Opening buy premiums burn tokens separately.
 These liabilities never count toward principal or LP. Anyone may call `claimFees(recipient)`;
 funds can only go to that recipient. A blocked fee recipient cannot stop other claims or curve trades. Claims
 continue after graduation. Both sides of stock transfers are checked, rejecting transfer fees and sender
@@ -184,7 +216,7 @@ bounded conversion produces stock claims. Permissionless sweeping then applies t
 with `sweepTipBps = 0`. Pending claims are not paid cash. See [V2 two-sided fees](./V2_TWO_SIDED_FEES.md)
 for conversion guards, ABI semantics and fresh-deployment requirements.
 
-V2 requires `V2TreasuryDeployer`, which deploys `HedgeFunV2Treasury`. Before graduation, `health()` returns
+V2 requires `V2TreasuryDeployer`; its new default deploys `HedgeFunV2UpgradeableTreasury` over the all-in strategy core. Before graduation, `health()` returns
 `(false, 0)`: fees or direct donations may accumulate, but booking, take-profit, stop-loss and dip buying do not
 run. `wire()` activates the strategy after pool initialization. It also records the deterministic graduation
 price as the first buyback anchor, so the initial buyback does not accept a manipulated spot price simply
@@ -192,22 +224,46 @@ because the observation ring is young. Normal V1 TWAP and bounded anchor behavio
 
 ### Strategy kinds
 
-The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`, not in the factory: the factory sits 75
-bytes under EIP-170 and its `Request` is the deployed V1 ABI. Kind 0 is `HedgeFunV2Treasury` and needs no call. A
+The strategy a launch runs is chosen per launch in `V2TreasuryDeployer`; its `Request` retains the deployed V1 ABI.
+New kind 0 is `HedgeFunV2UpgradeableTreasury` and needs no registration by the creator. A
 creator picks another registered kind for their own upcoming launch with `setStrategyKind(symbol, nonce, kind)`;
 the deployer derives the same `(symbol, msg.sender, nonce)` salt the factory uses, so nobody can choose for someone
 else. The kind is part of the treasury's CREATE2 address and therefore of the `terms` a launch commits to: changing
 it after `predict` reverts the launch `Restated`. The factory owner adds kinds with `registerKind(chunkA, chunkB)`
-(`makeChunks(creationCode)` produces the two code blobs); kinds are append-only and existing treasuries never change.
+(`makeChunks(creationCode)` produces the two code blobs); kind registrations are append-only. Existing immutable treasuries do not gain an upgrade path.
+Only kinds whose deployed code explicitly supports upgrades can change implementations.
 A kind must take `HedgeFunV2Treasury`'s constructor arguments and serve the same surface the factory, hook, vault
-and routers call. This release registers only kind 0.
+and routers call. The constructor registers only kind 0; deployment scripts may append other kinds.
+`allInTriggerCodeHash` now identifies the new default proxy creation code, including re-registrations of that
+exact code. Creator-selected TP/dip/stop rungs remain available on that default; legacy kinds retain their own
+constructor restrictions and registry validation.
 
-**Kind 1 (opt-in, `HedgeFunV2BuybackTreasury`; production registration requires a separate Safe transaction):** a pure buy-back treasury. All
-stock it receives -- its graduation share, trading fees, stock-side LP fees -- is booked as `buybackStock`; it opens
-no stock lot and `execute()` reverts `UseBuyback`. Spending goes only through the inherited `buyback()`: one
+### Treasury upgrades and LP isolation
+
+Each new default treasury has its own implementation and ledger. The proxy delegates to the ordinary all-in
+strategy; immutable asset, pool and factory identities are bound to a configuration hash. Future logic must
+preserve the storage layout and append fields (or use namespaced storage). The initial implementation can only
+initialize proxy parameters during proxy construction; post-deployment reinitialization is rejected.
+
+`V2TreasuryUpgradeController` reads the current factory owner. That owner may schedule or cancel an upgrade
+for a specific treasury. Execution is permissionless only after a fixed **48-hour delay** and must match the
+announced implementation runtime hash and migration-calldata hash. The candidate must report the same config
+hash and storage-schema identifier. An ownership handover invalidates proposals from the former owner. Failed
+migration reverts the implementation change and proposal consumption together. Implementation pointers live in
+the separate controller, so writing a proxy storage slot cannot bypass its upgrade path.
+
+This is a governance trust boundary: an approved future implementation can change treasury custody and strategy
+behavior. Hash/schema checks are identity checks, not proof of honest code or storage compatibility. Use a
+reviewed upgrade and a suitable owner such as a multisig; no multisig deployment is performed by this change.
+The permanently locked LP vault has no upgrade or removal path, even if treasury logic changes. Treasury upgrades
+do not imply LP withdrawal authority. Revenue distribution/dividends are future extensions, not implemented or
+claimable in this release. Already deployed immutable treasuries require an explicit future migration/relaunch;
+they cannot be converted into these proxies by changing local source.
+
+**Kind 1 (opt-in, `HedgeFunV2BuybackTreasury`; production registration requires a separate Safe transaction):** a pure buy-back treasury. Its factory-booked graduation share is protected as `protectedGraduationStock` and excluded from
+`buybackStock`. Later income and voluntary donations can fund buybacks; it opens no stock lot and `execute()` reverts `UseBuyback`. Spending goes only through the inherited `buyback()`: one
 `buybackChunkUsdg` per `buybackCooldown`, bounded by the pool TWAP/anchor and `maxBuybackImpactBps`, burning what
-it buys. Graduation's own `book()` therefore turns the treasury's share of the raise into
-a paced burn budget. A call still reverts `NotDue` if the impact-bounded fill is below `minLotUsdg`: seed depth,
+it buys. Graduation principal stays idle and cannot fund this buyback budget. A call still reverts `NotDue` if the impact-bounded fill is below `minLotUsdg`: seed depth,
 `maxBuybackImpactBps` and the minimum lot must be calibrated together for every intended curve/LP configuration.
 The creator's tp/stop/dip fields are accepted and ignored. Before
 registering it, audit what the predictable stream invites: front-running each chunk (bounded by the anchor step),
@@ -235,7 +291,8 @@ Treasury funding remains a one-way contribution, not a redeemable deposit or bac
 
 V1 still enforces `lpFee = 0`. This dual-engine V2 requires a nonzero static V4 LP fee capped at 3000
 (0.30% in V4 units); the fee is charged **on top of** the existing hook tax. `V2LiquidityVault.collectFees()`
-uses a zero-liquidity-delta operation against only its own full-range position, so the principal cannot move.
+uses zero-liquidity-delta operations against both of its own positions, so the principal cannot move.
+`V2FundAssetReader` includes both positions’ current stock principal and accrued stock fees in fund assets.
 Stock-side LP fees are pulled by the treasury into `buybackStock` for its existing paced/TWAP-protected buyback,
 never booked as stock strategy cost basis. FUN-side LP fees are burned independently. If the issuer or treasury
 rejects stock delivery after V4 collection, the vault keeps that fee and retries it on the next permissionless
@@ -310,8 +367,8 @@ Unsolicited native sends are rejected, while forcibly sent native currency and E
 
 Indexers should attribute native trades using `NativeBought` / `NativeSold`, whose buyer/seller is the user.
 The underlying router event names the native wrapper as caller: it is the same trade, not another trade to add
-to volume. Curve, router and hook events are also layers of one execution. In every case display graduation
-burns, opening-premium burns and strategy-profit buyback burns as distinct categories.
+to volume. Curve, router and hook events are also layers of one execution. Keep historical graduation burns separate from opening-premium and income-funded buyback burns.
+New graduations report zero project-token burn; locked LP allocation is not a supply reduction.
 
 ### Create and buy with one ETH payment
 

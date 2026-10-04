@@ -2,6 +2,7 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {PoolManager} from "v4-core/src/PoolManager.sol";
 import {HedgeFunFactory} from "../src/HedgeFunFactory.sol";
@@ -247,10 +248,13 @@ contract AddV2TestnetStocksTest is Test {
         path[0] = HedgeFunV2TradeRouter.Hop(l.pool, address(l.stock));
         base.usdg.approve(address(base.router), type(uint256).max);
         vm.warp(block.timestamp + 4);
+        // Quote the actual configured curve; a fixed historical payment assumed the old 44% default.
+        (uint256 graduationStock,,) = curve.quoteBuy(type(uint128).max);
+        uint256 payment = Math.mulDiv(graduationStock, l.priceE18, 1e30) * 11 / 10 + 1e6;
         base.router
             .buy(
                 HedgeFunV2TradeRouter.TradeParams(
-                    id, address(base.usdg), 12_000e6, 1, 1, block.timestamp, base.router.ACTIVE(), true
+                    id, address(base.usdg), payment, 1, 1, block.timestamp, base.router.ACTIVE(), true
                 ),
                 path
             );

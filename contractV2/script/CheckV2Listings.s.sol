@@ -145,7 +145,7 @@ contract CheckV2Listings is Script {
     /// the depth-down quote's stock budget; the 1% price limit stops the swap long before it is spent
     uint256 internal constant HUGE_STOCK = 1e36;
     /// `CurveDeployer.DEFAULT_SALE_BPS`, assumed only for a factory that has no curve deployer to ask
-    uint16 internal constant DEFAULT_SALE_BPS = 4400;
+    uint16 internal constant DEFAULT_SALE_BPS = 7931;
 
     struct Entry {
         address stock;

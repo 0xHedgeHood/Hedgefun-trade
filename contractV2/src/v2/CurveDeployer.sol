@@ -14,6 +14,8 @@ import {Currency} from "v4-core/src/types/Currency.sol";
 import {HedgeFunHook} from "../hooks/HedgeFunHook.sol";
 import {HedgeFunV2Treasury} from "./HedgeFunV2Treasury.sol";
 import {V2InitCodeChunk} from "./V2TreasuryDeployer.sol";
+import {SqrtPriceMath} from "v4-core/src/libraries/SqrtPriceMath.sol";
+import {V2SurplusLiquidity} from "./V2SurplusLiquidity.sol";
 
 interface IV2LpShare { function lpBpsOfTreasury(address treasury) external view returns (uint16); }
 
@@ -33,9 +35,10 @@ contract CurveDeployer is BoundDeployer {
     ///         module over EIP-170. `deploy` and `predict` hash `code ++ args` exactly as before, so a curve's
     ///         address is derived as it always was; check it with `keccak256(curveChunk.code) == keccak256(type(HedgeFunBondingCurve).creationCode)`.
     address public immutable curveChunk;
+    address public immutable vaultChunk;
 
-    /// @notice The raise a launch gets when its creator registered nothing: 44% of supply sold on the curve.
-    uint16 public constant DEFAULT_SALE_BPS = 4400;
+    /// @notice The raise a launch gets when its creator registered nothing: 79.31% of supply sold on the curve.
+    uint16 public constant DEFAULT_SALE_BPS = 7931;
     /// @notice The curve constructor's lower bound on `saleBps`, 10% of supply sold. A creator's `saleBps` is anything
     ///         the constructor accepts, and nothing narrower.
     uint16 public constant MIN_SALE_BPS = 1000;
@@ -44,7 +47,7 @@ contract CurveDeployer is BoundDeployer {
     /// @notice The longest opening window a creator may choose. 0 is "off": the flat tax from the first second.
     uint8 public constant MAX_SNIPE_SECONDS = 180;
     /// @notice Additional recipient wallets a creator may exempt from only the opening buy surcharge.
-    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 32;
+    uint8 public constant MAX_OPENING_TAX_EXEMPTIONS = 40;
 
     struct CurveChoice {
         uint16 saleBps;      // share of supply sold on the curve; 0 = nothing registered
@@ -81,6 +84,7 @@ contract CurveDeployer is BoundDeployer {
     }
     constructor() {
         curveChunk = address(new V2InitCodeChunk(type(HedgeFunBondingCurve).creationCode));
+        vaultChunk = address(new V2InitCodeChunk(type(V2LiquidityVault).creationCode));
     }
 
     /// @notice A creator chooses the raise size and the opening window of their own upcoming launch. The salt is
@@ -101,7 +105,7 @@ contract CurveDeployer is BoundDeployer {
     /// @notice Register the final token recipients exempt from the opening surcharge for a future launch.
     /// @dev Only the salt's creator may register. Replacing this list after a quote changes the launch terms and
     ///      predicted curve address. Once launched, the curve copies it into its own immutable launch policy.
-    ///      The creator is exempt automatically and must not consume one of the 32 additional slots.
+    ///      The creator is exempt automatically and must not consume one of the 40 additional slots.
     function setOpeningTaxExemptions(string calldata symbol, uint96 nonce, address[] calldata recipients) external {
         if (recipients.length > MAX_OPENING_TAX_EXEMPTIONS) revert BadOpeningTaxExemptions();
         bytes32 salt = keccak256(abi.encode(symbol, msg.sender, nonce));
@@ -140,6 +144,20 @@ contract CurveDeployer is BoundDeployer {
     function liquidity(int24 spacing, uint160 price, uint256 amount0, uint256 amount1) external pure returns (uint128) {
         return _liquidity(spacing, price, amount0, amount1);
     }
+    function graduationLiquidity(int24 spacing, uint160 price, uint256 amount0, uint256 amount1, bool tokenIs0)
+        external pure returns (uint128)
+    {
+        return _graduationLiquidity(spacing, price, amount0, amount1, tokenIs0);
+    }
+    function _graduationLiquidity(int24 spacing, uint160 price, uint256 amount0, uint256 amount1, bool tokenIs0)
+        private pure returns (uint128 l)
+    {
+        l = _liquidity(spacing, price, amount0, amount1);
+        uint256 used = tokenIs0
+            ? SqrtPriceMath.getAmount0Delta(price, TickMath.getSqrtPriceAtTick(TickMath.maxUsableTick(spacing)), l, true)
+            : SqrtPriceMath.getAmount1Delta(TickMath.getSqrtPriceAtTick(TickMath.minUsableTick(spacing)), price, l, true);
+        V2SurplusLiquidity.plan(price, spacing, tokenIs0, (tokenIs0 ? amount0 : amount1) - used, l);
+    }
     function _liquidity(int24 spacing, uint160 price, uint256 amount0, uint256 amount1) private pure returns (uint128) {
         uint160 a = TickMath.getSqrtPriceAtTick(TickMath.minUsableTick(spacing));
         uint160 b = TickMath.getSqrtPriceAtTick(TickMath.maxUsableTick(spacing));
@@ -166,7 +184,7 @@ contract CurveDeployer is BoundDeployer {
         (g.key, g.rates) = v.graduationConfig(id);
         bool tokenIs0 = g.token < g.stock;
         (g.max0, g.max1) = tokenIs0 ? (tokenAmount, lpStock) : (lpStock, tokenAmount);
-        liquidity_ = _liquidity(g.key.tickSpacing, price, g.max0, g.max1);
+        liquidity_ = _graduationLiquidity(g.key.tickSpacing, price, g.max0, g.max1, tokenIs0);
         g.vault = CurveDeployer(SELF).deployVault(bytes32(id),
             abi.encode(address(this), v.poolManager(), g.key, g.token, g.stock, g.treasury));
         _seedGraduation(v, g);
@@ -216,7 +234,9 @@ contract CurveDeployer is BoundDeployer {
     }
     /// @dev `type(HedgeFunBondingCurve).creationCode ++ args`, the creation code copied from `curveChunk`.
     function _curveCode(bytes memory args) private view returns (bytes memory code) {
-        address chunk = curveChunk;
+        return _chunkCode(curveChunk, args);
+    }
+    function _chunkCode(address chunk, bytes memory args) private view returns (bytes memory code) {
         uint256 len = chunk.code.length;
         code = new bytes(len + args.length);
         assembly ("memory-safe") {
@@ -226,7 +246,7 @@ contract CurveDeployer is BoundDeployer {
     }
     function deployVault(bytes32 salt, bytes calldata args) external returns (address a) {
         _onlyFactory();
-        bytes memory code = abi.encodePacked(type(V2LiquidityVault).creationCode, args);
+        bytes memory code = _chunkCode(vaultChunk, args);
         assembly ("memory-safe") { a := create2(0, add(code, 0x20), mload(code), salt) }
         if (a == address(0)) revert VaultDeployFailed();
     }

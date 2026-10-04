@@ -265,11 +265,10 @@ contract V2MarketSniperScenariosTest is V2FactoryFixture {
             assertEq(botFirst.userSpent, userBudgets[i], "victim must get a full fill in attacked order");
             assertEq(userFirst.userSpent, userBudgets[i], "victim must get a full fill in clean order");
             assertLt(botFirst.userOut, userFirst.userOut, "earlier buy worsens victim's rate");
-            if (i == 0) {
-                assertLt(botFirst.botSale, botFirst.botSpent, "small V4 sandwich loses to fees");
-            } else {
-                assertGt(botFirst.botSale, botFirst.botSpent, "larger V4 victim order can fund a profitable sandwich");
-            }
+            assertGt(botFirst.botSale, userFirst.botSale, "compare order effects at the same budgets");
+            // Surplus launch tokens now deepen this pool. The first two historical fixtures lose after fees;
+            // ordering still harms the user's fill, and a positive bot return is not a universal invariant.
+            if (i <= 1) assertLt(botFirst.botSale, botFirst.botSpent, "historical fixture loses with locked surplus LP");
             string memory label =
                 string.concat("v4_size_", vm.toString(botBudgets[i] / 1e18), "_", vm.toString(userBudgets[i] / 1e18));
             _log(label, botFirst);
@@ -283,7 +282,7 @@ contract V2MarketSniperScenariosTest is V2FactoryFixture {
                 vm.expectPartialRevert(Router.TooLittle.selector);
                 router.buy(_params(userBudgets[i], 2, userFirst.userOut * 99 / 100), _empty());
                 (uint256 protectedExit,) = _v4Sell(BOT, botTokens);
-                assertLt(protectedExit, botBudgets[i], "min-out rejection turns the profitable sandwich into a loss");
+                assertLt(protectedExit, botBudgets[i], "min-out rejection leaves only a losing round trip");
                 console2.log(
                     "Scenario sniper_v4_size_5_20_protected bot_pnl_stock_raw:",
                     int256(protectedExit) - int256(botBudgets[i])

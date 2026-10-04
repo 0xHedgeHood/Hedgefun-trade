@@ -1,6 +1,8 @@
 # V2 opening-tax recipient whitelist
 
-V2 creators can fix up to 32 additional wallet addresses that pay only the ordinary `taxBps` on curve buys during the opening window. The creator address is automatically exempt; in V2 that address is also the creator-fee recipient. The exemption never removes the ordinary buy tax, never changes sell tax, and does not carry into the graduated V4 pool.
+The 40-recipient limit is a source change for new deployments. Existing immutable deployers and curves retain their original limit; read `MAX_OPENING_TAX_EXEMPTIONS()` before registration.
+
+V2 creators can fix up to 40 additional wallet addresses that pay only the ordinary `taxBps` on curve buys during the opening window. The creator address is automatically exempt; in V2 that address is also the creator-fee recipient. The exemption never removes the ordinary buy tax, never changes sell tax, and does not carry into the graduated V4 pool.
 
 Under [the two-sided fee model](./V2_TWO_SIDED_FEES.md), the ordinary buy fee is stock revenue, and only the
 opening premium burns tokens. An exempt recipient therefore has zero opening burn while still paying the base fee.
@@ -14,9 +16,9 @@ The whitelist is a creator-owned launch choice, keyed by the same `(symbol, crea
 CurveDeployer.setOpeningTaxExemptions(symbol, nonce, recipients)
 ```
 
-The list may be empty. It cannot contain zero, duplicates, or the creator (already exempt), and has a maximum of 32 addresses. A second call replaces the pending list. Another account can register only for its own salt. The launcher then calls `HedgeFunV2Factory.predict(q)` and passes the returned `terms` to `launch` or `launchWithMetadata`. `predictCurve(q)` includes the registered list in the curve's CREATE2 address. If the creator replaces the list after the quote, the old `terms` revert with `Restated` and the creator must quote again. The deployed curve copies the list, exposes `isOpeningTaxExempt(address)` and `openingTaxExemptions(index)`, and cannot be edited.
+The list may be empty. It cannot contain zero, duplicates, or the creator (already exempt), and has a maximum of 40 addresses. A second call replaces the pending list. Another account can register only for its own salt. The launcher then calls `HedgeFunV2Factory.predict(q)` and passes the returned `terms` to `launch` or `launchWithMetadata`. `predictCurve(q)` includes the registered list in the curve's CREATE2 address. If the creator replaces the list after the quote, the old `terms` revert with `Restated` and the creator must quote again. The deployed curve copies the list, exposes `isOpeningTaxExempt(address)` and `openingTaxExemptions(index)`, and cannot be edited.
 
-The shared V1/V2 `HedgeFunFactory.Request` ABI remains stable: the V2-only whitelist follows the existing `setCurveConfig` registration pattern. UI launch forms should gather the addresses before predict/launch, show the creator as an automatic exemption, and display the 32-address limit and recipient-only scope.
+The shared V1/V2 `HedgeFunFactory.Request` ABI remains stable: the V2-only whitelist follows the existing `setCurveConfig` registration pattern. UI launch forms should gather the addresses before predict/launch, show the creator as an automatic exemption, and display the deployed `MAX_OPENING_TAX_EXEMPTIONS()` limit (40 for new deployments; 32 for older deployments) and recipient-only scope.
 
 ## Buy and quote flow
 

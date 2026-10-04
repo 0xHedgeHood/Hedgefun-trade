@@ -52,7 +52,7 @@ contract V2OpeningTaxExemptionTest is V2FactoryFixture {
         CurveDeployer registry = factory.curveDeployer();
         HedgeFunFactory.Request memory q = _requestForLaunch();
         bytes32 salt = keccak256(abi.encode(q.symbol, q.creator, q.nonce));
-        address[] memory list = new address[](33);
+        address[] memory list = new address[](41);
         for (uint256 i; i < list.length; ++i) list[i] = address(uint160(i + 1));
         vm.expectRevert(CurveDeployer.BadOpeningTaxExemptions.selector);
         registry.setOpeningTaxExemptions(q.symbol, q.nonce, list);
@@ -133,13 +133,13 @@ contract V2OpeningTaxExemptionTest is V2FactoryFixture {
         assertEq(burned, (out + burned) * (9900 - 1000) / (10_000 - 1000));
     }
 
-    function testExactlyThirtyTwoAdditionalRecipientsCanLaunch() public {
-        address[] memory list = new address[](32);
+    function testExactlyFortyAdditionalRecipientsCanLaunch() public {
+        address[] memory list = new address[](40);
         for (uint256 i; i < list.length; ++i) list[i] = address(uint160(i + 1));
         (, Curve curve,) = _launch(list);
-        assertEq(curve.openingTaxExemptions(31), list[31]);
+        assertEq(curve.openingTaxExemptions(39), list[39]);
         assertTrue(curve.isOpeningTaxExempt(list[0]));
-        assertTrue(curve.isOpeningTaxExempt(list[31]));
+        assertTrue(curve.isOpeningTaxExempt(list[39]));
         assertTrue(curve.isOpeningTaxExempt(curve.creator()));
         assertFalse(curve.isOpeningTaxExempt(STRANGER));
     }

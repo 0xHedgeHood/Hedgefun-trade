@@ -135,16 +135,16 @@ contract RehearseV2Launchpad is Script {
         }
     }
 
-    /// @dev The creator's registry: the curve constructor's own sale bounds and nothing tighter, the 4400 default,
+    /// @dev The creator's registry: the curve constructor's own sale bounds and nothing tighter, the 7931 default,
     ///      the 180-second window cap, and a registration keyed by the factory's salt (symbol, creator, nonce).
     ///      The registration is simulated from a throwaway address and discarded with everything else.
     function _readBackCurveChoices(CurveDeployer curve, uint8 defaultSnipeSeconds) internal {
-        if (curve.MIN_SALE_BPS() != 1000 || curve.MAX_SALE_BPS() != 9000 || curve.DEFAULT_SALE_BPS() != 4400
+        if (curve.MIN_SALE_BPS() != 1000 || curve.MAX_SALE_BPS() != 9000 || curve.DEFAULT_SALE_BPS() != 7931
             || curve.MAX_SNIPE_SECONDS() != 180) revert ReadbackFailed();
         address creator = address(uint160(uint256(keccak256("rehearsal creator"))));
         bytes32 salt = keccak256(abi.encode("REHEARSE", creator, uint96(1)));
         (uint16 sale, uint8 window) = curve.curveConfig(salt, defaultSnipeSeconds);
-        if (sale != 4400 || window != defaultSnipeSeconds) revert ReadbackFailed();
+        if (sale != 7931 || window != defaultSnipeSeconds) revert ReadbackFailed();
         vm.prank(creator);
         curve.setCurveConfig("REHEARSE", 1, 6000, 60);
         (sale, window) = curve.curveConfig(salt, defaultSnipeSeconds);

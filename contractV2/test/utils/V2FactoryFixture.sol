@@ -50,7 +50,7 @@ abstract contract V2FactoryFixture is Test, HookMiner {
     /// The curve choices `_launchV2` registers, as the fixture's creator, for the salt it launches under
     /// (`CurveDeployer.setCurveConfig`). The suites built on this fixture were written against an 80% sale and a
     /// 3-second window, the factory's values before creators chose their own; they keep those numbers by choosing
-    /// them. Set `creatorSaleBps` to 0 to register nothing and launch on the defaults (4400 and `d.snipeSeconds`).
+    /// them. Set `creatorSaleBps` to 0 to register nothing and launch on the defaults (7931 and `d.snipeSeconds`).
     uint16 internal creatorSaleBps = 8000;
     uint8 internal creatorSnipeSeconds = 3;
     /// the nonce of the last `_launchV2`, whose salt is (`_request().symbol`, this contract, `lastNonce`)

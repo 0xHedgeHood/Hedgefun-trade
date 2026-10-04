@@ -11,15 +11,20 @@ import {ModifyLiquidityParams} from "v4-core/src/types/PoolOperation.sol";
 import {BalanceDelta} from "v4-core/src/types/BalanceDelta.sol";
 import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunToken} from "../HedgeFunToken.sol";
+import {StateLibrary} from "v4-core/src/libraries/StateLibrary.sol";
+import {PoolIdLibrary} from "v4-core/src/types/PoolId.sol";
+import {V2SurplusLiquidity} from "./V2SurplusLiquidity.sol";
 
 interface IV2LiquidityFeeSink {
     function creditLiquidityFee(uint256 amount) external;
 }
 
-/// @notice Owns one full-range V4 position. Its principal cannot be removed; anyone can realize its fees.
+/// @notice Owns a full-range position and a single-sided surplus position. Neither principal can be removed.
 /// @dev One instance per graduated pool. The factory must register this address as the sole seeder in the hook.
 contract V2LiquidityVault is IUnlockCallback {
     using SafeERC20 for IERC20;
+    using StateLibrary for IPoolManager;
+    using PoolIdLibrary for PoolKey;
 
     IPoolManager public immutable poolManager;
     address public immutable factory;
@@ -32,9 +37,16 @@ contract V2LiquidityVault is IUnlockCallback {
     uint8 private _mode; // 0 idle, 1 seeding, 2 collecting
     bytes32 private _unlockHash;
     uint256 private pendingStockFee;
+    int24 public surplusTickLower;
+    int24 public surplusTickUpper;
+    uint128 public surplusLiquidity;
+    /// @notice Integer-liquidity rounding residue, permanently held here and never reported as earned fees.
+    uint256 public lockedSeedTokens;
 
     event Seeded(uint128 liquidity, uint256 amount0, uint256 amount1);
     event FeesCollected(uint256 stockToTreasury, uint256 tokenBurned);
+    event SurplusSeeded(int24 lower, int24 upper, uint128 liquidity, uint256 tokens);
+    event SeedTokensLocked(uint256 amount);
 
     error BadConfig();
     error NotFactory();
@@ -64,7 +76,7 @@ contract V2LiquidityVault is IUnlockCallback {
     function poolKey() external view returns (PoolKey memory) { return _key; }
 
     /// @notice Factory calls after funding this vault with at most max0/max1 and after hook registration.
-    /// @dev Returns unused seed budget to the factory in the same transaction. Donations already held here remain here.
+    /// @dev Returns unused stock only. Token rounding residue remains locked; graduation never burns project tokens.
     function seed(uint160 sqrtPriceX96, uint128 liquidity, uint256 max0, uint256 max1)
         external returns (uint256 used0, uint256 used1)
     {
@@ -81,8 +93,10 @@ contract V2LiquidityVault is IUnlockCallback {
         (used0, used1) = abi.decode(poolManager.unlock(callData), (uint256, uint256));
         _unlockHash = bytes32(0);
         if (used0 > max0 || used1 > max1) revert Overspent();
-        _sendExact(Currency.unwrap(key.currency0), factory, max0 - used0);
-        _sendExact(Currency.unwrap(key.currency1), factory, max1 - used1);
+        bool tokenIs0 = Currency.unwrap(key.currency0) == token;
+        lockedSeedTokens = tokenIs0 ? max0 - used0 : max1 - used1;
+        _sendExact(stock, factory, tokenIs0 ? max1 - used1 : max0 - used0);
+        emit SeedTokensLocked(lockedSeedTokens);
         _mode = 0;
         emit Seeded(liquidity, used0, used1);
     }
@@ -139,6 +153,10 @@ contract V2LiquidityVault is IUnlockCallback {
             uint256 used0 = uint256(-int256(delta.amount0()));
             uint256 used1 = uint256(-int256(delta.amount1()));
             if (used0 > max0 || used1 > max1) revert Overspent();
+            (uint256 extra0, uint256 extra1) = _seedSurplus(key, liquidity, max0 - used0, max1 - used1);
+            used0 += extra0;
+            used1 += extra1;
+            if (used0 > max0 || used1 > max1) revert Overspent();
             _settle(key.currency0, used0);
             _settle(key.currency1, used1);
             return abi.encode(used0, used1);
@@ -152,11 +170,41 @@ contract V2LiquidityVault is IUnlockCallback {
                 || delta.amount0() < 0 || delta.amount1() < 0) revert UnexpectedDelta();
             uint256 fee0 = uint256(uint128(delta.amount0()));
             uint256 fee1 = uint256(uint128(delta.amount1()));
+            if (surplusLiquidity != 0) {
+                (BalanceDelta extra, BalanceDelta extraFees) = poolManager.modifyLiquidity(key, ModifyLiquidityParams({
+                    tickLower: surplusTickLower, tickUpper: surplusTickUpper, liquidityDelta: 0, salt: bytes32(uint256(1))
+                }), "");
+                if (extra.amount0() != extraFees.amount0() || extra.amount1() != extraFees.amount1()
+                    || extra.amount0() < 0 || extra.amount1() < 0) revert UnexpectedDelta();
+                fee0 += uint256(uint128(extra.amount0()));
+                fee1 += uint256(uint128(extra.amount1()));
+            }
             _take(key.currency0, fee0);
             _take(key.currency1, fee1);
             return abi.encode(fee0, fee1);
         }
         revert NotPoolManager();
+    }
+
+    function _seedSurplus(PoolKey memory key, uint128 baseLiquidity, uint256 left0, uint256 left1)
+        private returns (uint256 used0, uint256 used1)
+    {
+        bool tokenIs0 = Currency.unwrap(key.currency0) == token;
+        (uint160 price,,,) = poolManager.getSlot0(key.toId());
+        (int24 lower, int24 upper, uint128 liquidity) = V2SurplusLiquidity.plan(
+            price, key.tickSpacing, tokenIs0, tokenIs0 ? left0 : left1, baseLiquidity);
+        if (liquidity == 0) return (0, 0);
+        surplusTickLower = lower;
+        surplusTickUpper = upper;
+        surplusLiquidity = liquidity;
+        (BalanceDelta delta,) = poolManager.modifyLiquidity(key, ModifyLiquidityParams({
+            tickLower: lower, tickUpper: upper, liquidityDelta: int256(uint256(liquidity)), salt: bytes32(uint256(1))
+        }), "");
+        if (delta.amount0() > 0 || delta.amount1() > 0
+            || (tokenIs0 ? delta.amount1() != 0 : delta.amount0() != 0)) revert UnexpectedDelta();
+        used0 = uint256(-int256(delta.amount0()));
+        used1 = uint256(-int256(delta.amount1()));
+        emit SurplusSeeded(lower, upper, liquidity, tokenIs0 ? used0 : used1);
     }
 
     function _settle(Currency currency, uint256 amount) private {

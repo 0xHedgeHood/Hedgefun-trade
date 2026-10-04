@@ -265,9 +265,9 @@ class PlanAndEncodingTests(unittest.TestCase):
                     self.assertIn(st["source"][field], plan["sources"])
         for sym, e in entries:
             self.assertEqual(v.as_int(e["supply"]), 10**27)
-            self.assertEqual(e["saleBps"], v.DEFAULT_SALE_BPS)   # CurveDeployer.DEFAULT_SALE_BPS, no creator's value
+            self.assertEqual(e["saleBps"], 4400)  # Historical listing plan keeps its original allocation.
             self.assertFalse(e["creatorSaleBps"])
-        self.assertEqual(v.DEFAULT_SALE_BPS, 4400)
+        self.assertEqual(v.DEFAULT_SALE_BPS, 7931)
         self.assertEqual(plan["defaults"]["saleBps"], {"value": 4400, "source": "v2.default"})
         mstr = dict(entries)["MSTR"]
         self.assertEqual((mstr["maxDeviationBps"], mstr["maxSlippageBps"]), (125, 175))

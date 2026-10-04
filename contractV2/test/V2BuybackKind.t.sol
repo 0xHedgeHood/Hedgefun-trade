@@ -40,15 +40,18 @@ contract V2BuybackKindTest is V2FactoryFixture {
         vm.warp(curve.launchedAt() + curve.snipeSeconds());
     }
 
-    function test_graduationShareIsBuybackBudgetNotALot() public {
+    function test_graduationPrincipalIsProtectedAndCannotFundBuybacks() public {
         assertFalse(treasury.book(), "nothing to book before graduation");
         _graduateV2(curve);
         uint256 share = stock.balanceOf(address(treasury));
         assertGt(share, 0);
-        assertEq(treasury.buybackStock(), share, "graduation's own book() swept the share into the budget");
-        assertEq(treasury.bookedStock(), 0);
+        assertEq(treasury.buybackStock(), 0, "graduation principal is not income");
+        assertEq(treasury.bookedStock(), share);
+        assertEq(treasury.protectedGraduationStock(), share);
         assertEq(treasury.lotCount(), 0);
         assertEq(treasury.unbookedStock(), 0);
+        vm.expectRevert(HedgeFunTreasuryBase.NotDue.selector);
+        treasury.buyback();
         vm.expectRevert(HedgeFunV2BuybackTreasury.UseBuyback.selector);
         treasury.execute();
         vm.expectRevert(HedgeFunV2Treasury.UseExecute.selector);
@@ -57,6 +60,7 @@ contract V2BuybackKindTest is V2FactoryFixture {
 
     function test_buybackPacesSpendsBurnsWithoutRearmingSellSpike() public {
         _graduateV2(curve);
+        _creditFeeIncome();
         uint256 budget = treasury.buybackStock();
         IERC20 token = IERC20(curve.token());
         uint256 supplyBefore = token.totalSupply();
@@ -80,6 +84,7 @@ contract V2BuybackKindTest is V2FactoryFixture {
 
     function test_liveBuybackSeedsFallbackForAStaleOracle() public {
         _graduateV2(curve);
+        _creditFeeIncome();
         (uint256 spent,) = treasury.buyback();
         uint256 left = treasury.buybackStock();
         assertGt(spent, 0);
@@ -95,6 +100,7 @@ contract V2BuybackKindTest is V2FactoryFixture {
 
     function test_staleOracleWithoutACacheStillFailsClosed() public {
         _graduateV2(curve);
+        _creditFeeIncome();
         assertEq(treasury.lastGoodPrice(), 0);
         assertEq(treasury.lastGoodPriceAt(), 0);
         vm.warp(block.timestamp + 27 hours);
@@ -104,6 +110,7 @@ contract V2BuybackKindTest is V2FactoryFixture {
 
     function test_cachedSizingPriceExpiresAfterFiveDays() public {
         _graduateV2(curve);
+        _creditFeeIncome();
         treasury.buyback();
         uint256 left = treasury.buybackStock();
         vm.warp(block.timestamp + 5 days);
@@ -121,9 +128,10 @@ contract V2BuybackKindTest is V2FactoryFixture {
     /// books straight into the budget, never through `_book`, so it must write the denominator itself.
     function test_kindOneBookRecordsReceivedStockSoTheScorecardHasADenominator() public {
         _graduateV2(curve);
-        uint256 share = treasury.buybackStock();
+        uint256 share = treasury.protectedGraduationStock();
         assertGt(share, 0);
         assertEq(treasury.totalStockReceived(), share, "the graduation share is stock received");
+        _creditFeeIncome();
         treasury.buyback();
         assertGt(treasury.totalStockSpentOnBuybacks(), 0);
         assertEq(treasury.totalStockReceived(), share, "spending is not receiving");
@@ -155,5 +163,14 @@ contract V2BuybackKindTest is V2FactoryFixture {
         assertEq(deployer.strategyKindOf(keccak256(abi.encode(q.symbol, address(this), q.nonce))), 0);
         vm.expectRevert(); // a kind-0 treasury has no UseBuyback selector: execute reverts for its own reasons
         HedgeFunV2BuybackTreasury(t).execute();
+    }
+
+    function _creditFeeIncome() private {
+        address vault = treasury.liquidityVault();
+        stock.mint(vault, 100e18);
+        vm.startPrank(vault);
+        stock.approve(address(treasury), 100e18);
+        treasury.creditLiquidityFee(100e18);
+        vm.stopPrank();
     }
 }

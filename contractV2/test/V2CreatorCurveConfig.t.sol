@@ -11,7 +11,7 @@ import {V2FactoryFixture} from "./utils/V2FactoryFixture.sol";
 /// Each V2 creator chooses the raise size (`saleBps`) and the opening window (`snipeSeconds`) of their own launch,
 /// registered on the curve deployer for the factory salt (symbol, creator, nonce). These pin: the bounds are the
 /// curve's own and nothing tighter; the curve is built from the registration; nobody registers for anyone else;
-/// both choices are in the launch terms; and a launch that registered nothing gets 4400 and the factory's window.
+/// both choices are in the launch terms; and a launch that registered nothing gets 7931 and the factory's window.
 contract V2CreatorCurveConfigTest is V2FactoryFixture {
     address internal stranger = address(uint160(uint256(keccak256("creator curve config stranger"))));
     CurveDeployer internal registry;
@@ -158,16 +158,16 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
     // ------------------------------------------------------------------------------------------------ defaults
 
     function test_noRegistrationGivesTheDefaults() public {
-        assertEq(registry.DEFAULT_SALE_BPS(), 4400);
+        assertEq(registry.DEFAULT_SALE_BPS(), 7931);
         (HedgeFunFactory.Request memory q, HedgeFunBondingCurve curve) = _launchWith(0, 0, 0, false);
         bytes32 salt = keccak256(abi.encode(q.symbol, q.creator, q.nonce));
         (uint16 rawSale, uint8 rawWindow) = registry.curveConfigOf(salt);
         assertEq(rawSale, 0, "nothing registered");
         assertEq(rawWindow, 0);
-        assertEq(curve.minTokenReserve(), S * 5600 / 10_000, "4400");
+        assertEq(curve.minTokenReserve(), S * 2069 / 10_000, "7931");
         assertEq(curve.snipeSeconds(), 3, "the factory's snipeSeconds");
         (uint16 sale, uint8 window) = registry.curveConfig(salt, 3);
-        assertEq(sale, 4400);
+        assertEq(sale, 7931);
         assertEq(window, 3);
 
         // The default window is the factory's at quote time, not a constant.
@@ -177,7 +177,7 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
         factory.setDefaults(d);
         (, curve) = _launchWith(1, 0, 0, false);
         assertEq(curve.snipeSeconds(), 45);
-        assertEq(curve.minTokenReserve(), S * 5600 / 10_000);
+        assertEq(curve.minTokenReserve(), S * 2069 / 10_000);
     }
 
     function test_registrationEmitsAndReadsBack() public {
@@ -211,7 +211,7 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
 
         // The creator's pending quote is untouched: no Restated, and the curve is the default one.
         HedgeFunBondingCurve curve = HedgeFunBondingCurve(factory.curves(factory.launch(q, terms)));
-        assertEq(curve.minTokenReserve(), S * 5600 / 10_000);
+        assertEq(curve.minTokenReserve(), S * 2069 / 10_000);
         assertEq(curve.snipeSeconds(), 3);
 
         // The stranger's registration reaches only a launch the stranger makes as its own creator.
@@ -264,7 +264,7 @@ contract V2CreatorCurveConfigTest is V2FactoryFixture {
         registry.setCurveConfig(q.symbol, q.nonce, 4400, 60);
         vm.expectRevert(HedgeFunFactory.Restated.selector);
         factory.launch(q, terms);
-        registry.setCurveConfig(q.symbol, q.nonce, 4400, 3);    // the defaults, spelt out
+        registry.setCurveConfig(q.symbol, q.nonce, 7931, 3);    // the defaults, spelt out
         factory.launch(q, terms);
     }
 

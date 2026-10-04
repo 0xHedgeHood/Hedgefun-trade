@@ -29,7 +29,15 @@ contract V2CurveDeployerTest is V2FactoryFixture {
         assertEq(chunk.code.length, type(HedgeFunBondingCurve).creationCode.length);
         assertEq(keccak256(chunk.code), keccak256(type(HedgeFunBondingCurve).creationCode));
         // The room the chunk made: with the curve's creation code embedded again this module would not fit.
-        assertGt(address(factory.curveDeployer()).code.length + chunk.code.length, 24_576);
+        assertGt(address(factory.curveDeployer()).code.length + chunk.code.length
+            + factory.curveDeployer().vaultChunk().code.length, 24_576);
+    }
+
+
+    function test_vaultChunkIsExactAndWithinRuntimeLimit() public view {
+        address chunk = factory.curveDeployer().vaultChunk();
+        assertEq(keccak256(chunk.code), keccak256(type(V2LiquidityVault).creationCode));
+        assertLe(chunk.code.length, 24_576);
     }
 
     /// The addresses are recomputed here from `type(...).creationCode`, the derivation the deployer used before the
@@ -45,7 +53,7 @@ contract V2CurveDeployerTest is V2FactoryFixture {
         HedgeFunBondingCurve.Init memory p = HedgeFunBondingCurve.Init({
             factory: address(factory), token: curve.token(), stock: curve.stock(), treasury: curve.treasury(),
             protocol: curve.protocol(), creator: curve.creator(), supply: curve.initialSupply(),
-            virtualStock: curve.virtualStock(), saleBps: 4400, taxBps: curve.taxBps(),
+            virtualStock: curve.virtualStock(), saleBps: 7931, taxBps: curve.taxBps(),
             protocolBps: curve.protocolBps(), creatorBps: curve.creatorBps(), snipeBps: curve.snipeBps(),
             snipeSeconds: curve.snipeSeconds(), openingTaxExemptions: new address[](0)
         });

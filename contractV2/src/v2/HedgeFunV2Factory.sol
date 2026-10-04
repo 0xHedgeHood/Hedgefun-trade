@@ -10,7 +10,6 @@ import {TickMath} from "v4-core/src/libraries/TickMath.sol";
 import {HedgeFunFactory} from "../HedgeFunFactory.sol";
 import {HedgeFunHook} from "../hooks/HedgeFunHook.sol";
 import {HedgeFunV2Hook} from "../hooks/HedgeFunV2Hook.sol";
-import {HedgeFunToken} from "../HedgeFunToken.sol";
 import {HedgeFunTreasuryBase} from "../HedgeFunTreasuryBase.sol";
 import {CurveDeployer} from "./CurveDeployer.sol";
 import {V2TreasuryDeployer} from "./V2TreasuryDeployer.sol";
@@ -129,7 +128,7 @@ contract HedgeFunV2Factory is HedgeFunFactory {
         uint160 terminal = curveDeployer.sqrtPrice(effective, remaining, tokenIs0);
         uint256 lpStock = (effective - p.virtualStock) * lpBps / 10000;
         (uint256 a0, uint256 a1) = tokenIs0 ? (remaining, lpStock) : (lpStock, remaining);
-        curveDeployer.liquidity(spacing, terminal, a0, a1);
+        curveDeployer.graduationLiquidity(spacing, terminal, a0, a1, tokenIs0);
     }
 
     /// @notice Called by the final curve buy. Failure rolls back that buy and leaves the curve active.
@@ -153,14 +152,14 @@ contract HedgeFunV2Factory is HedgeFunFactory {
             abi.encodeCall(CurveDeployer.executeGraduation, (id, price, stockAmount, tokenAmount)));
         if (!seeded) assembly ("memory-safe") { revert(add(result, 0x20), mload(result)) }
         (uint128 liquidity, uint256 stockUsed, uint256 tokenUsed) = abi.decode(result, (uint128, uint256, uint256));
-        uint256 burned = tokenAmount - tokenUsed;
-        if (burned != 0) HedgeFunToken(s.token).burn(burned);
+        // All unsold project tokens belong to the locked liquidity vault, including rounding residue.
+        // Graduation does not buy back or burn project tokens. Keep the event ABI; tokenBurned is zero.
         bool booked;
         if (stockAmount != stockUsed) {
             _sendExact(s.stock, s.treasury, stockAmount - stockUsed);
             try HedgeFunTreasuryBase(s.treasury).book() returns (bool ok) { booked = ok; } catch {}
         }
-        emit Graduated(id, price, liquidity, stockUsed, tokenUsed, burned);
+        emit Graduated(id, price, liquidity, stockUsed, tokenUsed, 0);
         emit GraduationCapitalSplit(id, stockUsed, stockAmount - stockUsed, booked);
     }
 

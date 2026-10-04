@@ -67,11 +67,12 @@ contract V2AdversarialTradingTest is V2FactoryFixture {
     function _empty() private pure returns (Router.Hop[] memory path) { path = new Router.Hop[](0); }
 
     function _holders() private view returns (address[] memory who) {
-        who = new address[](12);
+        who = new address[](13);
         who[0] = address(this); who[1] = ALICE; who[2] = BOB; who[3] = MALLORY;
         who[4] = address(curve); who[5] = address(factory); who[6] = address(pm);
         who[7] = address(hook); who[8] = curve.treasury(); who[9] = protocol;
         who[10] = address(router); who[11] = address(stockPool);
+        who[12] = hook.liquidityVaultOf(key.toId());
     }
 
     function _sumBalances(IERC20 asset) private view returns (uint256 total) {

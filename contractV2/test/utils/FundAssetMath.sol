@@ -22,7 +22,11 @@ library FundAssetMath {
         internal view returns (uint256)
     {
         V2LiquidityVault vault = V2LiquidityVault(t.liquidityVault());
-        uint256 owned = _ownedStock(vault, address(stock));
+        PoolKey memory key = vault.poolKey();
+        uint256 owned = _ownedStock(vault, address(stock), TickMath.minUsableTick(key.tickSpacing),
+            TickMath.maxUsableTick(key.tickSpacing), bytes32(0));
+        if (vault.surplusLiquidity() != 0)
+            owned += _ownedStock(vault, address(stock), vault.surplusTickLower(), vault.surplusTickUpper(), bytes32(uint256(1)));
         return Math.mulDiv(stock.balanceOf(address(t)) + stock.balanceOf(address(vault)) + owned, price, scale)
             + t.reserveUsdg();
     }
@@ -34,14 +38,14 @@ library FundAssetMath {
         uint256 last1;
         uint160 sqrtPrice;
     }
-    function _ownedStock(V2LiquidityVault vault, address stock) private view returns (uint256) {
+    function _ownedStock(V2LiquidityVault vault, address stock, int24 lower, int24 upper, bytes32 salt) private view returns (uint256) {
         IPoolManager manager = vault.poolManager();
         PoolKey memory key = vault.poolKey();
         PoolId id = key.toId();
         Position memory p;
-        p.lower = TickMath.minUsableTick(key.tickSpacing);
-        p.upper = TickMath.maxUsableTick(key.tickSpacing);
-        (p.liquidity, p.last0, p.last1) = manager.getPositionInfo(id, address(vault), p.lower, p.upper, 0);
+        p.lower = lower;
+        p.upper = upper;
+        (p.liquidity, p.last0, p.last1) = manager.getPositionInfo(id, address(vault), p.lower, p.upper, salt);
         (p.sqrtPrice,,,) = manager.getSlot0(id);
         uint256 principal;
         bool first = Currency.unwrap(key.currency0) == stock;

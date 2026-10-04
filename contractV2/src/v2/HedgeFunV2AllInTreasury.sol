@@ -48,7 +48,7 @@ contract HedgeFunV2AllInTreasury is HedgeFunV2Treasury {
     }
 
     /// @dev Same bounded sizing/TP1/shrink algorithm as the legacy core. A keeper reward requires an actual
-    ///      monetary fill. Non-tradable remainders move to buyback stock without a reward or a sale reference.
+    ///      monetary fill. Non-tradable principal returns to unbooked stock, never the income-only buyback budget.
     function _takeProfit(uint256 id) internal override {
         (bool ok, uint256 p) = health();
         if (!ok) revert Unhealthy();
@@ -72,7 +72,7 @@ contract HedgeFunV2AllInTreasury is HedgeFunV2Treasury {
         if (_ruleValue(L.qty, p) == 0) {
             uint256 dust = L.qty;
             _shrink(id, dust);
-            buybackStock += dust;
+            _releasedDustStock += dust;
             _noEconomicSale = true;
             emit DustCleared(id, dust);
             return;
@@ -85,7 +85,7 @@ contract HedgeFunV2AllInTreasury is HedgeFunV2Treasury {
         if (_ruleValue(principal, p) == 0) {
             if (left != 0) { L.tp1Left = left - q; if (left == q) L.half = true; }
             _shrink(id, q);
-            buybackStock += q;
+            _releasedDustStock += q;
             _noEconomicSale = true;
             emit RemainderReclassified(id, q);
             return;
