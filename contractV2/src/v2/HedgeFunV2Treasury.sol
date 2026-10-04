@@ -258,7 +258,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
 
     /// @notice Realized stock-side LP fees enter the buyback budget, never a strategy cost-basis lot.
     /// @dev Pulling under the reentrancy guard prevents token callbacks from booking the fee as principal.
-    function creditLiquidityFee(uint256 amount) external nonReentrant {
+    function creditLiquidityFee(uint256 amount) external virtual nonReentrant {
         if (msg.sender != liquidityVault || amount == 0) revert NotFactory();
         _stock.safeTransferFrom(msg.sender, address(this), amount);
         buybackStock += amount;
