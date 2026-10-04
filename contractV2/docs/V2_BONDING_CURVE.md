@@ -260,8 +260,8 @@ do not imply LP withdrawal authority. Revenue distribution/dividends are future 
 claimable in this release. Already deployed immutable treasuries require an explicit future migration/relaunch;
 they cannot be converted into these proxies by changing local source.
 
-**Kind 1 (opt-in, `HedgeFunV2BuybackTreasury`; production registration requires a separate Safe transaction):** a pure buy-back treasury. Its factory-booked graduation share is protected as `protectedGraduationStock` and excluded from
-`buybackStock`. Later income and voluntary donations can fund buybacks; it opens no stock lot and `execute()` reverts `UseBuyback`. Spending goes only through the inherited `buyback()`: one
+**Kind 1 (opt-in, `HedgeFunV2BuybackTreasury`; production registration requires a separate Safe transaction):** a pure buy-back treasury. Graduation wires the exact non-LP capital through `wireWithGraduation`, protecting it as `protectedGraduationStock` before the factory's atomic transfer and excluding it from
+`buybackStock`. This protection survives an optional `book()` failure; legacy `wire` is rejected. Fees claimed before graduation, later income and voluntary donations can fund buybacks; it opens no stock lot and `execute()` reverts `UseBuyback`. Spending goes only through the inherited `buyback()`: one
 `buybackChunkUsdg` per `buybackCooldown`, bounded by the pool TWAP/anchor and `maxBuybackImpactBps`, burning what
 it buys. Graduation principal stays idle and cannot fund this buyback budget. A call still reverts `NotDue` if the impact-bounded fill is below `minLotUsdg`: seed depth,
 `maxBuybackImpactBps` and the minimum lot must be calibrated together for every intended curve/LP configuration.
@@ -434,22 +434,25 @@ Solidity 0.8.26, optimizer runs 1, Cancun, no metadata hash:
 | V2 contract | Runtime bytes | Compiled initcode bytes before constructor arguments |
 |---|---:|---:|
 | HedgeFunBondingCurve | 7,887 | 10,634 |
-| CurveDeployer | 19,329 | 30,444 |
+| CurveDeployer | 13,161 | 37,113 |
 | HedgeFunV2Hook | 22,605 | 22,942 |
-| HedgeFunV2Factory | 24,501 | 28,763 |
-| HedgeFunV2Treasury | 21,602 | 26,216 |
-| HedgeFunV2BuybackTreasury | 14,883 | 19,380 |
-| HedgeFunV2EngineTreasury | 22,353 | 29,029 |
+| HedgeFunV2Factory | 24,398 | 28,660 |
+| HedgeFunV2Treasury | 23,293 | 27,971 |
+| HedgeFunV2BuybackTreasury | 15,095 | 19,639 |
+| HedgeFunV2EngineTreasury | 22,676 | 29,434 |
 | V2RebalancePolicy | 1,799 | 1,827 |
-| V2TreasuryDeployer | 11,445 | 38,732 |
-| V2LiquidityVault | 7,327 | 8,448 |
+| V2TreasuryDeployer | 11,666 | 49,102 |
+| HedgeFunV2UpgradeableTreasury | 1,061 | 33,446 |
+| HedgeFunV2UpgradeableTreasuryLogic | 24,460 | 30,749 |
+| V2TreasuryUpgradeController | 2,717 | 2,760 |
+| V2LiquidityVault | 11,559 | 12,715 |
 | HedgeFunV2TradeRouter | 11,966 | 12,494 |
 | HedgeFunV2NativeRouter | 5,812 | 6,210 |
 
-All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has only 75 runtime bytes free;
-future features need another size check. The CurveDeployer has 5,247: its original implementation had 12 until the curve's creation code
-moved out of its runtime into a `V2InitCodeChunk` it creates in its own constructor (`curveChunk()`), which is why
-its initcode, not its runtime, now carries the curve. `deploy` and `predict` hash the chunk's bytes, identical to
-`type(HedgeFunBondingCurve).creationCode`, so curve addresses are derived exactly as before. The strategy engine has
-2,223 runtime bytes free and the treasury deployer 13,131. The reference generator also checks the curve's bytecode directly
-because Foundry's size table omits it due to its `invariant()` getter.
+All fit the 24,576-byte runtime and 49,152-byte initcode limits. The factory has 178 runtime bytes free,
+the default treasury logic has 116, and the treasury deployer has only 50 initcode bytes free. Future changes
+must retain the deployment-size gates, including constructor arguments for the proxy and logic. CurveDeployer
+stores the curve and vault creation code in inert chunks created in its constructor, keeping that code out of
+its runtime. `deploy` and `predict` hash the curve chunk's bytes, identical to
+`type(HedgeFunBondingCurve).creationCode`, so curve addresses are derived exactly as before. The reference generator
+also checks the curve's bytecode directly because Foundry's size table omits it due to its `invariant()` getter.

@@ -278,7 +278,7 @@ contract HedgeFunV2Treasury is HedgeFunTreasury {
     /// @dev Unlike V1's one-sided opening, graduation already has a terminal curve price and
     /// balanced liquidity. Capture that price before the pool can trade. Later TWAP/anchor
     /// fallback stays usable even if high-frequency swaps exhaust the hook's observation ring.
-    function wire(PoolKey calldata key) public override {
+    function wire(PoolKey calldata key) public virtual override {
         super.wire(key);
         (uint160 price,,,) = poolManager.getSlot0(key.toId());
         if (price == 0) revert BadConfig();

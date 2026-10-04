@@ -19,6 +19,10 @@ import {V2SurplusLiquidity} from "./V2SurplusLiquidity.sol";
 
 interface IV2LpShare { function lpBpsOfTreasury(address treasury) external view returns (uint16); }
 
+interface IV2GraduationPrincipalTreasury {
+    function wireWithGraduation(PoolKey calldata key, uint256 principal) external;
+}
+
 interface IV2GraduationView {
     function strategies(uint256 id) external view returns (address token, address treasury, address hook, address stock, address creator);
     function treasuryDeployer() external view returns (address);
@@ -189,8 +193,12 @@ contract CurveDeployer is BoundDeployer {
             abi.encode(address(this), v.poolManager(), g.key, g.token, g.stock, g.treasury));
         _seedGraduation(v, g);
         (uint256 used0, uint256 used1) = V2LiquidityVault(g.vault).seed(price, liquidity_, g.max0, g.max1);
-        HedgeFunV2Treasury(g.treasury).wire(g.key);
         (stockUsed, tokenUsed) = tokenIs0 ? (used1, used0) : (used0, used1);
+        // Principal-aware kinds protect the exact transfer, independently of already-earned fees and book().
+        // Legacy kinds keep their existing initializer. A principal-aware kind must reject legacy wire so
+        // a failed exact initialization cannot silently fall back to an unprotected graduation.
+        try IV2GraduationPrincipalTreasury(g.treasury).wireWithGraduation(g.key, stockAmount - stockUsed) {}
+        catch { HedgeFunV2Treasury(g.treasury).wire(g.key); }
     }
 
     function _seedGraduation(IV2GraduationView v, GraduationCtx memory g) private {

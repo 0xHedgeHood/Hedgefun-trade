@@ -58,6 +58,66 @@ contract V2BuybackKindTest is V2FactoryFixture {
         treasury.buyDip();
     }
 
+    function test_feesClaimedBeforeGraduationRemainBuybackIncome() public {
+        curve.buy(1e18, 1, address(this), block.timestamp);
+        uint256 fees = curve.claimable(address(treasury));
+        assertGt(fees, 0);
+        curve.claimFees(address(treasury));
+        assertEq(stock.balanceOf(address(treasury)), fees);
+        assertFalse(treasury.book(), "income waits until the pool is wired");
+
+        _graduateV2(curve);
+        uint256 principal = stock.balanceOf(address(treasury)) - fees;
+        assertEq(treasury.protectedGraduationStock(), principal);
+        assertEq(treasury.bookedStock(), principal);
+        assertEq(treasury.buybackStock(), fees, "earned fees are not graduation capital");
+        assertEq(treasury.totalStockReceived(), principal + fees);
+        assertEq(treasury.unbookedStock(), 0);
+        assertFalse(treasury.book(), "income cannot be counted twice");
+    }
+
+    function test_failedOptionalBookCannotExposePrincipalToLaterIncomeBooking() public {
+        curve.buy(1e18, 1, address(this), block.timestamp);
+        uint256 fees = curve.claimable(address(treasury));
+        curve.claimFees(address(treasury));
+        // Fault injection checks the factory's documented catch path, not an assumed live exploit.
+        vm.mockCallRevert(address(treasury), abi.encodeWithSelector(treasury.book.selector), bytes("book failed"));
+        _graduateV2(curve);
+        vm.clearMockedCalls();
+
+        uint256 principal = stock.balanceOf(address(treasury)) - fees;
+        assertEq(treasury.protectedGraduationStock(), principal);
+        assertEq(treasury.buybackStock(), 0);
+        stock.transfer(address(treasury), 3e18);
+        assertTrue(treasury.book());
+        assertEq(treasury.buybackStock(), fees + 3e18);
+        assertEq(treasury.bookedStock(), principal);
+        assertEq(treasury.totalStockReceived(), principal + fees + 3e18);
+        assertFalse(treasury.book());
+    }
+
+    function test_principalInitializerRequiresFactoryAndCannotRepeat() public {
+        vm.expectRevert(HedgeFunTreasuryBase.NotFactory.selector);
+        treasury.wireWithGraduation(key, 1);
+        _graduateV2(curve);
+        uint256 principal = treasury.protectedGraduationStock();
+        vm.prank(address(factory));
+        vm.expectRevert(HedgeFunTreasuryBase.AlreadyWired.selector);
+        treasury.wireWithGraduation(key, 0);
+        assertEq(treasury.protectedGraduationStock(), principal);
+    }
+
+    function test_failedPrincipalInitializationCannotFallBackToLegacyWire() public {
+        vm.mockCallRevert(address(treasury),
+            abi.encodeWithSelector(treasury.wireWithGraduation.selector), bytes("wire failed"));
+        vm.expectRevert(HedgeFunV2BuybackTreasury.GraduationPrincipalRequired.selector);
+        curve.buy(type(uint256).max, 1, address(this), block.timestamp);
+        assertEq(uint256(curve.status()), uint256(HedgeFunBondingCurve.Status.Active));
+        assertEq(treasury.hook(), address(0));
+        assertEq(treasury.liquidityVault(), address(0));
+        assertEq(treasury.protectedGraduationStock(), 0);
+    }
+
     function test_buybackPacesSpendsBurnsWithoutRearmingSellSpike() public {
         _graduateV2(curve);
         _creditFeeIncome();
