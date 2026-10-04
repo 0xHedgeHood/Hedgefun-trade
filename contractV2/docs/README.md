@@ -27,6 +27,7 @@ natively.
 | rehearse or execute a deployment | [DEPLOYMENT.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/DEPLOYMENT.md) |
 | deploy V2 on the public Robinhood Chain testnet (46630) for the team to test the front end with no real money | [TESTNET_V2.md](./TESTNET_V2.md) |
 | add native ETH payments and 24/7 ETH strategies with a pool TWAP | [TESTNET_V2_ETH_MARKET.md](./TESTNET_V2_ETH_MARKET.md) |
+| let a creator choose staking dividends, buy-backs or both for a launch's income, and enable it with ETH payments | [V2_INCOME_KINDS.md](./V2_INCOME_KINDS.md) |
 | list a stock, run the routine checks, read an alert | [OPERATIONS.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/OPERATIONS.md) |
 | check a stock before a V2 listing or launch (graduation depth, gate, 0.05% sell chunk) | [`tools/v2_launch_check.py`](../tools/v2_launch_check.py), [V2_DEPLOYMENT_REHEARSAL.md](./V2_DEPLOYMENT_REHEARSAL.md#listing-check-first-live-run) |
 | see what ships first and what waits for v2, and why | [ROADMAP.md](https://github.com/keyuyuan/hedgefund/blob/64c0adc602bbcbb70c0b4511ac67ee2aa40fceca/docs/ROADMAP.md) |
